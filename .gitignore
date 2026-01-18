@@ -1,0 +1,12 @@
+# Local test files
+tree-ring-test.html
+
+# macOS
+.DS_Store
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

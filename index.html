@@ -42,12 +42,26 @@
         /* Primary: Identity / Atelier mark */
         .wordmark {
             margin-bottom: 4rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
-        .wordmark img {
-            max-width: 280px;
+        .wordmark-monogram {
+            height: 48px;
+            width: auto;
+        }
+
+        .wordmark-separator {
+            color: #f5f5f5;
+            font-size: 2.5rem;
+            font-weight: 200;
+            line-height: 1;
+        }
+
+        .wordmark-text {
+            max-width: 240px;
             height: auto;
-            display: block;
         }
 
         /* Secondary: Personal voice (Sans, medium weight) */
@@ -143,8 +157,20 @@
         }
 
         @media (max-width: 640px) {
-            .wordmark img {
-                max-width: 220px;
+            .wordmark {
+                gap: 0.75rem;
+            }
+
+            .wordmark-monogram {
+                height: 36px;
+            }
+
+            .wordmark-separator {
+                font-size: 2rem;
+            }
+
+            .wordmark-text {
+                max-width: 180px;
             }
 
             .tagline {
@@ -169,7 +195,9 @@
     <div class="container">
         <!-- Primary: Identity -->
         <div class="wordmark">
-            <img src="assets/scott-bertrand-wordmark-light.png" alt="SB | Scott Bertrand">
+            <img src="assets/sb-monogram-light.png" alt="SB" class="wordmark-monogram">
+            <span class="wordmark-separator">|</span>
+            <img src="assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="wordmark-text">
         </div>
 
         <!-- Secondary: Personal voice -->

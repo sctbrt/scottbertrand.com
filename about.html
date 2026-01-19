@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>About — Scott Bertrand</title>
+    <meta name="description" content="I design systems—brand, operations, and digital—that reduce friction and make work feel lighter.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="About — Scott Bertrand">
+    <meta property="og:description" content="I design systems—brand, operations, and digital—that reduce friction and make work feel lighter.">
+    <meta property="og:image" content="assets/og-image.png">
+    <meta property="og:type" content="website">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/sb-monogram-light.png">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="site-header">
+        <div class="nav-container">
+            <a href="/" class="site-brand">
+                <img src="assets/sb-monogram-light.png" alt="SB" class="brand-monogram">
+                <img src="assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="brand-wordmark">
+            </a>
+
+            <nav class="nav-menu" id="navMenu">
+                <a href="/about.html" class="active">About</a>
+                <a href="/approach.html">Approach</a>
+                <a href="/focus.html">Focus</a>
+                <a href="/contact.html">Contact</a>
+                <button class="nav-link" data-modal="fieldNotesModal">Field Notes</button>
+            </nav>
+
+            <div class="nav-utilities">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span class="theme-icon">◐</span>
+                </button>
+
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <h2>About</h2>
+                <p>I design systems—brand, operations, and digital—that reduce friction and make work feel lighter.</p>
+                <p>I'm drawn to the moment where things are almost working, but not quite: the handoffs, the unclear standards, the unowned details. That's where structure becomes leverage.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Field Notes Modal -->
+    <div class="modal" id="fieldNotesModal" aria-hidden="true">
+        <div class="modal-overlay" data-close-modal></div>
+        <div class="modal-content">
+            <button class="modal-close" data-close-modal aria-label="Close">×</button>
+            <img src="assets/field-notes-lockup-light.png" alt="Field Notes" class="modal-image">
+            <p class="modal-description">A working archive of systems, drafts, and field observations.</p>
+            <p class="modal-caption">Opening soon.</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="theme.js"></script>
+    <script src="modal.js"></script>
+</body>
+</html>

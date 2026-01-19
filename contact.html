@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="color-scheme" content="light dark">
-    <title>Scott Bertrand</title>
-    <meta name="description" content="I design systems and structures that make work feel lighter.">
+    <title>Contact — Scott Bertrand</title>
+    <meta name="description" content="Reach out for projects, collaborations, or a simple hello.">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Scott Bertrand">
-    <meta property="og:description" content="I design systems and structures that make work feel lighter.">
+    <meta property="og:title" content="Contact — Scott Bertrand">
+    <meta property="og:description" content="Reach out for projects, collaborations, or a simple hello.">
     <meta property="og:image" content="assets/og-image.png">
     <meta property="og:type" content="website">
 
@@ -32,7 +32,7 @@
                 <a href="/about.html">About</a>
                 <a href="/approach.html">Approach</a>
                 <a href="/focus.html">Focus</a>
-                <a href="/contact.html">Contact</a>
+                <a href="/contact.html" class="active">Contact</a>
                 <button class="nav-link" data-modal="fieldNotesModal">Field Notes</button>
             </nav>
 
@@ -52,38 +52,11 @@
 
     <!-- Main Content -->
     <main>
-        <!-- Hero Section -->
-        <section class="hero">
+        <section class="contact-section">
             <div class="container">
-                <!-- Primary: Identity -->
-                <div class="hero-identity">
-                    <img src="assets/tree-ring-logo.png" alt="Tree Ring Logo" class="hero-tree">
-                    <img src="assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="hero-wordmark">
-                </div>
-
-                <!-- Secondary: Personal voice -->
-                <p class="tagline">
-                    I design systems and structures that make work feel lighter.
-                </p>
-
-                <!-- Tertiary: Philosophical intent -->
-                <p class="philosophy">
-                    Work is heavier than it needs to be. I'm interested in fixing that.
-                </p>
-
-                <!-- Scroll cue -->
-                <p class="scroll-cue">
-                    <a href="/about.html">NEXT: ABOUT</a>
-                </p>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="section contact-section">
-            <div class="container">
-                <h2>Contact</h2>
+                <h1>Contact</h1>
                 <p class="contact-intro">
-                    Reach out for projects, collaborations, or a simple hello. Or follow along—Field Notes ships when there's something worth sharing.
+                    Reach out about projects, collaborations, or just to connect.
                 </p>
 
                 <!-- Email Signup Form -->
@@ -105,7 +78,7 @@
                     </form>
 
                     <p class="email-microcopy">
-                        No spam. Unsubscribe anytime.
+                        Occasional updates and Field Notes. No weekly spam. Just when there's something worth sharing.
                     </p>
                 </div>
             </div>
@@ -118,8 +91,7 @@
         <div class="modal-content">
             <button class="modal-close" data-close-modal aria-label="Close">×</button>
             <img src="assets/field-notes-lockup-light.png" alt="Field Notes" class="modal-image">
-            <p class="modal-description">A working archive of systems, drafts, and field observations.</p>
-            <p class="modal-caption">Opening soon.</p>
+            <p class="modal-caption">COMING SOON</p>
         </div>
     </div>
 
@@ -131,32 +103,32 @@
         const form = document.getElementById('emailForm');
         const successMessage = document.getElementById('successMessage');
 
-        if (form) {
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-                const formData = new FormData(form);
+            const formData = new FormData(form);
 
-                try {
-                    const response = await fetch(form.action, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    });
-
-                    if (response.ok) {
-                        successMessage.classList.add('show');
-                        form.style.display = 'none';
-                    } else {
-                        form.submit();
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
                     }
-                } catch (error) {
+                });
+
+                if (response.ok) {
+                    successMessage.classList.add('show');
+                    form.style.display = 'none';
+                } else {
+                    // Fallback to standard form submission if fetch fails
                     form.submit();
                 }
-            });
-        }
+            } catch (error) {
+                // Fallback to standard form submission
+                form.submit();
+            }
+        });
     </script>
 </body>
 </html>

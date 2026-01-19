@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>Focus — Scott Bertrand</title>
+    <meta name="description" content="I'm most useful when a project needs direction and cohesion—when the output has to look inevitable.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Focus — Scott Bertrand">
+    <meta property="og:description" content="I'm most useful when a project needs direction and cohesion—when the output has to look inevitable.">
+    <meta property="og:image" content="assets/og-image.png">
+    <meta property="og:type" content="website">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/sb-monogram-light.png">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="site-header">
+        <div class="nav-container">
+            <a href="/" class="site-brand">
+                <img src="assets/sb-monogram-light.png" alt="SB" class="brand-monogram">
+                <img src="assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="brand-wordmark">
+            </a>
+
+            <nav class="nav-menu" id="navMenu">
+                <a href="/about.html">About</a>
+                <a href="/approach.html">Approach</a>
+                <a href="/focus.html" class="active">Focus</a>
+                <a href="/contact.html">Contact</a>
+                <button class="nav-link" data-modal="fieldNotesModal">Field Notes</button>
+            </nav>
+
+            <div class="nav-utilities">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span class="theme-icon">◐</span>
+                </button>
+
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Focus Section -->
+        <section id="focus" class="section">
+            <div class="container">
+                <h2>Focus</h2>
+                <p>I'm most useful when a project needs direction and cohesion—when the output has to look inevitable.</p>
+                <p>Brand systems, web experiences, and operating playbooks. The work is quiet, but the result should feel immediate: less noise, more momentum.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Field Notes Modal -->
+    <div class="modal" id="fieldNotesModal" aria-hidden="true">
+        <div class="modal-overlay" data-close-modal></div>
+        <div class="modal-content">
+            <button class="modal-close" data-close-modal aria-label="Close">×</button>
+            <img src="assets/field-notes-lockup-light.png" alt="Field Notes" class="modal-image">
+            <p class="modal-description">A working archive of systems, drafts, and field observations.</p>
+            <p class="modal-caption">Opening soon.</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="theme.js"></script>
+    <script src="modal.js"></script>
+</body>
+</html>

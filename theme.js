@@ -22,7 +22,14 @@ class ThemeManager {
     }
 
     getSavedTheme() {
-        return localStorage.getItem('theme') || 'dark';
+        // Check if user has a saved preference
+        const saved = localStorage.getItem('theme');
+        if (saved) {
+            return saved;
+        }
+
+        // First visit: respect system preference
+        return this.getSystemTheme();
     }
 
     getSystemTheme() {
@@ -37,12 +44,9 @@ class ThemeManager {
     applyTheme(theme, animate = false) {
         this.currentTheme = theme;
 
-        // Detect if system is forcing dark mode (macOS override)
-        const systemTheme = this.getSystemTheme();
-
-        // If system forces dark mode, always use dark theme for CSS
-        // but swap assets to remain visible
-        const effectiveTheme = systemTheme === 'dark' ? 'dark' : theme;
+        // Use the user's selected theme directly
+        // Don't override with system preference - user toggle takes precedence
+        const effectiveTheme = theme;
 
         // Update data-theme attribute with effective theme
         this.html.setAttribute('data-theme', effectiveTheme);

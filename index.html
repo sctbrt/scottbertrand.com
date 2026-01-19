@@ -129,30 +129,13 @@
         </section>
     </main>
 
-    <!-- Field Notes Modal -->
-    <div class="modal" id="fieldNotesModal" aria-hidden="true">
-        <div class="modal-overlay" data-close-modal></div>
-        <div class="modal-content">
-            <button class="modal-close" data-close-modal aria-label="Close">×</button>
-            <img src="assets/field-notes-lockup-light.png" alt="Field Notes" class="modal-image">
-            <p class="modal-description">A working archive of systems, drafts, and field observations.</p>
-            <p class="modal-caption">Opening soon.</p>
-        </div>
-    </div>
-
     <!-- Still Goods Modal -->
     <div class="modal" id="stillGoodsModal" aria-hidden="true">
         <div class="modal-overlay" data-close-modal></div>
         <div class="modal-content">
             <button class="modal-close" data-close-modal aria-label="Close">×</button>
             <a href="https://goods.scottbertrand.com" class="modal-link">
-                <picture>
-                    <source srcset="assets/still-goods-light.avif" type="image/avif" media="(prefers-color-scheme: dark)">
-                    <source srcset="assets/still-goods-light.webp" type="image/webp" media="(prefers-color-scheme: dark)">
-                    <source srcset="assets/still-goods-dark.avif" type="image/avif" media="(prefers-color-scheme: light)">
-                    <source srcset="assets/still-goods-dark.webp" type="image/webp" media="(prefers-color-scheme: light)">
-                    <img src="assets/still-goods-light.png" alt="Still Goods" class="modal-image" id="stillGoodsModalImage">
-                </picture>
+                <img src="assets/still-goods-dark.png" alt="Still Goods" class="modal-image" id="stillGoodsModalImage">
             </a>
             <p class="modal-caption">
                 <a href="https://goods.scottbertrand.com" class="modal-caption-link">Opening soon</a>
@@ -190,7 +173,12 @@
 
                     if (response.ok) {
                         successMessage.classList.add('show');
-                        form.style.display = 'none';
+                        form.reset();
+
+                        // Hide success message after 5 seconds
+                        setTimeout(() => {
+                            successMessage.classList.remove('show');
+                        }, 5000);
                     } else {
                         alert(data.error || 'Something went wrong. Please try again.');
                     }

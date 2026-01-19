@@ -309,6 +309,30 @@ body.modal-active {
     opacity: 0.3;
 }
 
+/* Image-based navigation items (Field Notes, Still Goods) */
+.nav-imprint-image {
+    display: flex;
+    align-items: center;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.nav-imprint-image:hover {
+    opacity: 1;
+}
+
+.nav-imprint-image.nav-placeholder {
+    opacity: 0.4;
+    pointer-events: none;
+    cursor: default;
+}
+
+.nav-imprint-img {
+    height: 15px;
+    width: auto;
+    display: block;
+}
+
 /* Right: Utilities */
 .nav-utilities {
     display: flex;

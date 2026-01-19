@@ -76,6 +76,17 @@ class ThemeManager {
         if (modalImage) {
             modalImage.src = `assets/field-notes-lockup-${assetSuffix}.png`;
         }
+
+        // Update navigation menu images
+        const navImprintImages = document.querySelectorAll('.nav-imprint-img');
+        navImprintImages.forEach(img => {
+            const altText = img.alt;
+            if (altText === 'Field Notes') {
+                img.src = `assets/field-notes-menu-${assetSuffix}.png`;
+            } else if (altText === 'Still Goods') {
+                img.src = `assets/still-goods-menu-${assetSuffix}.png`;
+            }
+        });
     }
 }
 

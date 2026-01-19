@@ -16,6 +16,7 @@ export default defineConfig({
         focus: resolve(__dirname, 'focus.html'),
         contact: resolve(__dirname, 'contact.html'),
         fieldNotes: resolve(__dirname, 'field-notes.html'),
+        fieldNote: resolve(__dirname, 'field-note.html'),
       },
     },
   },

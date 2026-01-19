@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>Field Note — Scott Bertrand</title>
+    <meta name="description" content="A working archive of systems, drafts, and field observations.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Field Note — Scott Bertrand">
+    <meta property="og:description" content="A working archive of systems, drafts, and field observations.">
+    <meta property="og:image" content="../assets/og-image.png">
+    <meta property="og:type" content="article">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/sb-monogram-light.png">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../field-notes.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="site-header">
+        <div class="nav-container">
+            <a href="/" class="site-brand">
+                <img src="../assets/sb-monogram-light.png" alt="SB" class="brand-monogram">
+                <img src="../assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="brand-wordmark">
+            </a>
+
+            <nav class="nav-menu" id="navMenu">
+                <a href="/about.html">About</a>
+                <a href="/approach.html">Approach</a>
+                <a href="/focus.html">Focus</a>
+                <a href="/contact.html">Contact</a>
+                <a href="/field-notes.html" class="active nav-imprint">Field Notes</a>
+                <span class="nav-imprint nav-placeholder">Still Goods</span>
+            </nav>
+
+            <div class="nav-utilities">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span class="theme-icon">◐</span>
+                </button>
+
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="field-note-entry">
+        <div class="container">
+            <!-- Back link -->
+            <nav class="entry-breadcrumb">
+                <a href="/field-notes.html" class="back-link">← Field Notes</a>
+            </nav>
+
+            <!-- Entry Header -->
+            <header class="entry-header">
+                <div class="entry-meta">
+                    <span id="entryType" class="entry-type"></span>
+                    <span id="entryStatus" class="entry-status"></span>
+                </div>
+
+                <h1 id="entryTitle" class="entry-title">Loading...</h1>
+
+                <div id="entryFocus" class="entry-focus"></div>
+
+                <div class="entry-dates">
+                    <time id="entryCreated"></time>
+                    <span id="entryRevisited"></span>
+                </div>
+            </header>
+
+            <!-- Entry Content -->
+            <article id="entryContent" class="entry-content">
+                <div class="loading-state">Loading content...</div>
+            </article>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script type="module" src="../theme.js"></script>
+    <script type="module">
+        // Get entry ID from URL path
+        const pathParts = window.location.pathname.split('/');
+        const entryId = pathParts[pathParts.length - 1].replace('.html', '');
+
+        // Fetch and render entry
+        async function loadEntry() {
+            try {
+                const response = await fetch(`/api/field-notes/${entryId}`);
+                const entry = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(entry.error || 'Failed to load entry');
+                }
+
+                // Update meta
+                document.title = `${entry.title} — Field Notes — Scott Bertrand`;
+
+                // Update header
+                if (entry.type) {
+                    document.getElementById('entryType').textContent = entry.type;
+                } else {
+                    document.getElementById('entryType').style.display = 'none';
+                }
+
+                if (entry.status && entry.status !== 'Working') {
+                    document.getElementById('entryStatus').textContent = entry.status;
+                } else {
+                    document.getElementById('entryStatus').style.display = 'none';
+                }
+
+                document.getElementById('entryTitle').textContent = entry.title;
+
+                // Focus tags
+                const focusContainer = document.getElementById('entryFocus');
+                if (entry.focus.length > 0) {
+                    focusContainer.innerHTML = entry.focus.map(f =>
+                        `<span class="focus-tag">${f}</span>`
+                    ).join('');
+                } else {
+                    focusContainer.style.display = 'none';
+                }
+
+                // Dates
+                document.getElementById('entryCreated').textContent = formatDate(entry.created);
+                document.getElementById('entryCreated').setAttribute('datetime', entry.created);
+
+                if (entry.revisited) {
+                    document.getElementById('entryRevisited').innerHTML =
+                        ` · Revisited ${formatDate(entry.revisited)}`;
+                }
+
+                // Render content blocks
+                const contentContainer = document.getElementById('entryContent');
+                contentContainer.innerHTML = renderBlocks(entry.blocks);
+
+            } catch (error) {
+                console.error('Error loading entry:', error);
+                document.getElementById('entryTitle').textContent = 'Error Loading Entry';
+                document.getElementById('entryContent').innerHTML = `
+                    <div class="error-state">
+                        <p>Unable to load this entry.</p>
+                        <p class="error-detail">${error.message}</p>
+                        <a href="/field-notes.html" class="back-link">← Back to Field Notes</a>
+                    </div>
+                `;
+            }
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function renderBlocks(blocks) {
+            return blocks.map(block => {
+                switch (block.type) {
+                    case 'paragraph':
+                        return renderParagraph(block);
+                    case 'heading_1':
+                        return renderHeading(block, 1);
+                    case 'heading_2':
+                        return renderHeading(block, 2);
+                    case 'heading_3':
+                        return renderHeading(block, 3);
+                    case 'bulleted_list_item':
+                        return renderListItem(block, 'ul');
+                    case 'numbered_list_item':
+                        return renderListItem(block, 'ol');
+                    case 'quote':
+                        return renderQuote(block);
+                    case 'code':
+                        return renderCode(block);
+                    case 'divider':
+                        return '<hr class="divider">';
+                    case 'image':
+                        return renderImage(block);
+                    default:
+                        return `<!-- Unsupported block type: ${block.type} -->`;
+                }
+            }).join('');
+        }
+
+        function getRichText(richTextArray) {
+            if (!richTextArray || richTextArray.length === 0) return '';
+
+            return richTextArray.map(text => {
+                let content = text.plain_text;
+
+                if (text.annotations.bold) content = `<strong>${content}</strong>`;
+                if (text.annotations.italic) content = `<em>${content}</em>`;
+                if (text.annotations.code) content = `<code>${content}</code>`;
+                if (text.href) content = `<a href="${text.href}" target="_blank" rel="noopener">${content}</a>`;
+
+                return content;
+            }).join('');
+        }
+
+        function renderParagraph(block) {
+            const text = getRichText(block.paragraph.rich_text);
+            return text ? `<p>${text}</p>` : '';
+        }
+
+        function renderHeading(block, level) {
+            const text = getRichText(block[`heading_${level}`].rich_text);
+            return `<h${level + 1}>${text}</h${level + 1}>`;
+        }
+
+        function renderListItem(block, listType) {
+            const text = getRichText(block[block.type].rich_text);
+            return `<li>${text}</li>`;
+        }
+
+        function renderQuote(block) {
+            const text = getRichText(block.quote.rich_text);
+            return `<blockquote>${text}</blockquote>`;
+        }
+
+        function renderCode(block) {
+            const code = block.code.rich_text.map(t => t.plain_text).join('');
+            const language = block.code.language;
+            return `<pre><code class="language-${language}">${escapeHtml(code)}</code></pre>`;
+        }
+
+        function renderImage(block) {
+            const imageUrl = block.image.file?.url || block.image.external?.url;
+            const caption = getRichText(block.image.caption);
+            return `
+                <figure class="entry-image">
+                    <img src="${imageUrl}" alt="${caption || ''}" loading="lazy">
+                    ${caption ? `<figcaption>${caption}</figcaption>` : ''}
+                </figure>
+            `;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Load entry on page load
+        loadEntry();
+    </script>
+</body>
+</html>

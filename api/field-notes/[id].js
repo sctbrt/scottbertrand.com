@@ -1,12 +1,14 @@
 // Vercel Serverless Function to fetch individual Field Notes entry
-import { Client } from '@notionhq/client';
-
-const notion = new Client({
-  auth: process.env.NOTION_API_KEY,
-});
-
 export default async function handler(req, res) {
   const { id } = req.query;
+  const NOTION_API_KEY = process.env.NOTION_API_KEY;
+
+  // Validate
+  if (!NOTION_API_KEY) {
+    return res.status(500).json({
+      error: 'Missing NOTION_API_KEY environment variable',
+    });
+  }
 
   if (!id) {
     return res.status(400).json({ error: 'Entry ID required' });
@@ -14,16 +16,37 @@ export default async function handler(req, res) {
 
   try {
     // Fetch page metadata
-    const page = await notion.pages.retrieve({ page_id: id });
-
-    // Fetch page content blocks
-    const blocks = await notion.blocks.children.list({
-      block_id: id,
-      page_size: 100,
+    const pageResponse = await fetch(`https://api.notion.com/v1/pages/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${NOTION_API_KEY}`,
+        'Notion-Version': '2022-06-28',
+      },
     });
 
-    const props = page.properties;
+    if (!pageResponse.ok) {
+      const errorData = await pageResponse.json();
+      throw new Error(errorData.message || 'Failed to fetch page');
+    }
 
+    const page = await pageResponse.json();
+
+    // Fetch page content blocks
+    const blocksResponse = await fetch(`https://api.notion.com/v1/blocks/${id}/children?page_size=100`, {
+      headers: {
+        'Authorization': `Bearer ${NOTION_API_KEY}`,
+        'Notion-Version': '2022-06-28',
+      },
+    });
+
+    if (!blocksResponse.ok) {
+      const errorData = await blocksResponse.json();
+      throw new Error(errorData.message || 'Failed to fetch blocks');
+    }
+
+    const blocks = await blocksResponse.json();
+
+    // Transform page data
+    const props = page.properties;
     const entry = {
       id: page.id,
       title: props.Title?.title[0]?.plain_text || 'Untitled',

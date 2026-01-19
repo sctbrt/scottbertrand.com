@@ -808,3 +808,18 @@ body.modal-active {
         padding: 3rem 1.5rem;
     }
 }
+
+/* Field Notes Navigation Imprints */
+.nav-imprint {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    opacity: 0.7;
+}
+
+.nav-placeholder {
+    opacity: 0.4;
+    pointer-events: none;
+    cursor: default;
+}

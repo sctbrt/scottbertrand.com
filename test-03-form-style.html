@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test 03: Form Styling</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #f5f5f5;
+            min-height: 100vh;
+            padding: 3rem 2rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .test-column {
+            border: 1px solid #2a2a2a;
+            padding: 2rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 540px;
+            width: 100%;
+        }
+
+        .test-label {
+            font-size: 0.75rem;
+            color: #737373;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .wordmark {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 4rem;
+        }
+
+        .wordmark-monogram {
+            height: 36px;
+            width: auto;
+        }
+
+        .wordmark-separator {
+            color: #f5f5f5;
+            font-size: 1.75rem;
+            font-weight: 200;
+            line-height: 1;
+            margin: 0 0.5rem;
+        }
+
+        .wordmark-text {
+            height: 26px;
+            width: auto;
+        }
+
+        .tagline {
+            font-size: 1.375rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            color: #f5f5f5;
+            margin-bottom: 2.5rem;
+        }
+
+        .philosophy {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 1.125rem;
+            font-weight: 400;
+            color: #a3a3a3;
+            line-height: 1.6;
+            margin-bottom: 4rem;
+        }
+
+        .email-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .email-input {
+            flex: 1;
+            font-size: 0.9375rem;
+        }
+
+        .email-input::placeholder {
+            color: #666666;
+        }
+
+        .email-submit {
+            font-size: 0.9375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .email-microcopy {
+            font-size: 0.8125rem;
+            color: #737373;
+            line-height: 1.5;
+        }
+
+        /* Version 1: Current (Subtle) */
+        .form-v1 .email-input {
+            padding: 0.75rem 1rem;
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 4px;
+            color: #f5f5f5;
+        }
+
+        .form-v1 .email-input:focus {
+            outline: none;
+            border-color: #404040;
+        }
+
+        .form-v1 .email-submit {
+            padding: 0.75rem 1.5rem;
+            background-color: #f5f5f5;
+            color: #0a0a0a;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .form-v1 .email-submit:hover {
+            background-color: #e5e5e5;
+        }
+
+        /* Version 2: Minimal (Underline) */
+        .form-v2 .email-input {
+            padding: 0.75rem 0;
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid #2a2a2a;
+            color: #f5f5f5;
+        }
+
+        .form-v2 .email-input:focus {
+            outline: none;
+            border-bottom-color: #f5f5f5;
+        }
+
+        .form-v2 .email-submit {
+            padding: 0.75rem 1.5rem;
+            background-color: transparent;
+            color: #f5f5f5;
+            border: 1px solid #f5f5f5;
+            border-radius: 4px;
+        }
+
+        .form-v2 .email-submit:hover {
+            background-color: #f5f5f5;
+            color: #0a0a0a;
+        }
+
+        /* Version 3: Quiet (Text Link Style) */
+        .form-v3 .email-form {
+            flex-direction: column;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .form-v3 .email-input {
+            padding: 0.5rem 0;
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid #2a2a2a;
+            color: #f5f5f5;
+            width: 100%;
+        }
+
+        .form-v3 .email-input:focus {
+            outline: none;
+            border-bottom-color: #666666;
+        }
+
+        .form-v3 .email-submit {
+            padding: 0;
+            background-color: transparent;
+            color: #f5f5f5;
+            border: none;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        .form-v3 .email-submit:hover {
+            opacity: 0.7;
+        }
+
+        @media (max-width: 1200px) {
+            .test-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-grid">
+        <!-- Version 1: Current (Subtle) -->
+        <div class="test-column">
+            <div class="container form-v1">
+                <div class="test-label">Version 1: Subtle (Current)</div>
+                <div class="wordmark">
+                    <img src="assets/sb-monogram-light.png" alt="SB" class="wordmark-monogram">
+                    <span class="wordmark-separator">|</span>
+                    <img src="assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="wordmark-text">
+                </div>
+                <p class="tagline">
+                    I design systems and structures that make work feel lighter.
+                </p>
+                <p class="philosophy">
+                    Work is heavier than it needs to be. I'm interested in fixing that.
+                </p>
+                <div class="email-signup">
+                    <form class="email-form">
+                        <input type="email" class="email-input" placeholder="your@email.com" required>
+                        <button type="submit" class="email-submit">Follow</button>
+                    </form>
+                    <p class="email-microcopy">
+                        Occasional updates and Field Notes. No weekly spam. Just when there's something worth sharing.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Version 2: Minimal (Underline) -->
+        <div class="test-column">
+            <div class="container form-v2">
+                <div class="test-label">Version 2: Minimal Underline</div>
+                <div class="wordmark">
+                    <img src="assets/sb-monogram-light.png" alt="SB" class="wordmark-monogram">
+                    <span class="wordmark-separator">|</span>
+                    <img src="assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="wordmark-text">
+                </div>
+                <p class="tagline">
+                    I design systems and structures that make work feel lighter.
+                </p>
+                <p class="philosophy">
+                    Work is heavier than it needs to be. I'm interested in fixing that.
+                </p>
+                <div class="email-signup">
+                    <form class="email-form">
+                        <input type="email" class="email-input" placeholder="your@email.com" required>
+                        <button type="submit" class="email-submit">Follow</button>
+                    </form>
+                    <p class="email-microcopy">
+                        Occasional updates and Field Notes. No weekly spam. Just when there's something worth sharing.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Version 3: Quiet (Text Link) -->
+        <div class="test-column">
+            <div class="container form-v3">
+                <div class="test-label">Version 3: Quiet Link</div>
+                <div class="wordmark">
+                    <img src="assets/sb-monogram-light.png" alt="SB" class="wordmark-monogram">
+                    <span class="wordmark-separator">|</span>
+                    <img src="assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="wordmark-text">
+                </div>
+                <p class="tagline">
+                    I design systems and structures that make work feel lighter.
+                </p>
+                <p class="philosophy">
+                    Work is heavier than it needs to be. I'm interested in fixing that.
+                </p>
+                <div class="email-signup">
+                    <form class="email-form">
+                        <input type="email" class="email-input" placeholder="your@email.com" required>
+                        <button type="submit" class="email-submit">Follow</button>
+                    </form>
+                    <p class="email-microcopy">
+                        Occasional updates and Field Notes. No weekly spam. Just when there's something worth sharing.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

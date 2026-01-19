@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>Field Notes — Scott Bertrand</title>
+    <meta name="description" content="A working archive of systems, drafts, and field observations.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Field Notes — Scott Bertrand">
+    <meta property="og:description" content="A working archive of systems, drafts, and field observations.">
+    <meta property="og:image" content="assets/og-image.png">
+    <meta property="og:type" content="website">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/sb-monogram-light.png">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="field-notes.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="site-header">
+        <div class="nav-container">
+            <a href="/" class="site-brand">
+                <img src="assets/sb-monogram-light.png" alt="SB" class="brand-monogram">
+                <img src="assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="brand-wordmark">
+            </a>
+
+            <nav class="nav-menu" id="navMenu">
+                <a href="/about.html">About</a>
+                <a href="/approach.html">Approach</a>
+                <a href="/focus.html">Focus</a>
+                <a href="/contact.html">Contact</a>
+                <a href="/field-notes.html" class="active nav-imprint">Field Notes</a>
+                <span class="nav-imprint nav-placeholder">Still Goods</span>
+            </nav>
+
+            <div class="nav-utilities">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span class="theme-icon">◐</span>
+                </button>
+
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="field-notes-archive">
+        <!-- Archive Header -->
+        <header class="archive-header">
+            <div class="container">
+                <picture>
+                    <source srcset="assets/field-notes-lockup-light.avif" type="image/avif">
+                    <source srcset="assets/field-notes-lockup-light.webp" type="image/webp">
+                    <img src="assets/field-notes-lockup-light.png" alt="Field Notes" class="archive-lockup">
+                </picture>
+                <p class="archive-description">A working archive of systems, drafts, and field observations.</p>
+            </div>
+        </header>
+
+        <!-- Entries List -->
+        <section class="archive-entries">
+            <div class="container">
+                <div id="entriesList" class="entries-grid">
+                    <div class="loading-state">Loading entries...</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts -->
+    <script type="module" src="theme.js"></script>
+    <script type="module">
+        // Fetch and render Field Notes entries
+        async function loadEntries() {
+            const container = document.getElementById('entriesList');
+
+            try {
+                const response = await fetch('/api/field-notes');
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to load entries');
+                }
+
+                if (data.entries.length === 0) {
+                    container.innerHTML = '<p class="empty-state">No entries yet.</p>';
+                    return;
+                }
+
+                // Render entries
+                container.innerHTML = data.entries.map(entry => `
+                    <article class="entry-card">
+                        <a href="${entry.url}" class="entry-link">
+                            <div class="entry-meta">
+                                ${entry.type ? `<span class="entry-type">${entry.type}</span>` : ''}
+                                ${entry.status !== 'Working' ? `<span class="entry-status">${entry.status}</span>` : ''}
+                            </div>
+
+                            <h2 class="entry-title">${entry.title}</h2>
+
+                            ${entry.focus.length > 0 ? `
+                                <div class="entry-focus">
+                                    ${entry.focus.map(f => `<span class="focus-tag">${f}</span>`).join('')}
+                                </div>
+                            ` : ''}
+
+                            <div class="entry-dates">
+                                <time datetime="${entry.created}">
+                                    ${formatDate(entry.created)}
+                                </time>
+                                ${entry.revisited ? `
+                                    <span class="revisited">
+                                        · Revisited ${formatDate(entry.revisited)}
+                                    </span>
+                                ` : ''}
+                            </div>
+                        </a>
+                    </article>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error loading entries:', error);
+                container.innerHTML = `
+                    <div class="error-state">
+                        <p>Unable to load entries.</p>
+                        <p class="error-detail">${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        // Load entries on page load
+        loadEntries();
+    </script>
+</body>
+</html>

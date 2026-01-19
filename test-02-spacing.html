@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test 02: Vertical Spacing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #f5f5f5;
+            min-height: 100vh;
+            padding: 3rem 2rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .test-column {
+            border: 1px solid #2a2a2a;
+            padding: 2rem;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 540px;
+            width: 100%;
+        }
+
+        .test-label {
+            font-size: 0.75rem;
+            color: #737373;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .wordmark {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .wordmark-monogram {
+            height: 36px;
+            width: auto;
+        }
+
+        .wordmark-separator {
+            color: #f5f5f5;
+            font-size: 1.75rem;
+            font-weight: 200;
+            line-height: 1;
+            margin: 0 0.5rem;
+        }
+
+        .wordmark-text {
+            height: 26px;
+            width: auto;
+        }
+
+        .tagline {
+            font-size: 1.375rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            color: #f5f5f5;
+        }
+
+        .philosophy {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 1.125rem;
+            font-weight: 400;
+            color: #a3a3a3;
+            line-height: 1.6;
+        }
+
+        /* Version 1: Tight */
+        .spacing-v1 .wordmark {
+            margin-bottom: 2.5rem;
+        }
+        .spacing-v1 .tagline {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Version 2: Current */
+        .spacing-v2 .wordmark {
+            margin-bottom: 4rem;
+        }
+        .spacing-v2 .tagline {
+            margin-bottom: 2.5rem;
+        }
+
+        /* Version 3: Spacious */
+        .spacing-v3 .wordmark {
+            margin-bottom: 5rem;
+        }
+        .spacing-v3 .tagline {
+            margin-bottom: 3.5rem;
+        }
+
+        @media (max-width: 1200px) {
+            .test-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-grid">
+        <!-- Version 1: Tight -->
+        <div class="test-column">
+            <div class="container spacing-v1">
+                <div class="test-label">Version 1: Tight</div>
+                <div class="wordmark">
+                    <img src="assets/sb-monogram-light.png" alt="SB" class="wordmark-monogram">
+                    <span class="wordmark-separator">|</span>
+                    <img src="assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="wordmark-text">
+                </div>
+                <p class="tagline">
+                    I design systems and structures that make work feel lighter.
+                </p>
+                <p class="philosophy">
+                    Work is heavier than it needs to be. I'm interested in fixing that.
+                </p>
+            </div>
+        </div>
+
+        <!-- Version 2: Current -->
+        <div class="test-column">
+            <div class="container spacing-v2">
+                <div class="test-label">Version 2: Current</div>
+                <div class="wordmark">
+                    <img src="assets/sb-monogram-light.png" alt="SB" class="wordmark-monogram">
+                    <span class="wordmark-separator">|</span>
+                    <img src="assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="wordmark-text">
+                </div>
+                <p class="tagline">
+                    I design systems and structures that make work feel lighter.
+                </p>
+                <p class="philosophy">
+                    Work is heavier than it needs to be. I'm interested in fixing that.
+                </p>
+            </div>
+        </div>
+
+        <!-- Version 3: Spacious -->
+        <div class="test-column">
+            <div class="container spacing-v3">
+                <div class="test-label">Version 3: Spacious</div>
+                <div class="wordmark">
+                    <img src="assets/sb-monogram-light.png" alt="SB" class="wordmark-monogram">
+                    <span class="wordmark-separator">|</span>
+                    <img src="assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="wordmark-text">
+                </div>
+                <p class="tagline">
+                    I design systems and structures that make work feel lighter.
+                </p>
+                <p class="philosophy">
+                    Work is heavier than it needs to be. I'm interested in fixing that.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

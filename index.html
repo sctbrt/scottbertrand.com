@@ -33,7 +33,8 @@
                 <a href="/approach.html">Approach</a>
                 <a href="/focus.html">Focus</a>
                 <a href="/contact.html">Contact</a>
-                <button class="nav-link" data-modal="fieldNotesModal">Field Notes</button>
+                <a href="/field-notes.html" class="nav-imprint">Field Notes</a>
+                <span class="nav-imprint nav-placeholder">Still Goods</span>
             </nav>
 
             <div class="nav-utilities">
@@ -57,7 +58,11 @@
             <div class="container">
                 <!-- Primary: Identity -->
                 <div class="hero-identity">
-                    <img src="assets/tree-ring-logo.png" alt="Tree Ring Logo" class="hero-tree">
+                    <picture>
+                        <source srcset="assets/tree-ring-logo.avif" type="image/avif">
+                        <source srcset="assets/tree-ring-logo.webp" type="image/webp">
+                        <img src="assets/tree-ring-logo.png" alt="Tree Ring Logo" class="hero-tree">
+                    </picture>
                     <img src="assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="hero-wordmark">
                 </div>
 
@@ -92,7 +97,7 @@
                         Thank you. You're on the list.
                     </div>
 
-                    <form action="https://formspree.io/f/meeeazrq" method="POST" class="email-form" id="emailForm">
+                    <form class="email-form" id="emailForm">
                         <input
                             type="email"
                             name="email"
@@ -100,6 +105,14 @@
                             placeholder="your@email.com"
                             required
                             aria-label="Email address"
+                        >
+                        <!-- Honeypot spam protection (hidden field) -->
+                        <input
+                            type="text"
+                            name="website"
+                            style="position: absolute; left: -9999px; width: 1px; height: 1px;"
+                            tabindex="-1"
+                            autocomplete="off"
                         >
                         <button type="submit" class="email-submit">Follow</button>
                     </form>
@@ -124,8 +137,8 @@
     </div>
 
     <!-- Scripts -->
-    <script src="theme.js"></script>
-    <script src="modal.js"></script>
+    <script type="module" src="theme.js"></script>
+    <script type="module" src="modal.js"></script>
     <script>
         // Form submission handling
         const form = document.getElementById('emailForm');
@@ -136,24 +149,30 @@
                 e.preventDefault();
 
                 const formData = new FormData(form);
+                const email = formData.get('email');
+                const website = formData.get('website'); // Honeypot field
 
                 try {
-                    const response = await fetch(form.action, {
+                    const response = await fetch('/api/subscribe', {
                         method: 'POST',
-                        body: formData,
                         headers: {
+                            'Content-Type': 'application/json',
                             'Accept': 'application/json'
-                        }
+                        },
+                        body: JSON.stringify({ email, website })
                     });
+
+                    const data = await response.json();
 
                     if (response.ok) {
                         successMessage.classList.add('show');
                         form.style.display = 'none';
                     } else {
-                        form.submit();
+                        alert(data.error || 'Something went wrong. Please try again.');
                     }
                 } catch (error) {
-                    form.submit();
+                    console.error('Form submission error:', error);
+                    alert('Something went wrong. Please try again.');
                 }
             });
         }

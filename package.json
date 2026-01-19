@@ -1,0 +1,31 @@
+{
+  "name": "scottbertrand.com-teaser-1",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A introductory teaser for scottbertrand.com &amp; the Field Notes feed.",
+  "main": "modal.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sctbrt/scottbertrand.com-teaser-1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sctbrt/scottbertrand.com-teaser-1/issues"
+  },
+  "homepage": "https://github.com/sctbrt/scottbertrand.com-teaser-1#readme",
+  "devDependencies": {
+    "sharp": "^0.34.5",
+    "vite": "^7.3.1",
+    "vite-imagetools": "^9.0.2"
+  },
+  "dependencies": {
+    "@notionhq/client": "^5.7.0"
+  }
+}

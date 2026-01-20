@@ -1413,3 +1413,107 @@ body.modal-active {
         width: 100%;
     }
 }
+
+/* ===================================
+   How It Works & General Pages
+   =================================== */
+
+.page-header {
+    padding: 120px 2rem 60px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.page-header .container {
+    max-width: 680px;
+}
+
+.page-header h1 {
+    font-size: 2rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.page-intro {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    opacity: 0.85;
+    line-height: 1.7;
+}
+
+.text-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.text-content p {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 15px;
+    color: var(--text-secondary);
+    opacity: 0.82;
+    line-height: 1.75;
+    margin: 0;
+}
+
+.content-list {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.content-list li {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 15px;
+    color: var(--text-secondary);
+    opacity: 0.82;
+    line-height: 1.65;
+}
+
+.payment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.payment-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.payment-item h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+}
+
+.payment-item p {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 15px;
+    color: var(--text-secondary);
+    opacity: 0.82;
+    line-height: 1.75;
+    margin: 0;
+}
+
+@media (max-width: 640px) {
+    .page-header {
+        padding: 96px 1.5rem 48px;
+    }
+
+    .page-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .payment-grid {
+        grid-template-columns: 1fr;
+    }
+}

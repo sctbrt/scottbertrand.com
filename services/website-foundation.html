@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>Website Foundation — Scott Bertrand</title>
+    <meta name="description" content="Complete website build including strategy, design, development, and deployment. $4,250 CAD, delivered in 4-6 weeks.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Website Foundation — Scott Bertrand">
+    <meta property="og:description" content="Complete website build including strategy, design, development, and deployment.">
+    <meta property="og:image" content="../assets/og-image.png">
+    <meta property="og:type" content="website">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/sb-monogram-light.png">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="site-header">
+        <div class="nav-container">
+            <a href="/" class="site-brand">
+                <img src="../assets/sb-monogram-dark.png" alt="SB" class="brand-monogram" width="1709" height="1709">
+                <img src="../assets/scott-bertrand-wordmark-dark.png" alt="Scott Bertrand" class="brand-wordmark" width="2100" height="215">
+            </a>
+
+            <nav class="nav-menu" id="navMenu">
+                <a href="/#services">Services</a>
+                <a href="/how-it-works.html">How It Works</a>
+                <a href="https://notes.scottbertrand.com" class="nav-imprint-image">
+                    <img src="../assets/field-notes-menu-dark.png" alt="Field Notes" class="nav-imprint-img" width="599" height="110">
+                </a>
+                <a href="/about.html">About</a>
+                <a href="https://goods.scottbertrand.com" class="nav-imprint-image">
+                    <img src="../assets/still-goods-menu-dark.png" alt="Still Goods" class="nav-imprint-img" width="1333" height="283">
+                </a>
+                <button class="nav-imprint-image" data-modal="maxStewartModal">
+                    <img src="../assets/maxstewart-dark.png" alt="Max Stewart" class="nav-imprint-img" width="2100" height="434">
+                </button>
+            </nav>
+
+            <div class="nav-utilities">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span class="theme-icon">◐</span>
+                </button>
+
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Service Hero -->
+        <section class="service-hero">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="/#services">Services</a>
+                    <span>/</span>
+                    <span>Website Foundation</span>
+                </div>
+
+                <div class="service-hero-content">
+                    <div class="service-hero-header">
+                        <h1>Website Foundation</h1>
+                        <div class="service-hero-meta">
+                            <span class="service-category">Core Service</span>
+                            <span class="service-price">$4,250 CAD</span>
+                        </div>
+                    </div>
+
+                    <p class="service-intro">
+                        A complete website build including content strategy, visual design, development, and deployment. Optimized for performance, accessibility, and search engines.
+                    </p>
+
+                    <div class="service-details-grid">
+                        <div class="service-detail">
+                            <span class="detail-label">Timeline</span>
+                            <span class="detail-value">4-6 weeks</span>
+                        </div>
+                        <div class="service-detail">
+                            <span class="detail-label">Pages</span>
+                            <span class="detail-value">Up to 7 pages</span>
+                        </div>
+                        <div class="service-detail">
+                            <span class="detail-label">Revisions</span>
+                            <span class="detail-value">2 revision rounds</span>
+                        </div>
+                    </div>
+
+                    <div class="service-cta">
+                        <a href="/request.html?service=website-foundation" class="btn btn-primary">Request This Service</a>
+                        <p class="service-cta-note">Fixed scope, fixed price. No surprises.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- What's Included -->
+        <section class="section service-section">
+            <div class="container">
+                <h2>What's Included</h2>
+
+                <div class="service-features">
+                    <div class="feature-item">
+                        <h3>Content Strategy</h3>
+                        <p>Site architecture, navigation structure, content hierarchy, and messaging framework for up to 7 pages.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <h3>Visual Design</h3>
+                        <p>Custom design system built on your existing brand (or simple identity if you don't have one yet). Mobile-first, responsive layouts.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <h3>Development</h3>
+                        <p>Clean, modern code with a focus on performance, accessibility, and SEO. Built with HTML, CSS, and JavaScript (no WordPress bloat).</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <h3>Performance Optimization</h3>
+                        <p>Fast load times, optimized images, efficient code. Designed to score 90+ on Core Web Vitals (Google's performance metrics).</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <h3>Deployment & Hosting Setup</h3>
+                        <p>Deployed to Vercel (fast, free hosting) with custom domain setup. Includes SSL certificate, CDN, and automatic deployments from Git.</p>
+                    </div>
+
+                    <div class="feature-item">
+                        <h3>Post-Launch Support</h3>
+                        <p>30 days of support for bug fixes and questions. Maintenance and content updates available separately after that.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process -->
+        <section class="section service-section bg-subtle">
+            <div class="container">
+                <h2>How It Works</h2>
+
+                <div class="process-steps">
+                    <div class="process-step">
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <h3>Discovery (Week 1)</h3>
+                            <p>Submit intake form, schedule kick-off call to discuss goals, audience, content, and technical requirements.</p>
+                        </div>
+                    </div>
+
+                    <div class="process-step">
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <h3>Design (Weeks 2-3)</h3>
+                            <p>Receive content outline and visual design mockups. Provide feedback for revision round 1.</p>
+                        </div>
+                    </div>
+
+                    <div class="process-step">
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <h3>Development (Weeks 4-5)</h3>
+                            <p>Receive staging site for review. Provide final content and feedback for revision round 2.</p>
+                        </div>
+                    </div>
+
+                    <div class="process-step">
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <h3>Launch (Week 6)</h3>
+                            <p>Final review, domain setup, and deployment. Receive handoff documentation and 30 days of post-launch support.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Good Fit Section -->
+        <section class="section service-section">
+            <div class="container">
+                <h2>This Is A Good Fit If...</h2>
+
+                <div class="fit-grid">
+                    <div class="fit-column">
+                        <h3>✓ Good Fit</h3>
+                        <ul class="fit-list">
+                            <li>You need a new website built from scratch</li>
+                            <li>You want a fast, modern site without WordPress complexity</li>
+                            <li>Your site needs 7 pages or fewer (e.g., Home, About, Services, Contact)</li>
+                            <li>You value performance, accessibility, and clean code</li>
+                            <li>You're ready to provide content (or we can discuss copywriting separately)</li>
+                        </ul>
+                    </div>
+
+                    <div class="fit-column">
+                        <h3>✗ Not A Good Fit</h3>
+                        <ul class="fit-list">
+                            <li>You need a complex web application or e-commerce site</li>
+                            <li>You need more than 7 pages (contact for custom quote)</li>
+                            <li>You want a WordPress site with a page builder</li>
+                            <li>You need content management for frequent updates (consider a CMS)</li>
+                            <li>You need ongoing development work (available separately)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="section service-section bg-subtle">
+            <div class="container">
+                <h2>Common Questions</h2>
+
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <h3>What if I need more than 7 pages?</h3>
+                        <p>Additional pages are $300 each. For larger sites (15+ pages), contact me for custom pricing.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Can you write the content for me?</h3>
+                        <p>I provide content strategy and outlines, but you provide the actual copy. Professional copywriting is available as an add-on for $150/page.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Do you build e-commerce sites?</h3>
+                        <p>Not as part of this package. For e-commerce, I recommend platforms like Shopify or contacting me for a custom quote.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Can I update the site myself after launch?</h3>
+                        <p>Yes, with basic HTML/CSS knowledge. Or I can add a simple CMS for $500 extra. Ongoing maintenance and updates also available separately.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>What if I don't have a brand yet?</h3>
+                        <p>I can create a simple visual identity as part of the website, or you can bundle with Brand Reset for the full package price.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="section service-cta-section">
+            <div class="container">
+                <div class="service-cta-content">
+                    <h2>Ready to get started?</h2>
+                    <p>Fixed scope, fixed price. Delivered in 4-6 weeks.</p>
+                    <div class="cta-group">
+                        <a href="/request.html?service=website-foundation" class="btn btn-primary">Request This Service</a>
+                        <a href="/#services" class="btn btn-secondary">View All Services</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Max Stewart Modal -->
+    <div class="modal" id="maxStewartModal" aria-hidden="true">
+        <div class="modal-overlay" data-close-modal></div>
+        <div class="modal-content">
+            <button class="modal-close" data-close-modal aria-label="Close">×</button>
+            <img src="../assets/maxstewart-dark.png" alt="Max Stewart" class="modal-image" id="maxStewartModalImage" width="2100" height="434">
+            <p class="modal-description">A lifestyle brand exploring recipes, home, and everyday craft.</p>
+            <p class="modal-caption">COMING SOON</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="../theme.js"></script>
+    <script type="module" src="../modal.js"></script>
+</body>
+</html>

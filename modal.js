@@ -51,5 +51,5 @@ class Modal {
 
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
-    new Modal('fieldNotesModal');
+    new Modal('stillGoodsModal');
 });

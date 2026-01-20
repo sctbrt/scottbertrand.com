@@ -52,4 +52,5 @@ class Modal {
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
     new Modal('stillGoodsModal');
+    new Modal('maxStewartModal');
 });

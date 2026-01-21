@@ -1,5 +1,5 @@
-// Projects Dropdown Navigation
-// Handles click/keyboard interaction for the Projects dropdown menu
+// Case Studies Dropdown Navigation
+// Handles click/keyboard interaction for the Case Studies dropdown menu
 
 document.addEventListener('DOMContentLoaded', () => {
     const dropdown = document.querySelector('.nav-dropdown');
@@ -60,8 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
         dropdown.setAttribute('aria-expanded', 'false');
     }
 
-    // Active state logic for Projects dropdown
-    // When on Field Notes or Still Goods (including subdomains), Projects appears active
+    // Active state logic for Case Studies dropdown
+    // When on Field Notes or Still Goods (including subdomains), Case Studies appears active
     const currentHost = window.location.hostname;
     const isProjectSite = currentHost.includes('notes.scottbertrand') ||
                          currentHost.includes('goods.scottbertrand');

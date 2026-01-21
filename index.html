@@ -20,6 +20,9 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/sb-monogram-light.png">
 
+    <!-- Cloudflare Web Analytics -->
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "YOUR_CLOUDFLARE_TOKEN_HERE"}'></script>
+
     <!-- Stylesheet -->
     <link rel="stylesheet" href="styles.css">
     <style>
@@ -33,6 +36,7 @@
         .hero-storefront .tagline {
             font-size: 1.5rem;
             margin-bottom: 1rem;
+            text-align: center;
         }
 
         .hero-storefront .subtitle {
@@ -354,10 +358,33 @@
             <nav class="nav-menu" id="navMenu">
                 <a href="https://scottbertrand.com/services.html">Services</a>
                 <a href="https://scottbertrand.com/how-it-works.html">How It Works</a>
-                <a href="https://scottbertrand.com/about.html">About</a>
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-toggle" aria-expanded="false" aria-haspopup="true">
+                        Projects
+                        <span class="dropdown-arrow">▾</span>
+                    </button>
+                    <div class="nav-dropdown-menu" aria-label="Projects submenu" aria-hidden="true">
+                        <a href="https://notes.scottbertrand.com/" class="nav-dropdown-item">
+                            <div class="dropdown-item-header">
+                                <img src="assets/field-notes-menu-dark.png" alt="Field Notes" class="dropdown-brand-img" width="599" height="110">
+                            </div>
+                            <span class="dropdown-descriptor">Working archive · essays · systems</span>
+                        </a>
+                        <a href="https://goods.scottbertrand.com/" class="nav-dropdown-item">
+                            <div class="dropdown-item-header">
+                                <img src="assets/still-goods-menu-dark.png" alt="Still Goods" class="dropdown-brand-img" width="1333" height="283">
+                            </div>
+                            <span class="dropdown-descriptor">Seasonal objects · limited issues</span>
+                        </a>
+                        <a href="https://maxstewart.life/" class="nav-dropdown-item nav-dropdown-item--disabled">
+                            <div class="dropdown-item-header">
+                                <img src="assets/maxstewart-dark.png" alt="Max Stewart" class="dropdown-brand-img" width="2100" height="434">
+                            </div>
+                            <span class="dropdown-descriptor dropdown-descriptor--coming-soon">Coming Soon</span>
+                        </a>
+                    </div>
+                </div>
                 <a href="https://scottbertrand.com/contact.html">Contact</a>
-                <a href="https://notes.scottbertrand.com/">Field Notes</a>
-                <a href="https://goods.scottbertrand.com/">Still Goods</a>
             </nav>
 
             <div class="nav-utilities">
@@ -614,5 +641,6 @@
     <!-- Scripts -->
     <script type="module" src="theme.js"></script>
     <script type="module" src="modal.js"></script>
+    <script type="module" src="dropdown.js"></script>
 </body>
 </html>

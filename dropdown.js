@@ -59,4 +59,14 @@ document.addEventListener('DOMContentLoaded', () => {
         menu.setAttribute('aria-hidden', 'true');
         dropdown.setAttribute('aria-expanded', 'false');
     }
+
+    // Active state logic for Projects dropdown
+    // When on Field Notes or Still Goods (including subdomains), Projects appears active
+    const currentHost = window.location.hostname;
+    const isProjectSite = currentHost.includes('notes.scottbertrand') ||
+                         currentHost.includes('goods.scottbertrand');
+
+    if (isProjectSite) {
+        toggle.classList.add('active');
+    }
 });

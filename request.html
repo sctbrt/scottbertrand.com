@@ -16,274 +16,154 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/sb-monogram-light.png">
 
-    <!-- Stylesheet -->
+    <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Navigation Header -->
-    <header class="site-header">
-        <div class="nav-container">
-            <a href="/" class="site-brand">
-                <img src="assets/sb-monogram-dark.png" alt="SB" class="brand-monogram" width="1709" height="1709">
-                <img src="assets/scott-bertrand-wordmark-dark.png" alt="Scott Bertrand" class="brand-wordmark" width="2100" height="215">
-            </a>
 
-            <nav class="nav-menu" id="navMenu">
-                <a href="/#services">Services</a>
-                <a href="/how-it-works.html">How It Works</a>
-                <div class="nav-dropdown">
-                    <button class="nav-dropdown-toggle" aria-expanded="false" aria-haspopup="true">
-                        Projects
-                        <span class="dropdown-arrow">▾</span>
+<header class="site-header">
+    <div class="nav-container">
+        <a href="/" class="site-brand">
+            <img src="assets/sb-monogram-dark.png" alt="SB" class="brand-monogram">
+            <img src="assets/scott-bertrand-wordmark-dark.png" alt="Scott Bertrand" class="brand-wordmark">
+        </a>
+    </div>
+</header>
+
+<main>
+    <section class="request-section">
+        <div class="container">
+            <header class="request-header">
+                <h1>Request Service</h1>
+                <p class="request-intro">
+                    Fill out the intake form below. I’ll review your request and respond within 24–48 hours.
+                </p>
+            </header>
+
+            <form
+                class="request-form"
+                action="https://formspree.io/f/xnjjgoay"
+                method="POST"
+                accept-charset="UTF-8"
+            >
+
+                <!-- Metadata -->
+                <input type="hidden" name="source" value="scottbertrand.com — Request Service">
+                <input type="hidden" name="page" value="request.html">
+
+                <!-- Service -->
+                <div class="form-section">
+                    <h2>Service</h2>
+                    <label>
+                        Which service are you interested in? *
+                        <select name="service" required>
+                            <option value="">Select a service</option>
+                            <option value="website-audit">Website Audit — $450 CAD</option>
+                            <option value="brand-audit">Brand Audit — $550 CAD</option>
+                            <option value="brand-reset">Brand Reset — $3,000 CAD</option>
+                            <option value="website-foundation">Website Foundation — $4,250 CAD</option>
+                            <option value="full-brand-website-reset">Full Brand & Website Reset — $6,900 CAD</option>
+                            <option value="not-sure">Not sure / Need guidance</option>
+                        </select>
+                    </label>
+                </div>
+
+                <!-- Contact -->
+                <div class="form-section">
+                    <h2>Contact Information</h2>
+
+                    <label>
+                        Your name *
+                        <input type="text" name="name" required>
+                    </label>
+
+                    <label>
+                        Email address *
+                        <input type="email" name="email" required>
+                    </label>
+
+                    <label>
+                        Company or project name
+                        <input type="text" name="company">
+                    </label>
+
+                    <label>
+                        Current website URL
+                        <input type="url" name="website" placeholder="https://">
+                    </label>
+                </div>
+
+                <!-- Project Details -->
+                <div class="form-section">
+                    <h2>Project Details</h2>
+
+                    <label>
+                        What are your main goals for this project? *
+                        <textarea name="goals" rows="4" required></textarea>
+                    </label>
+
+                    <label>
+                        Desired timeline *
+                        <select name="timeline" required>
+                            <option value="">Select timeline</option>
+                            <option value="asap">As soon as possible</option>
+                            <option value="1-2-months">1–2 months</option>
+                            <option value="3-4-months">3–4 months</option>
+                            <option value="flexible">Flexible / Not urgent</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Budget expectations *
+                        <select name="budget" required>
+                            <option value="">Select budget range</option>
+                            <option value="under-1k">Under $1,000 CAD</option>
+                            <option value="1k-3k">$1,000–$3,000 CAD</option>
+                            <option value="3k-5k">$3,000–$5,000 CAD</option>
+                            <option value="5k-10k">$5,000–$10,000 CAD</option>
+                            <option value="10k-plus">$10,000+ CAD</option>
+                        </select>
+                    </label>
+                </div>
+
+                <!-- Additional -->
+                <div class="form-section">
+                    <h2>Additional Information</h2>
+
+                    <label>
+                        What challenges are you trying to solve?
+                        <textarea name="challenges" rows="3"></textarea>
+                    </label>
+
+                    <label>
+                        How did you hear about me?
+                        <input type="text" name="referral">
+                    </label>
+
+                    <label>
+                        Anything else I should know?
+                        <textarea name="additional" rows="3"></textarea>
+                    </label>
+                </div>
+
+                <!-- Honeypot -->
+                <input type="text" name="bot-field" tabindex="-1" autocomplete="off"
+                       style="position:absolute;left:-9999px;height:1px;width:1px;">
+
+                <!-- Submit -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btn-large">
+                        Submit Request
                     </button>
-                    <div class="nav-dropdown-menu" aria-label="Projects submenu" aria-hidden="true">
-                        <a href="https://notes.scottbertrand.com" class="nav-dropdown-item">
-                            <img src="assets/field-notes-menu-dark.png" alt="Field Notes" class="dropdown-brand-img" width="599" height="110">
-                            <span class="dropdown-descriptor">A working archive of systems, drafts, and field observations.</span>
-                        </a>
-                        <a href="https://goods.scottbertrand.com" class="nav-dropdown-item">
-                            <img src="assets/still-goods-menu-dark.png" alt="Still Goods" class="dropdown-brand-img" width="1333" height="283">
-                            <span class="dropdown-descriptor">Objects for everyday use.</span>
-                        </a>
-                        <div class="nav-dropdown-item nav-dropdown-item--disabled">
-                            <img src="assets/maxstewart-dark.png" alt="Max Stewart" class="dropdown-brand-img" width="2100" height="434">
-                            <span class="dropdown-descriptor dropdown-descriptor--coming-soon">Coming Soon</span>
-                        </div>
-                    </div>
+                    <p class="form-note">
+                        I’ll review your request and respond within 24–48 hours.
+                    </p>
                 </div>
-                <a href="/about.html">About</a>
-                <a href="/contact.html">Contact</a>
-            </nav>
 
-            <div class="nav-utilities">
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                    <span class="theme-icon">◐</span>
-                </button>
-
-                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
+            </form>
         </div>
-    </header>
+    </section>
+</main>
 
-    <!-- Main Content -->
-    <main>
-        <section class="request-section">
-            <div class="container">
-                <div class="request-header">
-                    <h1>Request Service</h1>
-                    <p class="request-intro">Fill out the intake form below. I'll review your request and respond within 24-48 hours with next steps.</p>
-                </div>
-
-                <!-- Success Message -->
-                <div class="success-message" id="successMessage">
-                    <strong>Thank you for your request!</strong> I'll review your submission and respond within 24-48 hours.
-                </div>
-
-                <!-- Request Form -->
-                <form class="request-form" id="requestForm" action="https://formspree.io/f/xdkodbln" method="POST" accept-charset="UTF-8">
-                    <!-- Service Selection -->
-                    <div class="form-section">
-                        <h2>Service</h2>
-
-                        <div class="form-field">
-                            <label for="service" class="form-label">Which service are you interested in? *</label>
-                            <select id="service" name="service" class="form-select" required>
-                                <option value="">Select a service</option>
-                                <option value="website-audit">Website Audit — $450 CAD</option>
-                                <option value="brand-audit">Brand Audit — $550 CAD</option>
-                                <option value="brand-reset">Brand Reset — $3,000 CAD</option>
-                                <option value="website-foundation">Website Foundation — $4,250 CAD</option>
-                                <option value="full-brand-website-reset">Full Brand & Website Reset — $6,900 CAD</option>
-                                <option value="not-sure">Not sure / Need guidance</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Contact Information -->
-                    <div class="form-section">
-                        <h2>Contact Information</h2>
-
-                        <div class="form-field">
-                            <label for="name" class="form-label">Your name *</label>
-                            <input type="text" id="name" name="name" class="form-input" required>
-                        </div>
-
-                        <div class="form-field">
-                            <label for="email" class="form-label">Email address *</label>
-                            <input type="email" id="email" name="email" class="form-input" required>
-                        </div>
-
-                        <div class="form-field">
-                            <label for="company" class="form-label">Company or project name</label>
-                            <input type="text" id="company" name="company" class="form-input">
-                            <span class="form-help">Optional</span>
-                        </div>
-
-                        <div class="form-field">
-                            <label for="website" class="form-label">Current website URL</label>
-                            <input type="url" id="website" name="website" class="form-input" placeholder="https://">
-                            <span class="form-help">If you have one</span>
-                        </div>
-                    </div>
-
-                    <!-- Project Details -->
-                    <div class="form-section">
-                        <h2>Project Details</h2>
-
-                        <div class="form-field">
-                            <label for="goals" class="form-label">What are your main goals for this project? *</label>
-                            <textarea id="goals" name="goals" class="form-textarea" rows="4" required placeholder="E.g., Launch new business, refresh outdated brand, improve website conversions, etc."></textarea>
-                        </div>
-
-                        <div class="form-field">
-                            <label for="timeline" class="form-label">Desired timeline *</label>
-                            <select id="timeline" name="timeline" class="form-select" required>
-                                <option value="">Select timeline</option>
-                                <option value="asap">As soon as possible</option>
-                                <option value="1-2-months">1-2 months</option>
-                                <option value="3-4-months">3-4 months</option>
-                                <option value="flexible">Flexible / Not urgent</option>
-                            </select>
-                        </div>
-
-                        <div class="form-field">
-                            <label for="budget" class="form-label">Budget expectations *</label>
-                            <select id="budget" name="budget" class="form-select" required>
-                                <option value="">Select budget range</option>
-                                <option value="under-1k">Under $1,000 CAD</option>
-                                <option value="1k-3k">$1,000 - $3,000 CAD</option>
-                                <option value="3k-5k">$3,000 - $5,000 CAD</option>
-                                <option value="5k-10k">$5,000 - $10,000 CAD</option>
-                                <option value="10k-plus">$10,000+ CAD</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Additional Information -->
-                    <div class="form-section">
-                        <h2>Additional Information</h2>
-
-                        <div class="form-field">
-                            <label for="challenges" class="form-label">What challenges are you trying to solve?</label>
-                            <textarea id="challenges" name="challenges" class="form-textarea" rows="3" placeholder="E.g., Brand feels inconsistent, website is slow, not getting enough leads, etc."></textarea>
-                            <span class="form-help">Optional — helps me understand your needs better</span>
-                        </div>
-
-                        <div class="form-field">
-                            <label for="referral" class="form-label">How did you hear about me?</label>
-                            <input type="text" id="referral" name="referral" class="form-input" placeholder="E.g., Google search, referral, Field Notes, etc.">
-                            <span class="form-help">Optional</span>
-                        </div>
-
-                        <div class="form-field">
-                            <label for="additional" class="form-label">Anything else I should know?</label>
-                            <textarea id="additional" name="additional" class="form-textarea" rows="3" placeholder="Any other details, constraints, or questions"></textarea>
-                            <span class="form-help">Optional</span>
-                        </div>
-                    </div>
-
-                    <!-- Honeypot (spam protection) -->
-                    <input type="text" name="bot-field" style="position: absolute; left: -9999px; width: 1px; height: 1px;" tabindex="-1" autocomplete="off">
-
-                    <!-- Submit Button -->
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary btn-large">Submit Request</button>
-                        <p class="form-note">I'll review your request and respond within 24-48 hours.</p>
-                    </div>
-                </form>
-            </div>
-        </section>
-    </main>
-
-    <!-- Scripts -->
-    <script type="module" src="theme.js"></script>
-    <script type="module" src="modal.js"></script>
-    <script>
-        // Pre-select service from URL parameter
-        const urlParams = new URLSearchParams(window.location.search);
-        const serviceParam = urlParams.get('service');
-        if (serviceParam) {
-            const serviceSelect = document.getElementById('service');
-            const option = serviceSelect.querySelector(`option[value="${serviceParam}"]`);
-            if (option) {
-                serviceSelect.value = serviceParam;
-            }
-        }
-
-        // Form submission handling (progressive enhancement)
-        // - The form has a real action+method so it works even if JS fails.
-        // - With JS enabled, we submit via fetch and show an inline success state.
-        const form = document.getElementById('requestForm');
-        const successMessage = document.getElementById('successMessage');
-
-        if (form) {
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-
-                const submitBtn = form.querySelector('button[type="submit"]');
-                const originalBtnText = submitBtn ? submitBtn.textContent : '';
-                if (submitBtn) {
-                    submitBtn.disabled = true;
-                    submitBtn.textContent = 'Sending…';
-                }
-
-                const formData = new FormData(form);
-
-                // Check honeypot
-                if (formData.get('bot-field')) {
-                    return; // Likely spam, silently reject
-                }
-
-                try {
-                    const response = await fetch(form.action, {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json'
-                        },
-                        body: formData
-                    });
-
-                    if (response.ok) {
-                        // Show success message
-                        successMessage.classList.add('show');
-                        form.style.display = 'none';
-
-                        successMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    } else {
-                        let errorText = '';
-                        try {
-                            const errorData = await response.json();
-                            errorText = errorData?.errors?.[0]?.message || '';
-                        } catch (_) {
-                            // ignore
-                        }
-                        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalBtnText || 'Submit Request'; }
-                        alert(
-                            'There was a problem submitting your request.' +
-                            (errorText ? `\n\nDetails: ${errorText}` : '') +
-                            '\n\nPlease try again or email me directly at hello@scottbertrand.com'
-                        );
-                    }
-                } catch (error) {
-                    console.error('Form submission error:', error);
-                    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalBtnText || 'Submit Request'; }
-                    // Fallback: let the browser submit the form normally (no JS) if fetch fails.
-                    try { form.submit(); } catch (_) {}
-                }
-                finally {
-                    // If the form is still visible, restore the button state
-                    if (form.style.display !== 'none' && submitBtn) {
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = originalBtnText || 'Submit Request';
-                    }
-                }
-            });
-        }
-    </script>
-    <script type="module" src="dropdown.js"></script>
 </body>
 </html>

@@ -142,6 +142,12 @@
                 container.innerHTML = data.entries.map(entry => `
                     <article class="entry-card">
                         <a href="${entry.url}" class="entry-link">
+                            ${entry.media ? `
+                                <div class="entry-media">
+                                    <img src="${entry.media}" alt="${entry.title}" loading="lazy">
+                                </div>
+                            ` : ''}
+
                             <div class="entry-meta">
                                 ${entry.type ? `<span class="entry-type">${entry.type}</span>` : ''}
                                 ${entry.status !== 'Working' ? `<span class="entry-status">${entry.status}</span>` : ''}

@@ -56,6 +56,17 @@ export default async function handler(req, res) {
     const entries = data.results.map((page) => {
       const props = page.properties;
 
+      // Extract media (Files & media property)
+      let media = null;
+      if (props.Media?.files && props.Media.files.length > 0) {
+        const firstFile = props.Media.files[0];
+        if (firstFile.type === 'file') {
+          media = firstFile.file.url;
+        } else if (firstFile.type === 'external') {
+          media = firstFile.external.url;
+        }
+      }
+
       return {
         id: page.id,
         title: props.Title?.title[0]?.plain_text || 'Untitled',
@@ -64,6 +75,7 @@ export default async function handler(req, res) {
         status: props.Status?.select?.name || 'Working',
         created: props.Created?.date?.start || page.created_time,
         revisited: props['Last revisited']?.date?.start || null,
+        media: media,
         url: `/field-notes/${page.id}`,
       };
     });

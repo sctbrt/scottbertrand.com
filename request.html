@@ -224,6 +224,13 @@
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalBtnText = submitBtn ? submitBtn.textContent : '';
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Sending…';
+                }
+
                 const formData = new FormData(form);
 
                 // Check honeypot
@@ -245,8 +252,7 @@
                         successMessage.classList.add('show');
                         form.style.display = 'none';
 
-                        // Scroll to top
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        successMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     } else {
                         let errorText = '';
                         try {
@@ -255,6 +261,7 @@
                         } catch (_) {
                             // ignore
                         }
+                        if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalBtnText || 'Submit Request'; }
                         alert(
                             'There was a problem submitting your request.' +
                             (errorText ? `\n\nDetails: ${errorText}` : '') +
@@ -263,7 +270,16 @@
                     }
                 } catch (error) {
                     console.error('Form submission error:', error);
-                    alert('There was a problem submitting your request. Please try again or email me directly at hello@scottbertrand.com');
+                    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalBtnText || 'Submit Request'; }
+                    // Fallback: let the browser submit the form normally (no JS) if fetch fails.
+                    try { form.submit(); } catch (_) {}
+                }
+                finally {
+                    // If the form is still visible, restore the button state
+                    if (form.style.display !== 'none' && submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = originalBtnText || 'Submit Request';
+                    }
                 }
             });
         }

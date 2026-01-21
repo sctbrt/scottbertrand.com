@@ -108,9 +108,9 @@ class ThemeManager {
             maxStewartModalImage.src = assets[`maxstewart-${assetSuffix}`];
         }
 
-        // Update navigation menu images
-        const navImprintImages = document.querySelectorAll('.nav-imprint-img');
-        navImprintImages.forEach(img => {
+        // Update navigation menu images (dropdown brand images)
+        const dropdownImages = document.querySelectorAll('.dropdown-brand-img, .nav-imprint-img');
+        dropdownImages.forEach(img => {
             const altText = img.alt;
             if (altText === 'Field Notes') {
                 img.src = assets[`field-notes-menu-${assetSuffix}`];

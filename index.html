@@ -8,12 +8,12 @@
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
     <meta name="color-scheme" content="light dark">
-    <title>Brand & Web Systems — Scott Bertrand</title>
-    <meta name="description" content="Structured brand and website work for businesses that need clarity, not chaos.">
+    <title>Brand & Web Systems for Greater Sudbury & Northern Ontario — Scott Bertrand</title>
+    <meta name="description" content="Clear, structured brand and web work for Sudbury and Northern Ontario businesses. Audits, brand systems, and website foundations. Available remotely across Canada.">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Brand & Web Systems — Scott Bertrand">
-    <meta property="og:description" content="Structured brand and website work for businesses that need clarity, not chaos.">
+    <meta property="og:title" content="Brand & Web Systems for Greater Sudbury & Northern Ontario — Scott Bertrand">
+    <meta property="og:description" content="Clear, structured brand and web work for Sudbury and Northern Ontario businesses. Available remotely across Canada.">
     <meta property="og:image" content="assets/og-image.png">
     <meta property="og:type" content="website">
 
@@ -22,6 +22,101 @@
 
     <!-- Cloudflare Web Analytics -->
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "YOUR_CLOUDFLARE_TOKEN_HERE"}'></script>
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Scott Bertrand — Brand & Web Systems",
+      "description": "Brand and web systems for Greater Sudbury and Northern Ontario businesses",
+      "url": "https://scottbertrand.com",
+      "logo": "https://scottbertrand.com/assets/sb-monogram-light.png",
+      "image": "https://scottbertrand.com/assets/og-image.png",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Greater Sudbury",
+        "addressRegion": "ON",
+        "addressCountry": "CA"
+      },
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Greater Sudbury"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Northern Ontario"
+        },
+        {
+          "@type": "Country",
+          "name": "Canada"
+        }
+      ],
+      "priceRange": "$$$",
+      "email": "hello@scottbertrand.com",
+      "sameAs": [
+        "https://notes.scottbertrand.com",
+        "https://goods.scottbertrand.com"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Brand & Web Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Website Audit",
+              "description": "Full site review with prioritized recommendations"
+            },
+            "price": "450",
+            "priceCurrency": "CAD"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Brand Audit",
+              "description": "Brand positioning and identity assessment"
+            },
+            "price": "550",
+            "priceCurrency": "CAD"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Brand Reset",
+              "description": "Complete brand system and guidelines"
+            },
+            "price": "3000",
+            "priceCurrency": "CAD"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Website Foundation",
+              "description": "Conversion-focused website build"
+            },
+            "price": "4250",
+            "priceCurrency": "CAD"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Full Brand + Website Reset",
+              "description": "Complete brand and web system"
+            },
+            "price": "6900",
+            "priceCurrency": "CAD"
+          }
+        ]
+      }
+    }
+    </script>
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="styles.css">
@@ -407,30 +502,22 @@
         <section class="hero hero-storefront">
             <div class="container">
                 <!-- Primary: Identity -->
-                <div class="hero-identity">
-                    <picture>
-                        <source srcset="assets/tree-ring-logo.avif" type="image/avif" width="1200" height="1200">
-                        <source srcset="assets/tree-ring-logo.webp" type="image/webp" width="1200" height="1200">
-                        <img src="assets/tree-ring-logo.png" alt="Tree Ring Logo" class="hero-tree" width="1200" height="1200">
-                    </picture>
-                </div>
-
-                <!-- Primary: Storefront positioning -->
-                <h1 class="tagline">Brand & Web Systems</h1>
+                <!-- V1.5 Conversion Hero -->
+                <h1 class="tagline">Brand & Web Systems for Greater Sudbury & Northern Ontario</h1>
 
                 <p class="subtitle">
-                    Structured brand and website work for businesses that need clarity, not chaos.
+                    Clear, structured brand and web work that creates clarity and drives results. Based in Sudbury, available remotely across Canada.
                 </p>
 
-                <p class="authority-statement">
-                    I work collaboratively with founders and operators, leading strategic and creative direction to produce durable, usable brand and web systems.
-                </p>
-
-                <!-- CTA -->
+                <!-- Single Primary CTA -->
                 <div class="cta-group">
-                    <a href="#services" class="btn btn-primary">View Services</a>
-                    <a href="https://notes.scottbertrand.com" class="btn btn-secondary">Read Field Notes</a>
+                    <a href="/request.html" class="btn btn-primary">Request an Audit</a>
                 </div>
+
+                <!-- Local Trust Signal -->
+                <p class="local-trust">
+                    Based in Greater Sudbury, serving Northern Ontario businesses
+                </p>
             </div>
         </section>
 
@@ -467,17 +554,17 @@
             </div>
         </section>
 
-        <!-- Service Catalogue Section -->
+        <!-- Ways to Work Together -->
         <section class="section" id="services">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Services</h2>
-                    <p class="section-subtitle">Fixed-scope, transparently priced work designed for growing businesses.</p>
+                    <h2 class="section-title">Ways to Work Together</h2>
+                    <p class="section-subtitle">Clear pricing, fixed scope, designed for clarity and results.</p>
                 </div>
 
-                <!-- Entry Services -->
+                <!-- Start Here — Audits -->
                 <div class="service-category">
-                    <p class="category-label">Entry Services</p>
+                    <p class="category-label">Start Here — Audits</p>
                     <div class="service-grid">
                         <div class="service-card">
                             <div class="service-header">
@@ -511,9 +598,9 @@
                     </div>
                 </div>
 
-                <!-- Core Services -->
+                <!-- Foundations -->
                 <div class="service-category">
-                    <p class="category-label">Core Services</p>
+                    <p class="category-label">Foundations</p>
                     <div class="service-grid">
                         <div class="service-card">
                             <div class="service-header">
@@ -547,9 +634,9 @@
                     </div>
                 </div>
 
-                <!-- Flagship Service -->
+                <!-- Full System -->
                 <div class="service-category">
-                    <p class="category-label">Flagship</p>
+                    <p class="category-label">Full System</p>
                     <div class="service-grid">
                         <div class="service-card">
                             <div class="service-header">
@@ -568,20 +655,21 @@
                     </div>
                 </div>
 
-                <!-- À La Carte -->
+                <!-- Targeted À La Carte Support -->
                 <div class="service-category">
-                    <p class="category-label">À La Carte</p>
+                    <p class="category-label">Targeted À La Carte Support</p>
                     <div class="service-grid">
                         <div class="service-card">
+                            <p style="margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
+                                <strong>Best for clear scopes and decision-makers. Broader issues may require an audit.</strong>
+                            </p>
                             <p style="margin-bottom: 1rem;">
-                                <strong>Homepage Copy Rewrite</strong> — $350 CAD<br>
-                                <strong>Landing Page Design</strong> — $700 CAD<br>
-                                <strong>Light Visual Refresh</strong> — $850 CAD<br>
-                                <strong>SEO Metadata Setup</strong> — $275 CAD<br>
-                                <strong>CMS Setup (basic)</strong> — $425 CAD
+                                <strong>Website Structure Review</strong> — $250 CAD<br>
+                                <strong>Homepage Messaging Rewrite</strong> — $350 CAD<br>
+                                <strong>Brand Direction Consult</strong> (90 min) — $400 CAD
                             </p>
                             <div class="service-actions">
-                                <a href="/request.html?service=a-la-carte" class="btn btn-primary btn-small">Request Service</a>
+                                <a href="/request.html" class="btn btn-secondary btn-small">Request an Audit First</a>
                             </div>
                         </div>
                     </div>
@@ -613,15 +701,85 @@
             </div>
         </section>
 
-        <!-- Field Notes Section -->
-        <section class="section" id="field-notes-promo">
+        <!-- Case Studies Section -->
+        <section class="section" id="case-studies">
             <div class="container">
-                <div class="field-notes-block">
-                    <h3>Field Notes</h3>
-                    <p>
-                        A working archive of systems thinking, design decisions, and process observations. Built to support trust, not sell services.
+                <div class="section-header">
+                    <h2 class="section-title">Case Studies</h2>
+                    <p class="section-subtitle">Internal systems built to demonstrate structured thinking.</p>
+                </div>
+
+                <div class="service-grid">
+                    <div class="service-card">
+                        <h3>Field Notes</h3>
+                        <p class="service-description">
+                            Content publishing and knowledge management system. Structured writing practice and public archive.
+                        </p>
+                        <div class="service-actions">
+                            <a href="https://notes.scottbertrand.com" class="btn btn-secondary btn-small">View System →</a>
+                        </div>
+                    </div>
+
+                    <div class="service-card">
+                        <h3>Still Goods</h3>
+                        <p class="service-description">
+                            E-commerce system with seasonal product drops. Testing commerce workflows with real transactions.
+                        </p>
+                        <div class="service-actions">
+                            <a href="https://goods.scottbertrand.com" class="btn btn-secondary btn-small">View System →</a>
+                        </div>
+                    </div>
+
+                    <div class="service-card">
+                        <h3>ScottBertrand.com</h3>
+                        <p class="service-description">
+                            Service business marketing system. Conversion-first design for landing Greater Sudbury clients.
+                        </p>
+                        <div class="service-actions">
+                            <a href="/" class="btn btn-secondary btn-small">This Site</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="section" id="faq">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Common Questions</h2>
+                </div>
+
+                <div class="boundaries-content">
+                    <h3 style="font-size: 1.125rem; margin-bottom: 0.5rem;">Do you work with businesses outside Sudbury?</h3>
+                    <p style="margin-bottom: 2rem;">
+                        Yes. While based in Greater Sudbury, I work remotely with clients across Canada. Local presence means understanding Northern Ontario businesses, not limiting my availability.
                     </p>
-                    <a href="https://notes.scottbertrand.com" class="btn btn-secondary">Visit Field Notes →</a>
+
+                    <h3 style="font-size: 1.125rem; margin-bottom: 0.5rem;">What's the difference between an audit and a foundation?</h3>
+                    <p style="margin-bottom: 2rem;">
+                        An audit identifies problems and prioritizes fixes. A foundation implements solutions. Most clients start with an audit to understand what needs fixing before committing to larger work.
+                    </p>
+
+                    <h3 style="font-size: 1.125rem; margin-bottom: 0.5rem;">How long does a typical project take?</h3>
+                    <p style="margin-bottom: 2rem;">
+                        Audits: 1-2 weeks. Foundations: 4-6 weeks. Full System: 6-8 weeks. Timelines are clearly defined in each service scope.
+                    </p>
+
+                    <h3 style="font-size: 1.125rem; margin-bottom: 0.5rem;">Do you offer payment plans?</h3>
+                    <p style="margin-bottom: 2rem;">
+                        Yes, for Foundation and Full System projects. 50% upfront, 50% on delivery. Audits are paid in full upfront due to the short timeline.
+                    </p>
+
+                    <h3 style="font-size: 1.125rem; margin-bottom: 0.5rem;">What if I just need small fixes?</h3>
+                    <p style="margin-bottom: 2rem;">
+                        Start with an audit. If the scope is truly limited and well-defined, we can discuss targeted à la carte support after the audit clarifies the actual needs.
+                    </p>
+                </div>
+
+                <!-- Final CTA -->
+                <div style="text-align: center; margin-top: 3rem;">
+                    <a href="/request.html" class="btn btn-primary">Request an Audit</a>
                 </div>
             </div>
         </section>
@@ -631,8 +789,10 @@
     <footer class="site-footer">
         <div class="container">
             <p class="footer-text">
+                Based in Greater Sudbury, serving Northern Ontario — available remotely across Canada
+            </p>
+            <p class="footer-text" style="margin-top: 1rem; opacity: 0.5;">
                 &copy; 2025 Scott Bertrand ·
-                <a href="/how-it-works.html">How It Works</a> ·
                 <a href="/request.html">Request Service</a>
             </p>
         </div>

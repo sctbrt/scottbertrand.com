@@ -84,7 +84,7 @@
                 </div>
 
                 <!-- Request Form -->
-                <form class="request-form" id="requestForm">
+                <form class="request-form" id="requestForm" action="https://formspree.io/f/xdkodbln" method="POST" accept-charset="UTF-8">
                     <!-- Service Selection -->
                     <div class="form-section">
                         <h2>Service</h2>
@@ -214,7 +214,9 @@
             }
         }
 
-        // Form submission handling
+        // Form submission handling (progressive enhancement)
+        // - The form has a real action+method so it works even if JS fails.
+        // - With JS enabled, we submit via fetch and show an inline success state.
         const form = document.getElementById('requestForm');
         const successMessage = document.getElementById('successMessage');
 
@@ -223,21 +225,19 @@
                 e.preventDefault();
 
                 const formData = new FormData(form);
-                const data = Object.fromEntries(formData.entries());
 
                 // Check honeypot
-                if (data['bot-field']) {
+                if (formData.get('bot-field')) {
                     return; // Likely spam, silently reject
                 }
 
                 try {
-                    const response = await fetch('https://formspree.io/f/xdkodbln', {
+                    const response = await fetch(form.action, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json',
                             'Accept': 'application/json'
                         },
-                        body: JSON.stringify(data)
+                        body: formData
                     });
 
                     if (response.ok) {
@@ -248,9 +248,18 @@
                         // Scroll to top
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                     } else {
-                        const errorData = await response.json();
-                        alert('There was a problem submitting your request. Please try again or email me directly at hello@scottbertrand.com');
-                        console.error('Form submission error:', errorData);
+                        let errorText = '';
+                        try {
+                            const errorData = await response.json();
+                            errorText = errorData?.errors?.[0]?.message || '';
+                        } catch (_) {
+                            // ignore
+                        }
+                        alert(
+                            'There was a problem submitting your request.' +
+                            (errorText ? `\n\nDetails: ${errorText}` : '') +
+                            '\n\nPlease try again or email me directly at hello@scottbertrand.com'
+                        );
                     }
                 } catch (error) {
                     console.error('Form submission error:', error);

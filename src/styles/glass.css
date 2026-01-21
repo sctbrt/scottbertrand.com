@@ -16,25 +16,37 @@
   --glass-lx: 0.15; /* left/right */
   --glass-ly: -0.15; /* top/bottom */
 
-  /* Core material tuning */
-  --glass-bg: rgba(255, 255, 255, 0.55);
-  --glass-bg-fallback: rgba(255, 255, 255, 0.75);
+  /* Core material tuning — Dark theme (default) */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-bg-fallback: rgba(255, 255, 255, 0.06);
 
-  --glass-blur-core: 6px;
-  --glass-blur-edge: 10px;
+  --glass-blur-core: 8px;
+  --glass-blur-edge: 12px;
 
   /* Edge definition */
   --glass-radius-sm: 12px;
   --glass-radius-md: 16px;
   --glass-radius-lg: 20px;
 
-  /* Edge highlight + shadow (very subtle) */
-  --glass-edge-highlight: rgba(255, 255, 255, 0.45);
-  --glass-edge-shadow: rgba(0, 0, 0, 0.08);
+  /* Edge highlight + shadow (very subtle) — Dark theme */
+  --glass-edge-highlight: rgba(255, 255, 255, 0.08);
+  --glass-edge-shadow: rgba(0, 0, 0, 0.25);
+
+  /* Border for edge definition */
+  --glass-border: rgba(255, 255, 255, 0.06);
 
   /* Motion restraint */
   --glass-transition-fast: 240ms cubic-bezier(0.25, 0.1, 0.25, 1);
   --glass-transition-slow: 420ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Light theme overrides */
+[data-theme="light"] {
+  --glass-bg: rgba(255, 255, 255, 0.45);
+  --glass-bg-fallback: rgba(255, 255, 255, 0.65);
+  --glass-edge-highlight: rgba(255, 255, 255, 0.7);
+  --glass-edge-shadow: rgba(0, 0, 0, 0.06);
+  --glass-border: rgba(0, 0, 0, 0.04);
 }
 
 /* ------------------------------------------------------------
@@ -46,13 +58,15 @@
   background: var(--glass-bg);
   border-radius: var(--glass-radius-md);
   overflow: hidden;
+  border: 1px solid var(--glass-border);
 
   /* Calm interior field */
-  backdrop-filter: blur(var(--glass-blur-core));
-  -webkit-backdrop-filter: blur(var(--glass-blur-core));
+  backdrop-filter: blur(var(--glass-blur-core)) saturate(120%);
+  -webkit-backdrop-filter: blur(var(--glass-blur-core)) saturate(120%);
 
   transition:
     background var(--glass-transition-slow),
+    border-color var(--glass-transition-slow),
     backdrop-filter var(--glass-transition-slow);
 }
 
@@ -74,23 +88,24 @@
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
+  transition: box-shadow var(--glass-transition-slow);
 }
 
 /* Inner highlight — light-catching edge */
 .glass::before {
   box-shadow:
-    inset calc(var(--glass-lx) * -6px)
-          calc(var(--glass-ly) * -6px)
-          8px
+    inset calc(var(--glass-lx) * -8px)
+          calc(var(--glass-ly) * -8px)
+          12px
           var(--glass-edge-highlight);
 }
 
 /* Opposing shadow — thickness cue */
 .glass::after {
   box-shadow:
-    inset calc(var(--glass-lx) * 6px)
-          calc(var(--glass-ly) * 6px)
-          10px
+    inset calc(var(--glass-lx) * 8px)
+          calc(var(--glass-ly) * 8px)
+          14px
           var(--glass-edge-shadow);
 }
 
@@ -101,24 +116,51 @@
 /* Wide section divider / band */
 .glass--band {
   border-radius: var(--glass-radius-lg);
-  padding: 1.25rem 1.5rem;
+  padding: 2.5rem 2rem;
 }
 
 /* Content container (case studies, offerings) */
 .glass--panel {
-  padding: 1.5rem 1.75rem;
+  padding: 2rem;
 }
 
 /* Narrow editorial callout / system note */
 .glass--callout {
   border-radius: var(--glass-radius-sm);
-  padding: 1rem 1.25rem;
+  padding: 1.25rem 1.5rem;
 }
 
 /* Footer / closing container */
 .glass--footer {
   border-radius: var(--glass-radius-lg);
+  padding: 2.5rem;
+}
+
+/* Service card variant */
+.glass--card {
+  border-radius: var(--glass-radius-md);
   padding: 2rem;
+}
+
+/* Hero accent — very subtle */
+.glass--hero {
+  border-radius: var(--glass-radius-lg);
+  padding: 3rem 2.5rem;
+  --glass-bg: rgba(255, 255, 255, 0.015);
+  --glass-border: rgba(255, 255, 255, 0.04);
+}
+
+[data-theme="light"] .glass--hero {
+  --glass-bg: rgba(255, 255, 255, 0.35);
+  --glass-border: rgba(0, 0, 0, 0.03);
+}
+
+/* Section wrapper — full-width with contained feel */
+.glass--section {
+  border-radius: 0;
+  padding: 4rem 2rem;
+  border-left: none;
+  border-right: none;
 }
 
 /* ------------------------------------------------------------
@@ -132,7 +174,31 @@
 }
 
 /* ------------------------------------------------------------
-   6. Guardrails (intentional limits)
+   6. Interactive States
+   ------------------------------------------------------------ */
+
+/* Subtle hover lift for clickable glass elements */
+.glass--interactive {
+  cursor: pointer;
+  transition:
+    background var(--glass-transition-fast),
+    border-color var(--glass-transition-fast),
+    transform var(--glass-transition-fast);
+}
+
+.glass--interactive:hover {
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+[data-theme="light"] .glass--interactive:hover {
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-border: rgba(0, 0, 0, 0.08);
+}
+
+/* ------------------------------------------------------------
+   7. Guardrails (intentional limits)
    ------------------------------------------------------------ */
 
 /* Never stack visual noise */
@@ -140,4 +206,95 @@
   background: transparent;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
+  border-color: transparent;
+}
+
+/* Reset edge effects on nested glass */
+.glass > .glass::before,
+.glass > .glass::after {
+  display: none;
+}
+
+/* ------------------------------------------------------------
+   8. Integration with existing components
+   ------------------------------------------------------------ */
+
+/* Service cards — override existing styles when glass is applied */
+.service-card.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+}
+
+.service-card.glass:hover {
+  background: var(--glass-bg);
+  border-color: var(--glass-border);
+}
+
+/* Dark mode: enhance hover state subtly */
+.service-card.glass:hover {
+  --glass-bg: rgba(255, 255, 255, 0.045);
+  --glass-border: rgba(255, 255, 255, 0.09);
+}
+
+[data-theme="light"] .service-card.glass:hover {
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-border: rgba(0, 0, 0, 0.06);
+}
+
+/* Footer glass alignment */
+.glass--footer {
+  text-align: center;
+}
+
+/* ------------------------------------------------------------
+   9. Enhanced Visual Polish
+   ------------------------------------------------------------ */
+
+/* Subtle outer glow for depth perception */
+.glass--card {
+  box-shadow:
+    0 4px 24px -4px rgba(0, 0, 0, 0.2),
+    0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .glass--card {
+  box-shadow:
+    0 4px 24px -4px rgba(0, 0, 0, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* Elevated hover state for cards */
+.service-card.glass:hover {
+  box-shadow:
+    0 8px 32px -4px rgba(0, 0, 0, 0.25),
+    0 2px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+[data-theme="light"] .service-card.glass:hover {
+  box-shadow:
+    0 8px 32px -4px rgba(0, 0, 0, 0.1),
+    0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* Smooth transitions for card interactions */
+.service-card.glass {
+  transition:
+    background var(--glass-transition-fast),
+    border-color var(--glass-transition-fast),
+    box-shadow var(--glass-transition-fast),
+    transform var(--glass-transition-fast);
+}
+
+/* Footer glass: centered with subtle elevation */
+.glass--footer {
+  box-shadow:
+    0 -4px 24px -8px rgba(0, 0, 0, 0.15),
+    0 -1px 3px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .glass--footer {
+  box-shadow:
+    0 -4px 24px -8px rgba(0, 0, 0, 0.06),
+    0 -1px 3px rgba(0, 0, 0, 0.03);
 }

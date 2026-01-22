@@ -99,10 +99,14 @@ export default defineConfig({
         request: resolve(__dirname, 'src/pages/request.html'),
         // Service detail pages
         websiteAudit: resolve(__dirname, 'src/pages/services/website-audit.html'),
+        websiteAuditSudbury: resolve(__dirname, 'src/pages/services/website-audit-sudbury.html'),
         brandAudit: resolve(__dirname, 'src/pages/services/brand-audit.html'),
         brandReset: resolve(__dirname, 'src/pages/services/brand-reset.html'),
         websiteFoundation: resolve(__dirname, 'src/pages/services/website-foundation.html'),
         fullBrandWebsiteReset: resolve(__dirname, 'src/pages/services/full-brand-website-reset.html'),
+        // SEO / LLM-EO content pages
+        whatIsBrandWebSystem: resolve(__dirname, 'src/pages/what-is-a-brand-web-system.html'),
+        sudburyWebsiteLeads: resolve(__dirname, 'src/pages/sudbury-small-business-website-leads.html'),
       },
     },
   },

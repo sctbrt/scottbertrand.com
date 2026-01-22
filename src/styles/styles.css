@@ -5,10 +5,11 @@
 /* CSS Variables for Theming */
 :root {
     /* Light theme (default - matches JS default) */
-    --bg-primary: #ffffff;
-    --text-primary: #000000;
+    --bg-primary: #F7F6F3;        /* Warm off-white - not sterile pure white */
+    --bg-secondary: #EFEFEA;      /* Subtle section differentiation */
+    --text-primary: #111111;      /* Near-black for strong contrast */
     --text-secondary: #404040;
-    --text-tertiary: #6b6b6b;
+    --text-tertiary: #5c5c5c;     /* Darkened for WCAG AA on warm bg */
     --border-subtle: #d4d4d4;
     --border-hover: #8a8a8a;
     --success-bg: #f0fdf4;
@@ -17,8 +18,9 @@
 }
 
 [data-theme="dark"] {
-    --bg-primary: #000000;
-    --text-primary: #ffffff;
+    --bg-primary: #0A0A0A;        /* Near-black, not pure black */
+    --bg-secondary: #111111;      /* Subtle section differentiation */
+    --text-primary: #F7F6F3;      /* Warm off-white text */
     --text-secondary: #a8a8a8;
     --text-tertiary: #6b6b6b;
     --border-subtle: #1a1a1a;
@@ -976,7 +978,7 @@ body.modal-active {
 }
 
 .bg-subtle {
-    background: rgba(128, 128, 128, 0.02);
+    background: var(--bg-secondary);
     border-top: 1px solid var(--border-subtle);
     border-bottom: 1px solid var(--border-subtle);
 }

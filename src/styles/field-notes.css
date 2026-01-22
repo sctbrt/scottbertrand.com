@@ -24,6 +24,19 @@
     margin-bottom: 1.5rem;
 }
 
+/* Theme-aware lockup images */
+.archive-lockup--dark {
+    display: none;
+}
+
+[data-theme="dark"] .archive-lockup--light {
+    display: none;
+}
+
+[data-theme="dark"] .archive-lockup--dark {
+    display: inline;
+}
+
 .archive-description {
     font-family: var(--fn-serif);
     font-size: 1.125rem;
@@ -59,7 +72,9 @@
 }
 
 .entry-link {
-    display: block;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
     text-decoration: none;
     color: inherit;
     transition: opacity 0.2s ease;
@@ -69,16 +84,24 @@
     opacity: 0.7;
 }
 
-/* Entry Media (Archive View) */
+.entry-content-wrap {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Entry Media (Archive View) - Thumbnail */
 .entry-media {
-    margin-bottom: 1.5rem;
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
     overflow: hidden;
     border-radius: 6px;
 }
 
 .entry-media img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
 }
 

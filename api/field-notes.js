@@ -56,16 +56,20 @@ export default async function handler(req, res) {
     const entries = data.results.map((page) => {
       const props = page.properties;
 
-      // Extract media (Files & media property)
-      let media = null;
-      if (props.Media?.files && props.Media.files.length > 0) {
-        const firstFile = props.Media.files[0];
+      // Helper to extract file URL from a files property
+      const extractFileUrl = (filesProp) => {
+        if (!filesProp?.files || filesProp.files.length === 0) return null;
+        const firstFile = filesProp.files[0];
         if (firstFile.type === 'file') {
-          media = firstFile.file.url;
+          return firstFile.file.url;
         } else if (firstFile.type === 'external') {
-          media = firstFile.external.url;
+          return firstFile.external.url;
         }
-      }
+        return null;
+      };
+
+      // Extract media - check Image first, then Media property
+      const media = extractFileUrl(props.Image) || extractFileUrl(props.Media);
 
       return {
         id: page.id,

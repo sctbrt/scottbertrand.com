@@ -24,8 +24,8 @@
     <link rel="icon" type="image/png" href="./assets/sb-monogram-light.png">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="./styles.css">
-    <link rel="stylesheet" href="./field-notes.css">
+    <link rel="stylesheet" href="/src/styles/styles.css">
+    <link rel="stylesheet" href="/src/styles/field-notes.css">
 </head>
 <body>
     <!-- Navigation Header -->
@@ -40,20 +40,46 @@
             </a>
 
             <nav class="nav-menu" id="navMenu">
-                <a href="https://scottbertrand.com/services.html">Services</a>
+                <a href="/#services">Services</a>
                 <a href="https://scottbertrand.com/how-it-works.html">How It Works</a>
-                <a href="https://scottbertrand.com/about.html">About</a>
+                <div class="nav-dropdown">
+                    <button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-haspopup="true">
+                        Case Studies
+                        <span class="dropdown-arrow">▾</span>
+                    </button>
+                    <div class="nav-dropdown-menu" role="menu" aria-hidden="true">
+                        <a href="https://notes.scottbertrand.com/" class="nav-dropdown-item">
+                            <div class="dropdown-item-header">
+                                <img src="assets/field-notes-menu-light.png" alt="Field Notes" class="dropdown-brand-img dropdown-brand-img--light" width="599" height="110">
+                                <img src="assets/field-notes-menu-dark.png" alt="Field Notes" class="dropdown-brand-img dropdown-brand-img--dark" width="599" height="110">
+                            </div>
+                            <span class="dropdown-descriptor">Working archive · essays · systems</span>
+                        </a>
+                        <a href="https://goods.scottbertrand.com/" class="nav-dropdown-item">
+                            <div class="dropdown-item-header">
+                                <img src="assets/still-goods-menu-light.png" alt="Still Goods" class="dropdown-brand-img dropdown-brand-img--light" width="1333" height="283">
+                                <img src="assets/still-goods-menu-dark.png" alt="Still Goods" class="dropdown-brand-img dropdown-brand-img--dark" width="1333" height="283">
+                            </div>
+                            <span class="dropdown-descriptor">Seasonal objects · limited issues</span>
+                        </a>
+                        <a href="https://maxstewart.life/" class="nav-dropdown-item nav-dropdown-item--disabled">
+                            <div class="dropdown-item-header">
+                                <img src="assets/maxstewart-light.png" alt="Max Stewart" class="dropdown-brand-img dropdown-brand-img--light" width="2100" height="434">
+                                <img src="assets/maxstewart-dark.png" alt="Max Stewart" class="dropdown-brand-img dropdown-brand-img--dark" width="2100" height="434">
+                            </div>
+                            <span class="dropdown-descriptor">Lifestyle brand · coming soon</span>
+                        </a>
+                    </div>
+                </div>
                 <a href="https://scottbertrand.com/contact.html">Contact</a>
-                <a href="https://notes.scottbertrand.com/">Field Notes</a>
-                <a href="https://goods.scottbertrand.com/">Still Goods</a>
             </nav>
 
             <div class="nav-utilities">
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                     <span class="theme-icon">◐</span>
                 </button>
 
-                <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navMenu">
+                <button type="button" class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navMenu">
                     <span></span>
                     <span></span>
                     <span></span>
@@ -102,7 +128,8 @@
     </main>
 
     <!-- Scripts -->
-    <script type="module" src="../scripts/theme.js"></script>
+    <script type="module" src="/src/scripts/theme.js"></script>
+    <script type="module" src="/src/scripts/dropdown.js"></script>
     <script type="module">
         // Get entry ID from URL path
         const pathParts = window.location.pathname.split('/');

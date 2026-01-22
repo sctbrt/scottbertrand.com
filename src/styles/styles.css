@@ -377,12 +377,19 @@ body.modal-active {
     left: 0;
     width: 100vw;
     height: 100vh;
-    /* Solid background to fully cover page */
-    background: var(--bg-primary);
+    /* Frosted glass - 75% opacity, warm off-white */
+    background: rgba(247, 246, 243, 0.75);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
     padding: 2rem;
     z-index: 9999;
     gap: 2rem;
     isolation: isolate;
+}
+
+/* Dark mode: frosted near-black */
+[data-theme="dark"] .nav--collapsed .nav-menu.active {
+    background: rgba(10, 10, 10, 0.75);
 }
 
 /* Inner container for menu items */
@@ -397,10 +404,16 @@ body.modal-active {
     height: auto;
     min-height: 280px;
     padding: 3rem 2rem;
-    background: rgba(128, 128, 128, 0.05);
-    border: 1px solid rgba(128, 128, 128, 0.1);
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 16px;
     z-index: -1;
+}
+
+/* Dark mode container */
+[data-theme="dark"] .nav--collapsed .nav-menu.active::before {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 .nav--collapsed .nav-menu.active a {

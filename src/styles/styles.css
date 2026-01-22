@@ -377,18 +377,30 @@ body.modal-active {
     left: 0;
     width: 100vw;
     height: 100vh;
-    /* Glass treatment matching nav bar */
-    background: rgba(247, 246, 243, 0.95);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    /* Solid background to fully cover page */
+    background: var(--bg-primary);
     padding: 2rem;
     z-index: 9999;
     gap: 2rem;
     isolation: isolate;
 }
 
-[data-theme="dark"] .nav--collapsed .nav-menu.active {
-    background: rgba(10, 10, 10, 0.85);
+/* Inner container for menu items */
+.nav--collapsed .nav-menu.active::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 2rem);
+    max-width: 320px;
+    height: auto;
+    min-height: 280px;
+    padding: 3rem 2rem;
+    background: rgba(128, 128, 128, 0.05);
+    border: 1px solid rgba(128, 128, 128, 0.1);
+    border-radius: 16px;
+    z-index: -1;
 }
 
 .nav--collapsed .nav-menu.active a {

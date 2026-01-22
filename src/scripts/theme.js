@@ -170,8 +170,8 @@ class MenuManager {
         // Set up hamburger toggle
         this.hamburger.addEventListener('click', () => this.toggleMenu());
 
-        // Close menu when clicking menu items
-        this.navMenu.querySelectorAll('a, button').forEach(item => {
+        // Close menu when clicking menu items (except dropdown toggle)
+        this.navMenu.querySelectorAll('a').forEach(item => {
             item.addEventListener('click', () => this.closeMenu());
         });
 

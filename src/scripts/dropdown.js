@@ -8,6 +8,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!dropdown || !toggle || !menu) return;
 
+    // Get all focusable elements in the menu
+    const menuLinks = menu.querySelectorAll('a');
+
+    function openDropdown() {
+        toggle.setAttribute('aria-expanded', 'true');
+        menu.setAttribute('aria-hidden', 'false');
+        dropdown.setAttribute('aria-expanded', 'true');
+        // Make links focusable
+        menuLinks.forEach(link => link.removeAttribute('tabindex'));
+    }
+
+    function closeDropdown() {
+        toggle.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-hidden', 'true');
+        dropdown.setAttribute('aria-expanded', 'false');
+        // Make links not focusable when hidden
+        menuLinks.forEach(link => link.setAttribute('tabindex', '-1'));
+    }
+
+    // Initialize dropdown state (closed)
+    closeDropdown();
+
     // Toggle dropdown on click
     toggle.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -48,27 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Get all focusable elements in the menu
-    const menuLinks = menu.querySelectorAll('a');
-
-    function openDropdown() {
-        toggle.setAttribute('aria-expanded', 'true');
-        menu.setAttribute('aria-hidden', 'false');
-        dropdown.setAttribute('aria-expanded', 'true');
-        // Make links focusable
-        menuLinks.forEach(link => link.removeAttribute('tabindex'));
-    }
-
-    function closeDropdown() {
-        toggle.setAttribute('aria-expanded', 'false');
-        menu.setAttribute('aria-hidden', 'true');
-        dropdown.setAttribute('aria-expanded', 'false');
-        // Make links not focusable when hidden
-        menuLinks.forEach(link => link.setAttribute('tabindex', '-1'));
-    }
-
-    // Initialize links as not focusable (menu starts hidden)
-    menuLinks.forEach(link => link.setAttribute('tabindex', '-1'));
+    // Handle bfcache (back/forward cache) - reset dropdown state when page is restored
+    window.addEventListener('pageshow', (e) => {
+        if (e.persisted) {
+            closeDropdown();
+        }
+    });
 
     // Active state logic for Case Studies dropdown
     // When on Field Notes or Still Goods (including subdomains), Case Studies appears active

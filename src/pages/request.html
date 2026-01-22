@@ -90,10 +90,10 @@
 <main>
     <section class="request-section">
         <div class="container">
-            <header class="request-header">
+            <header class="request-header" id="requestHeader">
                 <h1>Request Service</h1>
                 <p class="request-intro">
-                    Fill out the intake form below. I’ll review your request and respond within 24–48 hours.
+                    Fill out the intake form below. I'll review your request and respond within 24–48 hours.
                 </p>
             </header>
 
@@ -242,12 +242,14 @@
 <script type="module" src="/src/scripts/dropdown.js"></script>
 <script>
     const form = document.getElementById('requestForm');
+    const requestHeader = document.getElementById('requestHeader');
     const successMessage = document.getElementById('successMessage');
     const fallbackEmail = 'bertrandbrands@outlook.com';
 
     // Check for success param (redirect from Formspree)
     if (new URLSearchParams(window.location.search).get('success') === 'true') {
         form.style.display = 'none';
+        requestHeader.style.display = 'none';
         successMessage.style.display = 'block';
     }
 
@@ -282,6 +284,7 @@
 
             if (response.ok) {
                 form.style.display = 'none';
+                requestHeader.style.display = 'none';
                 successMessage.style.display = 'block';
             } else {
                 // Fallback to mailto if Formspree fails

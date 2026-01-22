@@ -980,22 +980,36 @@ body.modal-active {
 
 /* Process Steps */
 #how-it-works .container {
-    max-width: 95%;
+    max-width: 1200px;
 }
 
 .process-steps {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 4rem;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
     max-width: 100%;
     margin: 0 auto;
     padding: 0;
-    align-items: start;
+    align-items: stretch;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
+    .process-steps {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+    }
+}
+
+@media (max-width: 768px) {
     .process-steps {
         grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .process-steps {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -1004,49 +1018,48 @@ body.modal-active {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    align-self: start;
 }
 
 .process-step.glass.glass--panel {
-    padding: 2.5rem 2rem 4rem 2rem;
+    padding: 1.5rem 1.25rem 2rem;
 }
 
 .step-number {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     flex-shrink: 0;
     background: rgba(128, 128, 128, 0.05);
     border: 1px solid rgba(128, 128, 128, 0.1);
     border-radius: 50%;
-    font-size: 1.125rem;
+    font-size: 1rem;
     font-weight: 500;
     color: var(--text-primary);
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
 }
 
 .step-content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 0.5rem;
 }
 
-.step-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: var(--text-primary);
-    white-space: nowrap;
-}
-
-.step-description {
+.step-content h3 {
     font-size: 1rem;
-    line-height: 1.7;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+
+.step-content p {
+    font-size: 0.8125rem;
+    line-height: 1.5;
     color: var(--text-secondary);
-    max-width: 100%;
+    margin: 0;
 }
 
 /* Fit Grid */

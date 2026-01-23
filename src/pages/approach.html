@@ -27,6 +27,9 @@
     <link rel="stylesheet" href="/src/styles/styles.css">
 </head>
 <body>
+    <!-- Menu Backdrop -->
+    <div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
+
     <!-- Navigation Header -->
         <header class="site-header">
         <div class="nav-container">
@@ -38,7 +41,7 @@
                 <img src="assets/scott-bertrand-wordmark-dark.png" alt="Scott Bertrand" class="brand-wordmark brand-wordmark--dark" width="400" height="100">
             </a>
 
-            <nav class="nav-menu" id="navMenu">
+            <nav class="nav-menu" id="navMenu" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1">
                 <button type="button" class="mobile-menu-close" aria-label="Close menu"></button>
                 <a href="/#services">Services</a>
                 <a href="https://scottbertrand.com/how-it-works.html">How It Works</a>

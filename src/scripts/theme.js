@@ -343,6 +343,10 @@ class MenuManager {
         // Store current focus for restoration
         this.lastFocus = document.activeElement;
 
+        // Add menu-open class to nav-container to disable backdrop-filter
+        // (fixes position:fixed containing block issue)
+        this.navContainer.classList.add('nav--menu-open');
+
         // Activate menu and backdrop
         this.navMenu.classList.add('active');
         this.hamburger.classList.add('active');
@@ -363,6 +367,9 @@ class MenuManager {
     }
 
     closeMenu() {
+        // Remove menu-open class from nav-container
+        this.navContainer.classList.remove('nav--menu-open');
+
         // Deactivate menu and backdrop
         this.navMenu.classList.remove('active');
         this.hamburger.classList.remove('active');

@@ -366,6 +366,15 @@ body.modal-active {
 }
 
 /* Collapsed nav state (hamburger-on-overflow) — v1.3.0 */
+
+/* CRITICAL: Remove backdrop-filter when menu is open to fix position:fixed containing block issue.
+   backdrop-filter creates a new containing block, causing fixed children to position relative to
+   the nav-container (64px) instead of viewport, which clips the "Services" link off-screen. */
+.nav--collapsed.nav--menu-open {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
 .nav--collapsed .nav-menu {
     display: none;
 }

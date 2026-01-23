@@ -523,45 +523,61 @@
         }
 
         /* ===========================================
-           Hero Glass Container - Match How It Works width
+           Hero Section — Backdrop Field for Glass Refraction
            =========================================== */
+        .hero-storefront {
+            position: relative;
+        }
+
+        /* Subtle backdrop field — gives blur something to refract */
+        .hero-storefront::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(
+                    ellipse 80% 60% at 50% 40%,
+                    rgba(0, 0, 0, 0.02) 0%,
+                    transparent 70%
+                ),
+                radial-gradient(
+                    ellipse 60% 50% at 30% 60%,
+                    rgba(0, 0, 0, 0.015) 0%,
+                    transparent 60%
+                );
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        [data-theme="dark"] .hero-storefront::before {
+            background:
+                radial-gradient(
+                    ellipse 80% 60% at 50% 40%,
+                    rgba(255, 255, 255, 0.015) 0%,
+                    transparent 70%
+                ),
+                radial-gradient(
+                    ellipse 60% 50% at 70% 60%,
+                    rgba(255, 255, 255, 0.01) 0%,
+                    transparent 60%
+                );
+        }
+
         .hero-storefront .container {
-            max-width: 1200px;
+            position: relative;
+            z-index: 1;
+            max-width: 1248px; /* 1200px + 48px padding */
             padding: 0 1.5rem;
         }
 
         .hero-storefront .hero-content {
-            max-width: 900px;
-            margin: 0 auto;
             text-align: center;
         }
 
-        /* Responsive glass panels */
-        .glass--hero {
-            width: 100%;
-            transition: padding var(--glass-transition-slow, 420ms) ease;
-        }
-
-        /* Mobile adjustments for glass panels */
+        /* Tablet adjustments */
         @media (max-width: 768px) {
             .hero-storefront .container {
                 padding: 0 1rem;
-            }
-
-            .glass--hero {
-                padding: 2rem 1.5rem;
-                border-radius: 16px;
-            }
-
-            .glass--panel {
-                padding: 1.5rem 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .glass--hero {
-                padding: 1.5rem 1rem;
-                border-radius: 12px;
             }
         }
     </style>

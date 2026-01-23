@@ -18,6 +18,12 @@
     <meta property="og:url" content="https://scottbertrand.com/contact.html">
     <meta property="og:type" content="website">
 
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contact — Scott Bertrand">
+    <meta name="twitter:description" content="Reach out for case-studies, collaborations, or a simple hello.">
+    <meta name="twitter:image" content="https://scottbertrand.com/assets/og-image.png">
+
     <!-- Cloudflare Web Analytics (production only) -->
     <script>
     if (location.hostname === 'scottbertrand.com') {
@@ -115,6 +121,10 @@
                         Thank you. You're on the list.
                     </div>
 
+                    <div class="form-error" id="formError">
+                        Something went wrong. Please try again.
+                    </div>
+
                     <form action="https://formspree.io/f/meeeazrq" method="POST" class="email-form" id="emailForm" data-fallback="mailto:bertrandbrands@outlook.com?subject=Email%20Signup%20-%20scottbertrand.com">
                         <!-- Formspree configuration -->
                         <input type="hidden" name="_subject" value="New Email Signup — scottbertrand.com">
@@ -153,6 +163,7 @@
         // Form submission handling
         const form = document.getElementById('emailForm');
         const successMessage = document.getElementById('successMessage');
+        const formError = document.getElementById('formError');
         const fallbackEmail = 'bertrandbrands@outlook.com';
 
         // Check for success param (redirect from Formspree)
@@ -166,6 +177,15 @@
 
             const formData = new FormData(form);
             const email = formData.get('email');
+            const submitBtn = form.querySelector('button[type="submit"]');
+
+            // Reset error state
+            formError.classList.remove('show');
+
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.classList.add('loading');
+            submitBtn.setAttribute('aria-busy', 'true');
 
             try {
                 const response = await fetch(form.action, {
@@ -180,12 +200,18 @@
                     successMessage.classList.add('show');
                     form.style.display = 'none';
                 } else {
-                    // Fallback to mailto if Formspree fails
-                    window.location.href = `mailto:${fallbackEmail}?subject=Email%20Signup%20-%20scottbertrand.com&body=Please%20add%20me%20to%20your%20email%20list:%20${encodeURIComponent(email)}`;
+                    // Show error and reset button
+                    formError.classList.add('show');
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('loading');
+                    submitBtn.setAttribute('aria-busy', 'false');
                 }
             } catch (error) {
-                // Fallback to mailto
-                window.location.href = `mailto:${fallbackEmail}?subject=Email%20Signup%20-%20scottbertrand.com&body=Please%20add%20me%20to%20your%20email%20list:%20${encodeURIComponent(email)}`;
+                // Show error and reset button
+                formError.classList.add('show');
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('loading');
+                submitBtn.setAttribute('aria-busy', 'false');
             }
         });
     </script>

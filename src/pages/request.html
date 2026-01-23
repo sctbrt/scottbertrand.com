@@ -18,6 +18,12 @@
     <meta property="og:url" content="https://scottbertrand.com/request.html">
     <meta property="og:type" content="website">
 
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Request Service — Scott Bertrand">
+    <meta name="twitter:description" content="Request a brand or website service. Fill out the intake form to get started.">
+    <meta name="twitter:image" content="https://scottbertrand.com/assets/og-image.png">
+
     <!-- Cloudflare Web Analytics (production only) -->
     <script>
     if (location.hostname === 'scottbertrand.com') {
@@ -109,6 +115,11 @@
                     Fill out the intake form below. I'll review your request and respond within 24–48 hours.
                 </p>
             </header>
+
+            <!-- Error message -->
+            <div class="form-error" id="formError">
+                Something went wrong. Please try again, or email me directly at <a href="mailto:bertrandbrands@outlook.com">bertrandbrands@outlook.com</a>.
+            </div>
 
             <form
                 class="request-form"
@@ -257,6 +268,7 @@
     const form = document.getElementById('requestForm');
     const requestHeader = document.getElementById('requestHeader');
     const successMessage = document.getElementById('successMessage');
+    const formError = document.getElementById('formError');
     const fallbackEmail = 'bertrandbrands@outlook.com';
 
     // Check for success param (redirect from Formspree)
@@ -283,8 +295,15 @@
 
         const formData = new FormData(form);
         const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+
+        // Reset error state
+        formError.classList.remove('show');
+
+        // Show loading state
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Submitting...';
+        submitBtn.classList.add('loading');
+        submitBtn.setAttribute('aria-busy', 'true');
 
         try {
             const response = await fetch(form.action, {
@@ -300,21 +319,18 @@
                 requestHeader.style.display = 'none';
                 successMessage.style.display = 'block';
             } else {
-                // Fallback to mailto if Formspree fails
-                const name = formData.get('name');
-                const email = formData.get('email');
-                const service = formData.get('service');
-                const goals = formData.get('goals');
-                const body = `Name: ${name}%0AEmail: ${email}%0AService: ${service}%0AGoals: ${goals}`;
-                window.location.href = `mailto:${fallbackEmail}?subject=Service%20Request%20-%20scottbertrand.com&body=${body}`;
+                // Show error and reset button
+                formError.classList.add('show');
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('loading');
+                submitBtn.setAttribute('aria-busy', 'false');
             }
         } catch (error) {
-            // Fallback to mailto
-            const name = formData.get('name');
-            const email = formData.get('email');
-            const service = formData.get('service');
-            const body = `Name: ${name}%0AEmail: ${email}%0AService: ${service}`;
-            window.location.href = `mailto:${fallbackEmail}?subject=Service%20Request%20-%20scottbertrand.com&body=${body}`;
+            // Show error and reset button
+            formError.classList.add('show');
+            submitBtn.disabled = false;
+            submitBtn.classList.remove('loading');
+            submitBtn.setAttribute('aria-busy', 'false');
         }
     });
 </script>

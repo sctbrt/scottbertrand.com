@@ -152,14 +152,18 @@ class ThemeManager {
 }
 
 /**
- * Menu Manager — v1.3.0
+ * Menu Manager — v2.0.0
+ * Premium morphing menu with focus trap and backdrop
  * Hamburger-on-overflow: collapses nav only when content would spill
  */
 class MenuManager {
     constructor() {
         this.hamburger = document.getElementById('hamburger');
         this.navMenu = document.getElementById('navMenu');
+        this.backdrop = document.getElementById('menuBackdrop');
         this.navContainer = this.navMenu?.parentElement;
+        this.lastFocus = null;
+        this.focusTrapHandler = null;
 
         if (this.hamburger && this.navMenu && this.navContainer) {
             this.init();
@@ -179,6 +183,11 @@ class MenuManager {
             });
         }
 
+        // Set up backdrop click to close
+        if (this.backdrop) {
+            this.backdrop.addEventListener('click', () => this.closeMenu());
+        }
+
         // Close menu when clicking menu items (except dropdown toggle)
         this.navMenu.querySelectorAll('a').forEach(item => {
             item.addEventListener('click', () => this.closeMenu());
@@ -187,24 +196,6 @@ class MenuManager {
         // Close menu on Escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.navMenu.classList.contains('active')) {
-                this.closeMenu();
-            }
-        });
-
-        // Close menu when clicking outside menu content (including the frosted background)
-        document.addEventListener('click', (e) => {
-            if (!this.navMenu.classList.contains('active')) return;
-
-            // Don't close if clicking the hamburger
-            if (this.hamburger.contains(e.target)) return;
-
-            // Check if click is on an actual menu item (link or dropdown)
-            const isMenuItem = e.target.closest('.nav-menu a') ||
-                               e.target.closest('.nav-dropdown-toggle') ||
-                               e.target.closest('.nav-dropdown-menu');
-
-            // If clicking on the nav-menu background (not a menu item), close it
-            if (!isMenuItem) {
                 this.closeMenu();
             }
         });
@@ -297,9 +288,49 @@ class MenuManager {
         }
     }
 
+    getFocusableElements() {
+        return this.navMenu.querySelectorAll(
+            'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+    }
+
+    enableFocusTrap() {
+        this.focusTrapHandler = (e) => {
+            if (e.key !== 'Tab') return;
+
+            const focusables = this.getFocusableElements();
+            if (focusables.length === 0) return;
+
+            const firstFocusable = focusables[0];
+            const lastFocusable = focusables[focusables.length - 1];
+
+            if (e.shiftKey) {
+                // Shift + Tab
+                if (document.activeElement === firstFocusable) {
+                    e.preventDefault();
+                    lastFocusable.focus();
+                }
+            } else {
+                // Tab
+                if (document.activeElement === lastFocusable) {
+                    e.preventDefault();
+                    firstFocusable.focus();
+                }
+            }
+        };
+
+        document.addEventListener('keydown', this.focusTrapHandler);
+    }
+
+    disableFocusTrap() {
+        if (this.focusTrapHandler) {
+            document.removeEventListener('keydown', this.focusTrapHandler);
+            this.focusTrapHandler = null;
+        }
+    }
+
     toggleMenu() {
         const isActive = this.navMenu.classList.contains('active');
-        const isExpanded = this.hamburger.getAttribute('aria-expanded') === 'true';
 
         if (isActive) {
             this.closeMenu();
@@ -309,17 +340,50 @@ class MenuManager {
     }
 
     openMenu() {
+        // Store current focus for restoration
+        this.lastFocus = document.activeElement;
+
+        // Activate menu and backdrop
         this.navMenu.classList.add('active');
         this.hamburger.classList.add('active');
+        this.backdrop?.classList.add('active');
+
+        // Update ARIA attributes
+        this.navMenu.setAttribute('aria-hidden', 'false');
         this.hamburger.setAttribute('aria-expanded', 'true');
+
+        // Prevent body scroll
         document.body.style.overflow = 'hidden';
+
+        // Focus the menu for screen readers
+        this.navMenu.focus();
+
+        // Enable focus trap
+        this.enableFocusTrap();
     }
 
     closeMenu() {
+        // Deactivate menu and backdrop
         this.navMenu.classList.remove('active');
         this.hamburger.classList.remove('active');
+        this.backdrop?.classList.remove('active');
+
+        // Update ARIA attributes
+        this.navMenu.setAttribute('aria-hidden', 'true');
         this.hamburger.setAttribute('aria-expanded', 'false');
+
+        // Restore body scroll
         document.body.style.overflow = '';
+
+        // Disable focus trap
+        this.disableFocusTrap();
+
+        // Restore focus to trigger element
+        if (this.lastFocus && typeof this.lastFocus.focus === 'function') {
+            this.lastFocus.focus();
+        } else {
+            this.hamburger.focus();
+        }
     }
 }
 

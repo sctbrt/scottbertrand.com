@@ -18,6 +18,13 @@
     --success-bg: #f0fdf4;
     --success-border: #86efac;
     --success-text: #166534;
+
+    /* Motion tokens */
+    --t-fast: 120ms;
+    --t-med: 180ms;
+    --t-slow: 260ms;
+    --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
 }
 
 [data-theme="dark"] {
@@ -368,45 +375,96 @@ body.modal-active {
 }
 
 /* ===========================================
-   Mobile Menu - Fullscreen Overlay
+   Menu Backdrop - Blur + Vignette
    =========================================== */
 
-/* Full-screen overlay */
-.nav--collapsed .nav-menu.active {
+.menu-backdrop {
+    position: fixed;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--t-slow) var(--ease-standard);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: radial-gradient(
+        1200px 800px at 50% 20%,
+        rgba(0, 0, 0, 0.35),
+        rgba(0, 0, 0, 0.55)
+    );
+    z-index: 90;
+}
+
+.menu-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ===========================================
+   Mobile Menu - Morph Overlay
+   =========================================== */
+
+/* Nav menu overlay morph (transform + opacity only) */
+.nav--collapsed .nav-menu {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    height: 100dvh;
-    background: var(--bg-primary);
-    padding: 2rem;
-    z-index: 9999;
-    gap: 0.25rem;
-    animation: mobileMenuFadeIn 0.2s ease-out;
-    overflow-y: auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.96);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 100;
+    width: min(92vw, 520px);
+    max-height: min(80vh, 620px);
+    max-height: min(80dvh, 620px);
+    overflow: auto;
     -webkit-overflow-scrolling: touch;
+    padding: 2.5rem 2rem;
+    gap: 0.25rem;
+    border-radius: 20px;
+    background: var(--bg-primary);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    transition:
+        transform var(--t-slow) var(--ease-standard),
+        opacity var(--t-med) var(--ease-out);
 }
 
-@keyframes mobileMenuFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+.nav--collapsed .nav-menu.active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
 }
 
-/* No pseudo-element needed */
-.nav--collapsed .nav-menu.active::before {
-    display: none;
+/* Menu item intro (restrained) + stagger */
+.nav--collapsed .nav-menu > a,
+.nav--collapsed .nav-menu > .nav-dropdown {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+        opacity var(--t-med) var(--ease-out),
+        transform var(--t-med) var(--ease-out);
 }
+
+.nav--collapsed .nav-menu.active > a,
+.nav--collapsed .nav-menu.active > .nav-dropdown {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger delays */
+.nav--collapsed .nav-menu.active > a:nth-of-type(1) { transition-delay: 40ms; }
+.nav--collapsed .nav-menu.active > a:nth-of-type(2) { transition-delay: 80ms; }
+.nav--collapsed .nav-menu.active > .nav-dropdown { transition-delay: 120ms; }
+.nav--collapsed .nav-menu.active > a:nth-of-type(3) { transition-delay: 160ms; }
 
 /* Close button - X in top right */
 .mobile-menu-close {
     display: none;
 }
 
-.nav--collapsed .nav-menu.active .mobile-menu-close {
+.nav--collapsed .nav-menu .mobile-menu-close {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -421,28 +479,39 @@ body.modal-active {
     cursor: pointer;
     color: var(--text-primary);
     font-size: 1.25rem;
+    opacity: 0;
+    transition: opacity var(--t-med) var(--ease-out);
 }
 
-.nav--collapsed .nav-menu.active .mobile-menu-close::before {
+.nav--collapsed .nav-menu.active .mobile-menu-close {
+    opacity: 1;
+    transition-delay: 100ms;
+}
+
+.nav--collapsed .nav-menu .mobile-menu-close::before {
     content: '×';
     font-weight: 300;
     line-height: 1;
 }
 
-.nav--collapsed .nav-menu.active .mobile-menu-close:active {
+.nav--collapsed .nav-menu .mobile-menu-close:hover {
     background: var(--bg-secondary);
 }
 
+.nav--collapsed .nav-menu .mobile-menu-close:active {
+    background: var(--border-subtle);
+}
+
 /* Menu items */
-.nav--collapsed .nav-menu.active > a,
-.nav--collapsed .nav-menu.active > .nav-dropdown {
+.nav--collapsed .nav-menu > a,
+.nav--collapsed .nav-menu > .nav-dropdown {
     position: relative;
     width: 100%;
     max-width: 280px;
     text-align: center;
 }
 
-.nav--collapsed .nav-menu.active > a {
+.nav--collapsed .nav-menu > a {
     display: block;
     padding: 1rem 1.5rem;
     font-size: 1.125rem;
@@ -452,13 +521,12 @@ body.modal-active {
     text-decoration: none;
 }
 
-.nav--collapsed .nav-menu.active > a:active {
-    opacity: 0.6;
+.nav--collapsed .nav-menu > a:hover {
+    opacity: 0.7;
 }
 
-/* Dropdown container */
-.nav--collapsed .nav-menu.active > .nav-dropdown {
-    /* inherits width/max-width from above */
+.nav--collapsed .nav-menu > a:active {
+    opacity: 0.6;
 }
 
 /* Right: Utilities */
@@ -514,11 +582,13 @@ body.modal-active {
     width: 20px;
     height: 2px;
     background: var(--text-primary);
-    transition: all 0.3s ease;
+    transition:
+        transform var(--t-med) var(--ease-standard),
+        opacity var(--t-fast) var(--ease-out);
 }
 
 .hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
+    transform: translateY(6px) rotate(45deg);
 }
 
 .hamburger.active span:nth-child(2) {
@@ -526,7 +596,7 @@ body.modal-active {
 }
 
 .hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
+    transform: translateY(-6px) rotate(-45deg);
 }
 
 /* ===================================
@@ -1822,4 +1892,20 @@ body.modal-active {
 .dropdown-descriptor--coming-soon {
     font-style: italic;
     opacity: 0.7;
+}
+
+/* ===========================================
+   Reduced Motion
+   =========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .menu-backdrop,
+    .nav-menu,
+    .nav-menu a,
+    .nav-menu .nav-dropdown,
+    .nav-menu .mobile-menu-close,
+    #hamburger span {
+        transition: none !important;
+        animation: none !important;
+    }
 }

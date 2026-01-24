@@ -717,6 +717,90 @@
                 width: 100%;
                 text-align: center;
             }
+
+            /* ===========================================
+               Mobile Accordion for Service Cards
+               One service visible at a time for focus
+               =========================================== */
+
+            .service-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .service-card {
+                /* Collapsed state - only show header */
+                max-height: 72px;
+                overflow: hidden;
+                transition: max-height 0.3s ease, padding 0.3s ease, border-color 0.3s ease;
+                cursor: pointer;
+                padding: 1rem 1.25rem;
+                border-radius: 0;
+                border-bottom: none;
+            }
+
+            .service-card:first-child {
+                border-radius: 8px 8px 0 0;
+            }
+
+            .service-card:last-child {
+                border-radius: 0 0 8px 8px;
+                border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+            }
+
+            .service-card:only-child {
+                border-radius: 8px;
+                border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+            }
+
+            /* Expanded state */
+            .service-card.is-expanded {
+                max-height: 600px;
+                padding: 1.25rem;
+                cursor: default;
+                border-color: rgba(128, 128, 128, 0.2);
+                background: rgba(128, 128, 128, 0.03);
+            }
+
+            /* Visual indicator for collapsed cards */
+            .service-card:not(.is-expanded) .service-header::after {
+                content: '+';
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 1.25rem;
+                color: var(--text-secondary);
+                opacity: 0.5;
+            }
+
+            .service-card .service-header {
+                position: relative;
+                padding-right: 1.5rem;
+            }
+
+            .service-card.is-expanded .service-header::after {
+                content: '−';
+            }
+
+            /* Hide content in collapsed state */
+            .service-card:not(.is-expanded) .service-description,
+            .service-card:not(.is-expanded) .service-scope,
+            .service-card:not(.is-expanded) .service-meta,
+            .service-card:not(.is-expanded) .service-actions {
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .service-card.is-expanded .service-description,
+            .service-card.is-expanded .service-scope,
+            .service-card.is-expanded .service-meta,
+            .service-card.is-expanded .service-actions {
+                opacity: 1;
+                visibility: visible;
+                transition: opacity 0.2s ease 0.1s;
+            }
         }
 
         /* ===========================================
@@ -1227,5 +1311,58 @@
     <script type="module" src="/src/scripts/dropdown.js"></script>
     <script type="module" src="/src/scripts/glass-light.js"></script>
     <script type="module" src="/src/scripts/visitor-notify.js"></script>
+
+    <!-- Mobile Service Accordion -->
+    <script>
+    (function() {
+        const isMobile = () => window.innerWidth <= 640;
+
+        function initAccordion() {
+            const cards = document.querySelectorAll('.service-card');
+
+            cards.forEach(card => {
+                // Remove existing listeners by cloning
+                const newCard = card.cloneNode(true);
+                card.parentNode.replaceChild(newCard, card);
+            });
+
+            // Re-select after clone
+            const freshCards = document.querySelectorAll('.service-card');
+
+            if (isMobile()) {
+                // Expand first card in each grid by default
+                document.querySelectorAll('.service-grid').forEach(grid => {
+                    const firstCard = grid.querySelector('.service-card');
+                    if (firstCard) firstCard.classList.add('is-expanded');
+                });
+
+                freshCards.forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        // Don't collapse if clicking a link/button
+                        if (e.target.closest('a, button')) return;
+
+                        const grid = card.closest('.service-grid');
+                        const siblings = grid.querySelectorAll('.service-card');
+
+                        // Collapse all siblings
+                        siblings.forEach(s => s.classList.remove('is-expanded'));
+
+                        // Expand clicked card
+                        card.classList.add('is-expanded');
+                    });
+                });
+            } else {
+                // Desktop: remove all accordion states
+                freshCards.forEach(card => {
+                    card.classList.remove('is-expanded');
+                });
+            }
+        }
+
+        // Init on load and resize
+        initAccordion();
+        window.addEventListener('resize', initAccordion);
+    })();
+    </script>
 </body>
 </html>

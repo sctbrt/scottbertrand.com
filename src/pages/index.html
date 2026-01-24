@@ -790,6 +790,9 @@
                 overflow-y: auto;
                 cursor: default;
                 animation: slideUp 0.25s ease-out;
+                /* Lock size - prevent pinch/zoom/resize gestures */
+                touch-action: pan-y;
+                -webkit-overflow-scrolling: touch;
             }
 
             @keyframes slideUp {
@@ -803,9 +806,8 @@
                 }
             }
 
-            /* Close button for fullscreen */
-            .service-card.is-fullscreen::before {
-                content: '← Back';
+            /* Close button for fullscreen - real element, not pseudo */
+            .fullscreen-close-btn {
                 position: fixed;
                 top: 1rem;
                 left: 1.5rem;
@@ -813,7 +815,15 @@
                 font-weight: 500;
                 color: var(--text-secondary);
                 z-index: 1001;
-                padding: 0.5rem 0;
+                padding: 0.5rem 1rem;
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                font-family: inherit;
+            }
+
+            .fullscreen-close-btn:active {
+                opacity: 0.7;
             }
 
             /* Fullscreen card styling improvements */
@@ -1385,13 +1395,53 @@
     <script>
     (function() {
         const isMobile = () => window.innerWidth <= 640;
+        let closeBtn = null;
+        const viewport = document.querySelector('meta[name="viewport"]');
+        const defaultViewport = viewport ? viewport.getAttribute('content') : 'width=device-width, initial-scale=1.0';
+
+        function lockZoom() {
+            if (viewport) {
+                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+            }
+        }
+
+        function unlockZoom() {
+            if (viewport) {
+                viewport.setAttribute('content', defaultViewport);
+            }
+        }
 
         function closeFullscreen() {
             const open = document.querySelector('.service-card.is-fullscreen');
             if (open) {
                 open.classList.remove('is-fullscreen');
                 document.body.classList.remove('has-fullscreen-card');
+                // Remove close button
+                if (closeBtn && closeBtn.parentNode) {
+                    closeBtn.parentNode.removeChild(closeBtn);
+                }
+                // Re-enable pinch zoom
+                unlockZoom();
             }
+        }
+
+        function openFullscreen(card) {
+            card.classList.add('is-fullscreen');
+            document.body.classList.add('has-fullscreen-card');
+
+            // Disable pinch zoom while fullscreen
+            lockZoom();
+
+            // Create and inject close button
+            closeBtn = document.createElement('button');
+            closeBtn.className = 'fullscreen-close-btn';
+            closeBtn.textContent = '← Back';
+            closeBtn.setAttribute('type', 'button');
+            closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeFullscreen();
+            });
+            card.insertBefore(closeBtn, card.firstChild);
         }
 
         function initFullscreenCards() {
@@ -1401,13 +1451,8 @@
                 card.addEventListener('click', (e) => {
                     if (!isMobile()) return;
 
-                    // If already fullscreen, check if clicking "Back" area
+                    // If already fullscreen, do nothing (close only via button)
                     if (card.classList.contains('is-fullscreen')) {
-                        const rect = card.getBoundingClientRect();
-                        // Click in top 60px = back button area
-                        if (e.clientY - rect.top < 60 && !e.target.closest('a, button')) {
-                            closeFullscreen();
-                        }
                         return;
                     }
 
@@ -1415,8 +1460,7 @@
                     if (e.target.closest('a, button')) return;
 
                     // Open this card fullscreen
-                    card.classList.add('is-fullscreen');
-                    document.body.classList.add('has-fullscreen-card');
+                    openFullscreen(card);
                 });
             });
 

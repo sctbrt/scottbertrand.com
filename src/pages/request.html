@@ -40,6 +40,27 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="/src/styles/styles.css">
+    <style>
+        .service-description-box {
+            margin-top: 1.5rem;
+            padding: 1.25rem 1.5rem;
+            background: rgba(128, 128, 128, 0.03);
+            border: 1px solid rgba(128, 128, 128, 0.1);
+            border-radius: 6px;
+        }
+        .service-description-text {
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+        .service-description-meta {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            opacity: 0.7;
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
 
@@ -144,14 +165,28 @@
                         Which service are you interested in? *
                         <select name="service" required>
                             <option value="">Select a service</option>
-                            <option value="website-audit">Website Review — $450 CAD</option>
-                            <option value="brand-audit">Brand Review — $550 CAD</option>
-                            <option value="brand-reset">Brand Reset — $3,000 CAD</option>
-                            <option value="website-foundation">Website Foundation — $4,250 CAD</option>
-                            <option value="full-brand-website-reset">Full Brand & Website Reset — $6,900 CAD</option>
+                            <optgroup label="Quick Clarity">
+                                <option value="website-snapshot">Website Snapshot Review — $195 CAD</option>
+                                <option value="brand-clarity">Brand Clarity Session — $245 CAD</option>
+                            </optgroup>
+                            <optgroup label="Audits">
+                                <option value="website-audit">Website Review — $450 CAD</option>
+                                <option value="brand-audit">Brand Review — $550 CAD</option>
+                            </optgroup>
+                            <optgroup label="Foundations">
+                                <option value="brand-reset">Brand Reset — $3,000 CAD</option>
+                                <option value="website-foundation">Website Foundation — $4,250 CAD</option>
+                                <option value="full-brand-website-reset">Full Brand & Website Reset — $6,900 CAD</option>
+                            </optgroup>
                             <option value="not-sure">Not sure / Need guidance</option>
                         </select>
                     </label>
+
+                    <!-- Dynamic service description -->
+                    <div class="service-description-box" id="serviceDescription" style="display: none;">
+                        <p class="service-description-text" id="serviceDescriptionText"></p>
+                        <p class="service-description-meta" id="serviceDescriptionMeta"></p>
+                    </div>
                 </div>
 
                 <!-- Contact -->
@@ -271,6 +306,57 @@
     const formError = document.getElementById('formError');
     const fallbackEmail = 'bertrandbrands@outlook.com';
 
+    // Service descriptions
+    const serviceDescriptions = {
+        'website-snapshot': {
+            text: 'A focused, live review of your website\'s most visible issues. We\'ll assess homepage clarity, messaging alignment, and immediate friction points—then outline what to fix first.',
+            meta: '30-minute live call · No PDF or written report'
+        },
+        'brand-clarity': {
+            text: 'A strategic session to clarify what your brand is communicating today—and where it\'s misaligned. Ideal if your brand feels inconsistent, dated, or unclear.',
+            meta: '45-minute live session · Optional short follow-up email (3–5 bullets)'
+        },
+        'website-audit': {
+            text: 'Comprehensive PDF assessment of your website\'s UX, messaging, performance, and SEO basics. Includes prioritized recommendations (Now / Next / Later).',
+            meta: 'Delivered in 5 business days'
+        },
+        'brand-audit': {
+            text: 'Strategic review of brand clarity, voice & tone, visual cohesion, and positioning. Written PDF with actionable recommendations.',
+            meta: 'Delivered in 5–7 business days'
+        },
+        'brand-reset': {
+            text: 'Complete brand positioning synthesis, voice & tone framework, visual direction (type, color, layout principles), and brand guide PDF.',
+            meta: 'Timeline: 3–4 weeks'
+        },
+        'website-foundation': {
+            text: 'Full site build: structure & hierarchy, homepage + key page copy refinement, design & development, mobile optimization, SEO basics, and launch support.',
+            meta: 'Timeline: 4–6 weeks'
+        },
+        'full-brand-website-reset': {
+            text: 'Complete system: Brand Reset + Website Foundation with unified strategic thinking, priority scheduling, and end-to-end cohesion.',
+            meta: 'Timeline: 6–8 weeks'
+        },
+        'not-sure': {
+            text: 'Not sure which service fits? No problem. Share your goals and challenges below, and I\'ll recommend the right starting point.',
+            meta: ''
+        }
+    };
+
+    // Update service description display
+    function updateServiceDescription(value) {
+        const descBox = document.getElementById('serviceDescription');
+        const descText = document.getElementById('serviceDescriptionText');
+        const descMeta = document.getElementById('serviceDescriptionMeta');
+
+        if (value && serviceDescriptions[value]) {
+            descText.textContent = serviceDescriptions[value].text;
+            descMeta.textContent = serviceDescriptions[value].meta;
+            descBox.style.display = 'block';
+        } else {
+            descBox.style.display = 'none';
+        }
+    }
+
     // Check for success param (redirect from Formspree)
     if (new URLSearchParams(window.location.search).get('success') === 'true') {
         form.style.display = 'none';
@@ -280,14 +366,21 @@
 
     // Pre-select service from URL param (e.g., ?service=website-audit)
     const serviceParam = new URLSearchParams(window.location.search).get('service');
-    if (serviceParam) {
-        const serviceSelect = form.querySelector('select[name="service"]');
-        if (serviceSelect) {
-            const option = serviceSelect.querySelector(`option[value="${serviceParam}"]`);
-            if (option) {
-                serviceSelect.value = serviceParam;
-            }
+    const serviceSelect = form.querySelector('select[name="service"]');
+
+    if (serviceParam && serviceSelect) {
+        const option = serviceSelect.querySelector(`option[value="${serviceParam}"]`);
+        if (option) {
+            serviceSelect.value = serviceParam;
+            updateServiceDescription(serviceParam);
         }
+    }
+
+    // Listen for service selection changes
+    if (serviceSelect) {
+        serviceSelect.addEventListener('change', (e) => {
+            updateServiceDescription(e.target.value);
+        });
     }
 
     form.addEventListener('submit', async (e) => {

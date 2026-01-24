@@ -290,10 +290,10 @@
         .process-steps {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 6rem;
-            max-width: 100%;
+            gap: 2rem;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 1rem;
         }
 
         @media (max-width: 900px) {
@@ -356,7 +356,20 @@
             letter-spacing: 0.08em;
             color: var(--text-secondary);
             opacity: 0.6;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Service tier subtitle - muted helper text */
+        .service-tier-subtitle {
+            font-size: clamp(0.8125rem, 0.75rem + 0.2vw, 0.875rem);
+            color: var(--text-secondary);
+            opacity: 0.65;
             margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .category-label + .service-grid {
+            margin-top: 1.5rem;
         }
 
         .service-grid {
@@ -414,6 +427,30 @@
             color: var(--text-secondary);
             opacity: 0.75;
             margin-bottom: 1.5rem;
+        }
+
+        /* Service scope list */
+        .service-scope {
+            font-size: clamp(0.8125rem, 0.75rem + 0.15vw, 0.875rem);
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            padding-left: 1.25rem;
+            line-height: 1.6;
+        }
+
+        .service-scope li {
+            margin-bottom: 0.25rem;
+        }
+
+        /* Light variant for entry-level services */
+        .service-card--light {
+            background: transparent;
+            border-color: rgba(128, 128, 128, 0.08);
+        }
+
+        .service-card--light:hover {
+            background: rgba(128, 128, 128, 0.02);
+            border-color: rgba(128, 128, 128, 0.15);
         }
 
         .service-actions {
@@ -572,8 +609,16 @@
         .hero-storefront .container {
             position: relative;
             z-index: 1;
-            max-width: 1248px; /* 1200px + 48px padding */
-            padding: 0 1.5rem;
+            /* Match nav layout exactly: same max-width, same outer padding as .site-header */
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        /* Hero section needs same outer padding as site-header (24px) */
+        .hero-storefront {
+            padding-left: 24px;
+            padding-right: 24px;
         }
 
         .hero-storefront .hero-content {
@@ -666,13 +711,14 @@
                     <p class="subtitle">
                         Clear, structured brand and web work that creates clarity and drives results. Based in Sudbury, available remotely across Canada.
                     </p>
+                    <p class="authority-statement">Ideal for businesses who know their site isn't working — but don't know what to fix first.</p>
 
                     <!-- Primary + Secondary CTAs -->
                     <div class="cta-group">
-                        <a href="/request.html?service=website-audit" class="btn btn-primary">Start with a Website Review</a>
-                        <a href="/request.html?service=brand-audit" class="btn btn-secondary">Start with a Brand Review</a>
+                        <a href="#website-snapshot" class="btn btn-primary">Start with a Website Snapshot</a>
+                        <a href="#brand-clarity" class="btn btn-secondary">Start with a Brand Clarity Session</a>
                     </div>
-                    <p class="cta-microcopy">Clear, practical feedback on what's working, what's not, and what to fix first.</p>
+                    <p class="cta-microcopy">No prep required. Clear priorities, not a sales pitch.</p>
 
                     <!-- Local Trust Signal -->
                     <p class="local-trust">
@@ -723,13 +769,58 @@
                     <p class="section-subtitle">Clear pricing, fixed scope, designed for clarity and results.</p>
                 </div>
 
-                <!-- Start Here — Audits -->
+                <!-- First Step — Quick Clarity -->
                 <div class="service-tier">
-                    <p class="category-label">Start Here — Audits</p>
+                    <p class="category-label">First Step — Quick Clarity</p>
+                    <p class="service-tier-subtitle">Low-commitment sessions for fast clarity before deeper work.</p>
+                    <div class="service-grid">
+                        <div class="service-card service-card--light" id="website-snapshot">
+                            <div class="service-header">
+                                <h3 class="service-name">Website Snapshot Review</h3>
+                                <span class="service-price">$195 CAD</span>
+                            </div>
+                            <p class="service-description">
+                                A focused, live review of your website's most visible issues. We'll assess homepage clarity, messaging alignment, and immediate friction points—then outline what to fix first.
+                            </p>
+                            <ul class="service-scope">
+                                <li>Homepage clarity & structure</li>
+                                <li>Core messaging effectiveness</li>
+                                <li>Immediate UX or conversion blockers</li>
+                            </ul>
+                            <p class="service-meta">30-minute live call · No PDF or written report</p>
+                            <div class="service-actions">
+                                <a href="/request.html?service=website-snapshot" class="btn btn-primary btn-small">Book a Snapshot Review</a>
+                            </div>
+                        </div>
+
+                        <div class="service-card service-card--light" id="brand-clarity">
+                            <div class="service-header">
+                                <h3 class="service-name">Brand Clarity Session</h3>
+                                <span class="service-price">$245 CAD</span>
+                            </div>
+                            <p class="service-description">
+                                A strategic session to clarify what your brand is communicating today—and where it's misaligned. Ideal if your brand feels inconsistent, dated, or unclear.
+                            </p>
+                            <ul class="service-scope">
+                                <li>Brand positioning clarity</li>
+                                <li>Voice & tone alignment</li>
+                                <li>Visual or messaging inconsistencies</li>
+                            </ul>
+                            <p class="service-meta">45-minute live session · Optional short follow-up email (3–5 bullets)</p>
+                            <div class="service-actions">
+                                <a href="/request.html?service=brand-clarity" class="btn btn-primary btn-small">Book a Clarity Session</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step Two — Comprehensive Reviews -->
+                <div class="service-tier">
+                    <p class="category-label">Step Two — Comprehensive Reviews</p>
                     <div class="service-grid">
                         <div class="service-card">
                             <div class="service-header">
-                                <h3 class="service-name">Website Audit</h3>
+                                <h3 class="service-name">Comprehensive Website Review</h3>
                                 <span class="service-price">$450 CAD</span>
                             </div>
                             <p class="service-description">
@@ -740,11 +831,12 @@
                                 <a href="/services/website-audit.html" class="btn btn-secondary btn-small">Learn More</a>
                                 <a href="/request.html?service=website-audit" class="btn btn-primary btn-small">Request Service</a>
                             </div>
+                            <p class="service-meta" style="margin-top: 1rem; margin-bottom: 0; font-style: italic;">Often recommended after a Snapshot or Clarity Session.</p>
                         </div>
 
                         <div class="service-card">
                             <div class="service-header">
-                                <h3 class="service-name">Brand Audit</h3>
+                                <h3 class="service-name">Strategic Brand Review</h3>
                                 <span class="service-price">$550 CAD</span>
                             </div>
                             <p class="service-description">
@@ -755,6 +847,7 @@
                                 <a href="/services/brand-audit.html" class="btn btn-secondary btn-small">Learn More</a>
                                 <a href="/request.html?service=brand-audit" class="btn btn-primary btn-small">Request Service</a>
                             </div>
+                            <p class="service-meta" style="margin-top: 1rem; margin-bottom: 0; font-style: italic;">Often recommended after a Snapshot or Clarity Session.</p>
                         </div>
                     </div>
                 </div>
@@ -830,7 +923,7 @@
                                 <strong>Brand Direction Consult</strong> (90 min) — $400 CAD
                             </p>
                             <div class="service-actions">
-                                <a href="/request.html?service=website-audit" class="btn btn-secondary btn-small">Start with a Review</a>
+                                <a href="/request.html?service=website-audit" class="btn btn-secondary btn-small">Book a Review First</a>
                             </div>
                         </div>
                     </div>
@@ -940,7 +1033,7 @@
 
                 <!-- Final CTA -->
                 <div style="text-align: center; margin-top: 3rem;">
-                    <a href="/request.html?service=website-audit" class="btn btn-primary">Start with a Website Review</a>
+                    <a href="#website-snapshot" class="btn btn-primary">Start with a Website Snapshot</a>
                 </div>
             </div>
         </section>

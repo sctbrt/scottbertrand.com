@@ -29,9 +29,9 @@
 }
 
 [data-theme="dark"] {
-    --bg-primary: #0A0A0A;        /* Near-black, not pure black */
-    --bg-secondary: #111111;      /* Subtle section differentiation */
-    --bg-surface: #262628;        /* Elevated surfaces (dropdowns, cards) */
+    --bg-primary: #1C1C1E;        /* Apple-style warm charcoal */
+    --bg-secondary: #232325;      /* Subtle section differentiation */
+    --bg-surface: #2C2C2E;        /* Elevated surfaces (dropdowns, cards) */
     --text-primary: #F7F6F3;      /* Warm off-white text */
     --text-secondary: #a8a8a8;
     --text-tertiary: #6b6b6b;

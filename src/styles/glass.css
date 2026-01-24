@@ -19,26 +19,27 @@
   --glass-blur-core: 20px;
   --glass-blur-edge: 24px;
 
-  /* Fill: subtle gradient for depth, not flat card */
+  /* Fill: nearly invisible glass - just edge definition and blur
+     Extremely low opacity for maximum translucency */
   --glass-bg: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.72) 0%,
-    rgba(255, 255, 255, 0.58) 100%
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.02) 100%
   );
-  --glass-bg-solid: rgba(255, 255, 255, 0.65);
-  --glass-bg-fallback: rgba(250, 250, 250, 0.85);
+  --glass-bg-solid: rgba(255, 255, 255, 0.04);
+  --glass-bg-fallback: rgba(250, 248, 243, 0.70);
 
   /* Borders: outer + inner stroke for plane definition */
-  --glass-border-outer: rgba(0, 0, 0, 0.08);
-  --glass-border-inner: rgba(255, 255, 255, 0.5);
+  --glass-border-outer: rgba(0, 0, 0, 0.06);
+  --glass-border-inner: rgba(255, 253, 248, 0.5);
 
-  /* Specular highlight — top edge light catch */
-  --glass-specular: rgba(255, 255, 255, 0.9);
+  /* Specular highlight — top edge light catch (warm-tinted) */
+  --glass-specular: rgba(255, 253, 248, 0.85);
   --glass-specular-width: 1px;
 
-  /* Edge lighting */
-  --glass-edge-highlight: rgba(255, 255, 255, 0.6);
-  --glass-edge-shadow: rgba(0, 0, 0, 0.06);
+  /* Edge lighting (warm-tinted) */
+  --glass-edge-highlight: rgba(255, 253, 248, 0.55);
+  --glass-edge-shadow: rgba(0, 0, 0, 0.05);
 
   /* Shadow stack — soft lift, not aggressive */
   --glass-shadow:
@@ -196,10 +197,8 @@
   border-radius: var(--glass-radius-lg);
   padding: 3rem 2.5rem;
 
-  /* Match nav container width exactly */
-  max-width: 1200px;
+  /* Fill container - width controlled by parent .container */
   width: 100%;
-  margin-inline: auto;
 }
 
 /* Hero-specific edge lighting — slightly stronger than base */

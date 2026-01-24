@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Page Not Found — Scott Bertrand</title>
+    <meta name="description" content="The page you're looking for doesn't exist. Return to the homepage or browse services.">
+
+    <!-- Theme -->
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
+    <meta name="color-scheme" content="light dark">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/sb-monogram-light.png">
+
+    <style>
+        :root {
+            --bg-primary: #F7F6F3;
+            --text-primary: #111111;
+            --text-secondary: #404040;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-primary: #0A0A0A;
+                --text-primary: #F7F6F3;
+                --text-secondary: #a8a8a8;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 500px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        a {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.875rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            opacity: 0.85;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid rgba(128, 128, 128, 0.2);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-primary);
+        }
+
+        .brand {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+        }
+
+        .brand img {
+            height: 32px;
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="brand">
+        <img src="/assets/sb-monogram-light.png" alt="Scott Bertrand" width="32" height="32">
+    </a>
+
+    <div class="container">
+        <h1>404</h1>
+        <p>The page you're looking for doesn't exist or has been moved. Let's get you back on track.</p>
+        <div class="links">
+            <a href="/" class="btn-primary">Return Home</a>
+            <a href="/#services" class="btn-secondary">View Services</a>
+        </div>
+    </div>
+</body>
+</html>

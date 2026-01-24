@@ -736,7 +736,8 @@
                 border: none;
                 border-radius: 0;
                 padding: 1.5rem;
-                padding-top: 4rem;
+                padding-top: 4.5rem;
+                padding-bottom: 2rem;
                 overflow-y: auto;
                 cursor: default;
                 animation: slideUp 0.25s ease-out;
@@ -763,6 +764,57 @@
                 font-weight: 500;
                 color: var(--text-secondary);
                 z-index: 1001;
+                padding: 0.5rem 0;
+            }
+
+            /* Fullscreen card styling improvements */
+            .service-card.is-fullscreen .service-header {
+                flex-direction: column;
+                margin-bottom: 1.5rem;
+            }
+
+            .service-card.is-fullscreen .service-name {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .service-card.is-fullscreen .service-price {
+                font-size: 1.125rem;
+            }
+
+            .service-card.is-fullscreen .service-description {
+                font-size: 1rem;
+                line-height: 1.6;
+                margin-bottom: 1.5rem;
+            }
+
+            .service-card.is-fullscreen .service-scope {
+                margin-bottom: 1.5rem;
+            }
+
+            .service-card.is-fullscreen .service-scope li {
+                padding: 0.5rem 0;
+            }
+
+            .service-card.is-fullscreen .service-meta {
+                margin-bottom: 2rem;
+            }
+
+            /* Prominent CTA in fullscreen */
+            .service-card.is-fullscreen .service-actions {
+                position: sticky;
+                bottom: 0;
+                background: var(--bg-primary);
+                padding: 1rem 0;
+                margin: 0 -1.5rem;
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+                border-top: 1px solid rgba(128, 128, 128, 0.1);
+            }
+
+            .service-card.is-fullscreen .btn-small {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
             }
 
             /* Prevent body scroll when card is fullscreen */

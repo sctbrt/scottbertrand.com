@@ -353,6 +353,21 @@
             padding: 0 0.5rem;
         }
 
+        /* Subtle orange glow for process steps */
+        .process-step.glass--panel {
+            box-shadow:
+                0 0 20px rgba(217, 119, 6, 0.06),
+                0 0 40px rgba(217, 119, 6, 0.03);
+            border-color: rgba(217, 119, 6, 0.1);
+        }
+
+        [data-theme="dark"] .process-step.glass--panel {
+            box-shadow:
+                0 0 25px rgba(245, 158, 11, 0.08),
+                0 0 50px rgba(245, 158, 11, 0.04);
+            border-color: rgba(245, 158, 11, 0.12);
+        }
+
         .step-number {
             display: flex;
             align-items: center;

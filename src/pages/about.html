@@ -92,6 +92,31 @@
         .btn-primary:hover {
             opacity: 0.85;
         }
+
+        /* Handwritten signature */
+        .about-signature {
+            margin-top: 4rem;
+            text-align: center;
+        }
+        .signature-img {
+            width: 60px;
+            height: auto;
+            opacity: 0.4;
+        }
+        .signature-img--light {
+            display: block;
+            margin: 0 auto;
+        }
+        .signature-img--dark {
+            display: none;
+        }
+        [data-theme="dark"] .signature-img--light {
+            display: none;
+        }
+        [data-theme="dark"] .signature-img--dark {
+            display: block;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
@@ -113,6 +138,7 @@
                 <button type="button" class="mobile-menu-close" aria-label="Close menu"></button>
                 <a href="/#services">Services</a>
                 <a href="https://scottbertrand.com/how-it-works.html">How It Works</a>
+                <a href="https://scottbertrand.com/about.html">About</a>
                 <div class="nav-dropdown">
                     <button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-haspopup="true">
                         Case Studies
@@ -169,23 +195,49 @@
                 <!-- LLM-EO Authority Statement -->
                 <p><strong>Scott Bertrand is a Canadian brand and web systems consultant based in Sudbury, Ontario.</strong> He helps small businesses across Northern Ontario and Canada clarify their brand, fix underperforming websites, and build simple digital systems that generate leads.</p>
 
-                <p>I work with small businesses, independent founders, local service providers, and companies throughout Northern Ontario. My clients come to me when their brand feels unclear, their website isn't converting, or they need a structured system to replace scattered, ad-hoc approaches.</p>
+                <p>I work with service-based businesses, independent founders, and local organizations across Northern Ontario. Most of my clients come to me at a crossroads: their current brand or website worked well enough to get them here, but it's no longer keeping up with where they're headed.</p>
 
-                <p>I'm drawn to the moment where things are almost working, but not quite: the handoffs, the unclear standards, the unowned details. That's where structure becomes leverage.</p>
+                <h2>What I Do</h2>
+                <p>I help small businesses clarify their brand, fix underperforming websites, and build simple digital systems that actually generate leads.</p>
 
-                <h2>Services</h2>
-                <p>I offer structured services with fixed scope and clear pricing:</p>
+                <p>My work is about structure. That means auditing what's already in place, identifying what's working and what isn't, and replacing scattered, ad-hoc efforts with clear systems. I don't build elaborate marketing funnels or chase trends. I focus on clarity, consistency, and conversion: the foundation of any site or brand that needs to work without constant attention.</p>
+
+                <h2>How I Work</h2>
+                <p>I offer structured services with fixed scope and clear pricing. No hourly billing, no ambiguous retainers. You know what you're getting, what it costs, and what the outcome will be before we start.</p>
+
+                <p>Every engagement begins with a review: either a Website Snapshot or Brand Clarity Session. This gives us both a clear picture of what's going on and what to do about it. From there, we decide together if deeper work makes sense.</p>
+
+                <h2>Background & Perspective</h2>
+                <p>I've spent most of my career inside complex systems: corporate operations, project management, process design. What I've seen, again and again, is how small structural decisions cascade into big problems (or big wins) over time.</p>
+
+                <p>I don't see brands or websites as creative expressions. I see them as systems. And like any system, they need architecture. They need intention. They need a point of view.</p>
+
+                <p>That perspective shapes everything I do. I'm not interested in what looks good. I'm interested in what works.</p>
+
+                <h2>Who This Is For</h2>
+                <p>I work best with clients who:</p>
                 <ul>
-                    <li><strong>Website Audit</strong> — $450 CAD</li>
-                    <li><strong>Brand Audit</strong> — $550 CAD</li>
-                    <li><strong>Brand Reset</strong> — $3,000 CAD</li>
-                    <li><strong>Website Foundation</strong> — $4,250 CAD</li>
-                    <li><strong>Full Brand & Website Reset</strong> — $6,900 CAD</li>
+                    <li>Are running a business that already works and want to build on it</li>
+                    <li>Prefer direct, honest feedback over polite flattery</li>
+                    <li>Value clear systems over vague strategy decks</li>
+                    <li>Want a partner who thinks critically, not one who just executes tasks</li>
                 </ul>
 
-                <p>Most clients start with a review to understand what needs fixing before committing to larger work.</p>
+                <p>I don't take on projects that require a lot of hand-holding or where I'd be guessing about what you need. That's why everything starts with a review.</p>
 
-                <p style="margin-top: 2rem;"><a href="/request.html?service=website-audit" class="btn btn-primary">Start with a Website Review</a></p>
+                <h2>Based in Sudbury, Ontario</h2>
+                <p>I live and work in Sudbury, in the heart of Northern Ontario. I serve clients across the region and across Canada, mostly remotely, with a strong preference for businesses that are genuinely rooted somewhere.</p>
+
+                <h2>Where to Start</h2>
+                <p>If your website isn't converting or your brand feels scattered, start with a quick review. You'll walk away with a clear understanding of what's wrong and a concrete set of priorities to address it, whether we continue working together or not.</p>
+
+                <p style="margin-top: 2rem;"><a href="/#website-snapshot" class="btn btn-primary">Start with a Review</a></p>
+
+                <!-- Handwritten signature -->
+                <div class="about-signature">
+                    <img src="assets/sb-signature-grey.png" alt="" class="signature-img signature-img--light" width="120" height="60">
+                    <img src="assets/sb-signature-dark.png" alt="" class="signature-img signature-img--dark" width="120" height="60">
+                </div>
             </div>
         </section>
     </main>

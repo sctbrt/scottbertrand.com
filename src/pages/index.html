@@ -164,6 +164,30 @@
             width: auto;
             display: block;
             margin: 0 auto;
+            /* Cinematic entrance */
+            opacity: 0;
+            transform: translateY(8px);
+            animation: wordmarkReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+        }
+
+        @keyframes wordmarkReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Respect reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            .hero-brand-wordmark {
+                opacity: 1;
+                transform: none;
+                animation: none;
+            }
         }
 
         /* Theme-based hero wordmark switching
@@ -195,6 +219,9 @@
             margin-bottom: 0.5rem;
             text-align: center;
             letter-spacing: -0.01em;
+            /* Staggered entrance - follows wordmark */
+            opacity: 0;
+            animation: heroFadeIn 0.8s ease-out 0.6s forwards;
         }
 
         /* Level 3: for Greater Sudbury & Northern Ontario - Smaller, where */
@@ -205,6 +232,23 @@
             text-align: center;
             margin-bottom: 1.5rem;
             letter-spacing: 0;
+            /* Staggered entrance */
+            opacity: 0;
+            animation: heroFadeIn 0.8s ease-out 0.75s forwards;
+        }
+
+        @keyframes heroFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Respect reduced motion for hero elements */
+        @media (prefers-reduced-motion: reduce) {
+            .hero-storefront .tagline,
+            .tagline-location {
+                opacity: 1;
+                animation: none;
+            }
         }
 
         /* Subtitle - Supporting hero text

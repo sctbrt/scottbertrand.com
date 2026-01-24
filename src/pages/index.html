@@ -150,24 +150,67 @@
             min-height: 65dvh;
         }
 
-        /* H1 - Hero Tagline: Most prominent, clear hierarchy leader
-           Mobile: 1.625rem (26px) → Desktop: 2.25rem (36px) */
+        /* === HERO HIERARCHY (3 levels, largest to smallest) === */
+
+        /* Level 1: BERTRAND BRANDS - Largest, brand mark */
+        .hero-brand {
+            text-align: center;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Hero brand wordmark sizing - fluid from mobile to desktop */
+        .hero-brand-wordmark {
+            height: clamp(28px, 24px + 1.5vw, 42px);
+            width: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Theme-based hero wordmark switching
+           Light wordmark (light.png) → for dark backgrounds → hidden by default
+           Dark wordmark (dark.png) → for light backgrounds → shown by default */
+        .hero-brand-wordmark--light {
+            display: none;
+        }
+
+        .hero-brand-wordmark--dark {
+            display: block;
+            margin: 0 auto;
+        }
+
+        [data-theme="dark"] .hero-brand-wordmark--light {
+            display: block;
+            margin: 0 auto;
+        }
+
+        [data-theme="dark"] .hero-brand-wordmark--dark {
+            display: none;
+        }
+
+        /* Level 2: Brand & Web Systems - Medium, what you do */
         .hero-storefront .tagline {
-            font-size: clamp(1.625rem, 1.25rem + 1.5vw, 2.25rem);
+            font-size: clamp(1.25rem, 0.9rem + 1.25vw, 1.75rem);
             font-weight: 500;
             line-height: 1.2;
-            margin-bottom: 1.25rem;
+            margin-bottom: 0.5rem;
             text-align: center;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em;
+        }
+
+        /* Level 3: for Greater Sudbury & Northern Ontario - Smaller, where */
+        .tagline-location {
+            font-size: clamp(1rem, 0.85rem + 0.6vw, 1.25rem);
+            font-weight: 400;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0;
         }
 
         /* Subtitle - Supporting hero text
-           Mobile: 1rem (16px) → Desktop: 1.25rem (20px) */
+           Mobile: 0.9375rem (15px) → Desktop: 1.125rem (18px) */
         .hero-storefront .subtitle {
-            font-size: clamp(1rem, 0.9rem + 0.4vw, 1.25rem);
+            font-size: clamp(0.9375rem, 0.85rem + 0.3vw, 1.125rem);
             color: var(--text-secondary);
             line-height: 1.6;
             margin-bottom: 2rem;
@@ -527,14 +570,135 @@
             opacity: 1;
         }
 
-        /* Mobile responsive - layout adjustments only
-           Typography is handled by clamp() functions above */
+        /* ===========================================
+           Mobile/Desktop Visibility Utilities
+           =========================================== */
+
+        .mobile-only {
+            display: none;
+        }
+
+        .desktop-only {
+            display: inline;
+        }
+
+        /* ===========================================
+           Mobile Hero Hierarchy Fix
+           Target: 640px and below
+           =========================================== */
+
         @media (max-width: 640px) {
-            .hero-storefront {
-                min-height: auto;
-                padding: 100px 1.5rem 60px;
+
+            /* Visibility toggles */
+            .mobile-only {
+                display: inline;
             }
 
+            .desktop-only {
+                display: none;
+            }
+
+            /* --- Hero Container --- */
+            .hero-storefront {
+                min-height: auto;
+                padding: 88px 1.25rem 48px;
+            }
+
+            /* Hero content uses flexbox for reordering */
+            .hero-content {
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* --- Mobile Hero Hierarchy (3 levels maintained) --- */
+
+            /* Level 1: BERTRAND BRANDS - Still largest on mobile */
+            .hero-brand {
+                margin-bottom: 0.5rem;
+                order: 1;
+            }
+
+            .hero-brand-wordmark {
+                height: 24px;
+            }
+
+            /* Level 2: Brand & Web Systems - Medium */
+            .hero-storefront .tagline {
+                font-size: 1.1875rem;
+                line-height: 1.15;
+                font-weight: 500;
+                margin-bottom: 0.25rem;
+                order: 2;
+            }
+
+            /* Level 3: for Greater Sudbury & Northern Ontario - Smaller */
+            .tagline-location {
+                font-size: 0.9375rem;
+                margin-bottom: 1.25rem;
+                order: 3;
+            }
+
+            /* --- 4) Subtitle: One line above CTAs --- */
+            .hero-storefront .subtitle {
+                font-size: 0.9375rem;
+                line-height: 1.5;
+                margin-bottom: 1.5rem;
+                order: 4;
+            }
+
+            /* --- 5) CTA Group: Primary dominant --- */
+            .cta-group {
+                flex-direction: column;
+                width: 100%;
+                gap: 0.75rem;
+                order: 5;
+            }
+
+            .cta-group .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            /* Primary CTA - full presence */
+            .cta-group .btn-primary {
+                padding: 1rem 1.5rem;
+                font-size: 0.9375rem;
+            }
+
+            /* Secondary CTA - visually lighter */
+            .cta-group .btn-secondary {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.875rem;
+                opacity: 0.85;
+                border-color: rgba(128, 128, 128, 0.15);
+            }
+
+            /* --- 6) Authority statement: Move below CTAs --- */
+            .hero-storefront .authority-statement {
+                font-size: 0.8125rem;
+                line-height: 1.5;
+                margin: 1.5rem auto 0;
+                opacity: 0.7;
+                order: 6;
+            }
+
+            /* --- 7) Microcopy: Pushed down with spacing --- */
+            .cta-microcopy {
+                margin-top: 1.25rem;
+                font-size: 0.75rem;
+                opacity: 0.6;
+                order: 7;
+            }
+
+            /* --- 8) Local trust: Lowest priority --- */
+            .local-trust {
+                margin-top: 1rem;
+                font-size: 0.6875rem;
+                opacity: 0.5;
+                order: 8;
+            }
+
+            /* --- Other Mobile Adjustments --- */
             .section {
                 padding-left: 1.5rem;
                 padding-right: 1.5rem;
@@ -550,16 +714,6 @@
             }
 
             .btn-small {
-                width: 100%;
-                text-align: center;
-            }
-
-            .cta-group {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .cta-group .btn {
                 width: 100%;
                 text-align: center;
             }
@@ -705,13 +859,20 @@
         <section class="hero hero-storefront">
             <div class="container">
                 <div class="glass glass--hero hero-content">
-                    <!-- Primary: Identity -->
-                    <!-- V1.5 Conversion Hero -->
-                    <h1 class="tagline">Brand & Web Systems for Greater&nbsp;Sudbury & Northern&nbsp;Ontario</h1>
+                    <!-- V2.1 Conversion Hero - Mobile-optimized hierarchy -->
+                    <div class="hero-brand">
+                        <img src="assets/bertrand-brands-wordmark-dark.png" alt="Bertrand Brands" class="hero-brand-wordmark hero-brand-wordmark--dark" width="400" height="100">
+                        <img src="assets/bertrand-brands-wordmark-light.png" alt="Bertrand Brands" class="hero-brand-wordmark hero-brand-wordmark--light" width="400" height="100">
+                    </div>
+                    <h1 class="tagline">Brand & Web Systems</h1>
+                    <p class="tagline-location">for Greater Sudbury & Northern Ontario</p>
 
+                    <!-- Single supporting line (shown on mobile above CTAs) -->
                     <p class="subtitle">
-                        Clear, structured brand and web work that creates clarity and drives results. Based in Sudbury, available remotely across Canada.
+                        Clear, structured brand and web work that creates clarity and drives results.<span class="desktop-only"> Based in Sudbury, available remotely across Canada.</span>
                     </p>
+
+                    <!-- Authority statement - moves below CTAs on mobile -->
                     <p class="authority-statement">Ideal for businesses who know their site isn't working — but don't know what to fix first.</p>
 
                     <!-- Primary + Secondary CTAs -->
@@ -719,9 +880,11 @@
                         <a href="#website-snapshot" class="btn btn-primary">Start with a Website Snapshot</a>
                         <a href="#brand-clarity" class="btn btn-secondary">Start with a Brand Clarity Session</a>
                     </div>
+
+                    <!-- Microcopy - pushed below CTAs with spacing on mobile -->
                     <p class="cta-microcopy">No prep required. Clear priorities, not a sales pitch.</p>
 
-                    <!-- Local Trust Signal -->
+                    <!-- Local Trust Signal - lowest priority -->
                     <p class="local-trust">
                         Based in Greater Sudbury, serving Northern Ontario & Canada remotely
                     </p>

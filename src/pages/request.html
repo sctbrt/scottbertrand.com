@@ -40,6 +40,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="/src/styles/styles.css">
+    <link rel="stylesheet" href="/src/styles/dot-grid.css">
     <style>
         .service-description-box {
             margin-top: 1.5rem;
@@ -63,6 +64,8 @@
     </style>
 </head>
 <body>
+    <!-- Dynamic Background -->
+    <div class="dot-grid" aria-hidden="true"><canvas id="dotWaveCanvas"></canvas></div>
 
     <!-- Menu Backdrop -->
     <div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
@@ -140,7 +143,7 @@
 
             <!-- Error message -->
             <div class="form-error" id="formError">
-                Something went wrong. Please try again, or email me directly at <a href="mailto:bertrandbrands@outlook.com">bertrandbrands@outlook.com</a>.
+                Something went wrong. Please try again, or email me directly at <a href="mailto:hello@bertrandbrands.com">hello@bertrandbrands.com</a>.
             </div>
 
             <form
@@ -281,7 +284,7 @@
                         I'll review your request and respond within 24–48 hours.
                     </p>
                     <p class="form-fallback">
-                        Having trouble? Email me directly at <a href="mailto:bertrandbrands@outlook.com">bertrandbrands@outlook.com</a>
+                        Having trouble? Email me directly at <a href="mailto:hello@bertrandbrands.com">hello@bertrandbrands.com</a>
                     </p>
                 </div>
 
@@ -305,7 +308,7 @@
     const requestHeader = document.getElementById('requestHeader');
     const successMessage = document.getElementById('successMessage');
     const formError = document.getElementById('formError');
-    const fallbackEmail = 'bertrandbrands@outlook.com';
+    const fallbackEmail = 'hello@bertrandbrands.com';
 
     // Service descriptions
     const serviceDescriptions = {
@@ -429,5 +432,6 @@
     });
 </script>
 <script type="module" src="/src/scripts/visitor-notify.js"></script>
+<script type="module" src="/src/scripts/dot-grid.js"></script>
 </body>
 </html>

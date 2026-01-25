@@ -67,8 +67,8 @@
     --bg-secondary: #232325;      /* Subtle section differentiation */
     --bg-surface: #2C2C2E;        /* Elevated surfaces (dropdowns, cards) */
     --text-primary: #F7F6F3;      /* Warm off-white text */
-    --text-secondary: #a8a8a8;
-    --text-tertiary: #6b6b6b;
+    --text-secondary: #b0b0b0;    /* Secondary - softer but readable */
+    --text-tertiary: #7a7a7a;     /* Tertiary - muted, less prominent */
     --border-subtle: #1a1a1a;
     --border-hover: #4a4a4a;
     --success-bg: #0d1f0d;
@@ -81,8 +81,8 @@
     --accent-muted: rgba(245, 158, 11, 0.15);
     --accent-subtle: rgba(245, 158, 11, 0.08);
 
-    /* Focus Ring */
-    --focus-ring: rgba(245, 158, 11, 0.5);
+    /* Focus Ring - increased visibility for dark mode */
+    --focus-ring: rgba(245, 158, 11, 0.75);
 }
 
 /* ===================================
@@ -204,8 +204,8 @@ body.modal-active {
             rgba(0, 0, 0, 0.01) 100%
         ),
         rgba(250, 250, 250, 0.3);
-    backdrop-filter: blur(24px) saturate(180%) brightness(1.05);
-    -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.05);
+    backdrop-filter: blur(var(--glass-blur-edge, 24px)) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: blur(var(--glass-blur-edge, 24px)) saturate(180%) brightness(1.05);
     border-radius: 50px;
     padding: 0 24px;
     box-shadow:
@@ -249,8 +249,8 @@ body.modal-active {
             rgba(0, 0, 0, 0.03) 100%
         ),
         rgba(10, 10, 10, 0.3);
-    backdrop-filter: blur(24px) saturate(180%) brightness(1.1);
-    -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.1);
+    backdrop-filter: blur(var(--glass-blur-edge, 24px)) saturate(180%) brightness(1.1);
+    -webkit-backdrop-filter: blur(var(--glass-blur-edge, 24px)) saturate(180%) brightness(1.1);
     box-shadow:
         0 8px 32px rgba(0, 0, 0, 0.35),
         0 2px 8px rgba(0, 0, 0, 0.15),
@@ -320,7 +320,7 @@ body.modal-active {
 .brand-separator {
     font-size: 0.625rem;
     color: var(--text-primary);
-    opacity: 0.5;
+    opacity: var(--opacity-low);
     margin: 0 0.2rem;
 }
 
@@ -370,7 +370,7 @@ body.modal-active {
     min-height: 44px;
     display: flex;
     align-items: center;
-    opacity: 0.72;
+    opacity: var(--opacity-medium);
     position: relative;
 }
 
@@ -397,9 +397,10 @@ body.modal-active {
     bottom: -6px;
     left: 0;
     right: 0;
-    height: 1px;
-    background: var(--text-primary);
-    opacity: 0.3;
+    /* Increased height and opacity for better visibility */
+    height: 2px;
+    background: var(--accent);
+    opacity: var(--opacity-low);
 }
 
 /* Collapsed nav state (hamburger-on-overflow) — v1.3.0 */
@@ -418,6 +419,12 @@ body.modal-active {
 
 .nav--collapsed .hamburger {
     display: flex;
+}
+
+/* Right-align utilities when nav is collapsed (menu hidden) */
+.nav--collapsed .nav-utilities {
+    grid-column: 3;
+    justify-self: end;
 }
 
 /* ===========================================
@@ -568,11 +575,11 @@ body.modal-active {
 }
 
 .nav--collapsed .nav-menu > a:hover {
-    opacity: 0.7;
+    opacity: var(--opacity-medium);
 }
 
 .nav--collapsed .nav-menu > a:active {
-    opacity: 0.6;
+    opacity: var(--opacity-low);
 }
 
 /* Right: Utilities */
@@ -698,7 +705,7 @@ body.modal-active {
     font-family: 'Source Serif 4', Georgia, serif;
     font-size: 15px;
     color: var(--text-secondary);
-    opacity: 0.82;
+    opacity: var(--opacity-high);
     line-height: 1.75;
     margin-bottom: 20px;
 }
@@ -745,7 +752,7 @@ body.modal-active {
     font-family: 'Source Serif 4', Georgia, serif;
     font-size: 15px;
     color: var(--text-secondary);
-    opacity: 0.82;
+    opacity: var(--opacity-high);
     margin-bottom: 2rem;
     line-height: 1.75;
 }
@@ -771,21 +778,22 @@ body.modal-active {
     padding: 0 12px;
     background-color: transparent;
     border: 1px solid var(--border-subtle);
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     color: var(--text-primary);
     font-size: 14px;
     transition: border-color 0.2s ease;
     font-family: inherit;
 }
 
-.email-input:focus {
+.email-input:focus-visible {
     outline: none;
-    border-color: var(--border-hover);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-muted);
 }
 
 .email-input::placeholder {
     color: var(--border-hover);
-    opacity: 0.6;
+    opacity: var(--opacity-low);
 }
 
 .email-submit {
@@ -794,7 +802,7 @@ body.modal-active {
     background-color: var(--text-primary);
     color: var(--bg-primary);
     border: none;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -804,13 +812,13 @@ body.modal-active {
 }
 
 .email-submit:hover {
-    opacity: 0.85;
+    opacity: var(--opacity-high);
 }
 
 .email-microcopy {
     font-size: 12px;
     color: var(--text-tertiary);
-    opacity: 0.7;
+    opacity: var(--opacity-medium);
     line-height: 1.5;
 }
 
@@ -832,7 +840,7 @@ body.modal-active {
     padding: 0.75rem 1rem;
     background-color: var(--success-bg);
     border: 1px solid var(--success-border);
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     color: var(--success-text);
     font-size: 0.9375rem;
     margin-bottom: 0.75rem;
@@ -898,7 +906,7 @@ body.modal-active {
     /* Light mode (default) */
     background: rgba(240, 240, 240, 0.4);
     border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    border-radius: var(--radius-md);
 }
 
 [data-theme="dark"] .modal-content {
@@ -925,7 +933,7 @@ body.modal-active {
 }
 
 .modal-close:hover {
-    opacity: 0.7;
+    opacity: var(--opacity-medium);
 }
 
 .modal-link {
@@ -935,7 +943,7 @@ body.modal-active {
 }
 
 .modal-link:hover {
-    opacity: 0.85;
+    opacity: var(--opacity-high);
 }
 
 .modal-image {
@@ -948,7 +956,7 @@ body.modal-active {
     font-size: 15px;
     font-family: 'Source Serif 4', Georgia, serif;
     color: var(--text-secondary);
-    opacity: 0.82;
+    opacity: var(--opacity-high);
     line-height: 1.65;
     margin-bottom: 1rem;
 }
@@ -958,7 +966,7 @@ body.modal-active {
     font-weight: 400;
     letter-spacing: 0.05em;
     color: var(--text-secondary);
-    opacity: 0.6;
+    opacity: var(--opacity-low);
 }
 
 .modal-caption-link {
@@ -1033,7 +1041,7 @@ body.modal-active {
 }
 
 .breadcrumb a:hover {
-    opacity: 0.7;
+    opacity: var(--opacity-medium);
 }
 
 /* Service Hero */
@@ -1074,7 +1082,7 @@ body.modal-active {
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--text-tertiary);
-    opacity: 0.7;
+    opacity: var(--opacity-medium);
 }
 
 .service-price {
@@ -1087,7 +1095,7 @@ body.modal-active {
     font-family: 'Source Serif 4', Georgia, serif;
     font-size: 1.125rem;
     color: var(--text-secondary);
-    opacity: 0.85;
+    opacity: var(--opacity-high);
     line-height: 1.7;
     margin-bottom: 2.5rem;
 }
@@ -1113,7 +1121,7 @@ body.modal-active {
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--text-tertiary);
-    opacity: 0.7;
+    opacity: var(--opacity-medium);
 }
 
 .detail-value {
@@ -1131,7 +1139,7 @@ body.modal-active {
 .service-cta-note {
     font-size: 13px;
     color: var(--text-tertiary);
-    opacity: 0.7;
+    opacity: var(--opacity-medium);
     margin: 0;
 }
 
@@ -1164,7 +1172,7 @@ body.modal-active {
     font-family: 'Source Serif 4', Georgia, serif;
     font-size: 15px;
     color: var(--text-secondary);
-    opacity: 0.82;
+    opacity: var(--opacity-high);
     line-height: 1.75;
 }
 
@@ -1293,7 +1301,7 @@ body.modal-active {
     font-family: 'Source Serif 4', Georgia, serif;
     font-size: 15px;
     color: var(--text-secondary);
-    opacity: 0.82;
+    opacity: var(--opacity-high);
     line-height: 1.65;
     padding-left: 1.5rem;
     position: relative;
@@ -1347,7 +1355,7 @@ body.modal-active {
     font-family: 'Source Serif 4', Georgia, serif;
     font-size: 1.125rem;
     color: var(--text-secondary);
-    opacity: 0.82;
+    opacity: var(--opacity-high);
     margin-bottom: 2rem;
 }
 
@@ -1368,7 +1376,7 @@ body.modal-active {
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     transition: all 0.2s ease;
     cursor: pointer;
     font-family: inherit;
@@ -1380,21 +1388,37 @@ body.modal-active {
     background: var(--text-primary);
     color: var(--bg-primary);
     border-color: var(--text-primary);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .btn-primary:hover {
-    opacity: 0.85;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .btn-primary:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: none;
 }
 
 .btn-secondary {
     background: transparent;
     color: var(--text-primary);
     border-color: var(--border-subtle);
+    transition: border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
 }
 
 .btn-secondary:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--text-primary);
+    transform: translateY(-1px);
+}
+
+.btn-secondary:active {
+    transform: translateY(0);
 }
 
 /* Button focus states with accent ring */
@@ -1475,7 +1499,7 @@ body.modal-active {
     font-family: 'Source Serif 4', Georgia, serif;
     font-size: 1.125rem;
     color: var(--text-secondary);
-    opacity: 0.85;
+    opacity: var(--opacity-high);
     line-height: 1.7;
 }
 
@@ -1517,7 +1541,7 @@ body.modal-active {
 .form-help {
     font-size: 13px;
     color: var(--text-tertiary);
-    opacity: 0.7;
+    opacity: var(--opacity-medium);
 }
 
 /* Form section labels (wrapper labels) */
@@ -1541,24 +1565,25 @@ body.modal-active {
     padding: 12px;
     background-color: transparent;
     border: 1px solid var(--border-subtle);
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     color: var(--text-primary);
     font-size: 15px;
     font-family: inherit;
     transition: border-color 0.2s ease;
 }
 
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus {
+.form-input:focus-visible,
+.form-select:focus-visible,
+.form-textarea:focus-visible {
     outline: none;
-    border-color: var(--border-hover);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-muted);
 }
 
 .form-input::placeholder,
 .form-textarea::placeholder {
     color: var(--text-tertiary);
-    opacity: 0.5;
+    opacity: var(--opacity-low);
 }
 
 .form-select,
@@ -1601,7 +1626,7 @@ body.modal-active {
 .form-note {
     font-size: 13px;
     color: var(--text-tertiary);
-    opacity: 0.7;
+    opacity: var(--opacity-medium);
     margin: 0;
 }
 
@@ -1612,7 +1637,7 @@ body.modal-active {
     margin-bottom: 1.5rem;
     background: rgba(220, 38, 38, 0.1);
     border: 1px solid rgba(220, 38, 38, 0.3);
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     color: #dc2626;
     font-size: 14px;
     text-align: center;
@@ -1701,7 +1726,7 @@ body.modal-active {
     font-family: 'Source Serif 4', Georgia, serif;
     font-size: 1.125rem;
     color: var(--text-secondary);
-    opacity: 0.85;
+    opacity: var(--opacity-high);
     line-height: 1.7;
 }
 
@@ -1715,7 +1740,7 @@ body.modal-active {
     font-family: 'Source Serif 4', Georgia, serif;
     font-size: 15px;
     color: var(--text-secondary);
-    opacity: 0.82;
+    opacity: var(--opacity-high);
     line-height: 1.75;
     margin: 0;
 }
@@ -1733,7 +1758,7 @@ body.modal-active {
     font-family: 'Source Serif 4', Georgia, serif;
     font-size: 15px;
     color: var(--text-secondary);
-    opacity: 0.82;
+    opacity: var(--opacity-high);
     line-height: 1.65;
 }
 
@@ -1761,7 +1786,7 @@ body.modal-active {
     font-family: 'Source Serif 4', Georgia, serif;
     font-size: 15px;
     color: var(--text-secondary);
-    opacity: 0.82;
+    opacity: var(--opacity-high);
     line-height: 1.75;
     margin: 0;
 }
@@ -1826,6 +1851,8 @@ body.modal-active {
     border-radius: var(--glass-radius-sm, 12px);
     padding: 0.75rem;
     min-width: 200px;
+    /* Prevent dropdown from overflowing viewport on ultra-wide screens */
+    max-width: calc(100vw - 2rem);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     opacity: 0;
     visibility: hidden;
@@ -1851,7 +1878,7 @@ body.modal-active {
     padding: 1rem 1.25rem;
     text-decoration: none;
     color: var(--text-primary);
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     transition: background-color 0.2s ease;
 }
 
@@ -1867,7 +1894,7 @@ body.modal-active {
 }
 
 .nav-dropdown-item + .nav-dropdown-item:hover {
-    border-radius: 8px;
+    border-radius: var(--radius-md);
 }
 
 .dropdown-item-header {
@@ -1939,7 +1966,7 @@ body.modal-active {
 }
 
 .nav--collapsed .nav-menu.active .nav-dropdown-toggle:active {
-    opacity: 0.6;
+    opacity: var(--opacity-low);
 }
 
 .nav--collapsed .nav-menu.active .nav-dropdown-menu {
@@ -1988,7 +2015,7 @@ body.modal-active {
 
 /* Disabled/Coming Soon state for dropdown items */
 .nav-dropdown-item--disabled {
-    opacity: 0.4;
+    opacity: var(--opacity-muted);
     cursor: default;
     pointer-events: none;
 }
@@ -1999,7 +2026,7 @@ body.modal-active {
 
 .dropdown-descriptor--coming-soon {
     font-style: italic;
-    opacity: 0.7;
+    opacity: var(--opacity-medium);
 }
 
 /* ===========================================
@@ -2041,12 +2068,10 @@ body.modal-active {
 /* Global focus ring for all interactive elements */
 a:focus-visible,
 button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible,
 [tabindex]:focus-visible {
     outline: 2px solid var(--focus-ring);
     outline-offset: var(--focus-ring-offset);
+    border-radius: var(--radius-sm);
 }
 
 /* Remove default outline when using focus-visible */

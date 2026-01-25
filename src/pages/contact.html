@@ -40,8 +40,12 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/src/styles/styles.css">
+    <link rel="stylesheet" href="/src/styles/dot-grid.css">
 </head>
 <body>
+    <!-- Dynamic Background -->
+    <div class="dot-grid" aria-hidden="true"><canvas id="dotWaveCanvas"></canvas></div>
+
     <!-- Menu Backdrop -->
     <div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
 
@@ -129,7 +133,7 @@
                         For case studies, collaborations, or other inquiries:
                     </p>
                     <p style="margin-bottom: 2rem;">
-                        <a href="mailto:bertrandbrands@outlook.com" style="color: var(--text-primary); text-decoration: none; font-weight: 500;">bertrandbrands@outlook.com</a>
+                        <a href="mailto:hello@bertrandbrands.com" style="color: var(--text-primary); text-decoration: none; font-weight: 500;">hello@bertrandbrands.com</a>
                     </p>
                 </div>
 
@@ -145,7 +149,7 @@
                         Something went wrong. Please try again.
                     </div>
 
-                    <form action="https://formspree.io/f/meeeazrq" method="POST" class="email-form" id="emailForm" data-fallback="mailto:bertrandbrands@outlook.com?subject=Email%20Signup%20-%20scottbertrand.com">
+                    <form action="https://formspree.io/f/meeeazrq" method="POST" class="email-form" id="emailForm" data-fallback="mailto:hello@bertrandbrands.com?subject=Email%20Signup%20-%20scottbertrand.com">
                         <!-- Formspree configuration -->
                         <input type="hidden" name="_subject" value="New Email Signup — scottbertrand.com">
                         <input type="hidden" name="_next" value="https://scottbertrand.com/contact.html?success=true">
@@ -180,7 +184,7 @@
         const form = document.getElementById('emailForm');
         const successMessage = document.getElementById('successMessage');
         const formError = document.getElementById('formError');
-        const fallbackEmail = 'bertrandbrands@outlook.com';
+        const fallbackEmail = 'hello@bertrandbrands.com';
 
         // Check for success param (redirect from Formspree)
         if (new URLSearchParams(window.location.search).get('success') === 'true') {
@@ -232,5 +236,6 @@
         });
     </script>
     <script type="module" src="/src/scripts/visitor-notify.js"></script>
+    <script type="module" src="/src/scripts/dot-grid.js"></script>
 </body>
 </html>

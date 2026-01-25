@@ -49,6 +49,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Close dropdown AND hamburger menu when clicking dropdown items
+    menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            closeDropdown();
+            // Also close the hamburger menu if it's open (mobile)
+            const navMenu = document.querySelector('.nav-menu');
+            const navContainer = document.querySelector('.nav-container');
+            if (navMenu && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                navMenu.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+                document.body.style.position = '';
+                document.body.style.width = '';
+                // Update hamburger button state
+                const hamburger = navContainer?.querySelector('.hamburger-menu');
+                if (hamburger) {
+                    hamburger.classList.remove('active');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                }
+                // Hide backdrop
+                const backdrop = document.getElementById('menuBackdrop');
+                if (backdrop) {
+                    backdrop.classList.remove('active');
+                }
+            }
+        });
+    });
+
     // Close dropdown on escape key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
@@ -57,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Keyboard navigation
+    // Keyboard navigation for toggle
     toggle.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
@@ -66,8 +94,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 closeDropdown();
             } else {
                 openDropdown();
+                // Focus first menu item after opening
+                if (menuLinks.length > 0) {
+                    setTimeout(() => menuLinks[0].focus(), 50);
+                }
+            }
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+            if (!isExpanded) {
+                openDropdown();
+            }
+            if (menuLinks.length > 0) {
+                setTimeout(() => menuLinks[0].focus(), 50);
             }
         }
+    });
+
+    // Arrow key navigation within dropdown menu
+    menuLinks.forEach((link, index) => {
+        link.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                const nextIndex = (index + 1) % menuLinks.length;
+                menuLinks[nextIndex].focus();
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                const prevIndex = (index - 1 + menuLinks.length) % menuLinks.length;
+                menuLinks[prevIndex].focus();
+            } else if (e.key === 'Tab' && !e.shiftKey && index === menuLinks.length - 1) {
+                // Close dropdown when tabbing out of last item
+                closeDropdown();
+            } else if (e.key === 'Tab' && e.shiftKey && index === 0) {
+                // Close dropdown when shift-tabbing out of first item
+                closeDropdown();
+            }
+        });
     });
 
     // Handle bfcache (back/forward cache) - reset dropdown state when page is restored

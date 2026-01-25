@@ -1,0 +1,25 @@
+/* ===========================================
+   Dot Grid Background
+   Canvas-based animated dot wave pattern
+   =========================================== */
+
+/* Canvas-based dot wave - container only */
+.dot-grid {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.dot-grid canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Respect reduced motion - canvas will check this in JS */
+@media (prefers-reduced-motion: reduce) {
+    .dot-grid canvas {
+        /* Static fallback handled in JS */
+    }
+}

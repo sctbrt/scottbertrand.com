@@ -1,56 +1,16 @@
 /* ===================================
-   Accent Color System — Test Options
+   Accent Color System
    scottbertrand.com v1.5.2
+
+   Canonical: Warm Amber (Architectural, Earthy)
    =================================== */
 
-/* ===========================================
-   ORANGE ACCENT OPTIONS
-   Uncomment ONE option to test
-   =========================================== */
-
-/* --- OPTION A: Warm Amber (Architectural, Earthy) --- */
 :root {
     --accent: #D97706;           /* Primary accent */
     --accent-light: #F59E0B;     /* Lighter variant for hover/highlights */
     --accent-muted: rgba(217, 119, 6, 0.15);  /* Subtle backgrounds */
     --accent-glow: rgba(217, 119, 6, 0.08);   /* Very subtle glow */
 }
-
-/* --- OPTION B: Burnt Orange (Rich, Premium) ---
-:root {
-    --accent: #C2410C;
-    --accent-light: #EA580C;
-    --accent-muted: rgba(194, 65, 12, 0.15);
-    --accent-glow: rgba(194, 65, 12, 0.08);
-}
-*/
-
-/* --- OPTION C: Soft Coral (Warm, Approachable) ---
-:root {
-    --accent: #F97316;
-    --accent-light: #FB923C;
-    --accent-muted: rgba(249, 115, 22, 0.15);
-    --accent-glow: rgba(249, 115, 22, 0.08);
-}
-*/
-
-/* --- OPTION D: Deep Terracotta (Sophisticated, Muted) ---
-:root {
-    --accent: #B45309;
-    --accent-light: #D97706;
-    --accent-muted: rgba(180, 83, 9, 0.15);
-    --accent-glow: rgba(180, 83, 9, 0.08);
-}
-*/
-
-/* --- OPTION E: Copper (Metallic Feel, Premium) ---
-:root {
-    --accent: #B87333;
-    --accent-light: #CD853F;
-    --accent-muted: rgba(184, 115, 51, 0.15);
-    --accent-glow: rgba(184, 115, 51, 0.08);
-}
-*/
 
 /* Dark mode adjustments - slightly brighter for contrast */
 [data-theme="dark"] {
@@ -128,60 +88,6 @@
 .accent-bar--center {
     margin-left: auto;
     margin-right: auto;
-}
-
-
-/* ===========================================
-   "HOW THIS WORKS" SECTION VARIANTS
-   Apply these classes to test different treatments
-   =========================================== */
-
-/* --- Variant 1: Accent Header Only --- */
-#how-it-works.accent-v1 .section-title {
-    color: var(--accent);
-}
-
-/* --- Variant 2: Accent Step Numbers --- */
-#how-it-works.accent-v2 .step-number {
-    color: var(--accent);
-    border-color: rgba(217, 119, 6, 0.25);
-    background: var(--accent-glow);
-}
-
-/* --- Variant 3: Accent Header + Step Numbers --- */
-#how-it-works.accent-v3 .section-title {
-    color: var(--accent);
-}
-
-#how-it-works.accent-v3 .step-number {
-    color: var(--accent);
-    border-color: rgba(217, 119, 6, 0.25);
-    background: var(--accent-glow);
-}
-
-/* --- Variant 4: Subtle Accent Bar Above Section Title --- */
-#how-it-works.accent-v4 .section-header::before {
-    content: '';
-    display: block;
-    width: 40px;
-    height: 2px;
-    background: var(--accent);
-    margin: 0 auto 1rem;
-}
-
-/* --- Variant 5: Glass Panels with Subtle Orange Edge Highlight ---
-   NOTE: This is the most restrained glow approach - edge-only, not surface
-   Still more visible than pure architectural glass, so use with caution */
-#how-it-works.accent-v5 .glass.glass--panel {
-    box-shadow:
-        inset 0 1px 0 rgba(217, 119, 6, 0.08),
-        0 0 0 1px rgba(217, 119, 6, 0.04);
-}
-
-[data-theme="dark"] #how-it-works.accent-v5 .glass.glass--panel {
-    box-shadow:
-        inset 0 1px 0 rgba(217, 119, 6, 0.12),
-        0 0 0 1px rgba(217, 119, 6, 0.06);
 }
 
 

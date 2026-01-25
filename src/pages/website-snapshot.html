@@ -40,6 +40,7 @@
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="/src/styles/styles.css">
+    <link rel="stylesheet" href="/src/styles/dot-grid.css">
     <style>
         .landing-hero {
             padding: 5rem 2rem 4rem;
@@ -145,6 +146,9 @@
     </style>
 </head>
 <body>
+    <!-- Dynamic Background -->
+    <div class="dot-grid" aria-hidden="true"><canvas id="dotWaveCanvas"></canvas></div>
+
     <!-- Menu Backdrop -->
     <div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
 
@@ -266,5 +270,6 @@
     <script type="module" src="/src/scripts/dropdown.js"></script>
     <script type="module" src="/src/scripts/modal.js"></script>
     <script type="module" src="/src/scripts/visitor-notify.js"></script>
+    <script type="module" src="/src/scripts/dot-grid.js"></script>
 </body>
 </html>

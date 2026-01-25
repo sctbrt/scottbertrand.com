@@ -117,6 +117,13 @@
   --weight-medium: 500;
   --weight-semibold: 600;
 
+  /* === Opacity Scale === */
+  --opacity-full: 1;
+  --opacity-high: 0.85;     /* Secondary text, prominent muted elements */
+  --opacity-medium: 0.70;   /* Tertiary text, labels, captions */
+  --opacity-low: 0.55;      /* Subtle text, placeholders */
+  --opacity-muted: 0.40;    /* Disabled, very subtle */
+
   /* === Motion === */
   --duration-fast: 120ms;
   --duration-normal: 200ms;

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <!-- SEO -->
     <link rel="canonical" href="https://scottbertrand.com/">
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
@@ -138,6 +138,7 @@
     <!-- Stylesheets -->
     <link rel="stylesheet" href="/src/styles/styles.css">
     <link rel="stylesheet" href="/src/styles/glass.css">
+    <link rel="stylesheet" href="/src/styles/dot-grid.css">
     <style>
         /* V1.5.2 Storefront-specific styles with fluid typography */
 
@@ -149,7 +150,7 @@
         .ambient-gradient {
             position: fixed;
             inset: 0;
-            z-index: -1;
+            z-index: -2;
             overflow: hidden;
             pointer-events: none;
         }
@@ -222,32 +223,6 @@
             .ambient-gradient::before,
             .ambient-gradient::after {
                 animation: none;
-            }
-        }
-
-        /* ===========================================
-           Dotted Grid Overlay
-           Subtle waving grid pattern
-           =========================================== */
-
-        /* Canvas-based dot wave - container only */
-        .dot-grid {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .dot-grid canvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        /* Respect reduced motion - canvas will check this in JS */
-        @media (prefers-reduced-motion: reduce) {
-            .dot-grid canvas {
-                /* Static fallback handled in JS */
             }
         }
 
@@ -527,19 +502,44 @@
             padding: 0 0.5rem;
         }
 
-        /* Orange glow for process steps (2x intensity) */
+        /* Nav-style glass for process steps */
         .process-step.glass--panel {
+            /* Nav-style multi-layer gradient */
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.4) 0%,
+                    rgba(255, 255, 255, 0.2) 50%,
+                    rgba(0, 0, 0, 0.01) 100%
+                ),
+                rgba(250, 250, 250, 0.3);
+            backdrop-filter: blur(24px) saturate(180%) brightness(1.05);
+            -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.05);
             box-shadow:
-                0 0 40px rgba(217, 119, 6, 0.12),
-                0 0 80px rgba(217, 119, 6, 0.06);
+                0 8px 32px rgba(0, 0, 0, 0.12),
+                0 2px 8px rgba(0, 0, 0, 0.06),
+                inset 0 1px 1px rgba(255, 255, 255, 0.8),
+                inset 0 -1px 1px rgba(0, 0, 0, 0.05);
             border-color: rgba(217, 119, 6, 0.2);
             transition: box-shadow 0.4s ease, border-color 0.4s ease;
         }
 
         [data-theme="dark"] .process-step.glass--panel {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.06) 0%,
+                    rgba(255, 255, 255, 0.01) 50%,
+                    rgba(0, 0, 0, 0.03) 100%
+                ),
+                rgba(10, 10, 10, 0.3);
+            backdrop-filter: blur(24px) saturate(180%) brightness(1.1);
+            -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.1);
             box-shadow:
-                0 0 50px rgba(245, 158, 11, 0.16),
-                0 0 100px rgba(245, 158, 11, 0.08);
+                0 8px 32px rgba(0, 0, 0, 0.35),
+                0 2px 8px rgba(0, 0, 0, 0.15),
+                inset 0 1px 1px rgba(255, 255, 255, 0.1),
+                inset 0 -1px 1px rgba(0, 0, 0, 0.1);
             border-color: rgba(245, 158, 11, 0.24);
         }
 
@@ -548,15 +548,19 @@
         @media (hover: hover) {
             .process-step.glass--panel:hover {
                 box-shadow:
-                    0 0 50px rgba(217, 119, 6, 0.24),
-                    0 0 100px rgba(217, 119, 6, 0.12);
+                    0 12px 40px rgba(0, 0, 0, 0.15),
+                    0 4px 12px rgba(0, 0, 0, 0.08),
+                    inset 0 1px 1px rgba(255, 255, 255, 0.9),
+                    inset 0 -1px 1px rgba(0, 0, 0, 0.05);
                 border-color: rgba(217, 119, 6, 0.36);
             }
 
             [data-theme="dark"] .process-step.glass--panel:hover {
                 box-shadow:
-                    0 0 60px rgba(245, 158, 11, 0.32),
-                    0 0 120px rgba(245, 158, 11, 0.16);
+                    0 12px 48px rgba(0, 0, 0, 0.45),
+                    0 4px 16px rgba(0, 0, 0, 0.2),
+                    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+                    inset 0 -1px 1px rgba(0, 0, 0, 0.1);
                 border-color: rgba(245, 158, 11, 0.44);
             }
         }
@@ -564,15 +568,19 @@
         /* Mobile/touch: active state brightens while pressed */
         .process-step.glass--panel:active {
             box-shadow:
-                0 0 50px rgba(217, 119, 6, 0.24),
-                0 0 100px rgba(217, 119, 6, 0.12);
+                0 12px 40px rgba(0, 0, 0, 0.15),
+                0 4px 12px rgba(0, 0, 0, 0.08),
+                inset 0 1px 1px rgba(255, 255, 255, 0.9),
+                inset 0 -1px 1px rgba(0, 0, 0, 0.05);
             border-color: rgba(217, 119, 6, 0.36);
         }
 
         [data-theme="dark"] .process-step.glass--panel:active {
             box-shadow:
-                0 0 60px rgba(245, 158, 11, 0.32),
-                0 0 120px rgba(245, 158, 11, 0.16);
+                0 12px 48px rgba(0, 0, 0, 0.45),
+                0 4px 16px rgba(0, 0, 0, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.15),
+                inset 0 -1px 1px rgba(0, 0, 0, 0.1);
             border-color: rgba(245, 158, 11, 0.44);
         }
 
@@ -592,9 +600,27 @@
         /* Reset glass--panel padding for case study cards */
         .case-study-card.glass--panel {
             padding: clamp(1.5rem, 1.25rem + 0.5vw, 2rem);
-            /* Ensure glass background is visible */
-            background: var(--glass-bg);
+            /* Nav-style glass background */
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.4) 0%,
+                    rgba(255, 255, 255, 0.2) 50%,
+                    rgba(0, 0, 0, 0.01) 100%
+                ),
+                rgba(250, 250, 250, 0.3);
             border: 1px solid var(--glass-border-outer);
+        }
+
+        [data-theme="dark"] .case-study-card.glass--panel {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.06) 0%,
+                    rgba(255, 255, 255, 0.01) 50%,
+                    rgba(0, 0, 0, 0.03) 100%
+                ),
+                rgba(10, 10, 10, 0.3);
         }
 
         /* Case Study Grid — Single column stack (3 cards vertical) */
@@ -619,12 +645,16 @@
             scroll-snap-align: none;
         }
 
-        /* Case study card - enhanced glass visibility */
+        /* Case study card - Nav-style glass */
         .case-study-grid .case-study-card {
             position: relative;
-            background: var(--glass-bg);
-            backdrop-filter: blur(var(--glass-blur-core, 20px)) saturate(140%);
-            -webkit-backdrop-filter: blur(var(--glass-blur-core, 20px)) saturate(140%);
+            backdrop-filter: blur(24px) saturate(180%) brightness(1.05);
+            -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.05);
+        }
+
+        [data-theme="dark"] .case-study-grid .case-study-card {
+            backdrop-filter: blur(24px) saturate(180%) brightness(1.1);
+            -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.1);
         }
 
         /* Field Notes — Blue glow (enhanced for light mode visibility) */
@@ -862,28 +892,34 @@
             gap: 1.5rem;
             overflow-x: auto;
             overflow-y: hidden;
-            scroll-snap-type: x mandatory;
+            /* Use proximity instead of mandatory for smoother mobile scrolling */
+            scroll-snap-type: x proximity;
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
             -ms-overflow-style: none;
-            padding: 1rem 2.5rem;
-            margin: 0 -2rem;
-            /* Fade mask */
+            /* Reduced padding/mask for small mobile screens */
+            padding: 1rem 1.5rem;
+            margin: 0 -1.25rem;
+            /* Smaller fade mask on mobile to prevent content clipping */
             mask-image: linear-gradient(
                 to right,
                 transparent 0%,
-                black 2.5rem,
-                black calc(100% - 2.5rem),
+                black 1.25rem,
+                black calc(100% - 1.25rem),
                 transparent 100%
             );
             -webkit-mask-image: linear-gradient(
                 to right,
                 transparent 0%,
-                black 2.5rem,
-                black calc(100% - 2.5rem),
+                black 1.25rem,
+                black calc(100% - 1.25rem),
                 transparent 100%
             );
+            /* Prevent accidental horizontal scrolling triggering card clicks */
+            touch-action: pan-x;
+            /* Add scroll padding for better snap alignment */
+            scroll-padding: 1.5rem;
         }
 
         .services-carousel::-webkit-scrollbar {
@@ -892,19 +928,51 @@
 
         .services-carousel .service-card {
             flex: 0 0 auto;
-            width: min(85vw, 380px);
-            scroll-snap-align: center;
+            /* Slightly wider cards on mobile for better readability */
+            width: min(88vw, 360px);
+            scroll-snap-align: start;
+            /* Prevent double-tap zoom delay on cards */
+            touch-action: manipulation;
+        }
+
+        /* Tablets: balanced sizing */
+        @media (min-width: 640px) {
+            .services-carousel {
+                padding: 1rem 2.5rem;
+                margin: 0 -2rem;
+                scroll-padding: 2.5rem;
+                mask-image: linear-gradient(
+                    to right,
+                    transparent 0%,
+                    black 2.5rem,
+                    black calc(100% - 2.5rem),
+                    transparent 100%
+                );
+                -webkit-mask-image: linear-gradient(
+                    to right,
+                    transparent 0%,
+                    black 2.5rem,
+                    black calc(100% - 2.5rem),
+                    transparent 100%
+                );
+            }
+
+            .services-carousel .service-card {
+                width: min(75vw, 380px);
+            }
         }
 
         /* Desktop: larger cards, wider fade */
         @media (min-width: 768px) {
             .services-carousel .service-card {
-                width: min(45vw, 420px);
+                /* Smooth scaling instead of abrupt change at 1200px */
+                width: clamp(320px, 40vw, 400px);
             }
 
             .services-carousel {
                 padding: 1rem 4rem;
                 margin: 0 -3rem;
+                scroll-padding: 4rem;
                 mask-image: linear-gradient(
                     to right,
                     transparent 0%,
@@ -922,10 +990,43 @@
             }
         }
 
-        /* Large screens */
+        /* Large screens - slightly narrower for better text line lengths */
         @media (min-width: 1200px) {
             .services-carousel .service-card {
-                width: 380px;
+                width: clamp(340px, 30vw, 400px);
+            }
+        }
+
+        /* ===========================================
+           Carousel Scroll Indicator (Mobile only)
+           Shows progress through service cards
+           =========================================== */
+        .carousel-scroll-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.25rem;
+            padding: 0.5rem 0;
+        }
+
+        .carousel-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-secondary);
+            opacity: 0.25;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            opacity: 0.7;
+            transform: scale(1.3);
+        }
+
+        /* Hide on larger screens where cards are all visible */
+        @media (min-width: 1024px) {
+            .carousel-scroll-indicator {
+                display: none;
             }
         }
 
@@ -935,55 +1036,87 @@
         }
 
         .service-card {
-            background: rgba(128, 128, 128, 0.02);
+            /* Nav-style glass: visible but translucent */
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.4) 0%,
+                    rgba(255, 255, 255, 0.2) 50%,
+                    rgba(0, 0, 0, 0.01) 100%
+                ),
+                rgba(250, 250, 250, 0.3);
+            backdrop-filter: blur(24px) saturate(180%) brightness(1.05);
+            -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.05);
             border: 1px solid rgba(128, 128, 128, 0.1);
             border-radius: var(--glass-radius-md, 16px);
             padding: clamp(1.5rem, 1.25rem + 0.5vw, 2rem);
             transition: all 0.3s ease;
-            /* Orange glow for service cards */
+            /* Nav-style shadows with inset highlights */
             box-shadow:
-                0 0 20px rgba(217, 119, 6, 0.08),
-                0 0 40px rgba(217, 119, 6, 0.04);
+                0 8px 32px rgba(0, 0, 0, 0.12),
+                0 2px 8px rgba(0, 0, 0, 0.06),
+                inset 0 1px 1px rgba(255, 255, 255, 0.8),
+                inset 0 -1px 1px rgba(0, 0, 0, 0.05);
             border-color: rgba(217, 119, 6, 0.15);
         }
 
         [data-theme="dark"] .service-card {
+            /* Nav-style dark mode glass */
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.06) 0%,
+                    rgba(255, 255, 255, 0.01) 50%,
+                    rgba(0, 0, 0, 0.03) 100%
+                ),
+                rgba(10, 10, 10, 0.3);
+            backdrop-filter: blur(24px) saturate(180%) brightness(1.1);
+            -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.1);
             box-shadow:
-                0 0 25px rgba(245, 158, 11, 0.10),
-                0 0 50px rgba(245, 158, 11, 0.05);
+                0 8px 32px rgba(0, 0, 0, 0.35),
+                0 2px 8px rgba(0, 0, 0, 0.15),
+                inset 0 1px 1px rgba(255, 255, 255, 0.1),
+                inset 0 -1px 1px rgba(0, 0, 0, 0.1);
             border-color: rgba(245, 158, 11, 0.18);
         }
 
-        /* Service card hover - enhanced glow (desktop) */
+        /* Service card hover - enhanced glass (desktop) */
         @media (hover: hover) {
             .service-card:hover {
                 box-shadow:
-                    0 0 30px rgba(217, 119, 6, 0.20),
-                    0 0 60px rgba(217, 119, 6, 0.12);
+                    0 12px 40px rgba(0, 0, 0, 0.15),
+                    0 4px 12px rgba(0, 0, 0, 0.08),
+                    inset 0 1px 1px rgba(255, 255, 255, 0.9),
+                    inset 0 -1px 1px rgba(0, 0, 0, 0.05);
                 border-color: rgba(217, 119, 6, 0.35);
-                background: rgba(128, 128, 128, 0.03);
             }
 
             [data-theme="dark"] .service-card:hover {
                 box-shadow:
-                    0 0 40px rgba(245, 158, 11, 0.24),
-                    0 0 80px rgba(245, 158, 11, 0.14);
+                    0 12px 48px rgba(0, 0, 0, 0.45),
+                    0 4px 16px rgba(0, 0, 0, 0.2),
+                    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+                    inset 0 -1px 1px rgba(0, 0, 0, 0.1);
                 border-color: rgba(245, 158, 11, 0.40);
             }
         }
 
-        /* Service card active/touch - enhanced glow */
+        /* Service card active/touch - enhanced glass */
         .service-card:active {
             box-shadow:
-                0 0 30px rgba(217, 119, 6, 0.20),
-                0 0 60px rgba(217, 119, 6, 0.12);
+                0 12px 40px rgba(0, 0, 0, 0.15),
+                0 4px 12px rgba(0, 0, 0, 0.08),
+                inset 0 1px 1px rgba(255, 255, 255, 0.9),
+                inset 0 -1px 1px rgba(0, 0, 0, 0.05);
             border-color: rgba(217, 119, 6, 0.35);
         }
 
         [data-theme="dark"] .service-card:active {
             box-shadow:
-                0 0 40px rgba(245, 158, 11, 0.24),
-                0 0 80px rgba(245, 158, 11, 0.14);
+                0 12px 48px rgba(0, 0, 0, 0.45),
+                0 4px 16px rgba(0, 0, 0, 0.2),
+                inset 0 1px 1px rgba(255, 255, 255, 0.15),
+                inset 0 -1px 1px rgba(0, 0, 0, 0.1);
             border-color: rgba(245, 158, 11, 0.40);
         }
 
@@ -1151,27 +1284,30 @@
             }
 
             /* --- Hero Container --- */
+            /* Reduced header height ~10% and softened inner padding */
             .hero-storefront {
                 min-height: auto;
-                padding: 88px 1.25rem 48px;
+                padding: 72px 1.25rem 40px;
             }
 
             /* Hero content uses flexbox for reordering */
+            /* Added breathing room with increased padding */
             .hero-content {
                 display: flex;
                 flex-direction: column;
+                padding: 1.5rem 0.5rem;
             }
 
             /* --- Mobile Hero Hierarchy (3 levels maintained) --- */
 
-            /* Level 1: BERTRAND BRANDS - Still largest on mobile */
+            /* Level 1: BERTRAND BRANDS - reduced ~10% for less visual weight */
             .hero-brand {
-                margin-bottom: 0.75rem;
+                margin-bottom: 0.5rem;
                 order: 1;
             }
 
             .hero-brand-wordmark {
-                height: 88px;
+                height: 78px;
             }
 
             /* Level 2: Brand & Web Systems - Medium */
@@ -1183,27 +1319,31 @@
                 order: 2;
             }
 
-            /* Level 3: for Greater Sudbury & Northern Ontario - Smaller */
+            /* Level 3: for Greater Sudbury & Northern Ontario - Quieter (smaller, softer) */
             .tagline-location {
-                font-size: 0.9375rem;
-                margin-bottom: 1.25rem;
+                font-size: 0.875rem;
+                margin-bottom: 1.5rem;
                 order: 3;
+                opacity: 0.75;
             }
 
-            /* --- 4) Subtitle: One line above CTAs --- */
+            /* --- 4) Subtitle: Improved contrast (brighter) --- */
             .hero-storefront .subtitle {
                 font-size: 0.9375rem;
-                line-height: 1.5;
-                margin-bottom: 1.5rem;
+                line-height: 1.55;
+                margin-bottom: 1.75rem;
                 order: 4;
+                color: var(--text-primary);
+                opacity: 0.85;
             }
 
-            /* --- 5) CTA Group: Primary dominant --- */
+            /* --- 5) CTA Group: Improved vertical rhythm --- */
             .cta-group {
                 flex-direction: column;
                 width: 100%;
-                gap: 0.75rem;
+                gap: 1rem;
                 order: 5;
+                margin-bottom: 0.5rem;
             }
 
             .cta-group .btn {
@@ -1211,43 +1351,36 @@
                 text-align: center;
             }
 
-            /* Primary CTA - full presence */
+            /* Primary CTA - full presence with enhanced contrast */
             .cta-group .btn-primary {
-                padding: 1rem 1.5rem;
+                padding: 1.125rem 1.5rem;
                 font-size: 0.9375rem;
             }
 
-            /* Secondary CTA - visually lighter */
+            /* Secondary CTA - more breathing room */
             .cta-group .btn-secondary {
-                padding: 0.75rem 1.5rem;
+                padding: 0.875rem 1.5rem;
                 font-size: 0.875rem;
                 opacity: 0.85;
                 border-color: rgba(128, 128, 128, 0.15);
             }
 
-            /* --- 6) Authority statement: Move below CTAs --- */
+            /* --- 6) Authority statement: Hidden on mobile to reduce crowding --- */
             .hero-storefront .authority-statement {
-                font-size: 0.8125rem;
-                line-height: 1.5;
-                margin: 1.5rem auto 0;
-                opacity: 0.7;
-                order: 6;
+                display: none;
             }
 
-            /* --- 7) Microcopy: Pushed down with spacing --- */
+            /* --- 7) Microcopy: Better rhythm with supporting copy --- */
             .cta-microcopy {
-                margin-top: 1.25rem;
+                margin-top: 1.5rem;
                 font-size: 0.75rem;
-                opacity: 0.6;
+                opacity: 0.65;
                 order: 7;
             }
 
-            /* --- 8) Local trust: Lowest priority --- */
+            /* --- 8) Local trust: Hidden on mobile (redundant with tagline-location) --- */
             .local-trust {
-                margin-top: 1rem;
-                font-size: 0.6875rem;
-                opacity: 0.5;
-                order: 8;
+                display: none;
             }
 
             /* --- Other Mobile Adjustments --- */
@@ -1282,15 +1415,23 @@
             /* Full-screen overlay when expanded */
             .service-card.is-fullscreen {
                 position: fixed;
-                inset: 0;
+                /* Use explicit positioning for better iOS support */
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
                 z-index: 1000;
                 background: var(--bg-primary);
                 border: none;
                 border-radius: 0;
                 padding: 1.5rem;
-                padding-top: 4.5rem;
-                padding-bottom: 2rem;
+                /* Account for safe areas on notched devices */
+                padding-top: calc(4.5rem + env(safe-area-inset-top, 0px));
+                /* Leave room for sticky CTA footer */
+                padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
                 overflow-y: auto;
+                /* Prevent iOS rubber-banding affecting parent */
+                overscroll-behavior: contain;
                 cursor: default;
                 animation: slideUp 0.25s ease-out;
                 /* Lock size - prevent pinch/zoom/resize gestures */
@@ -1309,16 +1450,22 @@
                 }
             }
 
-            /* Close button for fullscreen - real element, not pseudo */
+            /* Close button for fullscreen - safe area aware */
             .fullscreen-close-btn {
                 position: fixed;
-                top: 1rem;
-                left: 1.5rem;
+                /* Account for notched devices */
+                top: max(1rem, env(safe-area-inset-top, 0px));
+                left: max(1.5rem, env(safe-area-inset-left, 0px));
                 font-size: 0.875rem;
                 font-weight: 500;
                 color: var(--text-secondary);
                 z-index: 1001;
                 padding: 0.5rem 1rem;
+                /* Minimum touch target size */
+                min-height: 44px;
+                min-width: 44px;
+                display: flex;
+                align-items: center;
                 background: transparent;
                 border: none;
                 cursor: pointer;
@@ -1362,16 +1509,18 @@
                 margin-bottom: 2rem;
             }
 
-            /* Prominent CTA in fullscreen */
+            /* Prominent CTA in fullscreen - use fixed instead of sticky for iOS reliability */
             .service-card.is-fullscreen .service-actions {
-                position: sticky;
+                position: fixed;
+                left: 0;
+                right: 0;
                 bottom: 0;
                 background: var(--bg-primary);
-                padding: 1rem 0;
-                margin: 0 -1.5rem;
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
+                padding: 1rem 1.5rem;
+                /* Account for safe area on notched devices */
+                padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
                 border-top: 1px solid rgba(128, 128, 128, 0.1);
+                z-index: 1001;
             }
 
             .service-card.is-fullscreen .btn-small {
@@ -1379,15 +1528,24 @@
                 font-size: 1rem;
             }
 
-            /* Prevent body scroll when card is fullscreen */
+            /* Prevent body scroll when card is fullscreen - improved iOS handling */
             body.has-fullscreen-card {
                 overflow: hidden;
+                position: fixed;
+                width: 100%;
+                /* Prevent iOS bounce scroll */
+                overscroll-behavior: none;
             }
         }
 
         /* ===========================================
            Hero Section — Backdrop Field for Glass Refraction
            =========================================== */
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
         .hero-storefront {
             position: relative;
         }
@@ -1571,7 +1729,7 @@
         <!-- How It Works Section -->
         <section class="section" id="how-it-works">
             <div class="container">
-                <div class="section-header">
+                <div class="section-header glass glass--callout">
                     <h2 class="section-title">How This Works</h2>
                     <p class="section-subtitle">A clear, structured process designed to protect scope and deliver results.</p>
                 </div>
@@ -1604,7 +1762,7 @@
         <!-- Ways to Work Together -->
         <section class="section" id="services">
             <div class="container">
-                <div class="section-header">
+                <div class="section-header glass glass--callout">
                     <h2 class="section-title">Ways to Work Together</h2>
                     <p class="section-subtitle">Clear pricing, fixed scope, designed for clarity and results.</p>
                 </div>
@@ -1612,7 +1770,7 @@
                 <!-- Unified Services Carousel -->
                 <div class="services-carousel-wrapper">
                     <!-- Floating tier label - updates based on scroll -->
-                    <div class="services-tier-label">
+                    <div class="services-tier-label glass glass--callout">
                         <span class="tier-name">First Step — Quick Clarity</span>
                         <span class="tier-subtitle">Low-commitment sessions for fast clarity before deeper work.</span>
                     </div>
@@ -1752,6 +1910,11 @@
                                 <a href="/request.html?service=website-audit" class="btn btn-secondary btn-small">Book a Review First</a>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Scroll position indicator (mobile) -->
+                    <div class="carousel-scroll-indicator" id="carouselIndicator" aria-hidden="true">
+                        <!-- Dots will be generated by JavaScript -->
                     </div>
                 </div>
             </div>
@@ -1945,8 +2108,30 @@
 
         function initFullscreenCards() {
             const cards = document.querySelectorAll('.service-card');
+            const SCROLL_THRESHOLD = 10; // Pixels - if moved more than this, it's a scroll not a tap
 
             cards.forEach(card => {
+                let touchStartX = 0;
+                let touchStartY = 0;
+                let isScrolling = false;
+
+                // Track touch start position
+                card.addEventListener('touchstart', (e) => {
+                    touchStartX = e.touches[0].clientX;
+                    touchStartY = e.touches[0].clientY;
+                    isScrolling = false;
+                }, { passive: true });
+
+                // Detect if user is scrolling
+                card.addEventListener('touchmove', (e) => {
+                    const deltaX = Math.abs(e.touches[0].clientX - touchStartX);
+                    const deltaY = Math.abs(e.touches[0].clientY - touchStartY);
+                    // If moved more than threshold in any direction, mark as scrolling
+                    if (deltaX > SCROLL_THRESHOLD || deltaY > SCROLL_THRESHOLD) {
+                        isScrolling = true;
+                    }
+                }, { passive: true });
+
                 card.addEventListener('click', (e) => {
                     if (!isMobile()) return;
 
@@ -1957,6 +2142,12 @@
 
                     // Don't open if clicking a link/button
                     if (e.target.closest('a, button')) return;
+
+                    // Don't open if user was scrolling the carousel
+                    if (isScrolling) {
+                        isScrolling = false; // Reset for next interaction
+                        return;
+                    }
 
                     // Open this card fullscreen
                     openFullscreen(card);
@@ -1973,26 +2164,52 @@
     })();
     </script>
 
-    <!-- Services Carousel - Tier Label Updates -->
+    <!-- Services Carousel - Tier Label Updates & Scroll Indicator -->
     <script>
     (function() {
         const carousel = document.getElementById('servicesCarousel');
         const tierLabel = document.querySelector('.services-tier-label');
+        const indicatorContainer = document.getElementById('carouselIndicator');
         if (!carousel || !tierLabel) return;
 
         const tierName = tierLabel.querySelector('.tier-name');
         const tierSubtitle = tierLabel.querySelector('.tier-subtitle');
+        const cards = carousel.querySelectorAll('.service-card[data-tier]');
         let currentTier = '';
+        let currentCardIndex = 0;
+        let scrollTimeout = null;
+
+        // Initialize scroll indicator dots
+        function initScrollIndicator() {
+            if (!indicatorContainer || cards.length === 0) return;
+
+            // Create dots for each card
+            cards.forEach((_, index) => {
+                const dot = document.createElement('span');
+                dot.className = 'carousel-dot';
+                if (index === 0) dot.classList.add('active');
+                indicatorContainer.appendChild(dot);
+            });
+        }
+
+        // Update active dot
+        function updateScrollIndicator(activeIndex) {
+            if (!indicatorContainer) return;
+            const dots = indicatorContainer.querySelectorAll('.carousel-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === activeIndex);
+            });
+        }
 
         function updateTierLabel() {
-            const cards = carousel.querySelectorAll('.service-card[data-tier]');
             const carouselRect = carousel.getBoundingClientRect();
             const carouselCenter = carouselRect.left + carouselRect.width / 2;
 
             let closestCard = null;
             let closestDistance = Infinity;
+            let closestIndex = 0;
 
-            cards.forEach(card => {
+            cards.forEach((card, index) => {
                 const cardRect = card.getBoundingClientRect();
                 const cardCenter = cardRect.left + cardRect.width / 2;
                 const distance = Math.abs(cardCenter - carouselCenter);
@@ -2000,10 +2217,18 @@
                 if (distance < closestDistance) {
                     closestDistance = distance;
                     closestCard = card;
+                    closestIndex = index;
                 }
             });
 
             if (closestCard) {
+                // Update scroll indicator
+                if (closestIndex !== currentCardIndex) {
+                    currentCardIndex = closestIndex;
+                    updateScrollIndicator(closestIndex);
+                }
+
+                // Update tier label
                 const newTier = closestCard.dataset.tier;
                 if (newTier !== currentTier) {
                     currentTier = newTier;
@@ -2022,8 +2247,46 @@
             }
         }
 
-        carousel.addEventListener('scroll', updateTierLabel, { passive: true });
+        // Debounced scroll handler for better performance
+        function handleScroll() {
+            // Immediate update for responsive feel
+            updateTierLabel();
+        }
+
+        carousel.addEventListener('scroll', handleScroll, { passive: true });
+
+        // Keyboard navigation for desktop accessibility
+        function scrollToCard(index) {
+            if (index < 0 || index >= cards.length) return;
+            const card = cards[index];
+            card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+
+        // Allow keyboard navigation when carousel or its children are focused
+        carousel.setAttribute('tabindex', '0');
+        carousel.setAttribute('role', 'region');
+        carousel.setAttribute('aria-label', 'Service offerings carousel');
+
+        carousel.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                const nextIndex = Math.min(currentCardIndex + 1, cards.length - 1);
+                scrollToCard(nextIndex);
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                const prevIndex = Math.max(currentCardIndex - 1, 0);
+                scrollToCard(prevIndex);
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                scrollToCard(0);
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                scrollToCard(cards.length - 1);
+            }
+        });
+
         // Initialize
+        initScrollIndicator();
         updateTierLabel();
     })();
     </script>
@@ -2110,215 +2373,7 @@
     })();
     </script>
 
-    <!-- Dot Wave Canvas Animation - Radial Waves -->
-    <script>
-    (function() {
-        const canvas = document.getElementById('dotWaveCanvas');
-        if (!canvas) return;
-
-        const ctx = canvas.getContext('2d');
-        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        // Configuration - radial waves like ripples in water
-        const config = {
-            dotSpacing: 22,
-            dotRadius: 2.0,
-            // Multiple radial wave sources - gentle but perceptible
-            waveSources: [
-                { x: 0.25, y: 0.35, amplitude: 5, wavelength: 140, speed: 0.028, phase: 0 },
-                { x: 0.75, y: 0.65, amplitude: 4.5, wavelength: 170, speed: 0.024, phase: Math.PI * 0.6 },
-                { x: 0.5, y: 0.2, amplitude: 3.5, wavelength: 200, speed: 0.020, phase: Math.PI * 1.2 }
-            ],
-            // Global breathing wave - slow, affects all dots
-            breathingWave: {
-                amplitude: 0.15,  // Subtle size pulse
-                speed: 0.008     // Very slow breathing
-            },
-            horizontalFactor: 0.3,  // How much horizontal movement (0-1)
-            sizeVariation: 0.5,     // How much dots grow/shrink (increased near sources)
-            opacityVariation: 0.35, // Dots fade as displaced for depth
-            opacity: {
-                light: 0.32,
-                dark: 0.22
-            }
-        };
-
-        // Soft easing function - smoother than pure sine
-        function softWave(t) {
-            // Attempt a smoother curve at peaks/troughs
-            const sin = Math.sin(t * Math.PI * 2);
-            return sin * (1 - 0.15 * sin * sin);
-        }
-
-        let animationId = null;
-        let centerX, centerY;
-
-        // Theme detection
-        function isDarkMode() {
-            return document.documentElement.getAttribute('data-theme') === 'dark';
-        }
-
-        // Get dot color with optional opacity modifier
-        function getDotColor(opacityMod = 1) {
-            const dark = isDarkMode();
-            const baseOpacity = dark ? config.opacity.dark : config.opacity.light;
-            const opacity = baseOpacity * opacityMod;
-            return dark
-                ? `rgba(245, 158, 11, ${opacity})`
-                : `rgba(217, 119, 6, ${opacity})`;
-        }
-
-        // Resize canvas
-        function resize() {
-            const dpr = window.devicePixelRatio || 1;
-            canvas.width = window.innerWidth * dpr;
-            canvas.height = window.innerHeight * dpr;
-            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-            centerX = window.innerWidth / 2;
-            centerY = window.innerHeight / 2;
-        }
-
-        // Main draw function
-        function draw(timestamp) {
-            const time = timestamp * 0.001; // Seconds
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            const spacing = config.dotSpacing;
-            const cols = Math.ceil(window.innerWidth / spacing) + 2;
-            const rows = Math.ceil(window.innerHeight / spacing) + 2;
-            const offsetX = (window.innerWidth % spacing) / 2;
-            const offsetY = (window.innerHeight % spacing) / 2;
-
-            // Store dots by opacity level for batched drawing
-            const dotsByOpacity = new Map();
-
-            for (let row = 0; row < rows; row++) {
-                for (let col = 0; col < cols; col++) {
-                    const baseX = col * spacing + offsetX;
-                    const baseY = row * spacing + offsetY;
-
-                    let x = baseX;
-                    let y = baseY;
-                    let radius = config.dotRadius;
-                    let opacityMod = 1;
-
-                    if (!reducedMotion) {
-                        let totalWaveY = 0;
-                        let totalWaveX = 0;
-                        let maxIntensity = 0;
-
-                        // Calculate radial waves from each source
-                        config.waveSources.forEach(source => {
-                            const sourceX = source.x * window.innerWidth;
-                            const sourceY = source.y * window.innerHeight;
-                            const dx = baseX - sourceX;
-                            const dy = baseY - sourceY;
-                            const distance = Math.sqrt(dx * dx + dy * dy);
-
-                            // Radial wave with softer easing
-                            const wavePhase = (distance / source.wavelength) - (time * source.speed * 10) + source.phase;
-                            const waveValue = softWave(wavePhase);
-
-                            // Gentler falloff for more visible distant waves
-                            const falloff = Math.exp(-distance / 700);
-                            const contribution = waveValue * source.amplitude * falloff;
-
-                            // Vertical displacement
-                            totalWaveY += contribution;
-
-                            // Horizontal displacement - dots push outward from source
-                            if (distance > 1) {
-                                const normalX = dx / distance;
-                                const normalY = dy / distance;
-                                totalWaveX += contribution * normalX * config.horizontalFactor;
-                            }
-
-                            // Track intensity for size/opacity (stronger near sources)
-                            const intensity = Math.abs(waveValue) * falloff;
-                            if (intensity > maxIntensity) maxIntensity = intensity;
-                        });
-
-                        // Apply displacements
-                        x += totalWaveX;
-                        y += totalWaveY;
-
-                        // Global breathing wave - gentle pulse affecting all dots
-                        const breathPhase = time * config.breathingWave.speed * 10;
-                        const breathValue = Math.sin(breathPhase * Math.PI * 2);
-                        const breathScale = 1 + breathValue * config.breathingWave.amplitude;
-
-                        // Size varies with wave intensity (more dramatic near sources)
-                        const sizeBoost = 1 + maxIntensity * 2; // Stronger effect near wave origins
-                        radius = config.dotRadius * breathScale * (1 + (totalWaveY / 10) * config.sizeVariation * sizeBoost);
-                        radius = Math.max(radius, config.dotRadius * 0.5); // Minimum size
-
-                        // Opacity varies with displacement for depth
-                        const displacement = Math.sqrt(totalWaveX * totalWaveX + totalWaveY * totalWaveY);
-                        opacityMod = 1 - (displacement / 15) * config.opacityVariation;
-                        opacityMod = Math.max(opacityMod, 0.5); // Minimum opacity
-                    }
-
-                    // Round opacity for batching (reduces draw calls)
-                    const opacityKey = Math.round(opacityMod * 20) / 20;
-                    if (!dotsByOpacity.has(opacityKey)) {
-                        dotsByOpacity.set(opacityKey, []);
-                    }
-                    dotsByOpacity.get(opacityKey).push({ x, y, radius });
-                }
-            }
-
-            // Draw dots batched by opacity level
-            dotsByOpacity.forEach((dots, opacityMod) => {
-                ctx.fillStyle = getDotColor(opacityMod);
-                ctx.beginPath();
-                dots.forEach(dot => {
-                    ctx.moveTo(dot.x + dot.radius, dot.y);
-                    ctx.arc(dot.x, dot.y, dot.radius, 0, Math.PI * 2);
-                });
-                ctx.fill();
-            });
-
-            if (!reducedMotion) {
-                animationId = requestAnimationFrame(draw);
-            }
-        }
-
-        // Initialize
-        resize();
-
-        if (reducedMotion) {
-            draw(0);
-        } else {
-            animationId = requestAnimationFrame(draw);
-        }
-
-        // Resize handler
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(resize, 150);
-        }, { passive: true });
-
-        // Theme change handler
-        const observer = new MutationObserver(() => {
-            if (reducedMotion) draw(0);
-        });
-        observer.observe(document.documentElement, {
-            attributes: true,
-            attributeFilter: ['data-theme']
-        });
-
-        // Visibility handler
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden && animationId) {
-                cancelAnimationFrame(animationId);
-                animationId = null;
-            } else if (!document.hidden && !reducedMotion && !animationId) {
-                animationId = requestAnimationFrame(draw);
-            }
-        });
-    })();
-    </script>
+    <!-- Dot Wave Canvas Animation -->
+    <script type="module" src="/src/scripts/dot-grid.js"></script>
 </body>
 </html>

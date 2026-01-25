@@ -160,7 +160,7 @@
 
         /* Hero brand wordmark sizing - fluid from mobile to desktop */
         .hero-brand-wordmark {
-            height: clamp(42px, 36px + 2.25vw, 63px);
+            height: clamp(80px, 70px + 4.5vw, 120px);
             width: auto;
             display: block;
             margin: 0 auto;
@@ -341,6 +341,24 @@
             border-color: var(--text-primary);
         }
 
+        /* Hero CTA buttons - Bertrand Brands orange text only */
+        .hero-storefront .cta-group .btn-primary {
+            color: #F59E0B;
+        }
+
+        .hero-storefront .cta-group .btn-secondary {
+            color: #D97706;
+        }
+
+        /* Dark mode adjustments */
+        [data-theme="dark"] .hero-storefront .cta-group .btn-primary {
+            color: #D97706;
+        }
+
+        [data-theme="dark"] .hero-storefront .cta-group .btn-secondary {
+            color: #F59E0B;
+        }
+
         /* Section styling */
         .section {
             padding: clamp(3.5rem, 3rem + 2vw, 6rem) 2rem;
@@ -397,53 +415,239 @@
             padding: 0 0.5rem;
         }
 
-        /* Subtle orange glow for process steps */
+        /* Orange glow for process steps (2x intensity) */
         .process-step.glass--panel {
             box-shadow:
-                0 0 20px rgba(217, 119, 6, 0.06),
-                0 0 40px rgba(217, 119, 6, 0.03);
-            border-color: rgba(217, 119, 6, 0.1);
+                0 0 40px rgba(217, 119, 6, 0.12),
+                0 0 80px rgba(217, 119, 6, 0.06);
+            border-color: rgba(217, 119, 6, 0.2);
             transition: box-shadow 0.4s ease, border-color 0.4s ease;
         }
 
         [data-theme="dark"] .process-step.glass--panel {
             box-shadow:
-                0 0 25px rgba(245, 158, 11, 0.08),
-                0 0 50px rgba(245, 158, 11, 0.04);
-            border-color: rgba(245, 158, 11, 0.12);
+                0 0 50px rgba(245, 158, 11, 0.16),
+                0 0 100px rgba(245, 158, 11, 0.08);
+            border-color: rgba(245, 158, 11, 0.24);
         }
 
-        /* Dynamic glow on interaction - subtle glass response */
+        /* Dynamic glow on interaction - glass response */
         /* Desktop: hover brightens glow */
         @media (hover: hover) {
             .process-step.glass--panel:hover {
                 box-shadow:
-                    0 0 25px rgba(217, 119, 6, 0.12),
-                    0 0 50px rgba(217, 119, 6, 0.06);
-                border-color: rgba(217, 119, 6, 0.18);
+                    0 0 50px rgba(217, 119, 6, 0.24),
+                    0 0 100px rgba(217, 119, 6, 0.12);
+                border-color: rgba(217, 119, 6, 0.36);
             }
 
             [data-theme="dark"] .process-step.glass--panel:hover {
                 box-shadow:
-                    0 0 30px rgba(245, 158, 11, 0.16),
-                    0 0 60px rgba(245, 158, 11, 0.08);
-                border-color: rgba(245, 158, 11, 0.22);
+                    0 0 60px rgba(245, 158, 11, 0.32),
+                    0 0 120px rgba(245, 158, 11, 0.16);
+                border-color: rgba(245, 158, 11, 0.44);
             }
         }
 
         /* Mobile/touch: active state brightens while pressed */
         .process-step.glass--panel:active {
             box-shadow:
-                0 0 25px rgba(217, 119, 6, 0.12),
-                0 0 50px rgba(217, 119, 6, 0.06);
-            border-color: rgba(217, 119, 6, 0.18);
+                0 0 50px rgba(217, 119, 6, 0.24),
+                0 0 100px rgba(217, 119, 6, 0.12);
+            border-color: rgba(217, 119, 6, 0.36);
         }
 
         [data-theme="dark"] .process-step.glass--panel:active {
             box-shadow:
-                0 0 30px rgba(245, 158, 11, 0.16),
-                0 0 60px rgba(245, 158, 11, 0.08);
-            border-color: rgba(245, 158, 11, 0.22);
+                0 0 60px rgba(245, 158, 11, 0.32),
+                0 0 120px rgba(245, 158, 11, 0.16);
+            border-color: rgba(245, 158, 11, 0.44);
+        }
+
+        /* =============================================
+           Case Study Cards — Custom Brand Glows
+           Field Notes: Blue
+           Still Goods: Warm cream-beige
+           ScottBertrand.com: Orange
+           ============================================= */
+
+        .case-study-card {
+            transition: box-shadow 0.4s ease, border-color 0.4s ease, background 0.4s ease;
+            border-radius: var(--glass-radius-md, 16px);
+            overflow: hidden;
+        }
+
+        /* Reset glass--panel padding for case study cards */
+        .case-study-card.glass--panel {
+            padding: clamp(1.5rem, 1.25rem + 0.5vw, 2rem);
+            /* Ensure glass background is visible */
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border-outer);
+        }
+
+        /* Case Study Grid — Single column stack (3 cards vertical) */
+        .case-study-grid {
+            display: flex !important;
+            flex-direction: column;
+            gap: 3rem;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            /* Override any carousel-like behavior */
+            overflow: visible;
+            scroll-snap-type: none;
+            mask-image: none;
+            -webkit-mask-image: none;
+        }
+
+        /* Ensure case study cards don't inherit carousel flex sizing */
+        .case-study-grid .service-card {
+            flex: none;
+            width: 100%;
+            scroll-snap-align: none;
+        }
+
+        /* Case study card - enhanced glass visibility */
+        .case-study-grid .case-study-card {
+            position: relative;
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur-core, 20px)) saturate(140%);
+            -webkit-backdrop-filter: blur(var(--glass-blur-core, 20px)) saturate(140%);
+        }
+
+        /* Field Notes — Blue glow (enhanced for light mode visibility) */
+        .case-study-card.case-study-card--field-notes {
+            box-shadow:
+                0 0 30px rgba(37, 99, 235, 0.25),
+                0 0 60px rgba(37, 99, 235, 0.15);
+            border-color: rgba(37, 99, 235, 0.35);
+        }
+
+        [data-theme="dark"] .case-study-card.case-study-card--field-notes {
+            box-shadow:
+                0 0 50px rgba(96, 165, 250, 0.16),
+                0 0 100px rgba(96, 165, 250, 0.08);
+            border-color: rgba(96, 165, 250, 0.24);
+        }
+
+        /* Still Goods — Soft gold + cream layered glow (enhanced for light mode visibility) */
+        .case-study-card.case-study-card--still-goods {
+            box-shadow:
+                0 0 25px rgba(184, 144, 68, 0.30),
+                0 0 50px rgba(160, 130, 80, 0.20),
+                0 0 80px rgba(139, 119, 89, 0.12);
+            border-color: rgba(184, 144, 68, 0.40);
+        }
+
+        [data-theme="dark"] .case-study-card.case-study-card--still-goods {
+            box-shadow:
+                0 0 50px rgba(220, 200, 170, 0.20),
+                0 0 100px rgba(220, 200, 170, 0.10);
+            border-color: rgba(220, 200, 170, 0.28);
+        }
+
+        /* ScottBertrand.com — Orange glow (2x intensity, matches process steps) */
+        .case-study-card.case-study-card--scottbertrand {
+            box-shadow:
+                0 0 40px rgba(217, 119, 6, 0.12),
+                0 0 80px rgba(217, 119, 6, 0.06);
+            border-color: rgba(217, 119, 6, 0.2);
+        }
+
+        [data-theme="dark"] .case-study-card.case-study-card--scottbertrand {
+            box-shadow:
+                0 0 50px rgba(245, 158, 11, 0.16),
+                0 0 100px rgba(245, 158, 11, 0.08);
+            border-color: rgba(245, 158, 11, 0.24);
+        }
+
+        /* Case Study Hover States (Desktop) - 2x intensity */
+        @media (hover: hover) {
+            .case-study-card.case-study-card--field-notes:hover {
+                box-shadow:
+                    0 0 40px rgba(37, 99, 235, 0.35),
+                    0 0 80px rgba(37, 99, 235, 0.20);
+                border-color: rgba(37, 99, 235, 0.50);
+            }
+
+            [data-theme="dark"] .case-study-card.case-study-card--field-notes:hover {
+                box-shadow:
+                    0 0 60px rgba(96, 165, 250, 0.32),
+                    0 0 120px rgba(96, 165, 250, 0.16);
+                border-color: rgba(96, 165, 250, 0.44);
+            }
+
+            .case-study-card.case-study-card--still-goods:hover {
+                box-shadow:
+                    0 0 35px rgba(184, 144, 68, 0.42),
+                    0 0 65px rgba(160, 130, 80, 0.28),
+                    0 0 100px rgba(139, 119, 89, 0.16);
+                border-color: rgba(184, 144, 68, 0.55);
+            }
+
+            [data-theme="dark"] .case-study-card.case-study-card--still-goods:hover {
+                box-shadow:
+                    0 0 60px rgba(220, 200, 170, 0.36),
+                    0 0 120px rgba(220, 200, 170, 0.20);
+                border-color: rgba(220, 200, 170, 0.48);
+            }
+
+            .case-study-card.case-study-card--scottbertrand:hover {
+                box-shadow:
+                    0 0 50px rgba(217, 119, 6, 0.24),
+                    0 0 100px rgba(217, 119, 6, 0.12);
+                border-color: rgba(217, 119, 6, 0.36);
+            }
+
+            [data-theme="dark"] .case-study-card.case-study-card--scottbertrand:hover {
+                box-shadow:
+                    0 0 60px rgba(245, 158, 11, 0.32),
+                    0 0 120px rgba(245, 158, 11, 0.16);
+                border-color: rgba(245, 158, 11, 0.44);
+            }
+        }
+
+        /* Case Study Active States (Touch/Mobile) - 2x intensity */
+        .case-study-card.case-study-card--field-notes:active {
+            box-shadow:
+                0 0 50px rgba(59, 130, 246, 0.24),
+                0 0 100px rgba(59, 130, 246, 0.12);
+            border-color: rgba(59, 130, 246, 0.36);
+        }
+
+        [data-theme="dark"] .case-study-card.case-study-card--field-notes:active {
+            box-shadow:
+                0 0 60px rgba(96, 165, 250, 0.32),
+                0 0 120px rgba(96, 165, 250, 0.16);
+            border-color: rgba(96, 165, 250, 0.44);
+        }
+
+        .case-study-card.case-study-card--still-goods:active {
+            box-shadow:
+                0 0 50px rgba(180, 160, 130, 0.32),
+                0 0 100px rgba(180, 160, 130, 0.16);
+            border-color: rgba(180, 160, 130, 0.40);
+        }
+
+        [data-theme="dark"] .case-study-card.case-study-card--still-goods:active {
+            box-shadow:
+                0 0 60px rgba(220, 200, 170, 0.36),
+                0 0 120px rgba(220, 200, 170, 0.20);
+            border-color: rgba(220, 200, 170, 0.48);
+        }
+
+        .case-study-card.case-study-card--scottbertrand:active {
+            box-shadow:
+                0 0 50px rgba(217, 119, 6, 0.24),
+                0 0 100px rgba(217, 119, 6, 0.12);
+            border-color: rgba(217, 119, 6, 0.36);
+        }
+
+        [data-theme="dark"] .case-study-card.case-study-card--scottbertrand:active {
+            box-shadow:
+                0 0 60px rgba(245, 158, 11, 0.32),
+                0 0 120px rgba(245, 158, 11, 0.16);
+            border-color: rgba(245, 158, 11, 0.44);
         }
 
         .step-number {
@@ -480,11 +684,6 @@
             opacity: 0.85;
         }
 
-        /* Service catalogue */
-        .service-tier {
-            margin-bottom: clamp(2.5rem, 2rem + 1.5vw, 4rem);
-        }
-
         /* Category labels - small caps style */
         .category-label {
             font-size: clamp(0.6875rem, 0.65rem + 0.15vw, 0.8125rem);
@@ -508,24 +707,172 @@
             margin-top: 1.5rem;
         }
 
-        .service-grid {
-            display: grid;
+        /* =============================================
+           Service Carousel — Unified with Fading Tier Labels
+           ============================================= */
+
+        /* Carousel container */
+        .services-carousel-wrapper {
+            position: relative;
+        }
+
+        /* Floating tier label - fades based on scroll */
+        .services-tier-label {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            min-height: 3rem;
+        }
+
+        .services-tier-label .tier-name {
+            font-size: clamp(0.6875rem, 0.65rem + 0.15vw, 0.8125rem);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            opacity: 0.6;
+            display: block;
+            transition: opacity 0.3s ease;
+        }
+
+        .services-tier-label .tier-subtitle {
+            font-size: clamp(0.8125rem, 0.75rem + 0.2vw, 0.875rem);
+            color: var(--text-secondary);
+            opacity: 0.65;
+            font-style: italic;
+            display: block;
+            margin-top: 0.25rem;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Single unified carousel */
+        .services-carousel {
+            position: relative;
+            display: flex;
             gap: 1.5rem;
-            max-width: 1000px;
-            margin: 0 auto;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 1rem 2.5rem;
+            margin: 0 -2rem;
+            /* Fade mask */
+            mask-image: linear-gradient(
+                to right,
+                transparent 0%,
+                black 2.5rem,
+                black calc(100% - 2.5rem),
+                transparent 100%
+            );
+            -webkit-mask-image: linear-gradient(
+                to right,
+                transparent 0%,
+                black 2.5rem,
+                black calc(100% - 2.5rem),
+                transparent 100%
+            );
+        }
+
+        .services-carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .services-carousel .service-card {
+            flex: 0 0 auto;
+            width: min(85vw, 380px);
+            scroll-snap-align: center;
+        }
+
+        /* Desktop: larger cards, wider fade */
+        @media (min-width: 768px) {
+            .services-carousel .service-card {
+                width: min(45vw, 420px);
+            }
+
+            .services-carousel {
+                padding: 1rem 4rem;
+                margin: 0 -3rem;
+                mask-image: linear-gradient(
+                    to right,
+                    transparent 0%,
+                    black 4rem,
+                    black calc(100% - 4rem),
+                    transparent 100%
+                );
+                -webkit-mask-image: linear-gradient(
+                    to right,
+                    transparent 0%,
+                    black 4rem,
+                    black calc(100% - 4rem),
+                    transparent 100%
+                );
+            }
+        }
+
+        /* Large screens */
+        @media (min-width: 1200px) {
+            .services-carousel .service-card {
+                width: 380px;
+            }
+        }
+
+        /* Legacy service-tier and service-grid - hide if using new carousel */
+        .service-tier {
+            display: none;
         }
 
         .service-card {
             background: rgba(128, 128, 128, 0.02);
             border: 1px solid rgba(128, 128, 128, 0.1);
-            border-radius: 8px;
+            border-radius: var(--glass-radius-md, 16px);
             padding: clamp(1.5rem, 1.25rem + 0.5vw, 2rem);
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+            /* Orange glow for service cards */
+            box-shadow:
+                0 0 20px rgba(217, 119, 6, 0.08),
+                0 0 40px rgba(217, 119, 6, 0.04);
+            border-color: rgba(217, 119, 6, 0.15);
         }
 
-        .service-card:hover {
-            border-color: rgba(128, 128, 128, 0.2);
-            background: rgba(128, 128, 128, 0.03);
+        [data-theme="dark"] .service-card {
+            box-shadow:
+                0 0 25px rgba(245, 158, 11, 0.10),
+                0 0 50px rgba(245, 158, 11, 0.05);
+            border-color: rgba(245, 158, 11, 0.18);
+        }
+
+        /* Service card hover - enhanced glow (desktop) */
+        @media (hover: hover) {
+            .service-card:hover {
+                box-shadow:
+                    0 0 30px rgba(217, 119, 6, 0.20),
+                    0 0 60px rgba(217, 119, 6, 0.12);
+                border-color: rgba(217, 119, 6, 0.35);
+                background: rgba(128, 128, 128, 0.03);
+            }
+
+            [data-theme="dark"] .service-card:hover {
+                box-shadow:
+                    0 0 40px rgba(245, 158, 11, 0.24),
+                    0 0 80px rgba(245, 158, 11, 0.14);
+                border-color: rgba(245, 158, 11, 0.40);
+            }
+        }
+
+        /* Service card active/touch - enhanced glow */
+        .service-card:active {
+            box-shadow:
+                0 0 30px rgba(217, 119, 6, 0.20),
+                0 0 60px rgba(217, 119, 6, 0.12);
+            border-color: rgba(217, 119, 6, 0.35);
+        }
+
+        [data-theme="dark"] .service-card:active {
+            box-shadow:
+                0 0 40px rgba(245, 158, 11, 0.24),
+                0 0 80px rgba(245, 158, 11, 0.14);
+            border-color: rgba(245, 158, 11, 0.40);
         }
 
         .service-header {
@@ -617,7 +964,7 @@
         .field-notes-block {
             background: rgba(128, 128, 128, 0.02);
             border: 1px solid rgba(128, 128, 128, 0.1);
-            border-radius: 8px;
+            border-radius: var(--glass-radius-md, 16px);
             padding: 2.5rem;
             max-width: 680px;
             margin: 0 auto;
@@ -1068,8 +1415,8 @@
                 <div class="glass glass--hero hero-content">
                     <!-- V2.1 Conversion Hero - Mobile-optimized hierarchy -->
                     <div class="hero-brand">
-                        <img src="/assets/bertrand-brands-wordmark-dark.png?v=3" alt="Bertrand Brands" class="hero-brand-wordmark hero-brand-wordmark--dark" width="400" height="100">
-                        <img src="/assets/bertrand-brands-wordmark-light.png?v=3" alt="Bertrand Brands" class="hero-brand-wordmark hero-brand-wordmark--light" width="400" height="100">
+                        <img src="/assets/bertrand-brands-wordmark-dark.png?v=4" alt="Bertrand Brands" class="hero-brand-wordmark hero-brand-wordmark--dark" width="400" height="100">
+                        <img src="/assets/bertrand-brands-wordmark-light.png?v=4" alt="Bertrand Brands" class="hero-brand-wordmark hero-brand-wordmark--light" width="400" height="100">
                     </div>
                     <h1 class="tagline">Brand & Web Systems</h1>
                     <p class="tagline-location">for Greater Sudbury & Northern Ontario</p>
@@ -1140,12 +1487,18 @@
                     <p class="section-subtitle">Clear pricing, fixed scope, designed for clarity and results.</p>
                 </div>
 
-                <!-- First Step — Quick Clarity -->
-                <div class="service-tier">
-                    <p class="category-label">First Step — Quick Clarity</p>
-                    <p class="service-tier-subtitle">Low-commitment sessions for fast clarity before deeper work.</p>
-                    <div class="service-grid">
-                        <div class="service-card service-card--light" id="website-snapshot">
+                <!-- Unified Services Carousel -->
+                <div class="services-carousel-wrapper">
+                    <!-- Floating tier label - updates based on scroll -->
+                    <div class="services-tier-label">
+                        <span class="tier-name">First Step — Quick Clarity</span>
+                        <span class="tier-subtitle">Low-commitment sessions for fast clarity before deeper work.</span>
+                    </div>
+
+                    <!-- Single carousel with all services -->
+                    <div class="services-carousel" id="servicesCarousel">
+                        <!-- First Step — Quick Clarity -->
+                        <div class="service-card service-card--light" data-tier="first-step" data-tier-name="First Step — Quick Clarity" data-tier-subtitle="Low-commitment sessions for fast clarity before deeper work." id="website-snapshot">
                             <div class="service-header">
                                 <h3 class="service-name">Website Snapshot Review</h3>
                                 <span class="service-price">$195 CAD</span>
@@ -1164,7 +1517,7 @@
                             </div>
                         </div>
 
-                        <div class="service-card service-card--light" id="brand-clarity">
+                        <div class="service-card service-card--light" data-tier="first-step" data-tier-name="First Step — Quick Clarity" data-tier-subtitle="Low-commitment sessions for fast clarity before deeper work." id="brand-clarity">
                             <div class="service-header">
                                 <h3 class="service-name">Brand Clarity Session</h3>
                                 <span class="service-price">$245 CAD</span>
@@ -1182,14 +1535,9 @@
                                 <a href="/request.html?service=brand-clarity" class="btn btn-primary btn-small">Book a Clarity Session</a>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Step Two — Comprehensive Reviews -->
-                <div class="service-tier">
-                    <p class="category-label">Step Two — Comprehensive Reviews</p>
-                    <div class="service-grid">
-                        <div class="service-card">
+                        <!-- Step Two — Comprehensive Reviews -->
+                        <div class="service-card" data-tier="step-two" data-tier-name="Step Two — Comprehensive Reviews" data-tier-subtitle="">
                             <div class="service-header">
                                 <h3 class="service-name">Comprehensive Website Review</h3>
                                 <span class="service-price">$450 CAD</span>
@@ -1205,7 +1553,7 @@
                             <p class="service-meta" style="margin-top: 1rem; margin-bottom: 0; font-style: italic;">Often recommended after a Snapshot or Clarity Session.</p>
                         </div>
 
-                        <div class="service-card">
+                        <div class="service-card" data-tier="step-two" data-tier-name="Step Two — Comprehensive Reviews" data-tier-subtitle="">
                             <div class="service-header">
                                 <h3 class="service-name">Strategic Brand Review</h3>
                                 <span class="service-price">$550 CAD</span>
@@ -1220,14 +1568,9 @@
                             </div>
                             <p class="service-meta" style="margin-top: 1rem; margin-bottom: 0; font-style: italic;">Often recommended after a Snapshot or Clarity Session.</p>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Foundations -->
-                <div class="service-tier">
-                    <p class="category-label">Foundations</p>
-                    <div class="service-grid">
-                        <div class="service-card">
+                        <!-- Foundations -->
+                        <div class="service-card" data-tier="foundations" data-tier-name="Foundations" data-tier-subtitle="">
                             <div class="service-header">
                                 <h3 class="service-name">Brand Reset</h3>
                                 <span class="service-price">$3,000 CAD</span>
@@ -1242,7 +1585,7 @@
                             </div>
                         </div>
 
-                        <div class="service-card">
+                        <div class="service-card" data-tier="foundations" data-tier-name="Foundations" data-tier-subtitle="">
                             <div class="service-header">
                                 <h3 class="service-name">Website Foundation</h3>
                                 <span class="service-price">$4,250 CAD</span>
@@ -1256,14 +1599,9 @@
                                 <a href="/request.html?service=website-foundation" class="btn btn-primary btn-small">Request Service</a>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Full System -->
-                <div class="service-tier">
-                    <p class="category-label">Full System</p>
-                    <div class="service-grid">
-                        <div class="service-card">
+                        <!-- Full System -->
+                        <div class="service-card" data-tier="full-system" data-tier-name="Full System" data-tier-subtitle="">
                             <div class="service-header">
                                 <h3 class="service-name">Full Brand & Website Reset</h3>
                                 <span class="service-price">$6,900 CAD</span>
@@ -1277,14 +1615,9 @@
                                 <a href="/request.html?service=full-brand-website-reset" class="btn btn-primary btn-small">Request Service</a>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Targeted À La Carte Support -->
-                <div class="service-tier">
-                    <p class="category-label">Targeted À La Carte Support</p>
-                    <div class="service-grid">
-                        <div class="service-card">
+                        <!-- Targeted À La Carte Support -->
+                        <div class="service-card" data-tier="a-la-carte" data-tier-name="Targeted À La Carte Support" data-tier-subtitle="">
                             <p style="margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
                                 <strong>Best for clear scopes and decision-makers. Broader issues may require an audit.</strong>
                             </p>
@@ -1334,8 +1667,8 @@
                     <p class="section-subtitle">Internal systems built to demonstrate structured thinking.</p>
                 </div>
 
-                <div class="service-grid">
-                    <div class="service-card">
+                <div class="case-study-grid">
+                    <div class="service-card glass glass--panel case-study-card case-study-card--field-notes">
                         <h3>Field Notes</h3>
                         <p class="service-description">
                             Content publishing and knowledge management system. Structured writing practice and public archive.
@@ -1345,7 +1678,7 @@
                         </div>
                     </div>
 
-                    <div class="service-card">
+                    <div class="service-card glass glass--panel case-study-card case-study-card--still-goods">
                         <h3>Still Goods</h3>
                         <p class="service-description">
                             E-commerce system with seasonal product drops. Testing commerce workflows with real transactions.
@@ -1355,7 +1688,7 @@
                         </div>
                     </div>
 
-                    <div class="service-card">
+                    <div class="service-card glass glass--panel case-study-card case-study-card--scottbertrand">
                         <h3>ScottBertrand.com</h3>
                         <p class="service-description">
                             Service business marketing system. Conversion-first design for landing Greater Sudbury clients.
@@ -1515,6 +1848,143 @@
         }
 
         initFullscreenCards();
+    })();
+    </script>
+
+    <!-- Services Carousel - Tier Label Updates -->
+    <script>
+    (function() {
+        const carousel = document.getElementById('servicesCarousel');
+        const tierLabel = document.querySelector('.services-tier-label');
+        if (!carousel || !tierLabel) return;
+
+        const tierName = tierLabel.querySelector('.tier-name');
+        const tierSubtitle = tierLabel.querySelector('.tier-subtitle');
+        let currentTier = '';
+
+        function updateTierLabel() {
+            const cards = carousel.querySelectorAll('.service-card[data-tier]');
+            const carouselRect = carousel.getBoundingClientRect();
+            const carouselCenter = carouselRect.left + carouselRect.width / 2;
+
+            let closestCard = null;
+            let closestDistance = Infinity;
+
+            cards.forEach(card => {
+                const cardRect = card.getBoundingClientRect();
+                const cardCenter = cardRect.left + cardRect.width / 2;
+                const distance = Math.abs(cardCenter - carouselCenter);
+
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestCard = card;
+                }
+            });
+
+            if (closestCard) {
+                const newTier = closestCard.dataset.tier;
+                if (newTier !== currentTier) {
+                    currentTier = newTier;
+                    // Fade out
+                    tierName.style.opacity = '0';
+                    tierSubtitle.style.opacity = '0';
+
+                    setTimeout(() => {
+                        tierName.textContent = closestCard.dataset.tierName || '';
+                        tierSubtitle.textContent = closestCard.dataset.tierSubtitle || '';
+                        // Fade in
+                        tierName.style.opacity = '0.6';
+                        tierSubtitle.style.opacity = closestCard.dataset.tierSubtitle ? '0.65' : '0';
+                    }, 150);
+                }
+            }
+        }
+
+        carousel.addEventListener('scroll', updateTierLabel, { passive: true });
+        // Initialize
+        updateTierLabel();
+    })();
+    </script>
+
+    <!-- Nav Auto-Hide on Scroll -->
+    <script>
+    (function() {
+        const header = document.querySelector('.site-header');
+        if (!header) return;
+
+        let lastScrollY = window.scrollY;
+        let ticking = false;
+        let isHidden = false;
+        const scrollThreshold = 80; // pixels before hiding kicks in
+        const cursorTriggerZone = 60; // pixels from top to trigger show
+
+        // Add CSS for smooth transition
+        header.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+
+        function hideNav() {
+            if (!isHidden) {
+                header.style.transform = 'translateY(-100%)';
+                header.style.opacity = '0';
+                isHidden = true;
+            }
+        }
+
+        function showNav() {
+            if (isHidden) {
+                header.style.transform = 'translateY(0)';
+                header.style.opacity = '1';
+                isHidden = false;
+            }
+        }
+
+        function handleScroll() {
+            const currentScrollY = window.scrollY;
+
+            // Always show nav at top of page
+            if (currentScrollY < scrollThreshold) {
+                showNav();
+                lastScrollY = currentScrollY;
+                ticking = false;
+                return;
+            }
+
+            // Scrolling down - hide nav
+            if (currentScrollY > lastScrollY) {
+                hideNav();
+            }
+            // Scrolling up - show nav
+            else if (currentScrollY < lastScrollY) {
+                showNav();
+            }
+
+            lastScrollY = currentScrollY;
+            ticking = false;
+        }
+
+        // Throttled scroll listener
+        window.addEventListener('scroll', function() {
+            if (!ticking) {
+                requestAnimationFrame(handleScroll);
+                ticking = true;
+            }
+        }, { passive: true });
+
+        // Desktop: show nav when cursor near top of viewport
+        function handleMouseMove(e) {
+            if (e.clientY <= cursorTriggerZone) {
+                showNav();
+            }
+        }
+
+        // Only add mousemove on desktop (hover-capable devices)
+        if (window.matchMedia('(hover: hover)').matches) {
+            document.addEventListener('mousemove', handleMouseMove, { passive: true });
+        }
+
+        // Handle reduced motion preference
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            header.style.transition = 'none';
+        }
     })();
     </script>
 </body>

@@ -103,7 +103,38 @@
             height: 28px;
             background: url('../assets/tree-ring-logo.png') no-repeat center;
             background-size: contain;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .header__logo.show-mark::before {
             opacity: 0.35;
+        }
+
+        /* Hero tree ring animation */
+        .tree-ring-hero {
+            position: fixed;
+            top: 50vh;
+            left: 50vw;
+            width: 320px;
+            height: 320px;
+            background: url('../assets/tree-ring-logo.png') no-repeat center;
+            background-size: contain;
+            transform: translate(-50%, -50%);
+            opacity: 0.25;
+            pointer-events: none;
+            z-index: 99;
+            will-change: transform, opacity, top, left, width, height;
+        }
+        .tree-ring-hero.is-docked {
+            opacity: 0;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .tree-ring-hero {
+                display: none;
+            }
+            .header__logo::before {
+                opacity: 0.35;
+            }
         }
         .header__nav {
             display: flex;
@@ -535,6 +566,7 @@
     </style>
 </head>
 <body>
+    <div class="tree-ring-hero" aria-hidden="true"></div>
     <div class="page">
         <header class="header">
             <div class="header__inner">
@@ -650,6 +682,74 @@
                 toggle.setAttribute('aria-expanded', 'false');
             });
         });
+
+        // Tree ring scroll animation
+        (function() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+            const ring = document.querySelector('.tree-ring-hero');
+            const logo = document.querySelector('.header__logo');
+            if (!ring || !logo) return;
+
+            const startSize = 320;
+            const endSize = 28;
+            const scrollDistance = 300; // pixels to complete animation
+
+            function updateRing() {
+                const scrollY = window.scrollY;
+                const progress = Math.min(scrollY / scrollDistance, 1);
+
+                // Eased progress for smoother feel
+                const eased = 1 - Math.pow(1 - progress, 3);
+
+                if (progress >= 1) {
+                    ring.classList.add('is-docked');
+                    logo.classList.add('show-mark');
+                    return;
+                }
+
+                ring.classList.remove('is-docked');
+                logo.classList.remove('show-mark');
+
+                // Calculate current size
+                const currentSize = startSize - (startSize - endSize) * eased;
+
+                // Get logo position for target
+                const logoRect = logo.getBoundingClientRect();
+                const logoMarkX = logoRect.left + 14; // center of 28px mark
+                const logoMarkY = logoRect.top + logoRect.height / 2;
+
+                // Interpolate position from center to logo
+                const startX = window.innerWidth / 2;
+                const startY = window.innerHeight * 0.45;
+                const currentX = startX + (logoMarkX - startX) * eased;
+                const currentY = startY + (logoMarkY - startY) * eased;
+
+                // Interpolate opacity (0.25 to 0.35)
+                const currentOpacity = 0.25 + (0.35 - 0.25) * eased;
+
+                ring.style.width = currentSize + 'px';
+                ring.style.height = currentSize + 'px';
+                ring.style.left = currentX + 'px';
+                ring.style.top = currentY + 'px';
+                ring.style.opacity = currentOpacity;
+                ring.style.transform = 'translate(-50%, -50%)';
+            }
+
+            let ticking = false;
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        updateRing();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+
+            // Initial state
+            updateRing();
+        })();
     </script>
 </body>
 </html>

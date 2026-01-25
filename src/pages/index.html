@@ -403,12 +403,39 @@
         .venture--goods { --venture-color: var(--color-goods); }
 
         /* About */
+        .section--about {
+            position: relative;
+            overflow: hidden;
+        }
+        .section--about::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: url('../assets/tree-ring-logo.png') no-repeat center;
+            background-size: contain;
+            transform: translateY(-50%);
+            opacity: 0.04;
+            pointer-events: none;
+        }
+        @media (max-width: 768px) {
+            .section--about::before {
+                width: 300px;
+                height: 300px;
+                right: -20%;
+                opacity: 0.03;
+            }
+        }
         .about {
             display: grid;
             grid-template-columns: auto 1fr;
             gap: 2rem;
             align-items: start;
             max-width: 800px;
+            position: relative;
+            z-index: 1;
         }
         @media (max-width: 768px) {
             .about { grid-template-columns: 1fr; gap: 1rem; }
@@ -568,7 +595,7 @@
                 </div>
             </section>
 
-            <section class="section" id="about">
+            <section class="section section--about" id="about">
                 <div class="about">
                     <span class="about__mark">"</span>
                     <p class="about__text">I believe in clarity over noise, substance over style, and building things that matter. Based in Sudbury, working with clients and on my own projects across Canada.</p>

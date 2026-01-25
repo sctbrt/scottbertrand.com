@@ -100,12 +100,65 @@
         }
         @media (max-width: 600px) {
             .header__nav {
-                gap: 1.25rem;
-            }
-            .header__nav .header__link:not(.header__link--primary) {
                 display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(248, 246, 243, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 2rem;
+                z-index: 200;
+            }
+            .header__nav.is-open {
+                display: flex;
+            }
+            .header__nav .header__link {
+                font-size: 1.25rem;
             }
         }
+
+        /* Mobile menu toggle */
+        .header__toggle {
+            display: none;
+            width: 24px;
+            height: 24px;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 201;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+        .header__toggle span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: var(--text);
+            transition: all 0.3s ease;
+        }
+        .header__toggle.is-open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .header__toggle.is-open span:nth-child(2) {
+            opacity: 0;
+        }
+        .header__toggle.is-open span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+        @media (max-width: 600px) {
+            .header__toggle {
+                display: flex;
+            }
+        }
+
         .header__link {
             font-size: 0.8125rem;
             color: var(--text-muted);
@@ -448,6 +501,11 @@
         <header class="header">
             <div class="header__inner">
                 <a href="/" class="header__logo">Scott Bertrand</a>
+                <button class="header__toggle" aria-label="Toggle menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <nav class="header__nav">
                     <a href="https://bertrandbrands.com" class="header__link header__link--primary">Bertrand Brands</a>
                     <a href="#ventures" class="header__link">Ventures & Case Studies</a>
@@ -532,5 +590,27 @@
             <p class="footer__text">&copy; 2025 Scott Bertrand &middot; Sudbury, Canada</p>
         </footer>
     </div>
+
+    <script>
+        // Mobile menu toggle
+        const toggle = document.querySelector('.header__toggle');
+        const nav = document.querySelector('.header__nav');
+        const navLinks = document.querySelectorAll('.header__link');
+
+        toggle.addEventListener('click', () => {
+            const isOpen = nav.classList.toggle('is-open');
+            toggle.classList.toggle('is-open');
+            toggle.setAttribute('aria-expanded', isOpen);
+        });
+
+        // Close menu when clicking a link
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('is-open');
+                toggle.classList.remove('is-open');
+                toggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+    </script>
 </body>
 </html>

@@ -6,8 +6,13 @@
   "framework": null,
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/",
       "destination": "https://bertrandbrands.com",
+      "permanent": false
+    },
+    {
+      "source": "/:path*",
+      "destination": "https://bertrandbrands.com/:path*",
       "permanent": false
     }
   ],

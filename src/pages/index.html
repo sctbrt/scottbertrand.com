@@ -98,6 +98,14 @@
             display: flex;
             gap: 2.5rem;
         }
+        @media (max-width: 600px) {
+            .header__nav {
+                gap: 1.25rem;
+            }
+            .header__nav .header__link:not(.header__link--primary) {
+                display: none;
+            }
+        }
         .header__link {
             font-size: 0.8125rem;
             color: var(--text-muted);

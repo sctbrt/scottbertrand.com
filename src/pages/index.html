@@ -2,2378 +2,521 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <!-- SEO -->
-    <link rel="canonical" href="https://scottbertrand.com/">
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
-    <meta name="color-scheme" content="light dark">
-    <title>Brand & Web Systems for Greater Sudbury & Northern Ontario — Scott Bertrand</title>
-    <meta name="description" content="Clear, structured brand and web work for Sudbury and Northern Ontario businesses. Audits, brand systems, and website foundations. Available remotely across Canada.">
-
-    <!-- Open Graph -->
-    <meta property="og:title" content="Brand & Web Systems for Greater Sudbury & Northern Ontario — Scott Bertrand">
-    <meta property="og:description" content="Clear, structured brand and web work for Sudbury and Northern Ontario businesses. Available remotely across Canada.">
-    <meta property="og:image" content="https://scottbertrand.com/assets/og-image.png">
-    <meta property="og:url" content="https://scottbertrand.com/">
-    <meta property="og:type" content="website">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Brand & Web Systems for Greater Sudbury & Northern Ontario — Scott Bertrand">
-    <meta name="twitter:description" content="Clear, structured brand and web work for Sudbury and Northern Ontario businesses. Available remotely across Canada.">
-    <meta name="twitter:image" content="https://scottbertrand.com/assets/og-image.png">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/sb-monogram-light.png">
-    <!-- Apple Touch Icon (iOS home screen) -->
-    <link rel="apple-touch-icon" href="/bertrand-brands-apple-touch-icon.png">
-
-    <!-- Cloudflare Web Analytics (production only) -->
-    <script>
-    if (location.hostname === 'scottbertrand.com') {
-        var s = document.createElement('script');
-        s.defer = true;
-        s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
-        s.setAttribute('data-cf-beacon', '{"token": "2395db43fd88408c892e4333d6a4bd90"}');
-        document.head.appendChild(s);
-    }
-    </script>
-
-    <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "Scott Bertrand — Brand & Web Systems",
-      "description": "Brand and web systems for Greater Sudbury and Northern Ontario businesses",
-      "url": "https://scottbertrand.com",
-      "logo": "https://scottbertrand.com/assets/sb-monogram-light.png",
-      "image": "https://scottbertrand.com/assets/og-image.png",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Greater Sudbury",
-        "addressRegion": "ON",
-        "addressCountry": "CA"
-      },
-      "areaServed": [
-        {
-          "@type": "City",
-          "name": "Greater Sudbury"
-        },
-        {
-          "@type": "AdministrativeArea",
-          "name": "Northern Ontario"
-        },
-        {
-          "@type": "Country",
-          "name": "Canada"
-        }
-      ],
-      "priceRange": "$$$",
-      "email": "hello@scottbertrand.com",
-      "sameAs": [
-        "https://notes.scottbertrand.com",
-        "https://goods.scottbertrand.com"
-      ],
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Brand & Web Services",
-        "itemListElement": [
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Website Audit",
-              "description": "Full site review with prioritized recommendations"
-            },
-            "price": "450",
-            "priceCurrency": "CAD"
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Brand Audit",
-              "description": "Brand positioning and identity assessment"
-            },
-            "price": "550",
-            "priceCurrency": "CAD"
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Brand Reset",
-              "description": "Complete brand system and guidelines"
-            },
-            "price": "3000",
-            "priceCurrency": "CAD"
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Website Foundation",
-              "description": "Conversion-focused website build"
-            },
-            "price": "4250",
-            "priceCurrency": "CAD"
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Full Brand + Website Reset",
-              "description": "Complete brand and web system"
-            },
-            "price": "6900",
-            "priceCurrency": "CAD"
-          }
-        ]
-      }
-    }
-    </script>
-
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="/src/styles/styles.css">
-    <link rel="stylesheet" href="/src/styles/glass.css">
-    <link rel="stylesheet" href="/src/styles/dot-grid.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scott Bertrand — Designer & Builder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        /* V1.5.2 Storefront-specific styles with fluid typography */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* ===========================================
-           Ambient Gradient Background
-           Subtle, slow-moving gradient flow
-           =========================================== */
+        :root {
+            --bg: #F8F6F3;
+            --bg-warm: #F0EDE8;
+            --bg-card: #FFFFFF;
+            --text: #2C2825;
+            --text-muted: #5C5651;
+            --text-subtle: #8A847D;
+            --border: rgba(44, 40, 37, 0.12);
+            --border-strong: rgba(44, 40, 37, 0.2);
+            --font-sans: 'Inter', -apple-system, sans-serif;
+            --font-serif: 'Fraunces', Georgia, serif;
+            --color-bertrand: #C05621;
+            --color-notes: #3D6B99;
+            --color-goods: #5C6B56;
+            --radius: 12px;
+        }
 
-        .ambient-gradient {
+        html { font-size: 16px; }
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: inherit; text-decoration: none; }
+
+        /* Subtle texture overlay */
+        body::before {
+            content: '';
             position: fixed;
-            inset: 0;
-            z-index: -2;
-            overflow: hidden;
-            pointer-events: none;
-        }
-
-        .ambient-gradient::before,
-        .ambient-gradient::after {
-            content: '';
-            position: absolute;
-            width: 150%;
-            height: 150%;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.4;
-            animation-timing-function: ease-in-out;
-            animation-iteration-count: infinite;
-            animation-direction: alternate;
-        }
-
-        .ambient-gradient::before {
-            background: radial-gradient(circle, rgba(217, 119, 6, 0.15) 0%, transparent 70%);
-            top: -50%;
-            left: -25%;
-            animation: gradientDrift1 25s infinite;
-        }
-
-        .ambient-gradient::after {
-            background: radial-gradient(circle, rgba(180, 140, 100, 0.12) 0%, transparent 70%);
-            bottom: -50%;
-            right: -25%;
-            animation: gradientDrift2 30s infinite;
-        }
-
-        @keyframes gradientDrift1 {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-            50% {
-                transform: translate(10%, 15%) scale(1.1);
-            }
-            100% {
-                transform: translate(-5%, 5%) scale(0.95);
-            }
-        }
-
-        @keyframes gradientDrift2 {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-            50% {
-                transform: translate(-15%, -10%) scale(1.15);
-            }
-            100% {
-                transform: translate(5%, -5%) scale(1);
-            }
-        }
-
-        /* Dark mode - warmer, subtler tones */
-        [data-theme="dark"] .ambient-gradient::before {
-            background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 70%);
-            opacity: 0.5;
-        }
-
-        [data-theme="dark"] .ambient-gradient::after {
-            background: radial-gradient(circle, rgba(200, 160, 120, 0.06) 0%, transparent 70%);
-            opacity: 0.5;
-        }
-
-        /* Respect reduced motion */
-        @media (prefers-reduced-motion: reduce) {
-            .ambient-gradient::before,
-            .ambient-gradient::after {
-                animation: none;
-            }
-        }
-
-        /* ===========================================
-           Fluid Typography Scale
-           Uses clamp() for smooth scaling between breakpoints
-           Mobile (375px) → Desktop (1200px)
-           =========================================== */
-
-        /* Hero refinement */
-        .hero-storefront {
-            min-height: 65dvh;
-        }
-
-        /* === HERO HIERARCHY (3 levels, largest to smallest) === */
-
-        /* Level 1: BERTRAND BRANDS - Largest, brand mark */
-        .hero-brand {
-            text-align: center;
-            margin-bottom: 0.75rem;
-        }
-
-        /* Hero brand wordmark sizing - fluid from mobile to desktop */
-        .hero-brand-wordmark {
-            height: clamp(120px, 100px + 8vw, 200px);
-            width: auto;
-            display: block;
-            margin: 0 auto;
-            /* Cinematic entrance */
-            opacity: 0;
-            transform: translateY(8px);
-            animation: wordmarkReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
-        }
-
-        @keyframes wordmarkReveal {
-            0% {
-                opacity: 0;
-                transform: translateY(8px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Respect reduced motion */
-        @media (prefers-reduced-motion: reduce) {
-            .hero-brand-wordmark {
-                opacity: 1;
-                transform: none;
-                animation: none;
-            }
-        }
-
-        /* Theme-based hero wordmark switching
-           Light wordmark (light.png) → for dark backgrounds → hidden by default
-           Dark wordmark (dark.png) → for light backgrounds → shown by default */
-        .hero-brand-wordmark--light {
-            display: none;
-        }
-
-        .hero-brand-wordmark--dark {
-            display: block;
-            margin: 0 auto;
-        }
-
-        [data-theme="dark"] .hero-brand-wordmark--light {
-            display: block;
-            margin: 0 auto;
-        }
-
-        [data-theme="dark"] .hero-brand-wordmark--dark {
-            display: none;
-        }
-
-        /* Level 2: Brand & Web Systems - Medium, what you do */
-        .hero-storefront .tagline {
-            font-size: clamp(1.25rem, 0.9rem + 1.25vw, 1.75rem);
-            font-weight: 500;
-            line-height: 1.2;
-            margin-bottom: 0.5rem;
-            text-align: center;
-            letter-spacing: -0.01em;
-            /* Staggered entrance - follows wordmark */
-            opacity: 0;
-            animation: heroFadeIn 0.8s ease-out 0.6s forwards;
-        }
-
-        /* Level 3: for Greater Sudbury & Northern Ontario - Smaller, where */
-        .tagline-location {
-            font-size: clamp(1rem, 0.85rem + 0.6vw, 1.25rem);
-            font-weight: 400;
-            color: var(--text-secondary);
-            text-align: center;
-            margin-bottom: 1.5rem;
-            letter-spacing: 0;
-            /* Staggered entrance */
-            opacity: 0;
-            animation: heroFadeIn 0.8s ease-out 0.75s forwards;
-        }
-
-        @keyframes heroFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* Respect reduced motion for hero elements */
-        @media (prefers-reduced-motion: reduce) {
-            .hero-storefront .tagline,
-            .tagline-location {
-                opacity: 1;
-                animation: none;
-            }
-        }
-
-        /* Subtitle - Supporting hero text
-           Mobile: 0.9375rem (15px) → Desktop: 1.125rem (18px) */
-        .hero-storefront .subtitle {
-            font-size: clamp(0.9375rem, 0.85rem + 0.3vw, 1.125rem);
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 2rem;
-            max-width: 680px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
-        }
-
-        .hero-storefront .authority-statement {
-            font-family: 'Source Serif 4', Georgia, serif;
-            font-size: clamp(0.9375rem, 0.875rem + 0.25vw, 1.0625rem);
-            line-height: 1.7;
-            color: var(--text-secondary);
-            opacity: 0.85;
-            max-width: 600px;
-            margin: 0 auto 2.5rem;
-            text-align: center;
-        }
-
-        /* CTA Microcopy - Small helper text
-           Mobile: 0.8125rem (13px) → Desktop: 0.875rem (14px) */
-        .cta-microcopy {
-            font-size: clamp(0.8125rem, 0.75rem + 0.2vw, 0.875rem);
-            color: var(--text-secondary);
-            text-align: center;
-            margin-top: 1rem;
-            opacity: 0.7;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* V1.5 Local Trust Signal */
-        .local-trust {
-            font-size: clamp(0.8125rem, 0.75rem + 0.2vw, 0.875rem);
-            color: var(--text-secondary);
-            text-align: center;
-            margin-top: 1.5rem;
-            opacity: 0.6;
-        }
-
-        /* CTA buttons */
-        .cta-group {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.875rem 2rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9375rem;
-            letter-spacing: -0.01em;
-            transition: all 0.2s ease;
-            border: 1px solid transparent;
-            line-height: 1;
-        }
-
-        .btn-primary {
-            background: var(--text-primary);
-            color: var(--bg-primary);
-            border-color: var(--text-primary);
-        }
-
-        .btn-primary:hover {
-            opacity: 0.85;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-primary);
-            border-color: rgba(128, 128, 128, 0.2);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--text-primary);
-        }
-
-        /* Hero CTA buttons - Bertrand Brands orange text only */
-        .hero-storefront .cta-group .btn-primary {
-            color: #F59E0B;
-        }
-
-        .hero-storefront .cta-group .btn-secondary {
-            color: #D97706;
-        }
-
-        /* Dark mode adjustments */
-        [data-theme="dark"] .hero-storefront .cta-group .btn-primary {
-            color: #D97706;
-        }
-
-        [data-theme="dark"] .hero-storefront .cta-group .btn-secondary {
-            color: #F59E0B;
-        }
-
-        /* Section styling */
-        .section {
-            padding: clamp(3.5rem, 3rem + 2vw, 6rem) 2rem;
-            border-top: 1px solid rgba(128, 128, 128, 0.1);
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: clamp(2.5rem, 2rem + 1.5vw, 4rem);
-        }
-
-        /* H2 - Section Titles: Secondary level, clearly smaller than H1
-           Mobile: 1.25rem (20px) → Desktop: 1.5rem (24px) */
-        .section-title {
-            font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
-            font-weight: 500;
-            letter-spacing: -0.01em;
-            margin-bottom: 0.75rem;
-        }
-
-        /* Section Subtitle - Supporting section text
-           Mobile: 0.9375rem (15px) → Desktop: 1.0625rem (17px) */
-        .section-subtitle {
-            font-family: 'Source Serif 4', Georgia, serif;
-            font-size: clamp(0.9375rem, 0.875rem + 0.25vw, 1.0625rem);
-            color: var(--text-secondary);
-            opacity: 0.85;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        /* Process steps */
-        .process-steps {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-
-        @media (max-width: 900px) {
-            .process-steps {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .process-step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            padding: 0 0.5rem;
-        }
-
-        /* Nav-style glass for process steps */
-        .process-step.glass--panel {
-            /* Nav-style multi-layer gradient */
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(255, 255, 255, 0.4) 0%,
-                    rgba(255, 255, 255, 0.2) 50%,
-                    rgba(0, 0, 0, 0.01) 100%
-                ),
-                rgba(250, 250, 250, 0.3);
-            backdrop-filter: blur(24px) saturate(180%) brightness(1.05);
-            -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.05);
-            box-shadow:
-                0 8px 32px rgba(0, 0, 0, 0.12),
-                0 2px 8px rgba(0, 0, 0, 0.06),
-                inset 0 1px 1px rgba(255, 255, 255, 0.8),
-                inset 0 -1px 1px rgba(0, 0, 0, 0.05);
-            border-color: rgba(217, 119, 6, 0.2);
-            transition: box-shadow 0.4s ease, border-color 0.4s ease;
-        }
-
-        [data-theme="dark"] .process-step.glass--panel {
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(255, 255, 255, 0.06) 0%,
-                    rgba(255, 255, 255, 0.01) 50%,
-                    rgba(0, 0, 0, 0.03) 100%
-                ),
-                rgba(10, 10, 10, 0.3);
-            backdrop-filter: blur(24px) saturate(180%) brightness(1.1);
-            -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.1);
-            box-shadow:
-                0 8px 32px rgba(0, 0, 0, 0.35),
-                0 2px 8px rgba(0, 0, 0, 0.15),
-                inset 0 1px 1px rgba(255, 255, 255, 0.1),
-                inset 0 -1px 1px rgba(0, 0, 0, 0.1);
-            border-color: rgba(245, 158, 11, 0.24);
-        }
-
-        /* Dynamic glow on interaction - glass response */
-        /* Desktop: hover brightens glow */
-        @media (hover: hover) {
-            .process-step.glass--panel:hover {
-                box-shadow:
-                    0 12px 40px rgba(0, 0, 0, 0.15),
-                    0 4px 12px rgba(0, 0, 0, 0.08),
-                    inset 0 1px 1px rgba(255, 255, 255, 0.9),
-                    inset 0 -1px 1px rgba(0, 0, 0, 0.05);
-                border-color: rgba(217, 119, 6, 0.36);
-            }
-
-            [data-theme="dark"] .process-step.glass--panel:hover {
-                box-shadow:
-                    0 12px 48px rgba(0, 0, 0, 0.45),
-                    0 4px 16px rgba(0, 0, 0, 0.2),
-                    inset 0 1px 1px rgba(255, 255, 255, 0.15),
-                    inset 0 -1px 1px rgba(0, 0, 0, 0.1);
-                border-color: rgba(245, 158, 11, 0.44);
-            }
-        }
-
-        /* Mobile/touch: active state brightens while pressed */
-        .process-step.glass--panel:active {
-            box-shadow:
-                0 12px 40px rgba(0, 0, 0, 0.15),
-                0 4px 12px rgba(0, 0, 0, 0.08),
-                inset 0 1px 1px rgba(255, 255, 255, 0.9),
-                inset 0 -1px 1px rgba(0, 0, 0, 0.05);
-            border-color: rgba(217, 119, 6, 0.36);
-        }
-
-        [data-theme="dark"] .process-step.glass--panel:active {
-            box-shadow:
-                0 12px 48px rgba(0, 0, 0, 0.45),
-                0 4px 16px rgba(0, 0, 0, 0.2),
-                inset 0 1px 1px rgba(255, 255, 255, 0.15),
-                inset 0 -1px 1px rgba(0, 0, 0, 0.1);
-            border-color: rgba(245, 158, 11, 0.44);
-        }
-
-        /* =============================================
-           Case Study Cards — Custom Brand Glows
-           Field Notes: Blue
-           Still Goods: Warm cream-beige
-           ScottBertrand.com: Orange
-           ============================================= */
-
-        .case-study-card {
-            transition: box-shadow 0.4s ease, border-color 0.4s ease, background 0.4s ease;
-            border-radius: var(--glass-radius-md, 16px);
-            overflow: hidden;
-        }
-
-        /* Reset glass--panel padding for case study cards */
-        .case-study-card.glass--panel {
-            padding: clamp(1.5rem, 1.25rem + 0.5vw, 2rem);
-            /* Nav-style glass background */
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(255, 255, 255, 0.4) 0%,
-                    rgba(255, 255, 255, 0.2) 50%,
-                    rgba(0, 0, 0, 0.01) 100%
-                ),
-                rgba(250, 250, 250, 0.3);
-            border: 1px solid var(--glass-border-outer);
-        }
-
-        [data-theme="dark"] .case-study-card.glass--panel {
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(255, 255, 255, 0.06) 0%,
-                    rgba(255, 255, 255, 0.01) 50%,
-                    rgba(0, 0, 0, 0.03) 100%
-                ),
-                rgba(10, 10, 10, 0.3);
-        }
-
-        /* Case Study Grid — Single column stack (3 cards vertical) */
-        .case-study-grid {
-            display: flex !important;
-            flex-direction: column;
-            gap: 3rem;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 0 1rem;
-            /* Override any carousel-like behavior */
-            overflow: visible;
-            scroll-snap-type: none;
-            mask-image: none;
-            -webkit-mask-image: none;
-        }
-
-        /* Ensure case study cards don't inherit carousel flex sizing */
-        .case-study-grid .service-card {
-            flex: none;
-            width: 100%;
-            scroll-snap-align: none;
-        }
-
-        /* Case study card - Nav-style glass */
-        .case-study-grid .case-study-card {
-            position: relative;
-            backdrop-filter: blur(24px) saturate(180%) brightness(1.05);
-            -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.05);
-        }
-
-        [data-theme="dark"] .case-study-grid .case-study-card {
-            backdrop-filter: blur(24px) saturate(180%) brightness(1.1);
-            -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.1);
-        }
-
-        /* Field Notes — Blue glow (enhanced for light mode visibility) */
-        .case-study-card.case-study-card--field-notes {
-            box-shadow:
-                0 0 30px rgba(37, 99, 235, 0.25),
-                0 0 60px rgba(37, 99, 235, 0.15);
-            border-color: rgba(37, 99, 235, 0.35);
-        }
-
-        [data-theme="dark"] .case-study-card.case-study-card--field-notes {
-            box-shadow:
-                0 0 50px rgba(96, 165, 250, 0.16),
-                0 0 100px rgba(96, 165, 250, 0.08);
-            border-color: rgba(96, 165, 250, 0.24);
-        }
-
-        /* Still Goods — Soft gold + cream layered glow (enhanced for light mode visibility) */
-        .case-study-card.case-study-card--still-goods {
-            box-shadow:
-                0 0 25px rgba(184, 144, 68, 0.30),
-                0 0 50px rgba(160, 130, 80, 0.20),
-                0 0 80px rgba(139, 119, 89, 0.12);
-            border-color: rgba(184, 144, 68, 0.40);
-        }
-
-        [data-theme="dark"] .case-study-card.case-study-card--still-goods {
-            box-shadow:
-                0 0 50px rgba(220, 200, 170, 0.20),
-                0 0 100px rgba(220, 200, 170, 0.10);
-            border-color: rgba(220, 200, 170, 0.28);
-        }
-
-        /* ScottBertrand.com — Orange glow (2x intensity, matches process steps) */
-        .case-study-card.case-study-card--scottbertrand {
-            box-shadow:
-                0 0 40px rgba(217, 119, 6, 0.12),
-                0 0 80px rgba(217, 119, 6, 0.06);
-            border-color: rgba(217, 119, 6, 0.2);
-        }
-
-        [data-theme="dark"] .case-study-card.case-study-card--scottbertrand {
-            box-shadow:
-                0 0 50px rgba(245, 158, 11, 0.16),
-                0 0 100px rgba(245, 158, 11, 0.08);
-            border-color: rgba(245, 158, 11, 0.24);
-        }
-
-        /* Case Study Hover States (Desktop) - 2x intensity */
-        @media (hover: hover) {
-            .case-study-card.case-study-card--field-notes:hover {
-                box-shadow:
-                    0 0 40px rgba(37, 99, 235, 0.35),
-                    0 0 80px rgba(37, 99, 235, 0.20);
-                border-color: rgba(37, 99, 235, 0.50);
-            }
-
-            [data-theme="dark"] .case-study-card.case-study-card--field-notes:hover {
-                box-shadow:
-                    0 0 60px rgba(96, 165, 250, 0.32),
-                    0 0 120px rgba(96, 165, 250, 0.16);
-                border-color: rgba(96, 165, 250, 0.44);
-            }
-
-            .case-study-card.case-study-card--still-goods:hover {
-                box-shadow:
-                    0 0 35px rgba(184, 144, 68, 0.42),
-                    0 0 65px rgba(160, 130, 80, 0.28),
-                    0 0 100px rgba(139, 119, 89, 0.16);
-                border-color: rgba(184, 144, 68, 0.55);
-            }
-
-            [data-theme="dark"] .case-study-card.case-study-card--still-goods:hover {
-                box-shadow:
-                    0 0 60px rgba(220, 200, 170, 0.36),
-                    0 0 120px rgba(220, 200, 170, 0.20);
-                border-color: rgba(220, 200, 170, 0.48);
-            }
-
-            .case-study-card.case-study-card--scottbertrand:hover {
-                box-shadow:
-                    0 0 50px rgba(217, 119, 6, 0.24),
-                    0 0 100px rgba(217, 119, 6, 0.12);
-                border-color: rgba(217, 119, 6, 0.36);
-            }
-
-            [data-theme="dark"] .case-study-card.case-study-card--scottbertrand:hover {
-                box-shadow:
-                    0 0 60px rgba(245, 158, 11, 0.32),
-                    0 0 120px rgba(245, 158, 11, 0.16);
-                border-color: rgba(245, 158, 11, 0.44);
-            }
-        }
-
-        /* Case Study Active States (Touch/Mobile) - 2x intensity */
-        .case-study-card.case-study-card--field-notes:active {
-            box-shadow:
-                0 0 50px rgba(59, 130, 246, 0.24),
-                0 0 100px rgba(59, 130, 246, 0.12);
-            border-color: rgba(59, 130, 246, 0.36);
-        }
-
-        [data-theme="dark"] .case-study-card.case-study-card--field-notes:active {
-            box-shadow:
-                0 0 60px rgba(96, 165, 250, 0.32),
-                0 0 120px rgba(96, 165, 250, 0.16);
-            border-color: rgba(96, 165, 250, 0.44);
-        }
-
-        .case-study-card.case-study-card--still-goods:active {
-            box-shadow:
-                0 0 50px rgba(180, 160, 130, 0.32),
-                0 0 100px rgba(180, 160, 130, 0.16);
-            border-color: rgba(180, 160, 130, 0.40);
-        }
-
-        [data-theme="dark"] .case-study-card.case-study-card--still-goods:active {
-            box-shadow:
-                0 0 60px rgba(220, 200, 170, 0.36),
-                0 0 120px rgba(220, 200, 170, 0.20);
-            border-color: rgba(220, 200, 170, 0.48);
-        }
-
-        .case-study-card.case-study-card--scottbertrand:active {
-            box-shadow:
-                0 0 50px rgba(217, 119, 6, 0.24),
-                0 0 100px rgba(217, 119, 6, 0.12);
-            border-color: rgba(217, 119, 6, 0.36);
-        }
-
-        [data-theme="dark"] .case-study-card.case-study-card--scottbertrand:active {
-            box-shadow:
-                0 0 60px rgba(245, 158, 11, 0.32),
-                0 0 120px rgba(245, 158, 11, 0.16);
-            border-color: rgba(245, 158, 11, 0.44);
-        }
-
-        .step-number {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: clamp(40px, 36px + 1vw, 48px);
-            height: clamp(40px, 36px + 1vw, 48px);
-            border-radius: 50%;
-            background: rgba(128, 128, 128, 0.05);
-            border: 1px solid rgba(128, 128, 128, 0.1);
-            font-weight: 500;
-            margin-bottom: 1rem;
-            font-size: clamp(0.9375rem, 0.875rem + 0.2vw, 1.125rem);
-            flex-shrink: 0;
-        }
-
-        /* H3 - Step/Card Titles: Third level
-           Mobile: 0.9375rem (15px) → Desktop: 1.0625rem (17px) */
-        .step-title {
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            font-size: clamp(0.9375rem, 0.875rem + 0.25vw, 1.0625rem);
-            line-height: 1.3;
-        }
-
-        /* Small body text
-           Mobile: 0.8125rem (13px) → Desktop: 0.875rem (14px) */
-        .step-description {
-            font-size: clamp(0.8125rem, 0.75rem + 0.2vw, 0.875rem);
-            color: var(--text-secondary);
-            line-height: 1.5;
-            max-width: 200px;
-            opacity: 0.85;
-        }
-
-        /* Category labels - small caps style */
-        .category-label {
-            font-size: clamp(0.6875rem, 0.65rem + 0.15vw, 0.8125rem);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--text-secondary);
-            opacity: 0.6;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Service tier subtitle - muted helper text */
-        .service-tier-subtitle {
-            font-size: clamp(0.8125rem, 0.75rem + 0.2vw, 0.875rem);
-            color: var(--text-secondary);
-            opacity: 0.65;
-            margin-bottom: 1.5rem;
-            font-style: italic;
-        }
-
-        .category-label + .service-grid {
-            margin-top: 1.5rem;
-        }
-
-        /* =============================================
-           Service Carousel — Unified with Fading Tier Labels
-           ============================================= */
-
-        /* Carousel container */
-        .services-carousel-wrapper {
-            position: relative;
-        }
-
-        /* Floating tier label - fades based on scroll */
-        .services-tier-label {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            min-height: 3rem;
-        }
-
-        .services-tier-label .tier-name {
-            font-size: clamp(0.6875rem, 0.65rem + 0.15vw, 0.8125rem);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--text-secondary);
-            opacity: 0.6;
-            display: block;
-            transition: opacity 0.3s ease;
-        }
-
-        .services-tier-label .tier-subtitle {
-            font-size: clamp(0.8125rem, 0.75rem + 0.2vw, 0.875rem);
-            color: var(--text-secondary);
-            opacity: 0.65;
-            font-style: italic;
-            display: block;
-            margin-top: 0.25rem;
-            transition: opacity 0.3s ease;
-        }
-
-        /* Single unified carousel */
-        .services-carousel {
-            position: relative;
-            display: flex;
-            gap: 1.5rem;
-            overflow-x: auto;
-            overflow-y: hidden;
-            /* Use proximity instead of mandatory for smoother mobile scrolling */
-            scroll-snap-type: x proximity;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            /* Reduced padding/mask for small mobile screens */
-            padding: 1rem 1.5rem;
-            margin: 0 -1.25rem;
-            /* Smaller fade mask on mobile to prevent content clipping */
-            mask-image: linear-gradient(
-                to right,
-                transparent 0%,
-                black 1.25rem,
-                black calc(100% - 1.25rem),
-                transparent 100%
-            );
-            -webkit-mask-image: linear-gradient(
-                to right,
-                transparent 0%,
-                black 1.25rem,
-                black calc(100% - 1.25rem),
-                transparent 100%
-            );
-            /* Prevent accidental horizontal scrolling triggering card clicks */
-            touch-action: pan-x;
-            /* Add scroll padding for better snap alignment */
-            scroll-padding: 1.5rem;
-        }
-
-        .services-carousel::-webkit-scrollbar {
-            display: none;
-        }
-
-        .services-carousel .service-card {
-            flex: 0 0 auto;
-            /* Slightly wider cards on mobile for better readability */
-            width: min(88vw, 360px);
-            scroll-snap-align: start;
-            /* Prevent double-tap zoom delay on cards */
-            touch-action: manipulation;
-        }
-
-        /* Tablets: balanced sizing */
-        @media (min-width: 640px) {
-            .services-carousel {
-                padding: 1rem 2.5rem;
-                margin: 0 -2rem;
-                scroll-padding: 2.5rem;
-                mask-image: linear-gradient(
-                    to right,
-                    transparent 0%,
-                    black 2.5rem,
-                    black calc(100% - 2.5rem),
-                    transparent 100%
-                );
-                -webkit-mask-image: linear-gradient(
-                    to right,
-                    transparent 0%,
-                    black 2.5rem,
-                    black calc(100% - 2.5rem),
-                    transparent 100%
-                );
-            }
-
-            .services-carousel .service-card {
-                width: min(75vw, 380px);
-            }
-        }
-
-        /* Desktop: larger cards, wider fade */
-        @media (min-width: 768px) {
-            .services-carousel .service-card {
-                /* Smooth scaling instead of abrupt change at 1200px */
-                width: clamp(320px, 40vw, 400px);
-            }
-
-            .services-carousel {
-                padding: 1rem 4rem;
-                margin: 0 -3rem;
-                scroll-padding: 4rem;
-                mask-image: linear-gradient(
-                    to right,
-                    transparent 0%,
-                    black 4rem,
-                    black calc(100% - 4rem),
-                    transparent 100%
-                );
-                -webkit-mask-image: linear-gradient(
-                    to right,
-                    transparent 0%,
-                    black 4rem,
-                    black calc(100% - 4rem),
-                    transparent 100%
-                );
-            }
-        }
-
-        /* Large screens - slightly narrower for better text line lengths */
-        @media (min-width: 1200px) {
-            .services-carousel .service-card {
-                width: clamp(340px, 30vw, 400px);
-            }
-        }
-
-        /* ===========================================
-           Carousel Scroll Indicator (Mobile only)
-           Shows progress through service cards
-           =========================================== */
-        .carousel-scroll-indicator {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 1.25rem;
-            padding: 0.5rem 0;
-        }
-
-        .carousel-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--text-secondary);
-            opacity: 0.25;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .carousel-dot.active {
-            opacity: 0.7;
-            transform: scale(1.3);
-        }
-
-        /* Hide on larger screens where cards are all visible */
-        @media (min-width: 1024px) {
-            .carousel-scroll-indicator {
-                display: none;
-            }
-        }
-
-        /* Legacy service-tier and service-grid - hide if using new carousel */
-        .service-tier {
-            display: none;
-        }
-
-        .service-card {
-            /* Nav-style glass: visible but translucent */
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(255, 255, 255, 0.4) 0%,
-                    rgba(255, 255, 255, 0.2) 50%,
-                    rgba(0, 0, 0, 0.01) 100%
-                ),
-                rgba(250, 250, 250, 0.3);
-            backdrop-filter: blur(24px) saturate(180%) brightness(1.05);
-            -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.05);
-            border: 1px solid rgba(128, 128, 128, 0.1);
-            border-radius: var(--glass-radius-md, 16px);
-            padding: clamp(1.5rem, 1.25rem + 0.5vw, 2rem);
-            transition: all 0.3s ease;
-            /* Nav-style shadows with inset highlights */
-            box-shadow:
-                0 8px 32px rgba(0, 0, 0, 0.12),
-                0 2px 8px rgba(0, 0, 0, 0.06),
-                inset 0 1px 1px rgba(255, 255, 255, 0.8),
-                inset 0 -1px 1px rgba(0, 0, 0, 0.05);
-            border-color: rgba(217, 119, 6, 0.15);
-        }
-
-        [data-theme="dark"] .service-card {
-            /* Nav-style dark mode glass */
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(255, 255, 255, 0.06) 0%,
-                    rgba(255, 255, 255, 0.01) 50%,
-                    rgba(0, 0, 0, 0.03) 100%
-                ),
-                rgba(10, 10, 10, 0.3);
-            backdrop-filter: blur(24px) saturate(180%) brightness(1.1);
-            -webkit-backdrop-filter: blur(24px) saturate(180%) brightness(1.1);
-            box-shadow:
-                0 8px 32px rgba(0, 0, 0, 0.35),
-                0 2px 8px rgba(0, 0, 0, 0.15),
-                inset 0 1px 1px rgba(255, 255, 255, 0.1),
-                inset 0 -1px 1px rgba(0, 0, 0, 0.1);
-            border-color: rgba(245, 158, 11, 0.18);
-        }
-
-        /* Service card hover - enhanced glass (desktop) */
-        @media (hover: hover) {
-            .service-card:hover {
-                box-shadow:
-                    0 12px 40px rgba(0, 0, 0, 0.15),
-                    0 4px 12px rgba(0, 0, 0, 0.08),
-                    inset 0 1px 1px rgba(255, 255, 255, 0.9),
-                    inset 0 -1px 1px rgba(0, 0, 0, 0.05);
-                border-color: rgba(217, 119, 6, 0.35);
-            }
-
-            [data-theme="dark"] .service-card:hover {
-                box-shadow:
-                    0 12px 48px rgba(0, 0, 0, 0.45),
-                    0 4px 16px rgba(0, 0, 0, 0.2),
-                    inset 0 1px 1px rgba(255, 255, 255, 0.15),
-                    inset 0 -1px 1px rgba(0, 0, 0, 0.1);
-                border-color: rgba(245, 158, 11, 0.40);
-            }
-        }
-
-        /* Service card active/touch - enhanced glass */
-        .service-card:active {
-            box-shadow:
-                0 12px 40px rgba(0, 0, 0, 0.15),
-                0 4px 12px rgba(0, 0, 0, 0.08),
-                inset 0 1px 1px rgba(255, 255, 255, 0.9),
-                inset 0 -1px 1px rgba(0, 0, 0, 0.05);
-            border-color: rgba(217, 119, 6, 0.35);
-        }
-
-        [data-theme="dark"] .service-card:active {
-            box-shadow:
-                0 12px 48px rgba(0, 0, 0, 0.45),
-                0 4px 16px rgba(0, 0, 0, 0.2),
-                inset 0 1px 1px rgba(255, 255, 255, 0.15),
-                inset 0 -1px 1px rgba(0, 0, 0, 0.1);
-            border-color: rgba(245, 158, 11, 0.40);
-        }
-
-        .service-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 1rem;
-            gap: 1rem;
-        }
-
-        /* H3 - Service Names
-           Mobile: 1.0625rem (17px) → Desktop: 1.25rem (20px) */
-        .service-name {
-            font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
-            font-weight: 500;
-            letter-spacing: -0.01em;
-        }
-
-        .service-price {
-            font-size: clamp(0.9375rem, 0.875rem + 0.2vw, 1rem);
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        /* Body text for descriptions */
-        .service-description {
-            font-size: clamp(0.875rem, 0.825rem + 0.2vw, 0.9375rem);
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-
-        .service-meta {
-            font-size: clamp(0.8125rem, 0.75rem + 0.15vw, 0.875rem);
-            color: var(--text-secondary);
-            opacity: 0.75;
-            margin-bottom: 1.5rem;
-        }
-
-        /* Service scope list */
-        .service-scope {
-            font-size: clamp(0.8125rem, 0.75rem + 0.15vw, 0.875rem);
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            padding-left: 1.25rem;
-            line-height: 1.6;
-        }
-
-        .service-scope li {
-            margin-bottom: 0.25rem;
-        }
-
-        /* Light variant for entry-level services */
-        .service-card--light {
-            background: transparent;
-            border-color: rgba(128, 128, 128, 0.08);
-        }
-
-        .service-card--light:hover {
-            background: rgba(128, 128, 128, 0.02);
-            border-color: rgba(128, 128, 128, 0.15);
-        }
-
-        .service-actions {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .btn-small {
-            padding: 0.625rem 1.25rem;
-            font-size: 0.875rem;
-        }
-
-        /* Boundaries section */
-        .boundaries-content {
-            max-width: 680px;
-            margin: 0 auto;
-            font-family: 'Source Serif 4', Georgia, serif;
-            font-size: 1.0625rem;
-            line-height: 1.7;
-            color: var(--text-secondary);
-        }
-
-        .boundaries-content p {
-            margin-bottom: 1.5rem;
-        }
-
-        /* Field Notes block */
-        .field-notes-block {
-            background: rgba(128, 128, 128, 0.02);
-            border: 1px solid rgba(128, 128, 128, 0.1);
-            border-radius: var(--glass-radius-md, 16px);
-            padding: 2.5rem;
-            max-width: 680px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .field-notes-block h3 {
-            font-size: 1.125rem;
-            font-weight: 500;
-            margin-bottom: 0.75rem;
-        }
-
-        .field-notes-block p {
-            font-family: 'Source Serif 4', Georgia, serif;
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-        }
-
-        .field-notes-block .btn {
-            font-size: 0.9375rem;
-        }
-
-        /* Footer */
-        .site-footer {
-            padding: 3rem 2rem;
-            border-top: 1px solid rgba(128, 128, 128, 0.1);
-        }
-
-        .footer-text {
-            text-align: center;
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            opacity: 0.75;
-        }
-
-        .footer-text a {
-            color: inherit;
-            text-decoration: none;
-            transition: opacity 0.2s ease;
-        }
-
-        .footer-text a:hover {
-            opacity: 1;
-        }
-
-        /* ===========================================
-           Mobile/Desktop Visibility Utilities
-           =========================================== */
-
-        .mobile-only {
-            display: none;
-        }
-
-        .desktop-only {
-            display: inline;
-        }
-
-        /* ===========================================
-           Mobile Hero Hierarchy Fix
-           Target: 640px and below
-           =========================================== */
-
-        @media (max-width: 640px) {
-
-            /* Visibility toggles */
-            .mobile-only {
-                display: inline;
-            }
-
-            .desktop-only {
-                display: none;
-            }
-
-            /* --- Hero Container --- */
-            /* Reduced header height ~10% and softened inner padding */
-            .hero-storefront {
-                min-height: auto;
-                padding: 72px 1.25rem 40px;
-            }
-
-            /* Hero content uses flexbox for reordering */
-            /* Added breathing room with increased padding */
-            .hero-content {
-                display: flex;
-                flex-direction: column;
-                padding: 1.5rem 0.5rem;
-            }
-
-            /* --- Mobile Hero Hierarchy (3 levels maintained) --- */
-
-            /* Level 1: BERTRAND BRANDS - reduced ~10% for less visual weight */
-            .hero-brand {
-                margin-bottom: 0.5rem;
-                order: 1;
-            }
-
-            .hero-brand-wordmark {
-                height: 78px;
-            }
-
-            /* Level 2: Brand & Web Systems - Medium */
-            .hero-storefront .tagline {
-                font-size: 1.125rem;
-                line-height: 1.15;
-                font-weight: 500;
-                margin-bottom: 0.25rem;
-                order: 2;
-            }
-
-            /* Level 3: for Greater Sudbury & Northern Ontario - Quieter (smaller, softer) */
-            .tagline-location {
-                font-size: 0.875rem;
-                margin-bottom: 1.5rem;
-                order: 3;
-                opacity: 0.75;
-            }
-
-            /* --- 4) Subtitle: Improved contrast (brighter) --- */
-            .hero-storefront .subtitle {
-                font-size: 0.9375rem;
-                line-height: 1.55;
-                margin-bottom: 1.75rem;
-                order: 4;
-                color: var(--text-primary);
-                opacity: 0.85;
-            }
-
-            /* --- 5) CTA Group: Improved vertical rhythm --- */
-            .cta-group {
-                flex-direction: column;
-                width: 100%;
-                gap: 1rem;
-                order: 5;
-                margin-bottom: 0.5rem;
-            }
-
-            .cta-group .btn {
-                width: 100%;
-                text-align: center;
-            }
-
-            /* Primary CTA - full presence with enhanced contrast */
-            .cta-group .btn-primary {
-                padding: 1.125rem 1.5rem;
-                font-size: 0.9375rem;
-            }
-
-            /* Secondary CTA - more breathing room */
-            .cta-group .btn-secondary {
-                padding: 0.875rem 1.5rem;
-                font-size: 0.875rem;
-                opacity: 0.85;
-                border-color: rgba(128, 128, 128, 0.15);
-            }
-
-            /* --- 6) Authority statement: Hidden on mobile to reduce crowding --- */
-            .hero-storefront .authority-statement {
-                display: none;
-            }
-
-            /* --- 7) Microcopy: Better rhythm with supporting copy --- */
-            .cta-microcopy {
-                margin-top: 1.5rem;
-                font-size: 0.75rem;
-                opacity: 0.65;
-                order: 7;
-            }
-
-            /* --- 8) Local trust: Hidden on mobile (redundant with tagline-location) --- */
-            .local-trust {
-                display: none;
-            }
-
-            /* --- Other Mobile Adjustments --- */
-            .section {
-                padding-left: 1.5rem;
-                padding-right: 1.5rem;
-            }
-
-            .service-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .service-actions {
-                flex-direction: column;
-            }
-
-            .btn-small {
-                width: 100%;
-                text-align: center;
-            }
-
-            /* ===========================================
-               Mobile Full-Screen Service Cards
-               Clean focus - one service at a time
-               =========================================== */
-
-            .service-card {
-                cursor: pointer;
-            }
-
-            /* Full-screen overlay when expanded */
-            .service-card.is-fullscreen {
-                position: fixed;
-                /* Use explicit positioning for better iOS support */
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                z-index: 1000;
-                background: var(--bg-primary);
-                border: none;
-                border-radius: 0;
-                padding: 1.5rem;
-                /* Account for safe areas on notched devices */
-                padding-top: calc(4.5rem + env(safe-area-inset-top, 0px));
-                /* Leave room for sticky CTA footer */
-                padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
-                overflow-y: auto;
-                /* Prevent iOS rubber-banding affecting parent */
-                overscroll-behavior: contain;
-                cursor: default;
-                animation: slideUp 0.25s ease-out;
-                /* Lock size - prevent pinch/zoom/resize gestures */
-                touch-action: pan-y;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            @keyframes slideUp {
-                from {
-                    transform: translateY(100%);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateY(0);
-                    opacity: 1;
-                }
-            }
-
-            /* Close button for fullscreen - safe area aware */
-            .fullscreen-close-btn {
-                position: fixed;
-                /* Account for notched devices */
-                top: max(1rem, env(safe-area-inset-top, 0px));
-                left: max(1.5rem, env(safe-area-inset-left, 0px));
-                font-size: 0.875rem;
-                font-weight: 500;
-                color: var(--text-secondary);
-                z-index: 1001;
-                padding: 0.5rem 1rem;
-                /* Minimum touch target size */
-                min-height: 44px;
-                min-width: 44px;
-                display: flex;
-                align-items: center;
-                background: transparent;
-                border: none;
-                cursor: pointer;
-                font-family: inherit;
-            }
-
-            .fullscreen-close-btn:active {
-                opacity: 0.7;
-            }
-
-            /* Fullscreen card styling improvements */
-            .service-card.is-fullscreen .service-header {
-                flex-direction: column;
-                margin-bottom: 1.5rem;
-            }
-
-            .service-card.is-fullscreen .service-name {
-                font-size: 1.5rem;
-                margin-bottom: 0.5rem;
-            }
-
-            .service-card.is-fullscreen .service-price {
-                font-size: 1.125rem;
-            }
-
-            .service-card.is-fullscreen .service-description {
-                font-size: 1rem;
-                line-height: 1.6;
-                margin-bottom: 1.5rem;
-            }
-
-            .service-card.is-fullscreen .service-scope {
-                margin-bottom: 1.5rem;
-            }
-
-            .service-card.is-fullscreen .service-scope li {
-                padding: 0.5rem 0;
-            }
-
-            .service-card.is-fullscreen .service-meta {
-                margin-bottom: 2rem;
-            }
-
-            /* Prominent CTA in fullscreen - use fixed instead of sticky for iOS reliability */
-            .service-card.is-fullscreen .service-actions {
-                position: fixed;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: var(--bg-primary);
-                padding: 1rem 1.5rem;
-                /* Account for safe area on notched devices */
-                padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
-                border-top: 1px solid rgba(128, 128, 128, 0.1);
-                z-index: 1001;
-            }
-
-            .service-card.is-fullscreen .btn-small {
-                padding: 1rem 1.5rem;
-                font-size: 1rem;
-            }
-
-            /* Prevent body scroll when card is fullscreen - improved iOS handling */
-            body.has-fullscreen-card {
-                overflow: hidden;
-                position: fixed;
-                width: 100%;
-                /* Prevent iOS bounce scroll */
-                overscroll-behavior: none;
-            }
-        }
-
-        /* ===========================================
-           Hero Section — Backdrop Field for Glass Refraction
-           =========================================== */
-        main {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-storefront {
-            position: relative;
-        }
-
-        /* Subtle backdrop field — gives blur something to refract */
-        .hero-storefront::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(
-                    ellipse 80% 60% at 50% 40%,
-                    rgba(0, 0, 0, 0.02) 0%,
-                    transparent 70%
-                ),
-                radial-gradient(
-                    ellipse 60% 50% at 30% 60%,
-                    rgba(0, 0, 0, 0.015) 0%,
-                    transparent 60%
-                );
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(192, 86, 33, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(61, 107, 153, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 60% 80%, rgba(92, 107, 86, 0.03) 0%, transparent 45%);
             pointer-events: none;
             z-index: 0;
         }
 
-        [data-theme="dark"] .hero-storefront::before {
-            background:
-                radial-gradient(
-                    ellipse 80% 60% at 50% 40%,
-                    rgba(255, 255, 255, 0.015) 0%,
-                    transparent 70%
-                ),
-                radial-gradient(
-                    ellipse 60% 50% at 70% 60%,
-                    rgba(255, 255, 255, 0.01) 0%,
-                    transparent 60%
-                );
+        /* Grain texture */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.02;
+            pointer-events: none;
+            z-index: 0;
         }
 
-        .hero-storefront .container {
-            position: relative;
-            z-index: 1;
-            /* Match nav layout exactly: same max-width, same outer padding as .site-header */
+        .page { position: relative; z-index: 1; }
+
+        /* Header */
+        .header {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border);
+            background: rgba(248, 246, 243, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header__inner {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header__logo {
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+        .header__nav {
+            display: flex;
+            gap: 2.5rem;
+        }
+        .header__link {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+        .header__link:hover { color: var(--text); }
+        .header__link--primary {
+            color: var(--color-bertrand);
+            font-weight: 500;
+        }
+        .header__link--primary:hover {
+            color: #D4621F;
         }
 
-        /* Hero section needs same outer padding as site-header (24px) */
-        .hero-storefront {
-            padding-left: 24px;
-            padding-right: 24px;
+        /* Hero */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 5rem;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 4rem;
+            align-items: end;
+        }
+        @media (max-width: 900px) {
+            .hero { grid-template-columns: 1fr; gap: 2rem; padding: 4rem 2rem 3rem; }
+        }
+        .hero__eyebrow {
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-subtle);
+            margin-bottom: 1.5rem;
+        }
+        .hero__title {
+            font-family: var(--font-serif);
+            font-size: clamp(2.75rem, 6vw, 4.5rem);
+            font-weight: 300;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+        }
+        .hero__title em {
+            font-style: italic;
+            font-weight: 400;
+        }
+        .hero__aside {
+            padding-bottom: 0.75rem;
+        }
+        .hero__text {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            max-width: 320px;
         }
 
-        .hero-storefront .hero-content {
+        /* Section */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+        .section__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .section__title {
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            font-weight: 400;
+        }
+        .section__count {
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-subtle);
+        }
+
+        /* Flagship venture (Bertrand Brands) */
+        .flagship {
+            background: linear-gradient(135deg, #1a1613 0%, #2a2420 100%);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            color: #F8F6F3;
+        }
+        .flagship::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 0% 0%, rgba(192, 86, 33, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(192, 86, 33, 0.1) 0%, transparent 40%);
+            pointer-events: none;
+        }
+        .flagship__inner {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 3rem;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .flagship__inner { grid-template-columns: 1fr; gap: 2rem; }
+        }
+        .flagship__label {
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-bertrand);
+            margin-bottom: 1rem;
+        }
+        .flagship__name {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+        }
+        .flagship__tagline {
+            font-size: 1.125rem;
+            color: rgba(248, 246, 243, 0.7);
+            margin-bottom: 1.5rem;
+        }
+        .flagship__description {
+            font-size: 0.9375rem;
+            color: rgba(248, 246, 243, 0.6);
+            line-height: 1.7;
+            max-width: 500px;
+        }
+        .flagship__cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.75rem;
+            background: var(--color-bertrand);
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .flagship__cta:hover {
+            background: #D4621F;
+            transform: translateY(-1px);
+        }
+        .flagship__cta svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Other ventures grid */
+        .ventures {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+        }
+        @media (max-width: 700px) {
+            .ventures { grid-template-columns: 1fr; }
+        }
+
+        .venture {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .venture::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 1.5rem;
+            right: 1.5rem;
+            height: 3px;
+            background: var(--venture-color);
+            border-radius: 0 0 2px 2px;
+            opacity: 0.8;
+        }
+        .venture:hover {
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+        .venture__number {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--border-strong);
+            margin-bottom: 1rem;
+        }
+        .venture__name {
+            font-family: var(--font-serif);
+            font-size: 1.25rem;
+            font-weight: 400;
+            margin-bottom: 0.375rem;
+            letter-spacing: -0.01em;
+        }
+        .venture__type {
+            font-size: 0.6875rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--venture-color);
+            margin-bottom: 0.875rem;
+        }
+        .venture__description {
+            font-size: 0.9375rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+        .venture__link {
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--text);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s;
+        }
+        .venture__link:hover { color: var(--venture-color); }
+        .venture--notes { --venture-color: var(--color-notes); }
+        .venture--goods { --venture-color: var(--color-goods); }
+
+        /* About */
+        .about {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            align-items: start;
+            max-width: 800px;
+        }
+        @media (max-width: 768px) {
+            .about { grid-template-columns: 1fr; gap: 1rem; }
+        }
+        .about__mark {
+            font-family: var(--font-serif);
+            font-size: 5rem;
+            line-height: 0.8;
+            color: var(--border-strong);
+            font-weight: 300;
+        }
+        .about__text {
+            font-family: var(--font-serif);
+            font-size: 1.375rem;
+            font-weight: 300;
+            line-height: 1.7;
+            color: var(--text);
+        }
+
+        /* Contact */
+        .contact {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .contact { grid-template-columns: 1fr; gap: 1.5rem; text-align: center; }
+        }
+        .contact__title {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: -0.01em;
+        }
+        .contact__info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        @media (max-width: 768px) {
+            .contact__info { align-items: center; }
+        }
+        .contact__email {
+            font-size: 1.125rem;
+            color: var(--text);
+            position: relative;
+            display: inline-block;
+        }
+        .contact__email::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--text);
+            transition: background 0.2s;
+        }
+        .contact__email:hover {
+            color: var(--color-bertrand);
+        }
+        .contact__email:hover::after {
+            background: var(--color-bertrand);
+        }
+        .contact__site {
+            font-size: 0.8125rem;
+            color: var(--text-subtle);
+            transition: color 0.2s;
+        }
+        .contact__site:hover {
+            color: var(--text);
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem;
             text-align: center;
         }
-
-        /* Tablet adjustments */
-        @media (max-width: 768px) {
-            .hero-storefront .container {
-                padding: 0 1rem;
-            }
+        .footer__text {
+            font-size: 0.75rem;
+            color: var(--text-subtle);
+            letter-spacing: 0.03em;
         }
     </style>
 </head>
 <body>
-    <!-- Ambient Gradient Background -->
-    <div class="ambient-gradient" aria-hidden="true"></div>
+    <div class="page">
+        <header class="header">
+            <div class="header__inner">
+                <a href="/" class="header__logo">Scott Bertrand</a>
+                <nav class="header__nav">
+                    <a href="https://bertrandbrands.com" class="header__link header__link--primary">Bertrand Brands</a>
+                    <a href="#ventures" class="header__link">Ventures & Case Studies</a>
+                    <a href="#contact" class="header__link">Contact</a>
+                </nav>
+            </div>
+        </header>
 
-    <!-- Dotted Grid Overlay - Canvas-based wave animation -->
-    <div class="dot-grid" aria-hidden="true">
-        <canvas id="dotWaveCanvas"></canvas>
+        <main>
+            <section class="hero">
+                <div class="hero__main">
+                    <p class="hero__eyebrow">Sudbury, Canada</p>
+                    <h1 class="hero__title">Designer<br>& <em>Builder</em></h1>
+                </div>
+                <div class="hero__aside">
+                    <p class="hero__text">Creating brands, products, and systems that work and last. Focused on clarity over noise, substance over style.</p>
+                </div>
+            </section>
+
+            <section class="section" id="ventures">
+                <div class="section__header">
+                    <h2 class="section__title">Current Ventures</h2>
+                    <span class="section__count">03 Projects</span>
+                </div>
+
+                <!-- Flagship: Bertrand Brands -->
+                <article class="flagship">
+                    <div class="flagship__inner">
+                        <div class="flagship__content">
+                            <p class="flagship__label">Design Studio</p>
+                            <h3 class="flagship__name">Bertrand Brands</h3>
+                            <p class="flagship__tagline">Brand & Web Systems</p>
+                            <p class="flagship__description">Clear, structured brand and web work for businesses in Greater Sudbury and Northern Ontario. Ideal for those who know their site isn't working—but don't know what to fix first.</p>
+                        </div>
+                        <a href="https://bertrandbrands.com" class="flagship__cta">
+                            Visit Studio
+                            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 8h10M9 4l4 4-4 4"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Other ventures -->
+                <div class="ventures">
+                    <article class="venture venture--notes">
+                        <p class="venture__number">02</p>
+                        <h3 class="venture__name">Field Notes</h3>
+                        <p class="venture__type">Writing</p>
+                        <p class="venture__description">Thoughts on design, building, and working independently.</p>
+                        <a href="#" class="venture__link">Read notes &rarr;</a>
+                    </article>
+                    <article class="venture venture--goods">
+                        <p class="venture__number">03</p>
+                        <h3 class="venture__name">Still Goods</h3>
+                        <p class="venture__type">Products</p>
+                        <p class="venture__description">Curated goods and original products. Quality items that last.</p>
+                        <a href="#" class="venture__link">Browse goods &rarr;</a>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section" id="about">
+                <div class="about">
+                    <span class="about__mark">"</span>
+                    <p class="about__text">I believe in clarity over noise, substance over style, and building things that matter. Based in Sudbury, working with clients and on my own projects across Canada.</p>
+                </div>
+            </section>
+
+            <section class="section" id="contact">
+                <div class="contact">
+                    <h2 class="contact__title">Let's connect</h2>
+                    <div class="contact__info">
+                        <a href="mailto:hello@bertrandbrands.com" class="contact__email">hello@bertrandbrands.com</a>
+                        <a href="https://bertrandbrands.com" class="contact__site">bertrandbrands.com</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p class="footer__text">&copy; 2025 Scott Bertrand &middot; Sudbury, Canada</p>
+        </footer>
     </div>
-
-    <!-- Menu Backdrop -->
-    <div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
-
-    <!-- Navigation Header -->
-    <header class="site-header">
-        <div class="nav-container">
-            <a href="https://scottbertrand.com/" class="site-brand">
-                <img src="assets/sb-monogram-light.png" alt="SB" class="brand-monogram brand-monogram--light" width="100" height="100">
-                <img src="assets/sb-monogram-dark.png" alt="SB" class="brand-monogram brand-monogram--dark" width="100" height="100">
-                <span class="brand-separator">|</span>
-                <img src="assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="brand-wordmark brand-wordmark--light" width="400" height="100">
-                <img src="assets/scott-bertrand-wordmark-dark.png" alt="Scott Bertrand" class="brand-wordmark brand-wordmark--dark" width="400" height="100">
-            </a>
-
-            <nav class="nav-menu" id="navMenu" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1">
-                <button type="button" class="mobile-menu-close" aria-label="Close menu"></button>
-                <a href="/#services">Services</a>
-                <a href="https://scottbertrand.com/how-it-works.html">How It Works</a>
-                <a href="https://scottbertrand.com/about.html">About</a>
-                <div class="nav-dropdown">
-                    <button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-haspopup="true">
-                        Case Studies
-                        <span class="dropdown-arrow">▾</span>
-                    </button>
-                    <div class="nav-dropdown-menu" role="menu" aria-hidden="true">
-                        <a href="https://notes.scottbertrand.com/" class="nav-dropdown-item">
-                            <div class="dropdown-item-header">
-                                <img src="assets/field-notes-menu-light.png" alt="Field Notes" class="dropdown-brand-img dropdown-brand-img--light" width="599" height="110">
-                                <img src="assets/field-notes-menu-dark.png" alt="Field Notes" class="dropdown-brand-img dropdown-brand-img--dark" width="599" height="110">
-                            </div>
-                            <span class="dropdown-descriptor">Working archive · essays · systems</span>
-                        </a>
-                        <a href="https://goods.scottbertrand.com/" class="nav-dropdown-item">
-                            <div class="dropdown-item-header">
-                                <img src="assets/still-goods-menu-light.png" alt="Still Goods" class="dropdown-brand-img dropdown-brand-img--light" width="1333" height="283">
-                                <img src="assets/still-goods-menu-dark.png" alt="Still Goods" class="dropdown-brand-img dropdown-brand-img--dark" width="1333" height="283">
-                            </div>
-                            <span class="dropdown-descriptor">Seasonal objects · limited issues</span>
-                        </a>
-                        <a href="https://maxstewart.life/" class="nav-dropdown-item nav-dropdown-item--disabled">
-                            <div class="dropdown-item-header">
-                                <img src="assets/maxstewart-light.png" alt="Max Stewart" class="dropdown-brand-img dropdown-brand-img--light" width="2100" height="434">
-                                <img src="assets/maxstewart-dark.png" alt="Max Stewart" class="dropdown-brand-img dropdown-brand-img--dark" width="2100" height="434">
-                            </div>
-                            <span class="dropdown-descriptor">Lifestyle brand · coming soon</span>
-                        </a>
-                    </div>
-                </div>
-                <a href="https://scottbertrand.com/contact.html">Contact</a>
-            </nav>
-
-            <div class="nav-utilities">
-                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                    <span class="theme-icon">◐</span>
-                </button>
-
-                <button type="button" class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navMenu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section class="hero hero-storefront">
-            <div class="container">
-                <div class="glass glass--hero hero-content">
-                    <!-- V2.1 Conversion Hero - Mobile-optimized hierarchy -->
-                    <div class="hero-brand">
-                        <a href="/" aria-label="Bertrand Brands - Home">
-                            <img src="/assets/bertrand-brands-wordmark-dark.png?v=5" alt="Bertrand Brands" class="hero-brand-wordmark hero-brand-wordmark--dark" width="400" height="100">
-                            <img src="/assets/bertrand-brands-wordmark-light.png?v=5" alt="Bertrand Brands" class="hero-brand-wordmark hero-brand-wordmark--light" width="400" height="100">
-                        </a>
-                    </div>
-                    <h1 class="tagline">Brand & Web Systems</h1>
-                    <p class="tagline-location">for Greater Sudbury & Northern Ontario</p>
-
-                    <!-- Single supporting line (shown on mobile above CTAs) -->
-                    <p class="subtitle">
-                        Clear, structured brand and web work that creates clarity and drives results.<span class="desktop-only"> Based in Sudbury, available remotely across Canada.</span>
-                    </p>
-
-                    <!-- Authority statement - moves below CTAs on mobile -->
-                    <p class="authority-statement">Ideal for businesses who know their site isn't working — but don't know what to fix first.</p>
-
-                    <!-- Primary + Secondary CTAs -->
-                    <div class="cta-group">
-                        <a href="/services/website-snapshot.html" class="btn btn-primary">Start with a Website Snapshot</a>
-                        <a href="/services/brand-clarity.html" class="btn btn-secondary">Start with a Brand Clarity Session</a>
-                    </div>
-
-                    <!-- Microcopy - pushed below CTAs with spacing on mobile -->
-                    <p class="cta-microcopy">No prep required. Clear priorities, not a sales pitch.</p>
-
-                    <!-- Local Trust Signal - lowest priority -->
-                    <p class="local-trust">
-                        Based in Greater Sudbury, serving Northern Ontario & Canada remotely
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- How It Works Section -->
-        <section class="section" id="how-it-works">
-            <div class="container">
-                <div class="section-header glass glass--callout">
-                    <h2 class="section-title">How This Works</h2>
-                    <p class="section-subtitle">A clear, structured process designed to protect scope and deliver results.</p>
-                </div>
-
-                <div class="process-steps">
-                    <div class="process-step glass glass--panel">
-                        <div class="step-number">1</div>
-                        <h3 class="step-title">Choose a Service</h3>
-                        <p class="step-description">Select from structured offerings</p>
-                    </div>
-                    <div class="process-step glass glass--panel">
-                        <div class="step-number">2</div>
-                        <h3 class="step-title">Request & Confirm</h3>
-                        <p class="step-description">Complete intake and confirm engagement</p>
-                    </div>
-                    <div class="process-step glass glass--panel">
-                        <div class="step-number">3</div>
-                        <h3 class="step-title">Collaborate</h3>
-                        <p class="step-description">Work begins on a defined timeline</p>
-                    </div>
-                    <div class="process-step glass glass--panel">
-                        <div class="step-number">4</div>
-                        <h3 class="step-title">Receive Deliverables</h3>
-                        <p class="step-description">Structured output, on schedule</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Ways to Work Together -->
-        <section class="section" id="services">
-            <div class="container">
-                <div class="section-header glass glass--callout">
-                    <h2 class="section-title">Ways to Work Together</h2>
-                    <p class="section-subtitle">Clear pricing, fixed scope, designed for clarity and results.</p>
-                </div>
-
-                <!-- Unified Services Carousel -->
-                <div class="services-carousel-wrapper">
-                    <!-- Floating tier label - updates based on scroll -->
-                    <div class="services-tier-label glass glass--callout">
-                        <span class="tier-name">First Step — Quick Clarity</span>
-                        <span class="tier-subtitle">Low-commitment sessions for fast clarity before deeper work.</span>
-                    </div>
-
-                    <!-- Single carousel with all services -->
-                    <div class="services-carousel" id="servicesCarousel">
-                        <!-- First Step — Quick Clarity -->
-                        <div class="service-card service-card--light" data-tier="first-step" data-tier-name="First Step — Quick Clarity" data-tier-subtitle="Low-commitment sessions for fast clarity before deeper work." id="website-snapshot">
-                            <div class="service-header">
-                                <h3 class="service-name">Website Snapshot Review</h3>
-                                <span class="service-price">$225 CAD</span>
-                            </div>
-                            <p class="service-description">
-                                A focused, live review of your website's most visible issues. We'll assess homepage clarity, messaging alignment, and immediate friction points—then outline what to fix first.
-                            </p>
-                            <ul class="service-scope">
-                                <li>Homepage clarity & structure</li>
-                                <li>Core messaging effectiveness</li>
-                                <li>Immediate UX or conversion blockers</li>
-                            </ul>
-                            <p class="service-meta">60-minute live call · No PDF or written report</p>
-                            <div class="service-actions">
-                                <a href="/request.html?service=website-snapshot" class="btn btn-primary btn-small">Book a Snapshot Review</a>
-                            </div>
-                        </div>
-
-                        <div class="service-card service-card--light" data-tier="first-step" data-tier-name="First Step — Quick Clarity" data-tier-subtitle="Low-commitment sessions for fast clarity before deeper work." id="brand-clarity">
-                            <div class="service-header">
-                                <h3 class="service-name">Brand Clarity Session</h3>
-                                <span class="service-price">$275 CAD</span>
-                            </div>
-                            <p class="service-description">
-                                A clear explanation of what your business is communicating today—for your website, clients, and referrals. Ideal if things feel inconsistent, dated, or hard to explain.
-                            </p>
-                            <ul class="service-scope">
-                                <li>Clarity on what you do and who it's for</li>
-                                <li>Voice & tone alignment</li>
-                                <li>Visual or messaging inconsistencies</li>
-                            </ul>
-                            <p class="service-meta">60-minute live session · Optional short follow-up email (3–5 bullets)</p>
-                            <div class="service-actions">
-                                <a href="/request.html?service=brand-clarity" class="btn btn-primary btn-small">Book a Clarity Session</a>
-                            </div>
-                        </div>
-
-                        <!-- Step Two — Diagnostic Reviews -->
-                        <div class="service-card" data-tier="step-two" data-tier-name="Step Two — Diagnostic Reviews" data-tier-subtitle="">
-                            <div class="service-header">
-                                <h3 class="service-name">Comprehensive Website Review</h3>
-                                <span class="service-price">$495 CAD</span>
-                            </div>
-                            <p class="service-description">
-                                Comprehensive PDF assessment of your website's UX, messaging, performance, and SEO basics. Includes prioritized recommendations (Now / Next / Later) and a clear "what to do next" section.
-                            </p>
-                            <p class="service-meta">Delivered in 5 business days</p>
-                            <div class="service-actions">
-                                <a href="/services/website-audit.html" class="btn btn-secondary btn-small">Learn More</a>
-                                <a href="/request.html?service=website-audit" class="btn btn-primary btn-small">Request Service</a>
-                            </div>
-                            <p class="service-meta" style="margin-top: 1rem; margin-bottom: 0; font-style: italic;">Often recommended after a Snapshot or Clarity Session.</p>
-                        </div>
-
-                        <div class="service-card" data-tier="step-two" data-tier-name="Step Two — Diagnostic Reviews" data-tier-subtitle="">
-                            <div class="service-header">
-                                <h3 class="service-name">Business Messaging & Brand Review</h3>
-                                <span class="service-price">$595 CAD</span>
-                            </div>
-                            <p class="service-description">
-                                Review of how clearly you explain what you do—clarity, consistency, and ease of explanation. Written PDF with actionable recommendations.
-                            </p>
-                            <p class="service-meta">Delivered in 5–7 business days</p>
-                            <div class="service-actions">
-                                <a href="/services/brand-audit.html" class="btn btn-secondary btn-small">Learn More</a>
-                                <a href="/request.html?service=brand-audit" class="btn btn-primary btn-small">Request Service</a>
-                            </div>
-                            <p class="service-meta" style="margin-top: 1rem; margin-bottom: 0; font-style: italic;">Often recommended after a Snapshot or Clarity Session.</p>
-                        </div>
-
-                        <!-- Foundations -->
-                        <div class="service-card" data-tier="foundations" data-tier-name="Foundations" data-tier-subtitle="">
-                            <div class="service-header">
-                                <h3 class="service-name">Brand Reset</h3>
-                                <span class="service-price">$2,750 CAD</span>
-                            </div>
-                            <p class="service-description">
-                                We fix the confusion at the root. Complete brand positioning synthesis (Scott-led), voice & tone framework, visual direction (type, color, layout principles), and brand guide PDF.
-                            </p>
-                            <p class="service-meta">Timeline: 3–4 weeks</p>
-                            <div class="service-actions">
-                                <a href="/services/brand-reset.html" class="btn btn-secondary btn-small">Learn More</a>
-                                <a href="/request.html?service=brand-reset" class="btn btn-primary btn-small">Request Service</a>
-                            </div>
-                        </div>
-
-                        <div class="service-card" data-tier="foundations" data-tier-name="Foundations" data-tier-subtitle="">
-                            <div class="service-header">
-                                <h3 class="service-name">Website Foundation</h3>
-                                <span class="service-price">$3,950 CAD</span>
-                            </div>
-                            <p class="service-description">
-                                Full site build: structure & hierarchy, homepage + key page copy refinement, design & development, mobile optimization, SEO basics, and launch support.
-                            </p>
-                            <p class="service-meta">Timeline: 4–6 weeks</p>
-                            <div class="service-actions">
-                                <a href="/services/website-foundation.html" class="btn btn-secondary btn-small">Learn More</a>
-                                <a href="/request.html?service=website-foundation" class="btn btn-primary btn-small">Request Service</a>
-                            </div>
-                        </div>
-
-                        <!-- Full System (Referral/Private) -->
-                        <div class="service-card" data-tier="full-system" data-tier-name="Full System" data-tier-subtitle="By referral or after completing a review.">
-                            <div class="service-header">
-                                <h3 class="service-name">Full Brand & Website Reset</h3>
-                                <span class="service-price">$6,500 CAD</span>
-                            </div>
-                            <p class="service-description">
-                                Comprehensive rebuild: Brand Reset + Website Foundation with unified thinking, priority scheduling, and end-to-end cohesion. Best for established businesses ready for a complete overhaul.
-                            </p>
-                            <p class="service-meta">Timeline: 6–8 weeks · Typically follows a diagnostic review</p>
-                            <div class="service-actions">
-                                <a href="/services/full-brand-website-reset.html" class="btn btn-secondary btn-small">Learn More</a>
-                                <a href="/request.html?service=full-brand-website-reset" class="btn btn-primary btn-small">Request Service</a>
-                            </div>
-                        </div>
-
-                        <!-- Targeted À La Carte Support -->
-                        <div class="service-card" data-tier="a-la-carte" data-tier-name="Targeted À La Carte Support" data-tier-subtitle="">
-                            <p style="margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
-                                <strong>Best for clear scopes and decision-makers. Broader issues may require a review.</strong>
-                            </p>
-                            <p style="margin-bottom: 1rem;">
-                                <strong>Website Structure Review</strong> — $275 CAD<br>
-                                <strong>Homepage Messaging Rewrite</strong> — $375 CAD<br>
-                                <strong>Brand Direction Consult</strong> (90 min) — $425 CAD
-                            </p>
-                            <div class="service-actions">
-                                <a href="/request.html?service=website-audit" class="btn btn-secondary btn-small">Book a Review First</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Scroll position indicator (mobile) -->
-                    <div class="carousel-scroll-indicator" id="carouselIndicator" aria-hidden="true">
-                        <!-- Dots will be generated by JavaScript -->
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Collaboration & Boundaries Section -->
-        <section class="section" id="collaboration">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Collaboration & Boundaries</h2>
-                </div>
-
-                <div class="boundaries-content">
-                    <p>
-                        This work is collaborative, but structured to protect clarity, momentum, and outcomes.
-                    </p>
-                    <p>
-                        Your insight into your business, audience, and vision is essential. That input shapes strategic direction. However, the synthesis—the decisions about positioning, hierarchy, visual direction, and structure—is Scott-led.
-                    </p>
-                    <p>
-                        This approach prevents consensus drift and protects what you're paying for: decisive, coherent systems work. Revisions are limited and clearly defined within each service scope.
-                    </p>
-                    <p>
-                        If a project requires significantly more back-and-forth than anticipated, we'll discuss scope adjustments transparently before proceeding.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Case Studies Section -->
-        <section class="section" id="case-studies">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Case Studies</h2>
-                    <p class="section-subtitle">Internal systems built to demonstrate structured thinking.</p>
-                </div>
-
-                <div class="case-study-grid">
-                    <div class="service-card glass glass--panel case-study-card case-study-card--field-notes">
-                        <h3>Field Notes</h3>
-                        <p class="service-description">
-                            Content publishing and knowledge management system. Structured writing practice and public archive.
-                        </p>
-                        <div class="service-actions">
-                            <a href="https://notes.scottbertrand.com" class="btn btn-secondary btn-small">View System →</a>
-                        </div>
-                    </div>
-
-                    <div class="service-card glass glass--panel case-study-card case-study-card--still-goods">
-                        <h3>Still Goods</h3>
-                        <p class="service-description">
-                            E-commerce system with seasonal product drops. Testing commerce workflows with real transactions.
-                        </p>
-                        <div class="service-actions">
-                            <a href="https://goods.scottbertrand.com" class="btn btn-secondary btn-small">View System →</a>
-                        </div>
-                    </div>
-
-                    <div class="service-card glass glass--panel case-study-card case-study-card--scottbertrand">
-                        <h3>ScottBertrand.com</h3>
-                        <p class="service-description">
-                            Service business marketing system. Conversion-first design for landing Greater Sudbury clients.
-                        </p>
-                        <div class="service-actions">
-                            <a href="/" class="btn btn-secondary btn-small">This Site</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FAQ Section -->
-        <section class="section" id="faq">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Common Questions</h2>
-                </div>
-
-                <div class="boundaries-content">
-                    <h3 style="font-size: 1.125rem; margin-bottom: 0.5rem;">Do you work with businesses outside Sudbury?</h3>
-                    <p style="margin-bottom: 2rem;">
-                        Yes. While based in Greater Sudbury, I work remotely with clients across Canada. Local presence means understanding Northern Ontario businesses, not limiting my availability.
-                    </p>
-
-                    <h3 style="font-size: 1.125rem; margin-bottom: 0.5rem;">What's the difference between an audit and a foundation?</h3>
-                    <p style="margin-bottom: 2rem;">
-                        An audit identifies problems and prioritizes fixes. A foundation implements solutions. Most clients start with an audit to understand what needs fixing before committing to larger work.
-                    </p>
-
-                    <h3 style="font-size: 1.125rem; margin-bottom: 0.5rem;">How long does a typical project take?</h3>
-                    <p style="margin-bottom: 2rem;">
-                        Audits: 1-2 weeks. Foundations: 4-6 weeks. Full System: 6-8 weeks. Timelines are clearly defined in each service scope.
-                    </p>
-
-                    <h3 style="font-size: 1.125rem; margin-bottom: 0.5rem;">Do you offer payment plans?</h3>
-                    <p style="margin-bottom: 2rem;">
-                        Yes, for Foundation and Full System projects. 50% upfront, 50% on delivery. Audits are paid in full upfront due to the short timeline.
-                    </p>
-
-                    <h3 style="font-size: 1.125rem; margin-bottom: 0.5rem;">What if I just need small fixes?</h3>
-                    <p style="margin-bottom: 2rem;">
-                        Start with an audit. If the scope is truly limited and well-defined, we can discuss targeted à la carte support after the audit clarifies the actual needs.
-                    </p>
-                </div>
-
-                <!-- Final CTA -->
-                <div style="text-align: center; margin-top: 3rem;">
-                    <a href="/services/website-snapshot.html" class="btn btn-primary">Start with a Website Snapshot</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container">
-            <p class="footer-text">
-                Based in Greater Sudbury, serving Northern Ontario & Canada remotely
-            </p>
-            <p class="footer-text" style="margin-top: 0.75rem; opacity: 0.6; font-size: 0.8125rem;">
-                <a href="/what-is-a-brand-web-system.html">What Is a Brand & Web System?</a> ·
-                <a href="/sudbury-small-business-website-leads.html">Website Leads for Sudbury Businesses</a> ·
-                <a href="/about.html">About</a>
-            </p>
-            <p class="footer-text" style="margin-top: 1rem; opacity: 0.5;">
-                &copy; 2026 Scott Bertrand ·
-                <a href="/request.html">Request Service</a>
-            </p>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script type="module" src="/src/scripts/theme.js"></script>
-    <script type="module" src="/src/scripts/modal.js"></script>
-    <script type="module" src="/src/scripts/dropdown.js"></script>
-    <script type="module" src="/src/scripts/glass-light.js"></script>
-    <script type="module" src="/src/scripts/visitor-notify.js"></script>
-
-    <!-- Mobile Full-Screen Service Cards -->
-    <script>
-    (function() {
-        const isMobile = () => window.innerWidth <= 640;
-        let closeBtn = null;
-        const viewport = document.querySelector('meta[name="viewport"]');
-        const defaultViewport = viewport ? viewport.getAttribute('content') : 'width=device-width, initial-scale=1.0';
-
-        function lockZoom() {
-            if (viewport) {
-                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
-            }
-        }
-
-        function unlockZoom() {
-            if (viewport) {
-                viewport.setAttribute('content', defaultViewport);
-            }
-        }
-
-        function closeFullscreen() {
-            const open = document.querySelector('.service-card.is-fullscreen');
-            if (open) {
-                open.classList.remove('is-fullscreen');
-                document.body.classList.remove('has-fullscreen-card');
-                // Remove close button
-                if (closeBtn && closeBtn.parentNode) {
-                    closeBtn.parentNode.removeChild(closeBtn);
-                }
-                // Re-enable pinch zoom
-                unlockZoom();
-            }
-        }
-
-        function openFullscreen(card) {
-            card.classList.add('is-fullscreen');
-            document.body.classList.add('has-fullscreen-card');
-
-            // Disable pinch zoom while fullscreen
-            lockZoom();
-
-            // Create and inject close button
-            closeBtn = document.createElement('button');
-            closeBtn.className = 'fullscreen-close-btn';
-            closeBtn.textContent = '← Back';
-            closeBtn.setAttribute('type', 'button');
-            closeBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                closeFullscreen();
-            });
-            card.insertBefore(closeBtn, card.firstChild);
-        }
-
-        function initFullscreenCards() {
-            const cards = document.querySelectorAll('.service-card');
-            const SCROLL_THRESHOLD = 10; // Pixels - if moved more than this, it's a scroll not a tap
-
-            cards.forEach(card => {
-                let touchStartX = 0;
-                let touchStartY = 0;
-                let isScrolling = false;
-
-                // Track touch start position
-                card.addEventListener('touchstart', (e) => {
-                    touchStartX = e.touches[0].clientX;
-                    touchStartY = e.touches[0].clientY;
-                    isScrolling = false;
-                }, { passive: true });
-
-                // Detect if user is scrolling
-                card.addEventListener('touchmove', (e) => {
-                    const deltaX = Math.abs(e.touches[0].clientX - touchStartX);
-                    const deltaY = Math.abs(e.touches[0].clientY - touchStartY);
-                    // If moved more than threshold in any direction, mark as scrolling
-                    if (deltaX > SCROLL_THRESHOLD || deltaY > SCROLL_THRESHOLD) {
-                        isScrolling = true;
-                    }
-                }, { passive: true });
-
-                card.addEventListener('click', (e) => {
-                    if (!isMobile()) return;
-
-                    // If already fullscreen, do nothing (close only via button)
-                    if (card.classList.contains('is-fullscreen')) {
-                        return;
-                    }
-
-                    // Don't open if clicking a link/button
-                    if (e.target.closest('a, button')) return;
-
-                    // Don't open if user was scrolling the carousel
-                    if (isScrolling) {
-                        isScrolling = false; // Reset for next interaction
-                        return;
-                    }
-
-                    // Open this card fullscreen
-                    openFullscreen(card);
-                });
-            });
-
-            // Close on escape
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') closeFullscreen();
-            });
-        }
-
-        initFullscreenCards();
-    })();
-    </script>
-
-    <!-- Services Carousel - Tier Label Updates & Scroll Indicator -->
-    <script>
-    (function() {
-        const carousel = document.getElementById('servicesCarousel');
-        const tierLabel = document.querySelector('.services-tier-label');
-        const indicatorContainer = document.getElementById('carouselIndicator');
-        if (!carousel || !tierLabel) return;
-
-        const tierName = tierLabel.querySelector('.tier-name');
-        const tierSubtitle = tierLabel.querySelector('.tier-subtitle');
-        const cards = carousel.querySelectorAll('.service-card[data-tier]');
-        let currentTier = '';
-        let currentCardIndex = 0;
-        let scrollTimeout = null;
-
-        // Initialize scroll indicator dots
-        function initScrollIndicator() {
-            if (!indicatorContainer || cards.length === 0) return;
-
-            // Create dots for each card
-            cards.forEach((_, index) => {
-                const dot = document.createElement('span');
-                dot.className = 'carousel-dot';
-                if (index === 0) dot.classList.add('active');
-                indicatorContainer.appendChild(dot);
-            });
-        }
-
-        // Update active dot
-        function updateScrollIndicator(activeIndex) {
-            if (!indicatorContainer) return;
-            const dots = indicatorContainer.querySelectorAll('.carousel-dot');
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === activeIndex);
-            });
-        }
-
-        function updateTierLabel() {
-            const carouselRect = carousel.getBoundingClientRect();
-            const carouselCenter = carouselRect.left + carouselRect.width / 2;
-
-            let closestCard = null;
-            let closestDistance = Infinity;
-            let closestIndex = 0;
-
-            cards.forEach((card, index) => {
-                const cardRect = card.getBoundingClientRect();
-                const cardCenter = cardRect.left + cardRect.width / 2;
-                const distance = Math.abs(cardCenter - carouselCenter);
-
-                if (distance < closestDistance) {
-                    closestDistance = distance;
-                    closestCard = card;
-                    closestIndex = index;
-                }
-            });
-
-            if (closestCard) {
-                // Update scroll indicator
-                if (closestIndex !== currentCardIndex) {
-                    currentCardIndex = closestIndex;
-                    updateScrollIndicator(closestIndex);
-                }
-
-                // Update tier label
-                const newTier = closestCard.dataset.tier;
-                if (newTier !== currentTier) {
-                    currentTier = newTier;
-                    // Fade out
-                    tierName.style.opacity = '0';
-                    tierSubtitle.style.opacity = '0';
-
-                    setTimeout(() => {
-                        tierName.textContent = closestCard.dataset.tierName || '';
-                        tierSubtitle.textContent = closestCard.dataset.tierSubtitle || '';
-                        // Fade in
-                        tierName.style.opacity = '0.6';
-                        tierSubtitle.style.opacity = closestCard.dataset.tierSubtitle ? '0.65' : '0';
-                    }, 150);
-                }
-            }
-        }
-
-        // Debounced scroll handler for better performance
-        function handleScroll() {
-            // Immediate update for responsive feel
-            updateTierLabel();
-        }
-
-        carousel.addEventListener('scroll', handleScroll, { passive: true });
-
-        // Keyboard navigation for desktop accessibility
-        function scrollToCard(index) {
-            if (index < 0 || index >= cards.length) return;
-            const card = cards[index];
-            card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-        }
-
-        // Allow keyboard navigation when carousel or its children are focused
-        carousel.setAttribute('tabindex', '0');
-        carousel.setAttribute('role', 'region');
-        carousel.setAttribute('aria-label', 'Service offerings carousel');
-
-        carousel.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                e.preventDefault();
-                const nextIndex = Math.min(currentCardIndex + 1, cards.length - 1);
-                scrollToCard(nextIndex);
-            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                e.preventDefault();
-                const prevIndex = Math.max(currentCardIndex - 1, 0);
-                scrollToCard(prevIndex);
-            } else if (e.key === 'Home') {
-                e.preventDefault();
-                scrollToCard(0);
-            } else if (e.key === 'End') {
-                e.preventDefault();
-                scrollToCard(cards.length - 1);
-            }
-        });
-
-        // Initialize
-        initScrollIndicator();
-        updateTierLabel();
-    })();
-    </script>
-
-    <!-- Nav Auto-Hide on Scroll -->
-    <script>
-    (function() {
-        const header = document.querySelector('.site-header');
-        if (!header) return;
-
-        let lastScrollY = window.scrollY;
-        let ticking = false;
-        let isHidden = false;
-        const scrollThreshold = 80; // pixels before hiding kicks in
-        const cursorTriggerZone = 60; // pixels from top to trigger show
-
-        // Add CSS for smooth transition
-        header.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-
-        function hideNav() {
-            if (!isHidden) {
-                header.style.transform = 'translateY(-100%)';
-                header.style.opacity = '0';
-                isHidden = true;
-            }
-        }
-
-        function showNav() {
-            if (isHidden) {
-                header.style.transform = 'translateY(0)';
-                header.style.opacity = '1';
-                isHidden = false;
-            }
-        }
-
-        function handleScroll() {
-            const currentScrollY = window.scrollY;
-
-            // Always show nav at top of page
-            if (currentScrollY < scrollThreshold) {
-                showNav();
-                lastScrollY = currentScrollY;
-                ticking = false;
-                return;
-            }
-
-            // Scrolling down - hide nav
-            if (currentScrollY > lastScrollY) {
-                hideNav();
-            }
-            // Scrolling up - show nav
-            else if (currentScrollY < lastScrollY) {
-                showNav();
-            }
-
-            lastScrollY = currentScrollY;
-            ticking = false;
-        }
-
-        // Throttled scroll listener
-        window.addEventListener('scroll', function() {
-            if (!ticking) {
-                requestAnimationFrame(handleScroll);
-                ticking = true;
-            }
-        }, { passive: true });
-
-        // Desktop: show nav when cursor near top of viewport
-        function handleMouseMove(e) {
-            if (e.clientY <= cursorTriggerZone) {
-                showNav();
-            }
-        }
-
-        // Only add mousemove on desktop (hover-capable devices)
-        if (window.matchMedia('(hover: hover)').matches) {
-            document.addEventListener('mousemove', handleMouseMove, { passive: true });
-        }
-
-        // Handle reduced motion preference
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            header.style.transition = 'none';
-        }
-    })();
-    </script>
-
-    <!-- Dot Wave Canvas Animation -->
-    <script type="module" src="/src/scripts/dot-grid.js"></script>
 </body>
 </html>

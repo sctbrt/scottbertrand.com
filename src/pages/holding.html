@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <!-- SEO -->
+    <link rel="canonical" href="https://scottbertrand.com/">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
+    <meta name="color-scheme" content="light dark">
+    <title>Scott Bertrand — New Site Coming Soon</title>
+    <meta name="description" content="ScottBertrand.com is evolving. Bertrand Brands coming soon.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Scott Bertrand — New Site Coming Soon">
+    <meta property="og:description" content="ScottBertrand.com is evolving. Bertrand Brands coming soon.">
+    <meta property="og:image" content="https://scottbertrand.com/assets/og-image.png">
+    <meta property="og:url" content="https://scottbertrand.com/">
+    <meta property="og:type" content="website">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/sb-monogram-light.png">
+    <link rel="apple-touch-icon" href="/bertrand-brands-apple-touch-icon.png">
+
+    <!-- Cloudflare Web Analytics (production only) -->
+    <script>
+    if (location.hostname === 'scottbertrand.com') {
+        var s = document.createElement('script');
+        s.defer = true;
+        s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+        s.setAttribute('data-cf-beacon', '{"token": "2395db43fd88408c892e4333d6a4bd90"}');
+        document.head.appendChild(s);
+    }
+    </script>
+
+    <!-- Google Fonts: Inter (Display) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..600&display=swap" rel="stylesheet">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/src/styles/tokens.css">
+    <link rel="stylesheet" href="/src/styles/glass.css">
+
+    <style>
+        /* === Holding Page — Premium Design House === */
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-display);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-8);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Dark mode detection */
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --bg: #1C1C1E;
+                --surface: #2C2C2E;
+                --surface-2: #232325;
+                --text: #F7F6F3;
+                --text-muted: #a0a0a0;
+                --border: rgba(255, 255, 255, 0.08);
+                --border-subtle: rgba(255, 255, 255, 0.05);
+                --accent: #F59E0B;
+                --accent-hover: #D97706;
+            }
+        }
+
+        /* === Spotlight Background — Gentle, Finding Its Spot === */
+        .spotlight {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        /* The spotlight uses transform to move smoothly (not CSS custom props) */
+        .spotlight::before {
+            content: "";
+            position: absolute;
+            /* Large gradient centered at its own origin */
+            width: 100vw;
+            height: 100vh;
+            /* Gradient is always centered in this element */
+            background: radial-gradient(
+                ellipse 60% 50% at 50% 50%,
+                rgba(217, 119, 6, 0.05) 0%,
+                rgba(217, 119, 6, 0.02) 35%,
+                transparent 65%
+            );
+            /* Start position: offset up and left */
+            transform: translate(-15%, -20%) scale(1.2);
+            opacity: 0;
+            /* Smooth animation using only transform and opacity */
+            animation: spotlight-find 5s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+        }
+
+        @keyframes spotlight-find {
+            0% {
+                opacity: 0;
+                transform: translate(-15%, -20%) scale(1.2);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(0%, -5%) scale(1);
+            }
+        }
+
+        /* Subtle breathing after settling */
+        .spotlight::after {
+            content: "";
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(
+                ellipse 55% 45% at 50% 45%,
+                rgba(217, 119, 6, 0.025) 0%,
+                transparent 55%
+            );
+            opacity: 0;
+            transform: scale(1);
+            animation: spotlight-breathe 12s ease-in-out 5.3s infinite;
+        }
+
+        @keyframes spotlight-breathe {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.08);
+            }
+        }
+
+        /* Dark mode - slightly stronger glow */
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) .spotlight::before {
+                background: radial-gradient(
+                    ellipse 60% 50% at 50% 50%,
+                    rgba(245, 158, 11, 0.08) 0%,
+                    rgba(245, 158, 11, 0.03) 35%,
+                    transparent 65%
+                );
+            }
+            :root:not([data-theme="light"]) .spotlight::after {
+                background: radial-gradient(
+                    ellipse 55% 45% at 50% 45%,
+                    rgba(245, 158, 11, 0.04) 0%,
+                    transparent 55%
+                );
+            }
+        }
+
+        [data-theme="dark"] .spotlight::before {
+            background: radial-gradient(
+                ellipse 60% 50% at 50% 50%,
+                rgba(245, 158, 11, 0.08) 0%,
+                rgba(245, 158, 11, 0.03) 35%,
+                transparent 65%
+            );
+        }
+        [data-theme="dark"] .spotlight::after {
+            background: radial-gradient(
+                ellipse 55% 45% at 50% 45%,
+                rgba(245, 158, 11, 0.04) 0%,
+                transparent 55%
+            );
+        }
+
+
+        /* === Main Container === */
+        .holding-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-16);
+        }
+
+        /* === Scott Bertrand Section === */
+        .sb-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-6);
+            text-align: center;
+        }
+
+        .sb-monogram {
+            width: 72px;
+            height: auto;
+            opacity: 0.9;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
+        }
+
+        .sb-wordmark {
+            width: 320px;
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.04));
+        }
+
+        .sb-status {
+            font-size: var(--text-sm);
+            font-weight: var(--weight-medium);
+            color: var(--text-muted);
+            letter-spacing: var(--tracking-wide);
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        /* === Divider === */
+        .divider {
+            width: 1px;
+            height: 48px;
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                var(--border) 20%,
+                var(--border) 80%,
+                transparent
+            );
+        }
+
+        /* === Bertrand Brands Teaser — V1 Visual System === */
+        .bb-section {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .bb-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            text-align: center;
+            padding: 3rem 2.5rem;
+            /* BB V1: Clean solid surface, no glass */
+            background: var(--surface);
+            border: 1px solid var(--accent-muted);
+            border-radius: 12px;
+            transition:
+                border-color var(--duration-normal) var(--ease-out),
+                box-shadow var(--duration-normal) var(--ease-out);
+        }
+
+        .bb-card:hover {
+            border-color: var(--accent);
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.08),
+                0 0 0 1px var(--accent-muted);
+        }
+
+        /* Dark mode card adjustments */
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) .bb-card {
+                --surface: #222222;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            }
+            :root:not([data-theme="light"]) .bb-card:hover {
+                box-shadow:
+                    0 8px 24px rgba(0, 0, 0, 0.4),
+                    0 0 0 1px var(--accent-muted);
+            }
+        }
+
+        [data-theme="dark"] .bb-card {
+            --surface: #222222;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        [data-theme="dark"] .bb-card:hover {
+            box-shadow:
+                0 8px 24px rgba(0, 0, 0, 0.4),
+                0 0 0 1px var(--accent-muted);
+        }
+
+        .bb-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            /* BB V1 style: no background pill, just text */
+        }
+
+        .bb-wordmark {
+            width: 280px;
+            max-width: 100%;
+            height: auto;
+            margin: 0.5rem 0;
+        }
+
+        .bb-tagline {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 32ch;
+        }
+
+        .bb-url {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text);
+            letter-spacing: 0.02em;
+            padding-bottom: 2px;
+            border-bottom: 1px solid var(--border);
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+
+        .bb-url:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* === Contact Footer === */
+        .contact-footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-4);
+            margin-top: var(--space-4);
+        }
+
+        .contact-label {
+            font-size: var(--text-xs);
+            color: var(--text-muted);
+            letter-spacing: var(--tracking-wide);
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        .contact-link {
+            font-size: var(--text-base);
+            font-weight: var(--weight-medium);
+            color: var(--text);
+            text-decoration: none;
+            padding: var(--space-3) var(--space-6);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            background: var(--surface-elevated);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition:
+                color var(--duration-fast) var(--ease-out),
+                border-color var(--duration-fast) var(--ease-out),
+                transform var(--duration-fast) var(--ease-out),
+                box-shadow var(--duration-fast) var(--ease-out);
+        }
+
+        .contact-link:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.15);
+        }
+
+        .contact-link:focus-visible {
+            outline: 2px solid var(--focus-ring);
+            outline-offset: 2px;
+        }
+
+        /* === Theme-specific logo switching === */
+        .logo-light { display: block; }
+        .logo-dark { display: none; }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) .logo-light { display: none; }
+            :root:not([data-theme="light"]) .logo-dark { display: block; }
+        }
+
+        [data-theme="dark"] .logo-light { display: none; }
+        [data-theme="dark"] .logo-dark { display: block; }
+        [data-theme="light"] .logo-light { display: block; }
+        [data-theme="light"] .logo-dark { display: none; }
+
+        /* === Entrance Animation === */
+        @keyframes fade-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .sb-section {
+            animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+        }
+
+        .divider {
+            animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+        }
+
+        .bb-section {
+            animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+        }
+
+        .contact-footer {
+            animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+        }
+
+        /* === Responsive === */
+        @media (max-width: 640px) {
+            body {
+                padding: var(--space-6);
+            }
+
+            .holding-container {
+                gap: var(--space-12);
+            }
+
+            .sb-monogram {
+                width: 56px;
+            }
+
+            .sb-wordmark {
+                width: 260px;
+            }
+
+            .bb-card {
+                padding: var(--space-8) var(--space-6);
+            }
+
+            .bb-wordmark {
+                width: 220px;
+            }
+
+            .divider {
+                height: 32px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .sb-wordmark {
+                width: 220px;
+            }
+
+            .bb-wordmark {
+                width: 180px;
+            }
+        }
+
+        /* === Reduced Motion === */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .spotlight::before,
+            .spotlight::after {
+                animation: none;
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Spotlight Background -->
+    <div class="spotlight" aria-hidden="true"></div>
+
+    <main class="holding-container">
+        <!-- Scott Bertrand Section -->
+        <section class="sb-section">
+            <img
+                src="assets/sb-monogram-dark.png"
+                alt=""
+                class="sb-monogram logo-light"
+                aria-hidden="true"
+            >
+            <img
+                src="assets/sb-monogram-light.png"
+                alt=""
+                class="sb-monogram logo-dark"
+                aria-hidden="true"
+            >
+            <img
+                src="assets/scott-bertrand-wordmark-dark.png"
+                alt="Scott Bertrand"
+                class="sb-wordmark logo-light"
+            >
+            <img
+                src="assets/scott-bertrand-wordmark-light.png"
+                alt="Scott Bertrand"
+                class="sb-wordmark logo-dark"
+            >
+            <p class="sb-status">New site in development</p>
+        </section>
+
+        <div class="divider" aria-hidden="true"></div>
+
+        <!-- Bertrand Brands Teaser — V1 Visual System -->
+        <section class="bb-section">
+            <div class="bb-card">
+                <span class="bb-label">Coming Soon</span>
+                <img
+                    src="assets/bertrand-brands-wordmark-light.png"
+                    alt="Bertrand Brands"
+                    class="bb-wordmark logo-light"
+                >
+                <img
+                    src="assets/bertrand-brands-wordmark-dark.png"
+                    alt="Bertrand Brands"
+                    class="bb-wordmark logo-dark"
+                >
+                <p class="bb-tagline">Brand systems and web foundations for businesses that need clarity, not chaos.</p>
+                <a href="https://bertrandbrands.com" class="bb-url">bertrandbrands.com</a>
+            </div>
+        </section>
+
+        <!-- Contact Footer -->
+        <footer class="contact-footer">
+            <span class="contact-label">Get in touch</span>
+            <a href="mailto:hello@bertrandbrands.com" class="contact-link">
+                hello@bertrandbrands.com
+            </a>
+        </footer>
+    </main>
+</body>
+</html>

@@ -369,7 +369,9 @@
         .header__link:hover { color: var(--text); }
         .header__link--primary {
             color: var(--color-bertrand);
-            font-weight: 500;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
         }
         /* Ghosted link - coming soon state */
         .header__link--ghosted {
@@ -398,18 +400,25 @@
             .header__glass {
                 padding: 0.625rem 1rem;
             }
+            .header__logo {
+                flex-shrink: 0;
+            }
             .header__logo-text {
-                font-size: 0.75rem;
-                letter-spacing: 0.1em;
+                font-size: 0.625rem;
+                letter-spacing: 0.08em;
+                white-space: nowrap;
             }
             .header__logo-divider {
                 display: none;
             }
             .header__nav {
-                gap: 1rem;
+                gap: 0.5rem;
             }
             .header__link {
-                font-size: 0.75rem;
+                font-size: 0.5rem;
+            }
+            .header__link--primary {
+                letter-spacing: 0.05em;
             }
         }
 
@@ -446,43 +455,87 @@
             transform: translateY(0);
         }
 
-        /* Orange lamp flicker effect - warm glow that flickers on */
-        /* Orange lamp glow - focused on Designer & Builder headline */
-        .hero__lamp-glow {
+        /* Primary RGB Spotlights - organic ambient lighting */
+        .hero__lights {
             position: fixed;
-            top: 15%;
-            left: 5%;
-            width: 800px;
-            height: 600px;
-            background: radial-gradient(ellipse 100% 80%, rgba(224, 122, 58, 0.4) 0%, rgba(224, 122, 58, 0.15) 40%, transparent 70%);
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100vh;
             pointer-events: none;
             z-index: 0;
             opacity: 0;
-            filter: blur(80px);
+            transition: opacity 1.5s ease-out;
         }
-        .hero__lamp-glow.flicker {
-            animation: lampFlicker 1s ease-out forwards;
+        .hero__lights.on {
+            opacity: 1;
         }
-        @keyframes lampFlicker {
-            0% { opacity: 0; }
-            10% { opacity: 0.7; }
-            20% { opacity: 0.15; }
-            35% { opacity: 0.9; }
-            45% { opacity: 0.3; }
-            55% { opacity: 1; }
-            70% { opacity: 0.6; }
-            85% { opacity: 0.85; }
-            100% { opacity: 0.7; }
+        .hero__light {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
         }
-        /* After flicker, glow gently pulses - stays prominent */
-        .hero__lamp-glow.on {
-            opacity: 0.7;
-            animation: lampPulse 10s ease-in-out infinite;
+        /* Red - unanchored, drifts freely */
+        .hero__light--red {
+            top: 8%;
+            left: 0%;
+            width: 550px;
+            height: 420px;
+            background: rgba(220, 60, 60, 0.30);
+            animation: driftRed 45s ease-in-out infinite;
         }
-        @keyframes lampPulse {
-            0%, 100% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.03); }
+        /* Green - unanchored, drifts freely */
+        .hero__light--green {
+            top: 25%;
+            left: 25%;
+            width: 500px;
+            height: 380px;
+            background: rgba(60, 180, 80, 0.22);
+            animation: driftGreen 55s ease-in-out infinite;
         }
+        /* Blue - unanchored, drifts freely */
+        .hero__light--blue {
+            top: 5%;
+            right: 5%;
+            width: 520px;
+            height: 400px;
+            background: rgba(60, 100, 220, 0.28);
+            animation: driftBlue 50s ease-in-out infinite;
+        }
+        /* Slow organic drift - each light wanders independently */
+        @keyframes driftRed {
+            0% { transform: translate(0, 0) scale(1); }
+            15% { transform: translate(60px, 40px) scale(1.05); }
+            30% { transform: translate(20px, 80px) scale(0.98); }
+            45% { transform: translate(-40px, 50px) scale(1.03); }
+            60% { transform: translate(-70px, 10px) scale(0.97); }
+            75% { transform: translate(-30px, -30px) scale(1.02); }
+            90% { transform: translate(30px, -20px) scale(0.99); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes driftGreen {
+            0% { transform: translate(0, 0) scale(1); }
+            12% { transform: translate(-50px, -30px) scale(1.04); }
+            28% { transform: translate(-80px, 20px) scale(0.96); }
+            42% { transform: translate(-30px, 70px) scale(1.02); }
+            58% { transform: translate(40px, 50px) scale(0.98); }
+            72% { transform: translate(70px, 0px) scale(1.03); }
+            88% { transform: translate(30px, -40px) scale(0.97); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes driftBlue {
+            0% { transform: translate(0, 0) scale(1); }
+            18% { transform: translate(-60px, 50px) scale(0.97); }
+            35% { transform: translate(-40px, -20px) scale(1.04); }
+            52% { transform: translate(30px, -50px) scale(0.99); }
+            68% { transform: translate(80px, 10px) scale(1.02); }
+            85% { transform: translate(40px, 60px) scale(0.96); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        /* Light mode - softer, more subtle */
+        [data-theme="light"] .hero__light--red { background: rgba(200, 50, 50, 0.10); }
+        [data-theme="light"] .hero__light--green { background: rgba(50, 160, 70, 0.08); }
+        [data-theme="light"] .hero__light--blue { background: rgba(50, 90, 200, 0.10); }
 
         /* Flagship card - floats down after hero */
         .flagship {
@@ -518,8 +571,11 @@
                 transform: none;
                 transition: none;
             }
-            .hero__lamp-glow {
+            .hero__lights {
                 display: none;
+            }
+            .hero__light {
+                animation: none;
             }
         }
 
@@ -904,8 +960,12 @@
         </header>
 
         <main id="main">
-            <!-- Orange lamp glow effect -->
-            <div class="hero__lamp-glow" id="lamp-glow"></div>
+            <!-- RGB Hero Spotlights -->
+            <div class="hero__lights" id="heroLights">
+                <div class="hero__light hero__light--red"></div>
+                <div class="hero__light hero__light--green"></div>
+                <div class="hero__light hero__light--blue"></div>
+            </div>
 
             <!-- Hero: Asymmetric layout -->
             <section class="hero hero--asymmetric">
@@ -977,7 +1037,7 @@
             const header = document.querySelector('.header');
             const headerGlass = document.querySelector('.header__glass');
             const heroes = document.querySelectorAll('.hero');
-            const lampGlow = document.getElementById('lamp-glow');
+            const heroLights = document.getElementById('heroLights');
             const divider = document.querySelector('.divider');
             const flagship = document.querySelector('.flagship');
 
@@ -986,6 +1046,7 @@
                 intro.classList.add('hidden');
                 header.classList.add('visible', 'lights-on');
                 heroes.forEach(h => h.classList.add('revealed'));
+                if (heroLights) heroLights.classList.add('on');
                 if (divider) divider.classList.add('revealed');
                 if (flagship) flagship.classList.add('revealed');
                 return;
@@ -995,8 +1056,7 @@
             // 0ms: Intro plays (logo, divider, wordmark animation)
             // 3800ms: Intro fades, header appears
             // 4800ms: Intro hidden, header lights on
-            // 5200ms: Hero section revealed with orange lamp flicker
-            // 6200ms: Lamp settles into gentle pulse
+            // 5200ms: Hero section revealed with RGB lights
             // 6500ms: Divider fades in
             // 7000ms: Flagship card floats down
 
@@ -1012,19 +1072,11 @@
                 header.classList.add('lights-on');
             }, 4800);
 
-            // Step 3: Hero revealed with orange lamp flicker
+            // Step 3: Hero revealed with RGB lights
             setTimeout(() => {
-                if (lampGlow) lampGlow.classList.add('flicker');
+                if (heroLights) heroLights.classList.add('on');
                 heroes.forEach(h => h.classList.add('revealed'));
             }, 5200);
-
-            // Step 4: Lamp settles into gentle pulse
-            setTimeout(() => {
-                if (lampGlow) {
-                    lampGlow.classList.remove('flicker');
-                    lampGlow.classList.add('on');
-                }
-            }, 6200);
 
             // Step 5: Divider fades in
             setTimeout(() => {

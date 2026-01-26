@@ -36,11 +36,6 @@ export default async function InvoiceDetailPage({ params, searchParams }: Invoic
 
     const nextNumber = generateNextInvoiceNumber(lastInvoice?.invoiceNumber)
 
-    // If clientId provided, pre-select the client (used for form defaults)
-    const _preselectedClient = queryParams.clientId
-      ? clients.find((c) => c.id === queryParams.clientId)
-      : null
-
     // If projectId provided, get project details for line items
     let preselectedProject = null
     if (queryParams.projectId) {

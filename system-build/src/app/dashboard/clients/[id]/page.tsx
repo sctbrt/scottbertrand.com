@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ClientForm } from './client-form'
+import { GenerateLoginLink } from './generate-login-link'
 
 interface ClientDetailPageProps {
   params: Promise<{ id: string }>
@@ -205,6 +206,9 @@ export default async function ClientDetailPage({ params }: ClientDetailPageProps
                 </span>
               </div>
             </div>
+
+            {/* Generate Login Link - for clients who can't receive emails */}
+            <GenerateLoginLink email={client.users.email} />
           </div>
 
           {/* Notes */}

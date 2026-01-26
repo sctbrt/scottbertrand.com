@@ -97,21 +97,26 @@ export default defineConfig({
         // V1.2.0 pages
         howItWorks: resolve(__dirname, 'src/pages/how-it-works.html'),
         request: resolve(__dirname, 'src/pages/request.html'),
-        // Service detail pages
-        websiteAudit: resolve(__dirname, 'src/pages/services/website-audit.html'),
-        websiteAuditSudbury: resolve(__dirname, 'src/pages/services/website-audit-sudbury.html'),
-        brandAudit: resolve(__dirname, 'src/pages/services/brand-audit.html'),
+        // Entry-level service pages
+        microConsult: resolve(__dirname, 'src/pages/services/micro-consult.html'),
+        websiteSnapshot: resolve(__dirname, 'src/pages/services/website-snapshot.html'),
+        brandClarity: resolve(__dirname, 'src/pages/services/brand-clarity.html'),
+        // Strategic review pages
+        strategicWebsiteReview: resolve(__dirname, 'src/pages/services/strategic-website-review.html'),
+        strategicBrandReview: resolve(__dirname, 'src/pages/services/strategic-brand-review.html'),
+        // Full system pages
         brandReset: resolve(__dirname, 'src/pages/services/brand-reset.html'),
         websiteFoundation: resolve(__dirname, 'src/pages/services/website-foundation.html'),
-        fullBrandWebsiteReset: resolve(__dirname, 'src/pages/services/full-brand-website-reset.html'),
-        // Entry-level service pages
-        websiteSnapshotService: resolve(__dirname, 'src/pages/services/website-snapshot.html'),
-        brandClarityService: resolve(__dirname, 'src/pages/services/brand-clarity.html'),
+        brandWebsiteReset: resolve(__dirname, 'src/pages/services/brand-website-reset.html'),
+        // Ongoing support pages
+        asyncAdvisory: resolve(__dirname, 'src/pages/services/async-advisory.html'),
+        phoneConsultation: resolve(__dirname, 'src/pages/services/phone-consultation.html'),
         // SEO / LLM-EO content pages
         whatIsBrandWebSystem: resolve(__dirname, 'src/pages/what-is-a-brand-web-system.html'),
         sudburyWebsiteLeads: resolve(__dirname, 'src/pages/sudbury-small-business-website-leads.html'),
         // Landing pages
-        websiteSnapshot: resolve(__dirname, 'src/pages/website-snapshot.html'),
+        websiteSnapshotLanding: resolve(__dirname, 'src/pages/website-snapshot.html'),
+        sudburyBrandWebsiteClarity: resolve(__dirname, 'src/pages/sudbury-brand-website-clarity.html'),
       },
     },
   },

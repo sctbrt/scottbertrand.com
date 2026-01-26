@@ -1,22 +1,25 @@
 // BERTRANDBRANDS.COM — Host-Based Routing Middleware
 // Routes requests based on subdomain to appropriate sections
+//
+// This middleware handles routing for the system-build Next.js app:
+// - dashboard.bertrandbrands.com → /dashboard/* (admin only)
+// - clients.bertrandbrands.com → /portal/* (client portal)
+//
+// NOTE: notes.* and goods.* subdomains are deployed separately
+// from the main Vite site and should NOT be handled by this app.
 
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-// Domain configuration
+// Domain configuration - only domains handled by this Next.js app
 const DOMAINS: Record<string, string[]> = {
   // Production domains
   PUBLIC: ['bertrandbrands.com', 'www.bertrandbrands.com'],
-  NOTES: ['notes.bertrandbrands.com'],
-  GOODS: ['goods.bertrandbrands.com'],
   DASHBOARD: ['dashboard.bertrandbrands.com'],
   PORTAL: ['clients.bertrandbrands.com'],
 
   // Test/Staging domains (test.bertrandbrands.com)
   TEST_PUBLIC: ['test.bertrandbrands.com'],
-  TEST_NOTES: ['notes.test.bertrandbrands.com'],
-  TEST_GOODS: ['goods.test.bertrandbrands.com'],
   TEST_DASHBOARD: ['dashboard.test.bertrandbrands.com'],
   TEST_PORTAL: ['clients.test.bertrandbrands.com'],
 
@@ -28,11 +31,7 @@ const DOMAINS: Record<string, string[]> = {
 
 // Protected paths that require authentication
 // Note: Currently all dashboard/portal paths require auth by default
-// This can be expanded for more granular control
-const _PROTECTED_PATHS = {
-  dashboard: ['/'],
-  portal: ['/'],
-}
+// This can be expanded for more granular control if needed
 
 // Public paths that don't require auth (login pages, etc.)
 const AUTH_PATHS = ['/login', '/auth', '/api/auth']
@@ -73,21 +72,11 @@ export async function middleware(request: NextRequest) {
     return handlePortalRouting(request, pathname)
   }
 
-  // Handle notes subdomain
-  if (siteType === 'notes') {
-    return handleNotesRouting(request, pathname)
-  }
-
-  // Handle goods subdomain
-  if (siteType === 'goods') {
-    return handleGoodsRouting(request, pathname)
-  }
-
   // Public site - no auth required
   return response
 }
 
-function getSiteType(host: string): 'public' | 'dashboard' | 'portal' | 'notes' | 'goods' {
+function getSiteType(host: string): 'public' | 'dashboard' | 'portal' {
   // Dashboard (production, test, or dev)
   if (
     DOMAINS.DASHBOARD.includes(host) ||
@@ -108,25 +97,8 @@ function getSiteType(host: string): 'public' | 'dashboard' | 'portal' | 'notes' 
     return 'portal'
   }
 
-  // Notes (production or test)
-  if (
-    DOMAINS.NOTES.includes(host) ||
-    DOMAINS.TEST_NOTES.includes(host) ||
-    host.startsWith('notes.')
-  ) {
-    return 'notes'
-  }
-
-  // Goods (production or test)
-  if (
-    DOMAINS.GOODS.includes(host) ||
-    DOMAINS.TEST_GOODS.includes(host) ||
-    host.startsWith('goods.')
-  ) {
-    return 'goods'
-  }
-
-  // Default to public (includes test.bertrandbrands.com)
+  // Default to public
+  // NOTE: notes.* and goods.* subdomains are handled by separate Vercel deployments
   return 'public'
 }
 
@@ -191,20 +163,6 @@ async function handlePortalRouting(request: NextRequest, pathname: string) {
   // Rewrite to portal route group
   const url = request.nextUrl.clone()
   url.pathname = `/portal${pathname}`
-  return NextResponse.rewrite(url)
-}
-
-async function handleNotesRouting(request: NextRequest, pathname: string) {
-  // Rewrite to notes route group (public, no auth)
-  const url = request.nextUrl.clone()
-  url.pathname = `/notes${pathname}`
-  return NextResponse.rewrite(url)
-}
-
-async function handleGoodsRouting(request: NextRequest, pathname: string) {
-  // Rewrite to goods route group (public, no auth)
-  const url = request.nextUrl.clone()
-  url.pathname = `/goods${pathname}`
   return NextResponse.rewrite(url)
 }
 

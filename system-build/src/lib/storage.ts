@@ -122,8 +122,8 @@ export async function checkFileAccess({
   }
 
   // Client-visible files require ownership check
-  if (file.accessLevel === 'CLIENT_VISIBLE' && file.projects) {
-    return file.projects.clients?.userId === userId
+  if (file.accessLevel === 'CLIENT_VISIBLE' && file.projects?.clients) {
+    return file.projects.clients.userId === userId
   }
 
   // Private files are admin-only
@@ -142,7 +142,10 @@ export function generateDownloadUrl(fileId: string, expiresIn: number = 3600): s
 
 // Generate a signed token for URL validation
 function generateSignedToken(fileId: string, expires: number): string {
-  const secret = process.env.FILE_SIGNING_SECRET || process.env.AUTH_SECRET || 'fallback-secret'
+  const secret = process.env.FILE_SIGNING_SECRET || process.env.AUTH_SECRET
+  if (!secret) {
+    throw new Error('FILE_SIGNING_SECRET or AUTH_SECRET must be set')
+  }
   const data = `${fileId}:${expires}`
 
   return crypto

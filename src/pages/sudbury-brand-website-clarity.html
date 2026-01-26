@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand & Website Clarity for Sudbury Businesses | Scott Bertrand</title>
+    <meta name="description" content="Get clarity on your brand and website. Serving founders and small businesses in Greater Sudbury and Northern Ontario. Most first steps range from $95–$295.">
+    <meta name="author" content="Scott Bertrand">
+    <link rel="canonical" href="https://scottbertrand.com/sudbury-brand-website-clarity.html">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/sb-dotted-logomark.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Brand & Website Clarity for Sudbury Businesses | Scott Bertrand">
+    <meta property="og:description" content="Get clarity on your brand and website. Serving founders and small businesses in Greater Sudbury and Northern Ontario.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://scottbertrand.com/sudbury-brand-website-clarity.html">
+    <meta property="og:image" content="https://scottbertrand.com/assets/og-image.png">
+    <meta property="og:site_name" content="Scott Bertrand">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Brand & Website Clarity for Sudbury Businesses | Scott Bertrand">
+    <meta name="twitter:description" content="Get clarity on your brand and website. Serving founders and small businesses in Greater Sudbury and Northern Ontario.">
+    <meta name="twitter:image" content="https://scottbertrand.com/assets/og-image.png">
+
+    <!-- Cloudflare Web Analytics (production only) -->
+    <script>
+    if (location.hostname === 'scottbertrand.com') {
+        var s = document.createElement('script');
+        s.defer = true;
+        s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+        s.setAttribute('data-cf-beacon', '{"token": "2395db43fd88408c892e4333d6a4bd90"}');
+        document.head.appendChild(s);
+    }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #F8F6F3;
+            --bg-warm: #F0EDE8;
+            --bg-card: #FFFFFF;
+            --text: #2C2825;
+            --text-muted: #4A4540;
+            --text-subtle: #706A63;
+            --border: rgba(44, 40, 37, 0.12);
+            --border-strong: rgba(44, 40, 37, 0.25);
+            --font-sans: 'Inter', -apple-system, sans-serif;
+            --font-serif: 'Fraunces', Georgia, serif;
+            --color-bertrand: #B54A1A;
+            --color-notes: #2D5A8A;
+            --color-goods: #4A5C44;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --gutter: clamp(1rem, 4vw, 2rem);
+            --container-max: 1120px;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0F0E0D;
+            --bg-warm: #1a1816;
+            --bg-card: #1C1B19;
+            --text: #F5F3F0;
+            --text-muted: #B5B0A8;
+            --text-subtle: #8A847D;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-strong: rgba(255, 255, 255, 0.15);
+            --color-bertrand: #E07A3A;
+            --color-notes: #5A9BD4;
+            --color-goods: #8FA883;
+        }
+
+        html { font-size: 16px; }
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(181, 74, 26, 0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 20%, rgba(45, 90, 138, 0.03) 0%, transparent 45%),
+                radial-gradient(ellipse at 60% 90%, rgba(74, 92, 68, 0.03) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        [data-theme="dark"] body::before {
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(224, 122, 58, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 20%, rgba(90, 155, 212, 0.05) 0%, transparent 45%),
+                radial-gradient(ellipse at 60% 90%, rgba(143, 168, 131, 0.04) 0%, transparent 40%);
+        }
+
+        .header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem var(--gutter); }
+        .header__glass { max-width: var(--container-max); margin: 0 auto; background: color-mix(in srgb, var(--bg) 20%, transparent); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 0.75rem 1.5rem; }
+        .header__inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+        .header__logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--text); }
+        .header__logo-mark { width: 32px; height: 32px; }
+        .header__logo-text { font-family: var(--font-serif); font-size: 1rem; font-weight: 400; letter-spacing: -0.02em; }
+        .header__toggle { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: none; background: var(--border); border-radius: var(--radius-sm); cursor: pointer; color: var(--text-muted); transition: all 0.2s ease; }
+        .header__toggle:hover { color: var(--text); background: var(--border-strong); }
+
+        main { position: relative; z-index: 1; padding-top: 100px; }
+        .container { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter); }
+
+        /* Hero Section */
+        .hero { padding: 4rem 0 5rem; text-align: center; }
+        .hero h1 { font-family: var(--font-serif); font-size: clamp(2.25rem, 6vw, 3.25rem); font-weight: 400; margin-bottom: 1.5rem; letter-spacing: -0.02em; max-width: 720px; margin-left: auto; margin-right: auto; }
+        .hero-subtitle { font-size: 1.25rem; line-height: 1.7; color: var(--text-muted); max-width: 580px; margin: 0 auto 2.5rem; }
+        .hero-cta { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+        .hero-price { font-size: 0.9375rem; color: var(--text-subtle); }
+
+        /* What to expect */
+        .expect { padding: 4rem 0; background: var(--bg-warm); }
+        .expect h2 { font-family: var(--font-serif); font-size: 1.75rem; font-weight: 400; margin-bottom: 1rem; text-align: center; }
+        .expect-intro { font-size: 1rem; color: var(--text-muted); text-align: center; max-width: 620px; margin: 0 auto 2.5rem; line-height: 1.7; }
+        .expect-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .expect-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; }
+        .expect-item h3 { font-size: 1rem; font-weight: 500; margin-bottom: 0.5rem; }
+        .expect-item p { font-size: 0.9375rem; color: var(--text-muted); line-height: 1.6; }
+
+        /* Services Preview */
+        .services { padding: 4rem 0; }
+        .services h2 { font-family: var(--font-serif); font-size: 1.75rem; font-weight: 400; margin-bottom: 1rem; text-align: center; }
+        .services-intro { font-size: 1rem; color: var(--text-muted); text-align: center; max-width: 580px; margin: 0 auto 2.5rem; line-height: 1.7; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 900px; margin: 0 auto; }
+        .service-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; }
+        .service-card h3 { font-size: 1rem; font-weight: 500; margin-bottom: 0.25rem; }
+        .service-card .price { font-size: 0.875rem; color: var(--color-bertrand); font-weight: 500; margin-bottom: 0.75rem; }
+        .service-card p { font-size: 0.9375rem; color: var(--text-muted); line-height: 1.6; }
+
+        /* CTA Section */
+        .cta-section { text-align: center; padding: 5rem 0 6rem; }
+        .cta-section h2 { font-family: var(--font-serif); font-size: 1.75rem; margin-bottom: 0.75rem; }
+        .cta-section p { color: var(--text-muted); margin-bottom: 2rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 1rem 2.5rem; border-radius: var(--radius-sm); text-decoration: none; font-weight: 500; font-size: 1rem; letter-spacing: -0.01em; transition: all 0.2s ease; border: 1px solid transparent; }
+        .btn-primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+        .btn-primary:hover { opacity: 0.85; }
+
+        .footer { border-top: 1px solid var(--border); padding: 3rem var(--gutter); text-align: center; }
+        .footer__text { font-size: 0.875rem; color: var(--text-subtle); margin-bottom: 0.5rem; }
+        .footer__links { font-size: 0.8125rem; color: var(--text-subtle); opacity: 0.7; }
+        .footer__links a { color: inherit; text-decoration: none; }
+        .footer__links a:hover { opacity: 1; color: var(--text-muted); }
+
+        @media (max-width: 768px) {
+            .hero { padding: 3rem 0 4rem; }
+            .hero h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header__glass">
+            <div class="header__inner">
+                <a href="/" class="header__logo">
+                    <img src="/assets/sb-dotted-logomark.png" alt="SB" class="header__logo-mark" width="32" height="32">
+                    <span class="header__logo-text">Scott Bertrand</span>
+                </a>
+                <button type="button" class="header__toggle" id="themeToggle" aria-label="Toggle theme">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Get clarity on your brand and website</h1>
+                <p class="hero-subtitle">
+                    Serving founders and small businesses in Greater Sudbury and Northern Ontario. Clear direction without the pressure of a sales call.
+                </p>
+                <div class="hero-cta">
+                    <a href="/request.html" class="btn btn-primary">Get clarity on your business</a>
+                    <p class="hero-price">Most first steps range from $95–$295</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="expect">
+            <div class="container">
+                <h2>What happens after you contact us</h2>
+                <p class="expect-intro">
+                    Every inquiry is captured and reviewed before follow-up. No automated responses—just thoughtful consideration of your situation before we respond.
+                </p>
+
+                <div class="expect-grid">
+                    <div class="expect-item">
+                        <h3>Your inquiry is captured</h3>
+                        <p>Whether you call or fill out a form, your details are documented so nothing gets missed.</p>
+                    </div>
+                    <div class="expect-item">
+                        <h3>Intentional review</h3>
+                        <p>I review each inquiry to understand your situation before reaching out. No rushed responses.</p>
+                    </div>
+                    <div class="expect-item">
+                        <h3>Thoughtful follow-up</h3>
+                        <p>You'll hear back by email or phone—whichever makes sense for your specific question.</p>
+                    </div>
+                    <div class="expect-item">
+                        <h3>Async work begins</h3>
+                        <p>If we move forward, structured async work starts. Calls are available when clarification would genuinely help.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services">
+            <div class="container">
+                <h2>Starting points</h2>
+                <p class="services-intro">
+                    Entry-level services designed to provide direction without a major commitment.
+                </p>
+
+                <div class="services-grid">
+                    <div class="service-card">
+                        <h3>Micro-Consult</h3>
+                        <p class="price">$95 CAD</p>
+                        <p>Submit up to 3 focused questions. Receive a recorded walkthrough with written summary.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Website Snapshot Review</h3>
+                        <p class="price">$225 CAD</p>
+                        <p>Focused evaluation of your website delivered as an annotated PDF with prioritized recommendations.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Brand Clarity Review</h3>
+                        <p class="price">$295 CAD</p>
+                        <p>Assessment of your brand positioning, voice, and messaging delivered as a direction memo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <h2>Ready to get clarity?</h2>
+                <p>
+                    Share what's on your mind. I'll review your inquiry and follow up with the right next step.
+                </p>
+                <a href="/request.html" class="btn btn-primary">Get clarity on your business</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p class="footer__text">Based in Greater Sudbury, serving Northern Ontario & Canada remotely</p>
+        <p class="footer__links">&copy; 2026 Scott Bertrand &middot; <a href="/request.html">Request Service</a></p>
+    </footer>
+
+    <script>
+        (function() {
+            const toggle = document.getElementById('themeToggle');
+            const html = document.documentElement;
+            const savedTheme = localStorage.getItem('theme');
+            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme) { html.setAttribute('data-theme', savedTheme); }
+            else if (!systemDark) { html.setAttribute('data-theme', 'light'); }
+            toggle.addEventListener('click', () => {
+                const current = html.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                html.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+            });
+        })();
+    </script>
+</body>
+</html>

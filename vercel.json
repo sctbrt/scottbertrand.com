@@ -4,6 +4,28 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": null,
+  "redirects": [
+    {
+      "source": "/services/website-audit.html",
+      "destination": "/services/strategic-website-review.html",
+      "permanent": true
+    },
+    {
+      "source": "/services/brand-audit.html",
+      "destination": "/services/strategic-brand-review.html",
+      "permanent": true
+    },
+    {
+      "source": "/services/website-audit-sudbury.html",
+      "destination": "/sudbury-brand-website-clarity.html",
+      "permanent": true
+    },
+    {
+      "source": "/services/full-brand-website-reset.html",
+      "destination": "/services/brand-website-reset.html",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",

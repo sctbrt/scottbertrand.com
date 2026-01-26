@@ -513,17 +513,22 @@
                         <select name="service" required>
                             <option value="">Select a service</option>
                             <optgroup label="Quick Clarity">
+                                <option value="micro-consult">Micro-Consult — $95 CAD</option>
                                 <option value="website-snapshot">Website Snapshot Review — $225 CAD</option>
-                                <option value="brand-clarity">Brand Clarity Session — $275 CAD</option>
+                                <option value="brand-clarity">Brand Clarity Review — $295 CAD</option>
                             </optgroup>
-                            <optgroup label="Diagnostic Reviews">
-                                <option value="website-audit">Comprehensive Website Review — $495 CAD</option>
-                                <option value="brand-audit">Business Messaging & Brand Review — $595 CAD</option>
+                            <optgroup label="Strategic Reviews">
+                                <option value="strategic-website-review">Strategic Website Review — $425 CAD</option>
+                                <option value="strategic-brand-review">Strategic Brand Review — $550 CAD</option>
                             </optgroup>
-                            <optgroup label="Foundations">
+                            <optgroup label="Full Systems">
                                 <option value="brand-reset">Brand Reset — $2,750 CAD</option>
                                 <option value="website-foundation">Website Foundation — $3,950 CAD</option>
-                                <option value="full-brand-website-reset">Full Brand & Website Reset — $6,500 CAD</option>
+                                <option value="brand-website-reset">Brand + Website Reset — $6,500 CAD</option>
+                            </optgroup>
+                            <optgroup label="Ongoing Support">
+                                <option value="async-advisory">Async Advisory — $450 CAD/month</option>
+                                <option value="phone-consultation">Phone Consultation — $125 CAD</option>
                             </optgroup>
                             <option value="not-sure">Not sure / Need guidance</option>
                         </select>
@@ -678,33 +683,45 @@
 
         // Service descriptions
         const serviceDescriptions = {
+            'micro-consult': {
+                text: 'Submit up to 3 focused questions. Receive a 10–15 minute recorded walkthrough with written summary addressing each one.',
+                meta: 'Turnaround: 3 business days · Async delivery'
+            },
             'website-snapshot': {
-                text: 'A focused, live review of your website\'s most visible issues. We\'ll assess homepage clarity, messaging alignment, and immediate friction points—then outline what to fix first.',
-                meta: '30-minute live call · No PDF or written report'
+                text: 'A focused evaluation of your existing website. Homepage clarity, messaging alignment, and immediate friction points—with prioritized recommendations.',
+                meta: 'Annotated PDF (6–8 pages) · Turnaround: 4–5 business days'
             },
             'brand-clarity': {
-                text: 'A strategic session to clarify what your brand is communicating today—and where it\'s misaligned. Ideal if your brand feels inconsistent, dated, or unclear.',
-                meta: '45-minute live session · Optional short follow-up email (3–5 bullets)'
+                text: 'A focused evaluation of what your brand is communicating today—and where it\'s misaligned. Ideal if your brand feels inconsistent, dated, or unclear.',
+                meta: 'Brand Direction Memo (PDF) · Turnaround: 5 business days'
             },
-            'website-audit': {
-                text: 'Comprehensive PDF assessment of your website\'s UX, messaging, performance, and SEO basics. Includes prioritized recommendations (Now / Next / Later).',
-                meta: 'Delivered in 5 business days'
+            'strategic-website-review': {
+                text: 'Comprehensive website assessment including structure, content effectiveness, technical considerations, and competitive context with strategic recommendations.',
+                meta: 'Strategic Website Report (10–12 pages) · Turnaround: 6–7 business days'
             },
-            'brand-audit': {
-                text: 'Strategic review of brand clarity, voice & tone, visual cohesion, and positioning. Written PDF with actionable recommendations.',
-                meta: 'Delivered in 5–7 business days'
+            'strategic-brand-review': {
+                text: 'Deep brand assessment covering positioning, market context, competitive analysis, and strategic direction with actionable recommendations.',
+                meta: 'Strategic Brand Assessment (PDF) · Turnaround: 7 business days'
             },
             'brand-reset': {
-                text: 'Complete brand positioning synthesis, voice & tone framework, visual direction (type, color, layout principles), and brand guide PDF.',
-                meta: 'Timeline: 3–4 weeks'
+                text: 'Complete brand identity system including positioning, visual identity (logo, colors, typography), and comprehensive brand guidelines.',
+                meta: 'Brand Reset Document (PDF) + Asset Package · Timeline: 2–3 weeks'
             },
             'website-foundation': {
-                text: 'Full site build: structure & hierarchy, homepage + key page copy refinement, design & development, mobile optimization, SEO basics, and launch support.',
-                meta: 'Timeline: 4–6 weeks'
+                text: 'Full website build: content strategy, visual design, development, and deployment. Optimized for performance and SEO.',
+                meta: 'Website Foundation Blueprint (PDF) + Live Site · Timeline: 3–4 weeks'
             },
-            'full-brand-website-reset': {
-                text: 'Complete system: Brand Reset + Website Foundation with unified strategic thinking, priority scheduling, and end-to-end cohesion.',
-                meta: 'Timeline: 6–8 weeks'
+            'brand-website-reset': {
+                text: 'Complete brand and website package. Everything you need to establish or refresh your digital presence with a cohesive, professional system.',
+                meta: 'Multi-part Blueprint Package · Timeline: 5–6 weeks · Saves $200'
+            },
+            'async-advisory': {
+                text: 'Monthly retained support for ongoing brand and website guidance. Includes 2 Micro-Consults per month plus priority async responses.',
+                meta: '$450 CAD/month · No standing meetings'
+            },
+            'phone-consultation': {
+                text: 'A 45-minute phone or video call for clarification or interpretation when async communication isn\'t enough.',
+                meta: 'Phone or video · Scheduled within 2 business days'
             },
             'not-sure': {
                 text: 'Not sure which service fits? No problem. Share your goals and challenges below, and I\'ll recommend the right starting point.',

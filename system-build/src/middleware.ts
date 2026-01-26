@@ -35,6 +35,9 @@ const PROTECTED_PATHS = {
 // Public paths that don't require auth (login pages, etc.)
 const AUTH_PATHS = ['/login', '/auth', '/api/auth']
 
+// API routes that should be publicly accessible (webhooks, etc.)
+const PUBLIC_API_PATHS = ['/api/intake', '/api/webhooks']
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const hostname = request.headers.get('host') || ''
@@ -131,6 +134,12 @@ async function handleDashboardRouting(request: NextRequest, pathname: string) {
     const url = request.nextUrl.clone()
     url.pathname = `/dashboard${pathname}`
     return NextResponse.rewrite(url)
+  }
+
+  // Allow public API routes (webhooks, intake, etc.) without authentication
+  if (PUBLIC_API_PATHS.some(path => pathname.startsWith(path))) {
+    // Don't rewrite - let them hit the API routes directly
+    return NextResponse.next()
   }
 
   // Check for session token (Auth.js cookie)

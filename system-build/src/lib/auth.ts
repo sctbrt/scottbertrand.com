@@ -74,20 +74,32 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
 
     async signIn({ user }) {
-      // Log sign-in activity
+      // Log sign-in activity (only for existing users to avoid FK constraint errors)
       if (user.id) {
-        await prisma.activityLog.create({
-          data: {
-            userId: user.id,
-            action: 'SIGN_IN',
-            entityType: 'User',
-            entityId: user.id,
-            details: {
-              method: 'magic-link',
-              timestamp: new Date().toISOString(),
-            },
-          },
-        })
+        try {
+          // Verify user exists in database before logging
+          const existingUser = await prisma.user.findUnique({
+            where: { id: user.id },
+            select: { id: true },
+          })
+          if (existingUser) {
+            await prisma.activityLog.create({
+              data: {
+                userId: user.id,
+                action: 'SIGN_IN',
+                entityType: 'User',
+                entityId: user.id,
+                details: {
+                  method: 'magic-link',
+                  timestamp: new Date().toISOString(),
+                },
+              },
+            })
+          }
+        } catch (error) {
+          // Don't block sign-in if activity logging fails
+          console.error('Failed to log sign-in activity:', error)
+        }
       }
       return true
     },

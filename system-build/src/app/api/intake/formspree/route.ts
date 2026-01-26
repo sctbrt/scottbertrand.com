@@ -61,15 +61,16 @@ export async function POST(request: NextRequest) {
     // Debug logging to understand Formspree payload
     console.log('[Intake] Received webhook payload:', JSON.stringify(body, null, 2))
 
-    // Formspree webhook format can vary:
-    // 1. Direct submission: { email, name, ... }
-    // 2. Wrapped: { _formspree_submission: { email, name, ... } }
-    // 3. Nested data: { data: { email, name, ... } }
-    // 4. Test webhook: { test: true, ... }
+    // Formspree webhook format:
+    // { form: "formId", submission: { email, name, _date, _subject, ... } }
+    // The actual form fields are in body.submission
     let formData = body
 
-    // Handle Formspree wrapped format
-    if (body._formspree_submission) {
+    // Handle Formspree's actual webhook format (submission wrapper)
+    if (body.submission && typeof body.submission === 'object') {
+      formData = body.submission
+      console.log('[Intake] Extracted submission data:', JSON.stringify(formData, null, 2))
+    } else if (body._formspree_submission) {
       formData = body._formspree_submission
     } else if (body.data && typeof body.data === 'object') {
       formData = body.data

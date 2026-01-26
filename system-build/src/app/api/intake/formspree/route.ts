@@ -13,12 +13,31 @@ const RATE_LIMIT_WINDOW = 60 * 1000 // 1 minute
 const RATE_LIMIT_MAX_REQUESTS = 10 // Max 10 requests per minute per IP
 
 // Spam detection patterns
+// Spam detection patterns
 const SPAM_PATTERNS = [
   /\b(viagra|cialis|casino|poker|lottery|winner)\b/i,
   /\b(click here|act now|limited time|free money)\b/i,
   /<script|javascript:|data:/i,
   /\[url=|<a href=/i,
 ]
+
+// Field length limits
+const FIELD_LIMITS = {
+  email: 254,
+  name: 200,
+  companyName: 200,
+  website: 500,
+  phone: 50,
+  service: 100,
+  message: 5000,
+}
+
+// Sanitize string input
+function sanitizeString(value: unknown, maxLength: number): string {
+  if (typeof value !== 'string') return ''
+  // Trim whitespace, limit length, remove null bytes
+  return value.trim().slice(0, maxLength).replace(/\0/g, '')
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -43,15 +62,36 @@ export async function POST(request: NextRequest) {
     // Formspree sends data in a specific format
     const formData = body._formspree_submission || body
 
-    // Extract common fields (adjust based on your form structure)
+    // Extract and sanitize common fields
     // Also accept short aliases for Zapier compatibility (truncated field names)
-    const email = formData.email || formData.Email || formData.em || formData.e || formData._replyto || ''
-    const name = formData.name || formData.Name || formData.na || formData.n || formData['full-name'] || ''
-    const companyName = formData.company || formData.Company || formData.co || formData.c || formData['company-name'] || ''
-    const website = formData.website || formData.Website || formData.we || formData.w || formData.url || ''
-    const phone = formData.phone || formData.Phone || formData.ph || formData.p || formData.tel || ''
-    const service = formData.service || formData.Service || formData.se || formData.s || formData['service-type'] || ''
-    const message = formData.message || formData.Message || formData.me || formData.m || formData.details || ''
+    const email = sanitizeString(
+      formData.email || formData.Email || formData.em || formData.e || formData._replyto,
+      FIELD_LIMITS.email
+    ).toLowerCase()
+    const name = sanitizeString(
+      formData.name || formData.Name || formData.na || formData.n || formData['full-name'],
+      FIELD_LIMITS.name
+    )
+    const companyName = sanitizeString(
+      formData.company || formData.Company || formData.co || formData.c || formData['company-name'],
+      FIELD_LIMITS.companyName
+    )
+    const website = sanitizeString(
+      formData.website || formData.Website || formData.we || formData.w || formData.url,
+      FIELD_LIMITS.website
+    )
+    const phone = sanitizeString(
+      formData.phone || formData.Phone || formData.ph || formData.p || formData.tel,
+      FIELD_LIMITS.phone
+    )
+    const service = sanitizeString(
+      formData.service || formData.Service || formData.se || formData.s || formData['service-type'],
+      FIELD_LIMITS.service
+    )
+    const message = sanitizeString(
+      formData.message || formData.Message || formData.me || formData.m || formData.details,
+      FIELD_LIMITS.message
+    )
 
     // Validate required email
     if (!email || !isValidEmail(email)) {

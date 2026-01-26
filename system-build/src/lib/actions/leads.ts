@@ -160,126 +160,139 @@ export async function convertToClient(
     return { error: 'Contact name is required' }
   }
 
+  let clientId: string | null = null
+
   try {
-    const lead = await prisma.lead.findUnique({
-      where: { id: leadId },
-    })
-
-    if (!lead) {
-      return { error: 'Lead not found' }
-    }
-
-    if (lead.status === 'CONVERTED' || lead.convertedToClientId) {
-      return { error: 'Lead is already converted' }
-    }
-
-    // Check if user with this email already exists
-    let user = await prisma.user.findUnique({
-      where: { email: lead.email.toLowerCase() },
-    })
-
-    if (user) {
-      // Check if they already have a client profile
-      const existingClient = await prisma.client.findUnique({
-        where: { userId: user.id },
+    // Use transaction to prevent race conditions
+    const result = await prisma.$transaction(async (tx) => {
+      const lead = await tx.lead.findUnique({
+        where: { id: leadId },
       })
 
-      if (existingClient) {
-        return { error: 'A client with this email already exists' }
+      if (!lead) {
+        throw new Error('Lead not found')
       }
-    } else {
-      // Create new user
-      user = await prisma.user.create({
+
+      if (lead.status === 'CONVERTED' || lead.convertedToClientId) {
+        throw new Error('Lead is already converted')
+      }
+
+      // Check if user with this email already exists
+      let user = await tx.user.findUnique({
+        where: { email: lead.email.toLowerCase() },
+      })
+
+      if (user) {
+        // Check if they already have a client profile
+        const existingClient = await tx.client.findUnique({
+          where: { userId: user.id },
+        })
+
+        if (existingClient) {
+          throw new Error('A client with this email already exists')
+        }
+      } else {
+        // Create new user
+        user = await tx.user.create({
+          data: {
+            email: lead.email.toLowerCase(),
+            name: contactName,
+            role: 'CLIENT',
+          },
+        })
+      }
+
+      // Create client
+      const client = await tx.client.create({
         data: {
-          email: lead.email.toLowerCase(),
-          name: contactName,
-          role: 'CLIENT',
+          userId: user.id,
+          contactName,
+          contactEmail: lead.email.toLowerCase(),
+          companyName: companyName || null,
+          phone: lead.phone || null,
+          website: lead.website || null,
         },
       })
-    }
 
-    // Create client
-    const client = await prisma.client.create({
-      data: {
-        userId: user.id,
-        contactName,
-        contactEmail: lead.email.toLowerCase(),
-        companyName: companyName || null,
-        phone: lead.phone || null,
-        website: lead.website || null,
-      },
-    })
+      // Update lead
+      await tx.lead.update({
+        where: { id: leadId },
+        data: {
+          status: 'CONVERTED',
+          convertedToClientId: client.id,
+        },
+      })
 
-    // Update lead
-    await prisma.lead.update({
-      where: { id: leadId },
-      data: {
-        status: 'CONVERTED',
-        convertedToClientId: client.id,
-      },
-    })
+      // Create initial project if requested
+      let projectId = null
+      if (createProject && projectName) {
+        // Get default checklist from template if selected
+        let defaultTasks: { title: string; description?: string }[] = []
+        if (templateId) {
+          const template = await tx.serviceTemplate.findUnique({
+            where: { id: templateId },
+          })
+          if (template?.checklistItems) {
+            defaultTasks = template.checklistItems as typeof defaultTasks
+          }
+        }
 
-    // Create initial project if requested
-    let projectId = null
-    if (createProject && projectName) {
-      // Get default checklist from template if selected
-      let defaultTasks: { title: string; description?: string }[] = []
-      if (templateId) {
-        const template = await prisma.serviceTemplate.findUnique({
-          where: { id: templateId },
+        const project = await tx.project.create({
+          data: {
+            name: projectName,
+            clientId: client.id,
+            serviceTemplateId: templateId || null,
+            status: 'DRAFT',
+          },
         })
-        if (template?.checklistItems) {
-          defaultTasks = template.checklistItems as typeof defaultTasks
+
+        projectId = project.id
+
+        // Create default tasks
+        if (defaultTasks.length > 0) {
+          await tx.task.createMany({
+            data: defaultTasks.map((task, index) => ({
+              projectId: project.id,
+              title: task.title,
+              description: task.description || null,
+              sortOrder: index,
+              isClientVisible: true,
+            })),
+          })
         }
       }
 
-      const project = await prisma.project.create({
+      // Log activity
+      await tx.activityLog.create({
         data: {
-          name: projectName,
-          clientId: client.id,
-          serviceTemplateId: templateId || null,
-          status: 'DRAFT',
+          userId: session.user.id,
+          action: 'CONVERT',
+          entityType: 'Lead',
+          entityId: leadId,
+          details: {
+            clientId: client.id,
+            projectId,
+          },
         },
       })
 
-      projectId = project.id
-
-      // Create default tasks
-      if (defaultTasks.length > 0) {
-        await prisma.task.createMany({
-          data: defaultTasks.map((task, index) => ({
-            projectId: project.id,
-            title: task.title,
-            description: task.description || null,
-            sortOrder: index,
-            isClientVisible: true,
-          })),
-        })
-      }
-    }
-
-    // Log activity
-    await prisma.activityLog.create({
-      data: {
-        userId: session.user.id,
-        action: 'CONVERT',
-        entityType: 'Lead',
-        entityId: leadId,
-        details: {
-          clientId: client.id,
-          projectId,
-        },
-      },
+      return { clientId: client.id }
     })
+
+    clientId = result.clientId
 
     revalidatePath(`/dashboard/leads/${leadId}`)
     revalidatePath('/dashboard/leads')
     revalidatePath('/dashboard/clients')
     revalidatePath('/dashboard')
 
-    redirect(`/dashboard/clients/${client.id}`)
+    redirect(`/dashboard/clients/${clientId}`)
   } catch (error) {
     console.error('Error converting lead to client:', error)
+    // Return specific error messages from transaction
+    if (error instanceof Error) {
+      return { error: error.message }
+    }
     return { error: 'Failed to convert lead to client' }
   }
 }

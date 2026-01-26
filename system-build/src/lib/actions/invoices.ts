@@ -10,6 +10,18 @@ import type { InvoiceStatus } from '@prisma/client'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
+// HTML escape helper to prevent XSS in email templates
+function escapeHtml(text: string): string {
+  const map: Record<string, string> = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;',
+  }
+  return text.replace(/[&<>"']/g, (char) => map[char])
+}
+
 export type InvoiceActionState = {
   error?: string
   success?: boolean
@@ -270,14 +282,14 @@ export async function sendInvoice(
       subject: `Invoice ${invoice.invoiceNumber} from Bertrand Brands`,
       html: `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h1 style="color: #1a1a1a; font-size: 24px; margin-bottom: 24px;">Invoice ${invoice.invoiceNumber}</h1>
+          <h1 style="color: #1a1a1a; font-size: 24px; margin-bottom: 24px;">Invoice ${escapeHtml(invoice.invoiceNumber)}</h1>
 
           <p style="color: #666; margin-bottom: 24px;">
-            Hi ${invoice.client.contactName},
+            Hi ${escapeHtml(invoice.client.contactName)},
           </p>
 
           <p style="color: #666; margin-bottom: 24px;">
-            Please find your invoice details below${invoice.project ? ` for ${invoice.project.name}` : ''}.
+            Please find your invoice details below${invoice.project ? ` for ${escapeHtml(invoice.project.name)}` : ''}.
           </p>
 
           <div style="background: #f9f9f9; padding: 24px; border-radius: 8px; margin-bottom: 24px;">
@@ -291,8 +303,8 @@ export async function sendInvoice(
               <tbody>
                 ${lineItems.map((item: any) => `
                   <tr style="border-bottom: 1px solid #e5e5e5;">
-                    <td style="padding: 12px 0; color: #1a1a1a;">${item.description}</td>
-                    <td style="padding: 12px 0; color: #1a1a1a; text-align: right;">$${(item.quantity * item.rate).toFixed(2)}</td>
+                    <td style="padding: 12px 0; color: #1a1a1a;">${escapeHtml(String(item.description || ''))}</td>
+                    <td style="padding: 12px 0; color: #1a1a1a; text-align: right;">$${(Number(item.quantity) * Number(item.rate)).toFixed(2)}</td>
                   </tr>
                 `).join('')}
               </tbody>

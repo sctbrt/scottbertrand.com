@@ -39,12 +39,7 @@
   --error-border: rgba(220, 38, 38, 0.25);
   --error-text: #dc2626;
 
-  /* === Glass System === */
-  --glass-bg: rgba(255, 255, 255, 0.04);
-  --glass-border: rgba(0, 0, 0, 0.06);
-  --glass-border-inner: rgba(255, 253, 248, 0.5);
-  --glass-blur: 12px;               /* Capped at 14px max */
-  --glass-specular: rgba(255, 253, 248, 0.85);
+  /* Note: Glass system variables are defined in glass.css */
 
   /* === Focus Ring === */
   --focus-ring: rgba(217, 119, 6, 0.5);
@@ -165,11 +160,7 @@
   --error-border: rgba(239, 68, 68, 0.25);
   --error-text: #f87171;
 
-  /* === Glass System === */
-  --glass-bg: rgba(255, 255, 255, 0.04);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-border-inner: rgba(255, 255, 255, 0.04);
-  --glass-specular: rgba(255, 255, 255, 0.12);
+  /* Note: Glass system variables are defined in glass.css */
 
   /* === Focus Ring === */
   --focus-ring: rgba(245, 158, 11, 0.5);

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About — Scott Bertrand | Brand & Web Consultant in Sudbury, Ontario</title>
+    <title>About — Scott Bertrand | Brand & Web Consultant</title>
     <meta name="description" content="Scott Bertrand is a Canadian brand and web systems consultant based in Sudbury, Ontario, helping small businesses clarify their brand and build websites that generate leads.">
     <meta name="author" content="Scott Bertrand">
     <link rel="canonical" href="https://scottbertrand.com/about.html">
@@ -13,16 +13,17 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="About — Scott Bertrand | Brand & Web Consultant in Sudbury, Ontario">
+    <meta property="og:title" content="About — Scott Bertrand | Brand & Web Consultant">
     <meta property="og:description" content="Scott Bertrand is a Canadian brand and web systems consultant based in Sudbury, Ontario, helping small businesses clarify their brand and build websites that generate leads.">
     <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_CA">
     <meta property="og:url" content="https://scottbertrand.com/about.html">
     <meta property="og:image" content="https://scottbertrand.com/assets/og-image.png">
     <meta property="og:site_name" content="Scott Bertrand">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="About — Scott Bertrand | Brand & Web Consultant in Sudbury, Ontario">
+    <meta name="twitter:title" content="About — Scott Bertrand | Brand & Web Consultant">
     <meta name="twitter:description" content="Scott Bertrand is a Canadian brand and web systems consultant based in Sudbury, Ontario, helping small businesses clarify their brand and build websites that generate leads.">
     <meta name="twitter:image" content="https://scottbertrand.com/assets/og-image.png">
 
@@ -475,9 +476,29 @@
                 display: flex;
             }
         }
+
+        /* Skip link */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--text);
+            color: var(--bg);
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            z-index: 300;
+            text-decoration: none;
+        }
+        .skip-link:focus {
+            top: 1rem;
+        }
     </style>
 </head>
 <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
     <!-- Glass Header -->
     <header class="header">
         <div class="header__glass">
@@ -502,7 +523,7 @@
                     </svg>
                 </button>
 
-                <button type="button" class="header__menu-btn" id="menuToggle" aria-label="Toggle menu">
+                <button type="button" class="header__menu-btn" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M3 12h18M3 6h18M3 18h18"/>
                     </svg>
@@ -536,7 +557,7 @@
     </nav>
 
     <!-- Main Content -->
-    <main>
+    <main id="main">
         <section class="about">
             <div class="container">
                 <h1>About</h1>
@@ -594,7 +615,7 @@
     <footer class="footer">
         <p class="footer__text">Based in Greater Sudbury, serving Northern Ontario & Canada remotely</p>
         <p class="footer__links">
-            &copy; 2026 Scott Bertrand &middot;
+            &copy; <script>document.write(new Date().getFullYear())</script> Scott Bertrand &middot;
             <a href="/request.html">Request Service</a>
         </p>
     </footer>
@@ -628,13 +649,13 @@
             const menuOverlay = document.getElementById('menuOverlay');
             const mobileMenu = document.getElementById('mobileMenu');
 
-            function openMenu() {
+            function openMenu() { menuToggle.setAttribute('aria-expanded', 'true');
                 mobileMenu.classList.add('open');
                 menuOverlay.classList.add('open');
                 document.body.style.overflow = 'hidden';
             }
 
-            function closeMenu() {
+            function closeMenu() { menuToggle.setAttribute('aria-expanded', 'false');
                 mobileMenu.classList.remove('open');
                 menuOverlay.classList.remove('open');
                 document.body.style.overflow = '';

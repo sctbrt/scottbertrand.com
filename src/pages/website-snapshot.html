@@ -16,6 +16,7 @@
     <meta property="og:title" content="Website Snapshot Review — $225 CAD | Scott Bertrand">
     <meta property="og:description" content="A focused, 60-minute live review of your website's most visible issues. Clear priorities, not a sales pitch.">
     <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_CA">
     <meta property="og:url" content="https://scottbertrand.com/website-snapshot.html">
     <meta property="og:image" content="https://scottbertrand.com/assets/og-image.png">
     <meta property="og:site_name" content="Scott Bertrand">
@@ -372,9 +373,28 @@
                 display: flex;
             }
         }
+
+        /* Skip link */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--text);
+            color: var(--bg);
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            z-index: 300;
+            text-decoration: none;
+        }
+        .skip-link:focus {
+            top: 1rem;
+        }
     </style>
 </head>
 <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
     <!-- Glass Header -->
     <header class="header">
         <div class="header__glass">
@@ -399,7 +419,7 @@
                     </svg>
                 </button>
 
-                <button type="button" class="header__menu-btn" id="menuToggle" aria-label="Toggle menu">
+                <button type="button" class="header__menu-btn" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M3 12h18M3 6h18M3 18h18"/>
                     </svg>
@@ -409,7 +429,7 @@
     </header>
 
     <!-- Main Content -->
-    <main>
+    <main id="main">
         <div class="container">
             <!-- Hero -->
             <section class="landing-hero">
@@ -459,7 +479,7 @@
     <footer class="footer">
         <p class="footer__text">Based in Greater Sudbury, serving Northern Ontario & Canada remotely</p>
         <p class="footer__links">
-            &copy; 2026 Scott Bertrand &middot;
+            &copy; <script>document.write(new Date().getFullYear())</script> Scott Bertrand &middot;
             <a href="/request.html">Request Service</a>
         </p>
     </footer>

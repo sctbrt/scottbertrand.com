@@ -2,6 +2,9 @@
 // Endpoint: POST /api/intake/formspree
 
 import { NextRequest, NextResponse } from 'next/server'
+
+// Max request body size (100KB)
+const MAX_BODY_SIZE = 100 * 1024
 import { prisma } from '@/lib/prisma'
 import { headers } from 'next/headers'
 
@@ -66,6 +69,15 @@ function sanitizeString(value: unknown, maxLength: number): string {
 
 export async function POST(request: NextRequest) {
   try {
+    // Check content-length to prevent oversized requests
+    const contentLength = parseInt(request.headers.get('content-length') || '0', 10)
+    if (contentLength > MAX_BODY_SIZE) {
+      return NextResponse.json(
+        { error: 'Request body too large' },
+        { status: 413 }
+      )
+    }
+
     // Get client IP for rate limiting
     const headersList = await headers()
     const ip = headersList.get('x-forwarded-for')?.split(',')[0] ||

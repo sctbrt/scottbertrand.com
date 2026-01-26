@@ -464,9 +464,28 @@
                 display: flex;
             }
         }
+
+        /* Skip link */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--text);
+            color: var(--bg);
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            z-index: 300;
+            text-decoration: none;
+        }
+        .skip-link:focus {
+            top: 1rem;
+        }
     </style>
 </head>
 <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
     <!-- Glass Header -->
     <header class="header">
         <div class="header__glass">
@@ -491,7 +510,7 @@
                     </svg>
                 </button>
 
-                <button type="button" class="header__menu-btn" id="menuToggle" aria-label="Toggle menu">
+                <button type="button" class="header__menu-btn" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M3 12h18M3 6h18M3 18h18"/>
                     </svg>
@@ -525,7 +544,7 @@
     </nav>
 
     <!-- Main Content -->
-    <main>
+    <main id="main">
         <div class="container">
             <article class="article">
                 <h1>How Small Businesses in Sudbury Can Get More Website Leads</h1>
@@ -592,7 +611,7 @@
     <footer class="footer">
         <p class="footer__text">Serving Sudbury, Northern Ontario, and clients across Canada</p>
         <p class="footer__links">
-            &copy; 2026 Scott Bertrand &middot;
+            &copy; <script>document.write(new Date().getFullYear())</script> Scott Bertrand &middot;
             <a href="/request.html">Request Service</a>
         </p>
     </footer>
@@ -626,13 +645,13 @@
             const menuOverlay = document.getElementById('menuOverlay');
             const mobileMenu = document.getElementById('mobileMenu');
 
-            function openMenu() {
+            function openMenu() { menuToggle.setAttribute('aria-expanded', 'true');
                 mobileMenu.classList.add('open');
                 menuOverlay.classList.add('open');
                 document.body.style.overflow = 'hidden';
             }
 
-            function closeMenu() {
+            function closeMenu() { menuToggle.setAttribute('aria-expanded', 'false');
                 mobileMenu.classList.remove('open');
                 menuOverlay.classList.remove('open');
                 document.body.style.overflow = '';

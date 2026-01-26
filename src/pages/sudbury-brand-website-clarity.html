@@ -16,6 +16,7 @@
     <meta property="og:title" content="Brand & Website Clarity for Sudbury Businesses | Scott Bertrand">
     <meta property="og:description" content="Get clarity on your brand and website. Serving founders and small businesses in Greater Sudbury and Northern Ontario.">
     <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_CA">
     <meta property="og:url" content="https://scottbertrand.com/sudbury-brand-website-clarity.html">
     <meta property="og:image" content="https://scottbertrand.com/assets/og-image.png">
     <meta property="og:site_name" content="Scott Bertrand">
@@ -166,9 +167,28 @@
             .hero { padding: 3rem 0 4rem; }
             .hero h1 { font-size: 2rem; }
         }
+
+        /* Skip link */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--text);
+            color: var(--bg);
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            z-index: 300;
+            text-decoration: none;
+        }
+        .skip-link:focus {
+            top: 1rem;
+        }
     </style>
 </head>
 <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
     <header class="header">
         <div class="header__glass">
             <div class="header__inner">
@@ -183,7 +203,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main">
         <section class="hero">
             <div class="container">
                 <h1>Get clarity on your brand and website</h1>
@@ -265,7 +285,7 @@
 
     <footer class="footer">
         <p class="footer__text">Based in Greater Sudbury, serving Northern Ontario & Canada remotely</p>
-        <p class="footer__links">&copy; 2026 Scott Bertrand &middot; <a href="/request.html">Request Service</a></p>
+        <p class="footer__links">&copy; <script>document.write(new Date().getFullYear())</script> Scott Bertrand &middot; <a href="/request.html">Request Service</a></p>
     </footer>
 
     <script>

@@ -9,8 +9,20 @@ import crypto from 'crypto'
 // Link expires in 15 minutes (same as normal magic links)
 const LINK_EXPIRY_MINUTES = 15
 
+// Max request body size (10KB - only needs email)
+const MAX_BODY_SIZE = 10 * 1024
+
 export async function POST(request: NextRequest) {
   try {
+    // Check content-length to prevent oversized requests
+    const contentLength = parseInt(request.headers.get('content-length') || '0', 10)
+    if (contentLength > MAX_BODY_SIZE) {
+      return NextResponse.json(
+        { error: 'Request body too large' },
+        { status: 413 }
+      )
+    }
+
     // Verify admin authentication
     const session = await auth()
 

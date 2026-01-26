@@ -32,13 +32,13 @@ export async function createMilestone(
 
   try {
     // Get max sort order
-    const lastMilestone = await prisma.milestone.findFirst({
+    const lastMilestone = await prisma.milestones.findFirst({
       where: { projectId },
       orderBy: { sortOrder: 'desc' },
       select: { sortOrder: true },
     })
 
-    await prisma.milestone.create({
+    await prisma.milestones.create({
       data: {
         projectId,
         name,
@@ -80,7 +80,7 @@ export async function updateMilestone(
   }
 
   try {
-    const milestone = await prisma.milestone.findUnique({
+    const milestone = await prisma.milestones.findUnique({
       where: { id: milestoneId },
       select: { projectId: true, status: true },
     })
@@ -100,7 +100,7 @@ export async function updateMilestone(
       approvedAt = new Date()
     }
 
-    await prisma.milestone.update({
+    await prisma.milestones.update({
       where: { id: milestoneId },
       data: {
         name,
@@ -140,7 +140,7 @@ export async function updateMilestoneStatus(
   }
 
   try {
-    const milestone = await prisma.milestone.findUnique({
+    const milestone = await prisma.milestones.findUnique({
       where: { id: milestoneId },
       select: { projectId: true, status: true },
     })
@@ -160,7 +160,7 @@ export async function updateMilestoneStatus(
       approvedAt = new Date()
     }
 
-    await prisma.milestone.update({
+    await prisma.milestones.update({
       where: { id: milestoneId },
       data: {
         status: status as MilestoneStatus,
@@ -181,8 +181,8 @@ export async function updateMilestoneStatus(
 
 export async function deleteMilestone(
   milestoneId: string,
-  prevState: MilestoneActionState,
-  formData: FormData
+  _prevState: MilestoneActionState,
+  _formData: FormData
 ): Promise<MilestoneActionState> {
   const session = await auth()
   if (!session?.user || session.user.role !== 'INTERNAL_ADMIN') {
@@ -190,7 +190,7 @@ export async function deleteMilestone(
   }
 
   try {
-    const milestone = await prisma.milestone.findUnique({
+    const milestone = await prisma.milestones.findUnique({
       where: { id: milestoneId },
       select: { projectId: true },
     })
@@ -199,7 +199,7 @@ export async function deleteMilestone(
       return { error: 'Milestone not found' }
     }
 
-    await prisma.milestone.delete({
+    await prisma.milestones.delete({
       where: { id: milestoneId },
     })
 

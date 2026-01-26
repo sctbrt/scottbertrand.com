@@ -15,7 +15,7 @@ export default async function PortalInvoiceDetailPage({ params }: InvoicePagePro
   const { id } = await params
 
   // Get client and verify ownership
-  const client = await prisma.client.findUnique({
+  const client = await prisma.clients.findUnique({
     where: { userId: session.user.id },
     select: { id: true },
   })
@@ -25,7 +25,7 @@ export default async function PortalInvoiceDetailPage({ params }: InvoicePagePro
   }
 
   // Fetch invoice
-  const invoice = await prisma.invoice.findFirst({
+  const invoice = await prisma.invoices.findFirst({
     where: {
       id,
       // Only show client's own invoices (unless admin)
@@ -34,10 +34,10 @@ export default async function PortalInvoiceDetailPage({ params }: InvoicePagePro
       ...(session.user.role === 'CLIENT' ? { status: { not: 'DRAFT' } } : {}),
     },
     include: {
-      client: {
+      clients: {
         select: { companyName: true, contactName: true, contactEmail: true },
       },
-      project: {
+      projects: {
         select: { id: true, name: true },
       },
     },
@@ -49,13 +49,19 @@ export default async function PortalInvoiceDetailPage({ params }: InvoicePagePro
 
   // Mark as viewed if client is viewing (and status is SENT)
   if (session.user.role === 'CLIENT' && invoice.status === 'SENT') {
-    await prisma.invoice.update({
+    await prisma.invoices.update({
       where: { id },
       data: { status: 'VIEWED' },
     })
   }
 
-  const lineItems = (invoice.lineItems as any[]) || []
+  interface InvoiceLineItem {
+    description: string
+    details?: string
+    quantity: number
+    rate: number
+  }
+  const lineItems = (invoice.lineItems as InvoiceLineItem[] | null) || []
 
   return (
     <div className="space-y-8">
@@ -99,15 +105,15 @@ export default async function PortalInvoiceDetailPage({ params }: InvoicePagePro
               Bill To
             </p>
             <p className="font-medium text-gray-900 dark:text-gray-100">
-              {invoice.client.companyName || invoice.client.contactName}
+              {invoice.clients.companyName || invoice.clients.contactName}
             </p>
-            {invoice.client.companyName && (
+            {invoice.clients.companyName && (
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                {invoice.client.contactName}
+                {invoice.clients.contactName}
               </p>
             )}
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              {invoice.client.contactEmail}
+              {invoice.clients.contactEmail}
             </p>
           </div>
           <div className="text-right">
@@ -133,16 +139,16 @@ export default async function PortalInvoiceDetailPage({ params }: InvoicePagePro
         </div>
 
         {/* Project Reference */}
-        {invoice.project && (
+        {invoice.projects && (
           <div className="px-6 py-4 bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
             <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">
               Project
             </p>
             <Link
-              href={`/portal/projects/${invoice.project.id}`}
+              href={`/portal/projects/${invoice.projects.id}`}
               className="text-gray-900 dark:text-gray-100 hover:underline"
             >
-              {invoice.project.name}
+              {invoice.projects.name}
             </Link>
           </div>
         )}
@@ -159,7 +165,7 @@ export default async function PortalInvoiceDetailPage({ params }: InvoicePagePro
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
-              {lineItems.map((item: any, index: number) => (
+              {lineItems.map((item: InvoiceLineItem, index: number) => (
                 <tr key={index}>
                   <td className="py-3">
                     <p className="text-gray-900 dark:text-gray-100">{item.description}</p>

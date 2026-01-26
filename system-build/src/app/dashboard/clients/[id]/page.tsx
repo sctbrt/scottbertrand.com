@@ -34,16 +34,16 @@ export default async function ClientDetailPage({ params }: ClientDetailPageProps
     )
   }
 
-  const client = await prisma.client.findUnique({
+  const client = await prisma.clients.findUnique({
     where: { id },
     include: {
-      user: {
+      users: {
         select: { email: true, emailVerified: true, createdAt: true },
       },
       projects: {
         orderBy: { updatedAt: 'desc' },
         include: {
-          serviceTemplate: { select: { name: true } },
+          service_templates: { select: { name: true } },
           _count: { select: { tasks: true, milestones: true } },
         },
       },
@@ -190,18 +190,18 @@ export default async function ClientDetailPage({ params }: ClientDetailPageProps
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-600 dark:text-gray-400">Login Email</span>
-                <span className="text-sm text-gray-900 dark:text-gray-100">{client.user.email}</span>
+                <span className="text-sm text-gray-900 dark:text-gray-100">{client.users.email}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-600 dark:text-gray-400">Email Verified</span>
-                <span className={`text-sm ${client.user.emailVerified ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'}`}>
-                  {client.user.emailVerified ? 'Yes' : 'Pending'}
+                <span className={`text-sm ${client.users.emailVerified ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'}`}>
+                  {client.users.emailVerified ? 'Yes' : 'Pending'}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-600 dark:text-gray-400">Account Created</span>
                 <span className="text-sm text-gray-900 dark:text-gray-100">
-                  {formatDate(client.user.createdAt)}
+                  {formatDate(client.users.createdAt)}
                 </span>
               </div>
             </div>
@@ -261,7 +261,7 @@ export default async function ClientDetailPage({ params }: ClientDetailPageProps
                           {project.name}
                         </p>
                         <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                          {project.serviceTemplate?.name || 'Custom Project'} · {project._count.tasks} tasks · {project._count.milestones} milestones
+                          {project.service_templates?.name || 'Custom Project'} · {project._count.tasks} tasks · {project._count.milestones} milestones
                         </p>
                       </div>
                       <span className={`text-xs px-2 py-1 rounded-full ${getProjectStatusColor(project.status)}`}>

@@ -1,6 +1,7 @@
 // Dashboard - Leads Management Page
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
+import type { LeadStatus } from '@prisma/client'
 
 export default async function LeadsPage({
   searchParams,
@@ -14,26 +15,26 @@ export default async function LeadsPage({
 
   // Fetch leads with filtering and pagination
   const [leads, totalCount] = await Promise.all([
-    prisma.lead.findMany({
-      where: status ? { status: status as any } : undefined,
+    prisma.leads.findMany({
+      where: status ? { status: status as LeadStatus } : undefined,
       orderBy: { createdAt: 'desc' },
       skip: (page - 1) * perPage,
       take: perPage,
       include: {
-        serviceTemplate: {
+        service_templates: {
           select: { name: true },
         },
       },
     }),
-    prisma.lead.count({
-      where: status ? { status: status as any } : undefined,
+    prisma.leads.count({
+      where: status ? { status: status as LeadStatus } : undefined,
     }),
   ])
 
   const totalPages = Math.ceil(totalCount / perPage)
 
   // Status counts for filters
-  const statusCounts = await prisma.lead.groupBy({
+  const statusCounts = await prisma.leads.groupBy({
     by: ['status'],
     _count: { id: true },
   })
@@ -116,7 +117,7 @@ export default async function LeadsPage({
                     </Link>
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">
-                    {lead.serviceTemplate?.name || lead.service || '—'}
+                    {lead.service_templates?.name || lead.service || '—'}
                   </td>
                   <td className="px-6 py-4">
                     <span className={`text-xs px-2 py-1 rounded-full ${getStatusColor(lead.status)}`}>

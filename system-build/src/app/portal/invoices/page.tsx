@@ -8,13 +8,13 @@ export default async function PortalInvoicesPage() {
   if (!session?.user) return null
 
   // Get client's invoices
-  const client = await prisma.client.findUnique({
+  const client = await prisma.clients.findUnique({
     where: { userId: session.user.id },
     include: {
       invoices: {
         orderBy: { createdAt: 'desc' },
         include: {
-          project: {
+          projects: {
             select: { name: true },
           },
         },
@@ -92,9 +92,9 @@ export default async function PortalInvoicesPage() {
                       {getStatusLabel(invoice.status)}
                     </span>
                   </div>
-                  {invoice.project && (
+                  {invoice.projects && (
                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                      {invoice.project.name}
+                      {invoice.projects.name}
                     </p>
                   )}
                   <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">

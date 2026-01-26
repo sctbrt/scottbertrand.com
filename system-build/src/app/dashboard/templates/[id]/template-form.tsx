@@ -4,19 +4,28 @@
 import { useActionState, useState } from 'react'
 import { createTemplate, updateTemplate } from '@/lib/actions/templates'
 
+import type { Decimal } from '@prisma/client/runtime/library'
+
+type DecimalLike = Decimal | string | number
+
+interface ChecklistItem {
+  title: string
+  description?: string
+}
+
 interface TemplateFormProps {
   template?: {
     id: string
     name: string
     slug: string
     description: string | null
-    price: any
+    price: DecimalLike
     currency: string
     estimatedDays: number | null
     isActive: boolean
-    scope: any
-    deliverables: any
-    checklistItems: any
+    scope: unknown // Prisma JsonValue - cast internally
+    deliverables: unknown // Prisma JsonValue - cast internally
+    checklistItems: unknown // Prisma JsonValue - cast internally
   }
 }
 
@@ -24,23 +33,9 @@ export function TemplateForm({ template }: TemplateFormProps) {
   const action = template ? updateTemplate.bind(null, template.id) : createTemplate
   const [state, formAction, isPending] = useActionState(action, null)
 
-  const [scope, setScope] = useState<string[]>(
-    (template?.scope as string[]) || []
-  )
-  const [deliverables, setDeliverables] = useState<string[]>(
-    (template?.deliverables as string[]) || []
-  )
-  const [checklistItems, setChecklistItems] = useState<{ title: string; description?: string }[]>(
-    (template?.checklistItems as { title: string; description?: string }[]) || []
-  )
-
-  // Helper to generate slug from name
-  const generateSlug = (name: string) => {
-    return name
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '')
-  }
+  const [scope, setScope] = useState<string[]>((template?.scope as string[] | null) || [])
+  const [deliverables, setDeliverables] = useState<string[]>((template?.deliverables as string[] | null) || [])
+  const [checklistItems, setChecklistItems] = useState<ChecklistItem[]>((template?.checklistItems as ChecklistItem[] | null) || [])
 
   return (
     <form action={formAction} className="space-y-5">

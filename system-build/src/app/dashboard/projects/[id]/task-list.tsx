@@ -217,7 +217,7 @@ function AddTaskForm({
 
 function EditTaskForm({
   task,
-  projectId,
+  projectId: _projectId,
   onCancel,
   onSuccess,
 }: {

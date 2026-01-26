@@ -25,7 +25,7 @@ export default async function ClientsPage({
 
   // Fetch clients with pagination
   const [clients, totalCount] = await Promise.all([
-    prisma.client.findMany({
+    prisma.clients.findMany({
       where: searchFilter,
       orderBy: { createdAt: 'desc' },
       skip: (page - 1) * perPage,
@@ -44,7 +44,7 @@ export default async function ClientsPage({
         },
       },
     }),
-    prisma.client.count({ where: searchFilter }),
+    prisma.clients.count({ where: searchFilter }),
   ])
 
   const totalPages = Math.ceil(totalCount / perPage)

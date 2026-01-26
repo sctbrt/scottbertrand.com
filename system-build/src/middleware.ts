@@ -27,7 +27,9 @@ const DOMAINS: Record<string, string[]> = {
 }
 
 // Protected paths that require authentication
-const PROTECTED_PATHS = {
+// Note: Currently all dashboard/portal paths require auth by default
+// This can be expanded for more granular control
+const _PROTECTED_PATHS = {
   dashboard: ['/'],
   portal: ['/'],
 }

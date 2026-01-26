@@ -3,6 +3,7 @@
 // Login Form Component - Client-side form with rate limiting
 import { useState, useTransition } from 'react'
 import { signIn } from 'next-auth/react'
+import Link from 'next/link'
 
 interface LoginFormProps {
   callbackUrl?: string
@@ -99,17 +100,17 @@ export function LoginForm({ callbackUrl, isDev }: LoginFormProps) {
       </button>
 
       <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-        You'll receive a secure link to sign in. No password required.
+        You&apos;ll receive a secure link to sign in. No password required.
       </p>
 
       {isDev && (
         <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-          <a
+          <Link
             href="/api/auth/dev-login"
             className="block w-full py-3 px-4 bg-amber-500 text-white rounded-lg font-medium hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors text-center"
           >
             Dev Login (Bypass Email)
-          </a>
+          </Link>
           <p className="text-xs text-amber-600 dark:text-amber-400 text-center mt-2">
             Development only — bypasses email verification
           </p>

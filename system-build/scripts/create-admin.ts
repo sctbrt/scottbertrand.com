@@ -9,7 +9,7 @@ async function main() {
   const adminEmail = process.argv[2] || 'scott@scottbertrand.com'
 
   // Check if user already exists
-  const existing = await prisma.user.findUnique({
+  const existing = await prisma.users.findUnique({
     where: { email: adminEmail }
   })
 
@@ -20,7 +20,7 @@ async function main() {
     }
 
     // Upgrade to admin
-    await prisma.user.update({
+    await prisma.users.update({
       where: { email: adminEmail },
       data: { role: 'INTERNAL_ADMIN' }
     })
@@ -29,7 +29,7 @@ async function main() {
   }
 
   // Create new admin user
-  const user = await prisma.user.create({
+  const user = await prisma.users.create({
     data: {
       email: adminEmail,
       name: 'Scott Bertrand',

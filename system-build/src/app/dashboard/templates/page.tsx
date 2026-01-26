@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 
 export default async function TemplatesPage() {
-  const templates = await prisma.serviceTemplate.findMany({
+  const templates = await prisma.service_templates.findMany({
     orderBy: { sortOrder: 'asc' },
     include: {
       _count: {
@@ -71,6 +71,10 @@ export default async function TemplatesPage() {
   )
 }
 
+import type { Decimal } from '@prisma/client/runtime/library'
+
+type DecimalLike = Decimal | string | number
+
 function TemplateCard({
   template,
 }: {
@@ -79,20 +83,20 @@ function TemplateCard({
     name: string
     slug: string
     description: string | null
-    price: any
+    price: DecimalLike
     currency: string
     estimatedDays: number | null
     isActive: boolean
-    scope: any
-    deliverables: any
+    scope: unknown // Prisma JsonValue
+    deliverables: unknown // Prisma JsonValue
     _count: {
       projects: number
       leads: number
     }
   }
 }) {
-  const scope = (template.scope as string[]) || []
-  const deliverables = (template.deliverables as string[]) || []
+  const scope = (template.scope as string[] | null) || []
+  const deliverables = (template.deliverables as string[] | null) || []
 
   return (
     <Link

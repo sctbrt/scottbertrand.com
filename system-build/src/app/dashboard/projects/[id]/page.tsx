@@ -16,11 +16,11 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   // Handle "new" as a special case
   if (id === 'new') {
     const [clients, templates] = await Promise.all([
-      prisma.client.findMany({
+      prisma.clients.findMany({
         select: { id: true, companyName: true, contactName: true },
         orderBy: { companyName: 'asc' },
       }),
-      prisma.serviceTemplate.findMany({
+      prisma.service_templates.findMany({
         where: { isActive: true },
         orderBy: { sortOrder: 'asc' },
       }),
@@ -50,13 +50,13 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   }
 
   const [project, clients, templates] = await Promise.all([
-    prisma.project.findUnique({
+    prisma.projects.findUnique({
       where: { id },
       include: {
-        client: {
+        clients: {
           select: { id: true, companyName: true, contactName: true, contactEmail: true },
         },
-        serviceTemplate: true,
+        service_templates: true,
         tasks: {
           orderBy: [{ sortOrder: 'asc' }, { createdAt: 'asc' }],
         },
@@ -67,22 +67,22 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           orderBy: { createdAt: 'desc' },
           take: 5,
         },
-        files: {
+        file_assets: {
           orderBy: { createdAt: 'desc' },
         },
         comments: {
           orderBy: { createdAt: 'desc' },
           include: {
-            author: { select: { name: true, email: true, role: true } },
+            users: { select: { name: true, email: true, role: true } },
           },
         },
       },
     }),
-    prisma.client.findMany({
+    prisma.clients.findMany({
       select: { id: true, companyName: true, contactName: true },
       orderBy: { companyName: 'asc' },
     }),
-    prisma.serviceTemplate.findMany({
+    prisma.service_templates.findMany({
       where: { isActive: true },
       orderBy: { sortOrder: 'asc' },
     }),
@@ -131,13 +131,13 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             </div>
             <p className="text-gray-500 dark:text-gray-400 mt-1">
               <Link
-                href={`/dashboard/clients/${project.client.id}`}
+                href={`/dashboard/clients/${project.clients.id}`}
                 className="hover:underline"
               >
-                {project.client.companyName || project.client.contactName}
+                {project.clients.companyName || project.clients.contactName}
               </Link>
-              {project.serviceTemplate && (
-                <> · {project.serviceTemplate.name}</>
+              {project.service_templates && (
+                <> · {project.service_templates.name}</>
               )}
             </p>
           </div>
@@ -237,13 +237,13 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
           </div>
 
           {/* Files */}
-          {project.files.length > 0 && (
+          {project.file_assets.length > 0 && (
             <div className="bg-white dark:bg-[#2c2c2e] rounded-lg border border-gray-200 dark:border-gray-700 p-6">
               <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
-                Files ({project.files.length})
+                Files ({project.file_assets.length})
               </h2>
               <div className="space-y-2">
-                {project.files.map((file) => (
+                {project.file_assets.map((file) => (
                   <div
                     key={file.id}
                     className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg"
@@ -378,18 +378,18 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             </h2>
             <div className="space-y-2">
               <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                {project.client.companyName || project.client.contactName}
+                {project.clients.companyName || project.clients.contactName}
               </p>
-              {project.client.companyName && (
+              {project.clients.companyName && (
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {project.client.contactName}
+                  {project.clients.contactName}
                 </p>
               )}
               <a
-                href={`mailto:${project.client.contactEmail}`}
+                href={`mailto:${project.clients.contactEmail}`}
                 className="text-sm text-blue-600 dark:text-blue-400 hover:underline block"
               >
-                {project.client.contactEmail}
+                {project.clients.contactEmail}
               </a>
             </div>
           </div>

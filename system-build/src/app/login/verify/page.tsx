@@ -40,7 +40,7 @@ export default async function VerifyPage({
 
           <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 mb-6">
             <p className="text-xs text-gray-500 dark:text-gray-400">
-              The link will expire in <strong>15 minutes</strong>. If you don't see the email, check your spam folder.
+              The link will expire in <strong>15 minutes</strong>. If you don&apos;t see the email, check your spam folder.
             </p>
           </div>
 

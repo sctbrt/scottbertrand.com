@@ -1,7 +1,8 @@
 // File Storage Utilities with Vercel Blob
 // Provides signed URLs for secure file access
 
-import { put, del, head, list } from '@vercel/blob'
+import { put, del } from '@vercel/blob'
+import crypto from 'crypto'
 import { prisma } from './prisma'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -34,7 +35,7 @@ export async function uploadFile({
   const mimeType = file instanceof Blob ? file.type : 'application/octet-stream'
 
   // Create database record
-  const fileAsset = await prisma.fileAsset.create({
+  const fileAsset = await prisma.file_assets.create({
     data: {
       filename: uniqueFilename,
       originalName: filename,
@@ -52,7 +53,7 @@ export async function uploadFile({
 
 // Delete a file from storage and database
 export async function deleteFile(fileId: string) {
-  const file = await prisma.fileAsset.findUnique({
+  const file = await prisma.file_assets.findUnique({
     where: { id: fileId },
   })
 
@@ -64,7 +65,7 @@ export async function deleteFile(fileId: string) {
   await del(file.url)
 
   // Delete from database
-  await prisma.fileAsset.delete({
+  await prisma.file_assets.delete({
     where: { id: fileId },
   })
 
@@ -73,10 +74,10 @@ export async function deleteFile(fileId: string) {
 
 // Get file metadata
 export async function getFileMetadata(fileId: string) {
-  return prisma.fileAsset.findUnique({
+  return prisma.file_assets.findUnique({
     where: { id: fileId },
     include: {
-      project: {
+      projects: {
         select: { id: true, name: true, clientId: true },
       },
     },
@@ -93,12 +94,12 @@ export async function checkFileAccess({
   userId: string
   userRole: 'INTERNAL_ADMIN' | 'CLIENT'
 }): Promise<boolean> {
-  const file = await prisma.fileAsset.findUnique({
+  const file = await prisma.file_assets.findUnique({
     where: { id: fileId },
     include: {
-      project: {
+      projects: {
         include: {
-          client: {
+          clients: {
             select: { userId: true },
           },
         },
@@ -121,8 +122,8 @@ export async function checkFileAccess({
   }
 
   // Client-visible files require ownership check
-  if (file.accessLevel === 'CLIENT_VISIBLE' && file.project) {
-    return file.project.client?.userId === userId
+  if (file.accessLevel === 'CLIENT_VISIBLE' && file.projects) {
+    return file.projects.clients?.userId === userId
   }
 
   // Private files are admin-only
@@ -141,7 +142,6 @@ export function generateDownloadUrl(fileId: string, expiresIn: number = 3600): s
 
 // Generate a signed token for URL validation
 function generateSignedToken(fileId: string, expires: number): string {
-  const crypto = require('crypto')
   const secret = process.env.FILE_SIGNING_SECRET || process.env.AUTH_SECRET || 'fallback-secret'
   const data = `${fileId}:${expires}`
 
@@ -171,7 +171,7 @@ export function validateDownloadToken(
 
 // List files for a project
 export async function listProjectFiles(projectId: string) {
-  return prisma.fileAsset.findMany({
+  return prisma.file_assets.findMany({
     where: { projectId },
     orderBy: { createdAt: 'desc' },
   })

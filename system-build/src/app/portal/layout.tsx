@@ -22,7 +22,7 @@ export default async function PortalLayout({
   }
 
   // Get client record for the user
-  const client = await prisma.client.findUnique({
+  const client = await prisma.clients.findUnique({
     where: { userId: session.user.id },
     select: {
       id: true,

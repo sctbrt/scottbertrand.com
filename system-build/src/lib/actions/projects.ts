@@ -35,7 +35,7 @@ export async function createProject(
 
   try {
     // Verify client exists
-    const client = await prisma.client.findUnique({
+    const client = await prisma.clients.findUnique({
       where: { id: clientId },
     })
 
@@ -46,7 +46,7 @@ export async function createProject(
     // If service template selected, get its default checklist items
     let defaultTasks: { title: string; description?: string }[] = []
     if (serviceTemplateId) {
-      const template = await prisma.serviceTemplate.findUnique({
+      const template = await prisma.service_templates.findUnique({
         where: { id: serviceTemplateId },
       })
       if (template?.checklistItems) {
@@ -55,7 +55,7 @@ export async function createProject(
     }
 
     // Create project
-    const project = await prisma.project.create({
+    const project = await prisma.projects.create({
       data: {
         name,
         clientId,
@@ -70,7 +70,7 @@ export async function createProject(
 
     // Create default tasks from template
     if (defaultTasks.length > 0) {
-      await prisma.task.createMany({
+      await prisma.tasks.createMany({
         data: defaultTasks.map((task, index) => ({
           projectId: project.id,
           title: task.title,
@@ -82,7 +82,7 @@ export async function createProject(
     }
 
     // Log activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         userId: session.user.id,
         action: 'CREATE',
@@ -125,7 +125,7 @@ export async function updateProject(
   }
 
   try {
-    const project = await prisma.project.findUnique({
+    const project = await prisma.projects.findUnique({
       where: { id: projectId },
     })
 
@@ -141,7 +141,7 @@ export async function updateProject(
       actualEndDate = null
     }
 
-    await prisma.project.update({
+    await prisma.projects.update({
       where: { id: projectId },
       data: {
         name,
@@ -157,7 +157,7 @@ export async function updateProject(
     })
 
     // Log activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         userId: session.user.id,
         action: 'UPDATE',
@@ -185,7 +185,7 @@ export async function deleteProject(projectId: string): Promise<ProjectActionSta
   }
 
   try {
-    const project = await prisma.project.findUnique({
+    const project = await prisma.projects.findUnique({
       where: { id: projectId },
       include: {
         _count: { select: { invoices: true } },
@@ -204,12 +204,12 @@ export async function deleteProject(projectId: string): Promise<ProjectActionSta
     const clientId = project.clientId
 
     // Delete project (cascades to tasks, milestones, files, comments)
-    await prisma.project.delete({
+    await prisma.projects.delete({
       where: { id: projectId },
     })
 
     // Log activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         userId: session.user.id,
         action: 'DELETE',

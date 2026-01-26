@@ -78,12 +78,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user.id) {
         try {
           // Verify user exists in database before logging
-          const existingUser = await prisma.user.findUnique({
+          const existingUser = await prisma.users.findUnique({
             where: { id: user.id },
             select: { id: true },
           })
           if (existingUser) {
-            await prisma.activityLog.create({
+            await prisma.activity_logs.create({
               data: {
                 userId: user.id,
                 action: 'SIGN_IN',
@@ -108,7 +108,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   events: {
     async linkAccount({ user }) {
       // Mark email as verified when account is linked
-      await prisma.user.update({
+      await prisma.users.update({
         where: { id: user.id },
         data: { emailVerified: new Date() },
       })

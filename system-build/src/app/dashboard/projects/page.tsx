@@ -2,6 +2,7 @@
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 import { ClientFilterSelect } from './client-filter-select'
+import type { ProjectStatus } from '@prisma/client'
 
 export default async function ProjectsPage({
   searchParams,
@@ -15,22 +16,22 @@ export default async function ProjectsPage({
   const perPage = 20
 
   // Build filter
-  const where: any = {}
-  if (status) where.status = status
+  const where: { status?: ProjectStatus; clientId?: string } = {}
+  if (status) where.status = status as ProjectStatus
   if (clientId) where.clientId = clientId
 
   // Fetch projects with pagination
   const [projects, totalCount, clients] = await Promise.all([
-    prisma.project.findMany({
+    prisma.projects.findMany({
       where,
       orderBy: { updatedAt: 'desc' },
       skip: (page - 1) * perPage,
       take: perPage,
       include: {
-        client: {
+        clients: {
           select: { companyName: true, contactName: true },
         },
-        serviceTemplate: {
+        service_templates: {
           select: { name: true },
         },
         _count: {
@@ -38,9 +39,9 @@ export default async function ProjectsPage({
         },
       },
     }),
-    prisma.project.count({ where }),
+    prisma.projects.count({ where }),
     // Get all clients for filter dropdown
-    prisma.client.findMany({
+    prisma.clients.findMany({
       select: { id: true, companyName: true, contactName: true },
       orderBy: { companyName: 'asc' },
     }),
@@ -49,7 +50,7 @@ export default async function ProjectsPage({
   const totalPages = Math.ceil(totalCount / perPage)
 
   // Status counts
-  const statusCounts = await prisma.project.groupBy({
+  const statusCounts = await prisma.projects.groupBy({
     by: ['status'],
     _count: { id: true },
   })
@@ -130,7 +131,7 @@ export default async function ProjectsPage({
                     {project.name}
                   </h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
-                    {project.client.companyName || project.client.contactName}
+                    {project.clients.companyName || project.clients.contactName}
                   </p>
                 </div>
                 <span className={`text-xs px-2 py-1 rounded-full ml-2 flex-shrink-0 ${getStatusColor(project.status)}`}>
@@ -138,9 +139,9 @@ export default async function ProjectsPage({
                 </span>
               </div>
 
-              {project.serviceTemplate && (
+              {project.service_templates && (
                 <p className="text-xs text-gray-400 dark:text-gray-500 mb-3">
-                  {project.serviceTemplate.name}
+                  {project.service_templates.name}
                 </p>
               )}
 

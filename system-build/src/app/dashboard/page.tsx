@@ -5,14 +5,14 @@ import Link from 'next/link'
 export default async function DashboardPage() {
   // Fetch counts for overview
   const [leadCount, clientCount, projectCount, invoiceCount] = await Promise.all([
-    prisma.lead.count({ where: { status: 'NEW' } }),
-    prisma.client.count(),
-    prisma.project.count({ where: { status: { in: ['IN_PROGRESS', 'PENDING_APPROVAL'] } } }),
-    prisma.invoice.count({ where: { status: { in: ['SENT', 'OVERDUE'] } } }),
+    prisma.leads.count({ where: { status: 'NEW' } }),
+    prisma.clients.count(),
+    prisma.projects.count({ where: { status: { in: ['IN_PROGRESS', 'PENDING_APPROVAL'] } } }),
+    prisma.invoices.count({ where: { status: { in: ['SENT', 'OVERDUE'] } } }),
   ])
 
   // Fetch recent leads
-  const recentLeads = await prisma.lead.findMany({
+  const recentLeads = await prisma.leads.findMany({
     take: 5,
     orderBy: { createdAt: 'desc' },
     select: {
@@ -26,12 +26,12 @@ export default async function DashboardPage() {
   })
 
   // Fetch active projects
-  const activeProjects = await prisma.project.findMany({
+  const activeProjects = await prisma.projects.findMany({
     where: { status: { in: ['IN_PROGRESS', 'PENDING_APPROVAL'] } },
     take: 5,
     orderBy: { updatedAt: 'desc' },
     include: {
-      client: {
+      clients: {
         select: { contactName: true, companyName: true },
       },
     },
@@ -149,7 +149,7 @@ export default async function DashboardPage() {
                         {project.name}
                       </p>
                       <p className="text-xs text-[var(--text-muted)]">
-                        {project.client.companyName || project.client.contactName}
+                        {project.clients.companyName || project.clients.contactName}
                       </p>
                     </div>
                     <span className={`status-badge ${getProjectStatusColor(project.status)}`}>

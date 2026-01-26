@@ -2,6 +2,7 @@
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 import { ClientFilterSelect } from './client-filter-select'
+import type { InvoiceStatus } from '@prisma/client'
 
 export default async function InvoicesPage({
   searchParams,
@@ -15,34 +16,34 @@ export default async function InvoicesPage({
   const perPage = 20
 
   // Build filter
-  const where: any = {}
-  if (status) where.status = status
+  const where: { status?: InvoiceStatus; clientId?: string } = {}
+  if (status) where.status = status as InvoiceStatus
   if (clientId) where.clientId = clientId
 
   // Fetch invoices with pagination
   const [invoices, totalCount, clients, totals] = await Promise.all([
-    prisma.invoice.findMany({
+    prisma.invoices.findMany({
       where,
       orderBy: { createdAt: 'desc' },
       skip: (page - 1) * perPage,
       take: perPage,
       include: {
-        client: {
+        clients: {
           select: { companyName: true, contactName: true },
         },
-        project: {
+        projects: {
           select: { name: true },
         },
       },
     }),
-    prisma.invoice.count({ where }),
+    prisma.invoices.count({ where }),
     // Get all clients for filter dropdown
-    prisma.client.findMany({
+    prisma.clients.findMany({
       select: { id: true, companyName: true, contactName: true },
       orderBy: { companyName: 'asc' },
     }),
     // Get totals by status
-    prisma.invoice.groupBy({
+    prisma.invoices.groupBy({
       by: ['status'],
       _sum: { total: true },
       _count: { id: true },
@@ -202,16 +203,16 @@ export default async function InvoicesPage({
                       href={`/dashboard/clients/${invoice.clientId}`}
                       className="text-sm text-gray-700 dark:text-gray-300 hover:underline"
                     >
-                      {invoice.client.companyName || invoice.client.contactName}
+                      {invoice.clients.companyName || invoice.clients.contactName}
                     </Link>
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-700 dark:text-gray-300">
-                    {invoice.project ? (
+                    {invoice.projects ? (
                       <Link
                         href={`/dashboard/projects/${invoice.projectId}`}
                         className="hover:underline"
                       >
-                        {invoice.project.name}
+                        {invoice.projects.name}
                       </Link>
                     ) : (
                       <span className="text-gray-400">—</span>

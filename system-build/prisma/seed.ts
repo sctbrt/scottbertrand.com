@@ -7,14 +7,14 @@ async function main() {
   // Create admin user
   const adminEmail = 'hello@bertrandbrands.com'
 
-  const existingUser = await prisma.user.findUnique({
+  const existingUser = await prisma.users.findUnique({
     where: { email: adminEmail },
   })
 
   if (existingUser) {
     // Update to admin if not already
     if (existingUser.role !== 'INTERNAL_ADMIN') {
-      await prisma.user.update({
+      await prisma.users.update({
         where: { email: adminEmail },
         data: {
           role: 'INTERNAL_ADMIN',
@@ -26,7 +26,7 @@ async function main() {
       console.log(`Admin user ${adminEmail} already exists`)
     }
   } else {
-    await prisma.user.create({
+    await prisma.users.create({
       data: {
         email: adminEmail,
         name: 'Scott Bertrand',

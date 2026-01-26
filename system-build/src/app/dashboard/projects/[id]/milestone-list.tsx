@@ -246,7 +246,7 @@ function AddMilestoneForm({
 
 function EditMilestoneForm({
   milestone,
-  projectId,
+  projectId: _projectId,
   onCancel,
   onSuccess,
 }: {

@@ -9,7 +9,7 @@ interface InvoiceActionsProps {
     id: string
     invoiceNumber: string
     status: string
-    client: {
+    clients: {
       contactEmail: string
       contactName: string
     }

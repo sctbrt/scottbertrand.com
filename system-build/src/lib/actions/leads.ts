@@ -29,13 +29,13 @@ export async function updateLeadStatus(
   }
 
   try {
-    await prisma.lead.update({
+    await prisma.leads.update({
       where: { id: leadId },
       data: { status: status as LeadStatus },
     })
 
     // Log activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         userId: session.user.id,
         action: 'UPDATE_STATUS',
@@ -57,8 +57,8 @@ export async function updateLeadStatus(
 
 export async function markAsSpam(
   leadId: string,
-  prevState: LeadActionState,
-  formData: FormData
+  _prevState: LeadActionState,
+  _formData: FormData
 ): Promise<LeadActionState> {
   const session = await auth()
   if (!session?.user || session.user.role !== 'INTERNAL_ADMIN') {
@@ -66,7 +66,7 @@ export async function markAsSpam(
   }
 
   try {
-    await prisma.lead.update({
+    await prisma.leads.update({
       where: { id: leadId },
       data: {
         isSpam: true,
@@ -75,7 +75,7 @@ export async function markAsSpam(
     })
 
     // Log activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         userId: session.user.id,
         action: 'MARK_SPAM',
@@ -96,8 +96,8 @@ export async function markAsSpam(
 
 export async function deleteLead(
   leadId: string,
-  prevState: LeadActionState,
-  formData: FormData
+  _prevState: LeadActionState,
+  _formData: FormData
 ): Promise<LeadActionState> {
   const session = await auth()
   if (!session?.user || session.user.role !== 'INTERNAL_ADMIN') {
@@ -105,7 +105,7 @@ export async function deleteLead(
   }
 
   try {
-    const lead = await prisma.lead.findUnique({
+    const lead = await prisma.leads.findUnique({
       where: { id: leadId },
     })
 
@@ -118,12 +118,12 @@ export async function deleteLead(
       return { error: 'Cannot delete converted leads' }
     }
 
-    await prisma.lead.delete({
+    await prisma.leads.delete({
       where: { id: leadId },
     })
 
     // Log activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         userId: session.user.id,
         action: 'DELETE',
@@ -165,7 +165,7 @@ export async function convertToClient(
   try {
     // Use transaction to prevent race conditions
     const result = await prisma.$transaction(async (tx) => {
-      const lead = await tx.lead.findUnique({
+      const lead = await tx.leads.findUnique({
         where: { id: leadId },
       })
 
@@ -178,13 +178,13 @@ export async function convertToClient(
       }
 
       // Check if user with this email already exists
-      let user = await tx.user.findUnique({
+      let user = await tx.users.findUnique({
         where: { email: lead.email.toLowerCase() },
       })
 
       if (user) {
         // Check if they already have a client profile
-        const existingClient = await tx.client.findUnique({
+        const existingClient = await tx.clients.findUnique({
           where: { userId: user.id },
         })
 
@@ -193,7 +193,7 @@ export async function convertToClient(
         }
       } else {
         // Create new user
-        user = await tx.user.create({
+        user = await tx.users.create({
           data: {
             email: lead.email.toLowerCase(),
             name: contactName,
@@ -203,7 +203,7 @@ export async function convertToClient(
       }
 
       // Create client
-      const client = await tx.client.create({
+      const client = await tx.clients.create({
         data: {
           userId: user.id,
           contactName,
@@ -215,7 +215,7 @@ export async function convertToClient(
       })
 
       // Update lead
-      await tx.lead.update({
+      await tx.leads.update({
         where: { id: leadId },
         data: {
           status: 'CONVERTED',
@@ -229,7 +229,7 @@ export async function convertToClient(
         // Get default checklist from template if selected
         let defaultTasks: { title: string; description?: string }[] = []
         if (templateId) {
-          const template = await tx.serviceTemplate.findUnique({
+          const template = await tx.service_templates.findUnique({
             where: { id: templateId },
           })
           if (template?.checklistItems) {
@@ -237,7 +237,7 @@ export async function convertToClient(
           }
         }
 
-        const project = await tx.project.create({
+        const project = await tx.projects.create({
           data: {
             name: projectName,
             clientId: client.id,
@@ -250,7 +250,7 @@ export async function convertToClient(
 
         // Create default tasks
         if (defaultTasks.length > 0) {
-          await tx.task.createMany({
+          await tx.tasks.createMany({
             data: defaultTasks.map((task, index) => ({
               projectId: project.id,
               title: task.title,
@@ -263,7 +263,7 @@ export async function convertToClient(
       }
 
       // Log activity
-      await tx.activityLog.create({
+      await tx.activity_logs.create({
         data: {
           userId: session.user.id,
           action: 'CONVERT',

@@ -1,6 +1,3 @@
-// SCOTTBERTRAND.COM — System Build v1
-// Prisma Schema for Internal Dashboard + Client Portal
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,301 +8,98 @@ datasource db {
   directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
-// ===================================
-// AUTH.JS / NEXTAUTH MODELS
-// ===================================
-
-model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  name          String?
-  emailVerified DateTime?
-  image         String?
-  role          Role      @default(CLIENT)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  // Auth.js relations
-  accounts Account[]
-  sessions Session[]
-
-  // Business relations
-  client        Client?
-  activityLogs  ActivityLog[]
-  createdLeads  Lead[]        @relation("LeadCreator")
-  assignedTasks Task[]        @relation("TaskAssignee")
-  comments      Comment[]
-
-  @@map("users")
-}
-
-model Account {
+model accounts {
   id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  users             users   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
-  @@map("accounts")
 }
 
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
+model activity_logs {
+  id         String   @id @default(cuid())
+  userId     String?
+  action     String
+  entityType String
+  entityId   String?
+  details    Json?
+  ipAddress  String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+  users      users?   @relation(fields: [userId], references: [id])
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("sessions")
+  @@index([createdAt])
+  @@index([entityType, entityId])
+  @@index([userId])
 }
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
-  @@map("verification_tokens")
-}
-
-// ===================================
-// ROLE ENUM
-// ===================================
-
-enum Role {
-  INTERNAL_ADMIN
-  CLIENT
-}
-
-// ===================================
-// CLIENT MODEL
-// ===================================
-
-model Client {
-  id           String   @id @default(cuid())
-  userId       String   @unique
+model clients {
+  id           String     @id @default(cuid())
+  userId       String     @unique
   companyName  String?
   contactName  String
   contactEmail String
   phone        String?
   website      String?
-  notes        String?  @db.Text
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  projects    Project[]
-  leads       Lead[]
-  invoices    Invoice[]
-
-  @@map("clients")
-}
-
-// ===================================
-// LEAD MODEL (Intake Submissions)
-// ===================================
-
-model Lead {
-  id             String     @id @default(cuid())
-  email          String
-  name           String?
-  companyName    String?
-  website        String?
-  phone          String?
-  service        String?
-  message        String?    @db.Text
-  source         String?    // formspree, webhook, manual
-  status         LeadStatus @default(NEW)
-  isSpam         Boolean    @default(false)
-  formData       Json?      // Raw form submission data
-  convertedToClientId String?
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
-  createdById    String?
-
-  createdBy      User?      @relation("LeadCreator", fields: [createdById], references: [id])
-  client         Client?    @relation(fields: [convertedToClientId], references: [id])
-  serviceTemplate ServiceTemplate? @relation(fields: [service], references: [slug])
-
-  @@map("leads")
-}
-
-enum LeadStatus {
-  NEW
-  CONTACTED
-  QUALIFIED
-  CONVERTED
-  DISQUALIFIED
-  ARCHIVED
-}
-
-// ===================================
-// PROJECT MODEL
-// ===================================
-
-model Project {
-  id                String        @id @default(cuid())
-  name              String
-  description       String?       @db.Text
-  status            ProjectStatus @default(DRAFT)
-  clientId          String
-  serviceTemplateId String?
-  startDate         DateTime?
-  targetEndDate     DateTime?
-  actualEndDate     DateTime?
-  previewUrl        String?       // Vercel preview deployment URL
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
-
-  client           Client                   @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  serviceTemplate  ServiceTemplate?         @relation(fields: [serviceTemplateId], references: [id])
-  serviceInstances ProjectServiceInstance[]
-  tasks            Task[]
-  invoices         Invoice[]
-  files            FileAsset[]
-  milestones       Milestone[]
-  comments         Comment[]
-
-  @@map("projects")
-}
-
-enum ProjectStatus {
-  DRAFT
-  PENDING_APPROVAL
-  IN_PROGRESS
-  ON_HOLD
-  COMPLETED
-  CANCELLED
-}
-
-// ===================================
-// SERVICE TEMPLATE MODEL
-// ===================================
-
-model ServiceTemplate {
-  id               String   @id @default(cuid())
-  name             String
-  slug             String   @unique
-  description      String?  @db.Text
-  price            Decimal  @db.Decimal(10, 2)
-  currency         String   @default("CAD")
-  estimatedDays    Int?
-  scope            Json?    // Array of scope items
-  deliverables     Json?    // Array of deliverables
-  checklistItems   Json?    // Default checklist for this service
-  isActive         Boolean  @default(true)
-  sortOrder        Int      @default(0)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-
-  projects         Project[]
-  serviceInstances ProjectServiceInstance[]
-  leads            Lead[]
-
-  @@map("service_templates")
-}
-
-// ===================================
-// PROJECT SERVICE INSTANCE
-// ===================================
-
-model ProjectServiceInstance {
-  id                String   @id @default(cuid())
-  projectId         String
-  serviceTemplateId String
-  customPrice       Decimal? @db.Decimal(10, 2)
-  customScope       Json?
-  notes             String?  @db.Text
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-
-  project         Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  serviceTemplate ServiceTemplate @relation(fields: [serviceTemplateId], references: [id])
-
-  @@map("project_service_instances")
-}
-
-// ===================================
-// TASK / CHECKLIST MODEL
-// ===================================
-
-model Task {
-  id           String     @id @default(cuid())
-  projectId    String
-  title        String
-  description  String?    @db.Text
-  status       TaskStatus @default(PENDING)
-  priority     Int        @default(0)
-  dueDate      DateTime?
-  completedAt  DateTime?
-  assigneeId   String?
-  sortOrder    Int        @default(0)
-  isClientVisible Boolean @default(false)
+  notes        String?
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
-
-  project  Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  assignee User?   @relation("TaskAssignee", fields: [assigneeId], references: [id])
-
-  @@map("tasks")
+  users        users      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  invoices     invoices[]
+  leads        leads[]
+  projects     projects[]
 }
 
-enum TaskStatus {
-  PENDING
-  IN_PROGRESS
-  COMPLETED
-  BLOCKED
+model comments {
+  id          String       @id @default(cuid())
+  projectId   String
+  milestoneId String?
+  fileId      String?
+  authorId    String
+  content     String
+  isInternal  Boolean      @default(false)
+  isRead      Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  users       users        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  file_assets file_assets? @relation(fields: [fileId], references: [id])
+  milestones  milestones?  @relation(fields: [milestoneId], references: [id])
+  projects    projects     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([authorId])
+  @@index([milestoneId])
+  @@index([projectId])
 }
 
-// ===================================
-// MILESTONE MODEL
-// ===================================
-
-model Milestone {
-  id                String          @id @default(cuid())
-  projectId         String
-  name              String
-  description       String?         @db.Text
-  status            MilestoneStatus @default(PENDING)
-  dueDate           DateTime?
-  completedAt       DateTime?
-  requiresApproval  Boolean         @default(false)
-  approvedAt        DateTime?
-  approvalNotes     String?         @db.Text
-  sortOrder         Int             @default(0)
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
-
-  project  Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  comments Comment[]
-
-  @@map("milestones")
+model file_assets {
+  id           String          @id @default(cuid())
+  filename     String
+  originalName String
+  mimeType     String
+  size         Int
+  url          String
+  accessLevel  FileAccessLevel @default(PRIVATE)
+  projectId    String?
+  description  String?
+  uploadedById String?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  comments     comments[]
+  projects     projects?       @relation(fields: [projectId], references: [id])
+  invoices     invoices[]
 }
 
-enum MilestoneStatus {
-  PENDING
-  IN_PROGRESS
-  AWAITING_APPROVAL
-  APPROVED
-  COMPLETED
-}
-
-// ===================================
-// INVOICE MODEL
-// ===================================
-
-model Invoice {
+model invoices {
   id            String        @id @default(cuid())
   invoiceNumber String        @unique
   clientId      String
@@ -317,17 +111,168 @@ model Invoice {
   currency      String        @default("CAD")
   dueDate       DateTime?
   paidAt        DateTime?
-  lineItems     Json?         // Array of line items
-  notes         String?       @db.Text
-  pdfFileId     String?       // Reference to generated PDF
+  lineItems     Json?
+  notes         String?
+  pdfFileId     String?
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+  clients       clients       @relation(fields: [clientId], references: [id])
+  file_assets   file_assets?  @relation(fields: [pdfFileId], references: [id])
+  projects      projects?     @relation(fields: [projectId], references: [id])
+}
 
-  client  Client     @relation(fields: [clientId], references: [id])
-  project Project?   @relation(fields: [projectId], references: [id])
-  pdfFile FileAsset? @relation(fields: [pdfFileId], references: [id])
+model leads {
+  id                  String             @id @default(cuid())
+  email               String
+  name                String?
+  companyName         String?
+  website             String?
+  phone               String?
+  service             String?
+  message             String?
+  source              String?
+  status              LeadStatus         @default(NEW)
+  isSpam              Boolean            @default(false)
+  formData            Json?
+  convertedToClientId String?
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  createdById         String?
+  clients             clients?           @relation(fields: [convertedToClientId], references: [id])
+  users               users?             @relation(fields: [createdById], references: [id])
+  service_templates   service_templates? @relation(fields: [service], references: [slug])
+}
 
-  @@map("invoices")
+model milestones {
+  id               String          @id @default(cuid())
+  projectId        String
+  name             String
+  description      String?
+  status           MilestoneStatus @default(PENDING)
+  dueDate          DateTime?
+  completedAt      DateTime?
+  requiresApproval Boolean         @default(false)
+  approvedAt       DateTime?
+  approvalNotes    String?
+  sortOrder        Int             @default(0)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  comments         comments[]
+  projects         projects        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model project_service_instances {
+  id                String            @id @default(cuid())
+  projectId         String
+  serviceTemplateId String
+  customPrice       Decimal?          @db.Decimal(10, 2)
+  customScope       Json?
+  notes             String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  projects          projects          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  service_templates service_templates @relation(fields: [serviceTemplateId], references: [id])
+}
+
+model projects {
+  id                        String                      @id @default(cuid())
+  name                      String
+  description               String?
+  status                    ProjectStatus               @default(DRAFT)
+  clientId                  String
+  serviceTemplateId         String?
+  startDate                 DateTime?
+  targetEndDate             DateTime?
+  actualEndDate             DateTime?
+  previewUrl                String?
+  createdAt                 DateTime                    @default(now())
+  updatedAt                 DateTime                    @updatedAt
+  comments                  comments[]
+  file_assets               file_assets[]
+  invoices                  invoices[]
+  milestones                milestones[]
+  project_service_instances project_service_instances[]
+  clients                   clients                     @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  service_templates         service_templates?          @relation(fields: [serviceTemplateId], references: [id])
+  tasks                     tasks[]
+}
+
+model service_templates {
+  id                        String                      @id @default(cuid())
+  name                      String
+  slug                      String                      @unique
+  description               String?
+  price                     Decimal                     @db.Decimal(10, 2)
+  currency                  String                      @default("CAD")
+  estimatedDays             Int?
+  scope                     Json?
+  deliverables              Json?
+  checklistItems            Json?
+  isActive                  Boolean                     @default(true)
+  sortOrder                 Int                         @default(0)
+  createdAt                 DateTime                    @default(now())
+  updatedAt                 DateTime                    @updatedAt
+  leads                     leads[]
+  project_service_instances project_service_instances[]
+  projects                  projects[]
+}
+
+model sessions {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  users        users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model tasks {
+  id              String     @id @default(cuid())
+  projectId       String
+  title           String
+  description     String?
+  status          TaskStatus @default(PENDING)
+  priority        Int        @default(0)
+  dueDate         DateTime?
+  completedAt     DateTime?
+  assigneeId      String?
+  sortOrder       Int        @default(0)
+  isClientVisible Boolean    @default(false)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  users           users?     @relation(fields: [assigneeId], references: [id])
+  projects        projects   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model users {
+  id            String          @id @default(cuid())
+  email         String          @unique
+  name          String?
+  emailVerified DateTime?
+  image         String?
+  role          Role            @default(CLIENT)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  accounts      accounts[]
+  activity_logs activity_logs[]
+  clients       clients?
+  comments      comments[]
+  leads         leads[]
+  sessions      sessions[]
+  tasks         tasks[]
+}
+
+model verification_tokens {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+enum FileAccessLevel {
+  PUBLIC
+  PRIVATE
+  CLIENT_VISIBLE
 }
 
 enum InvoiceStatus {
@@ -339,83 +284,40 @@ enum InvoiceStatus {
   CANCELLED
 }
 
-// ===================================
-// FILE ASSET MODEL
-// ===================================
-
-model FileAsset {
-  id          String         @id @default(cuid())
-  filename    String
-  originalName String
-  mimeType    String
-  size        Int
-  url         String         // Storage URL (Vercel Blob)
-  accessLevel FileAccessLevel @default(PRIVATE)
-  projectId   String?
-  description String?
-  uploadedById String?
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-
-  project  Project?  @relation(fields: [projectId], references: [id], onDelete: SetNull)
-  invoices Invoice[]
-  comments Comment[]
-
-  @@map("file_assets")
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  CONVERTED
+  DISQUALIFIED
+  ARCHIVED
 }
 
-enum FileAccessLevel {
-  PUBLIC
-  PRIVATE
-  CLIENT_VISIBLE
+enum MilestoneStatus {
+  PENDING
+  IN_PROGRESS
+  AWAITING_APPROVAL
+  APPROVED
+  COMPLETED
 }
 
-// ===================================
-// COMMENT MODEL (Client Feedback)
-// ===================================
-
-model Comment {
-  id          String   @id @default(cuid())
-  projectId   String
-  milestoneId String?
-  fileId      String?
-  authorId    String
-  content     String   @db.Text
-  isInternal  Boolean  @default(false) // Admin-only notes, hidden from client
-  isRead      Boolean  @default(false) // Has admin seen client comment?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  project   Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  milestone Milestone? @relation(fields: [milestoneId], references: [id], onDelete: SetNull)
-  file      FileAsset? @relation(fields: [fileId], references: [id], onDelete: SetNull)
-  author    User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
-
-  @@index([projectId])
-  @@index([milestoneId])
-  @@index([authorId])
-  @@map("comments")
+enum ProjectStatus {
+  DRAFT
+  PENDING_APPROVAL
+  IN_PROGRESS
+  ON_HOLD
+  COMPLETED
+  CANCELLED
 }
 
-// ===================================
-// ACTIVITY LOG (AUDIT TRAIL)
-// ===================================
+enum Role {
+  INTERNAL_ADMIN
+  CLIENT
+}
 
-model ActivityLog {
-  id          String   @id @default(cuid())
-  userId      String?
-  action      String
-  entityType  String
-  entityId    String?
-  details     Json?
-  ipAddress   String?
-  userAgent   String?
-  createdAt   DateTime @default(now())
-
-  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
-
-  @@index([entityType, entityId])
-  @@index([userId])
-  @@index([createdAt])
-  @@map("activity_logs")
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  BLOCKED
 }

@@ -32,13 +32,13 @@ export async function createTask(
 
   try {
     // Get max sort order
-    const lastTask = await prisma.task.findFirst({
+    const lastTask = await prisma.tasks.findFirst({
       where: { projectId },
       orderBy: { sortOrder: 'desc' },
       select: { sortOrder: true },
     })
 
-    await prisma.task.create({
+    await prisma.tasks.create({
       data: {
         projectId,
         title,
@@ -80,7 +80,7 @@ export async function updateTask(
   }
 
   try {
-    const task = await prisma.task.findUnique({
+    const task = await prisma.tasks.findUnique({
       where: { id: taskId },
       select: { projectId: true, status: true },
     })
@@ -95,7 +95,7 @@ export async function updateTask(
       completedAt = new Date()
     }
 
-    await prisma.task.update({
+    await prisma.tasks.update({
       where: { id: taskId },
       data: {
         title,
@@ -134,7 +134,7 @@ export async function updateTaskStatus(
   }
 
   try {
-    const task = await prisma.task.findUnique({
+    const task = await prisma.tasks.findUnique({
       where: { id: taskId },
       select: { projectId: true, status: true },
     })
@@ -149,7 +149,7 @@ export async function updateTaskStatus(
       completedAt = new Date()
     }
 
-    await prisma.task.update({
+    await prisma.tasks.update({
       where: { id: taskId },
       data: {
         status: status as TaskStatus,
@@ -169,8 +169,8 @@ export async function updateTaskStatus(
 
 export async function deleteTask(
   taskId: string,
-  prevState: TaskActionState,
-  formData: FormData
+  _prevState: TaskActionState,
+  _formData: FormData
 ): Promise<TaskActionState> {
   const session = await auth()
   if (!session?.user || session.user.role !== 'INTERNAL_ADMIN') {
@@ -178,7 +178,7 @@ export async function deleteTask(
   }
 
   try {
-    const task = await prisma.task.findUnique({
+    const task = await prisma.tasks.findUnique({
       where: { id: taskId },
       select: { projectId: true },
     })
@@ -187,7 +187,7 @@ export async function deleteTask(
       return { error: 'Task not found' }
     }
 
-    await prisma.task.delete({
+    await prisma.tasks.delete({
       where: { id: taskId },
     })
 

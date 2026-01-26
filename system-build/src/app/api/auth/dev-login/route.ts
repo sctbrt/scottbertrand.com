@@ -15,7 +15,7 @@ export async function GET() {
 
   try {
     // Find admin user
-    const user = await prisma.user.findUnique({
+    const user = await prisma.users.findUnique({
       where: { email: adminEmail },
     })
 
@@ -24,7 +24,7 @@ export async function GET() {
     }
 
     // Create a session directly
-    const session = await prisma.session.create({
+    const session = await prisma.sessions.create({
       data: {
         userId: user.id,
         expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
@@ -43,7 +43,7 @@ export async function GET() {
     })
 
     // Log activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         userId: user.id,
         action: 'SIGN_IN',

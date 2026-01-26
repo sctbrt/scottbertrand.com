@@ -54,7 +54,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     }
 
     // Get file from database
-    const file = await prisma.fileAsset.findUnique({
+    const file = await prisma.file_assets.findUnique({
       where: { id: fileId },
     })
 

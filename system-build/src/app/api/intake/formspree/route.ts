@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
     if (isTestWebhook) {
       console.log('[Intake] Received Formspree test webhook')
       // For test webhooks, create a test lead to verify integration
-      const testLead = await prisma.lead.create({
+      const testLead = await prisma.leads.create({
         data: {
           email: 'formspree-test@bertrandbrands.com',
           name: 'Formspree Test',
@@ -149,7 +149,7 @@ export async function POST(request: NextRequest) {
     // Validate service against ServiceTemplate if provided
     let validatedService: string | null = null
     if (service) {
-      const serviceTemplate = await prisma.serviceTemplate.findUnique({
+      const serviceTemplate = await prisma.service_templates.findUnique({
         where: { slug: service },
         select: { slug: true },
       })
@@ -160,7 +160,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create lead record
-    const lead = await prisma.lead.create({
+    const lead = await prisma.leads.create({
       data: {
         email,
         name: name || null,
@@ -177,7 +177,7 @@ export async function POST(request: NextRequest) {
     })
 
     // Log the activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         action: 'LEAD_CREATED',
         entityType: 'Lead',

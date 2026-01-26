@@ -13,21 +13,21 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
   const { id } = await params
 
   const [lead, templates] = await Promise.all([
-    prisma.lead.findUnique({
+    prisma.leads.findUnique({
       where: { id },
       include: {
-        serviceTemplate: true,
-        client: {
+        service_templates: true,
+        clients: {
           include: {
-            user: { select: { email: true } },
+            users: { select: { email: true } },
           },
         },
-        createdBy: {
+        users: {
           select: { name: true, email: true },
         },
       },
     }),
-    prisma.serviceTemplate.findMany({
+    prisma.service_templates.findMany({
       where: { isActive: true },
       orderBy: { sortOrder: 'asc' },
     }),
@@ -37,7 +37,7 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
     notFound()
   }
 
-  const formData = (lead.formData as Record<string, any>) || {}
+  const formData = (lead.formData as Record<string, unknown>) || {}
 
   return (
     <div className="space-y-8">
@@ -133,23 +133,23 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
           </div>
 
           {/* Service Interest */}
-          {(lead.service || lead.serviceTemplate) && (
+          {(lead.service || lead.service_templates) && (
             <div className="bg-white dark:bg-[#2c2c2e] rounded-lg border border-gray-200 dark:border-gray-700 p-6">
               <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
                 Service Interest
               </h2>
-              {lead.serviceTemplate ? (
+              {lead.service_templates ? (
                 <Link
-                  href={`/dashboard/templates/${lead.serviceTemplate.id}`}
+                  href={`/dashboard/templates/${lead.service_templates.id}`}
                   className="block p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                 >
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-medium text-gray-900 dark:text-gray-100">
-                        {lead.serviceTemplate.name}
+                        {lead.service_templates.name}
                       </p>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {formatCurrency(Number(lead.serviceTemplate.price))}
+                        {formatCurrency(Number(lead.service_templates.price))}
                       </p>
                     </div>
                     <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -190,21 +190,21 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
           )}
 
           {/* Converted Client */}
-          {lead.client && (
+          {lead.clients && (
             <div className="bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800 p-6">
               <h2 className="text-sm font-medium text-green-700 dark:text-green-300 uppercase tracking-wider mb-4">
                 Converted to Client
               </h2>
               <Link
-                href={`/dashboard/clients/${lead.client.id}`}
+                href={`/dashboard/clients/${lead.clients.id}`}
                 className="flex items-center justify-between p-4 bg-white dark:bg-green-900/30 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/40 transition-colors"
               >
                 <div>
                   <p className="font-medium text-gray-900 dark:text-gray-100">
-                    {lead.client.companyName || lead.client.contactName}
+                    {lead.clients.companyName || lead.clients.contactName}
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {lead.client.user.email}
+                    {lead.clients.users.email}
                   </p>
                 </div>
                 <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -247,11 +247,11 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
                   {lead.source || 'Unknown'}
                 </span>
               </div>
-              {lead.createdBy && (
+              {lead.users && (
                 <div className="flex justify-between">
                   <span className="text-gray-500 dark:text-gray-400">Created By</span>
                   <span className="text-gray-900 dark:text-gray-100">
-                    {lead.createdBy.name || lead.createdBy.email}
+                    {lead.users.name || lead.users.email}
                   </span>
                 </div>
               )}
@@ -259,7 +259,7 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
           </div>
 
           {/* Convert to Client (if not already converted) */}
-          {lead.status !== 'CONVERTED' && !lead.client && (
+          {lead.status !== 'CONVERTED' && !lead.clients && (
             <div className="bg-white dark:bg-[#2c2c2e] rounded-lg border border-gray-200 dark:border-gray-700 p-6">
               <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
                 Convert to Client

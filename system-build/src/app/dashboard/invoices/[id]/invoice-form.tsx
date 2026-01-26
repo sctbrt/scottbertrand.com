@@ -1,8 +1,9 @@
 'use client'
 
 // Invoice Form Component for Create/Edit
-import { useActionState, useState, useEffect } from 'react'
+import { useActionState, useState } from 'react'
 import { createInvoice, updateInvoice } from '@/lib/actions/invoices'
+import type { Decimal } from '@prisma/client/runtime/library'
 
 interface LineItem {
   description: string
@@ -11,6 +12,9 @@ interface LineItem {
   rate: number
 }
 
+// Type for Prisma Decimal fields (can be Decimal, string, or number at runtime)
+type DecimalLike = Decimal | string | number
+
 interface InvoiceFormProps {
   invoice?: {
     id: string
@@ -18,11 +22,11 @@ interface InvoiceFormProps {
     clientId: string
     projectId: string | null
     status: string
-    subtotal: any
-    tax: any
-    total: any
+    subtotal: DecimalLike
+    tax: DecimalLike
+    total: DecimalLike
     dueDate: Date | null
-    lineItems: any
+    lineItems: unknown // Prisma JsonValue - cast internally
     notes: string | null
   }
   invoiceNumber: string
@@ -42,15 +46,15 @@ interface InvoiceFormProps {
   preselectedProject?: {
     id: string
     name: string
-    serviceTemplate: {
+    service_templates: {
       name: string
-      price: any
+      price: DecimalLike
     } | null
-    serviceInstances: {
-      customPrice: any | null
-      serviceTemplate: {
+    project_service_instances: {
+      customPrice: DecimalLike | null
+      service_templates: {
         name: string
-        price: any
+        price: DecimalLike
       }
     }[]
   } | null
@@ -71,7 +75,7 @@ export function InvoiceForm({
   const [clientId, setClientId] = useState(invoice?.clientId || preselectedClientId || '')
   const [projectId, setProjectId] = useState(invoice?.projectId || preselectedProjectId || '')
   const [lineItems, setLineItems] = useState<LineItem[]>(
-    invoice?.lineItems ||
+    (invoice?.lineItems as LineItem[] | null) ||
       (preselectedProject
         ? generateLineItemsFromProject(preselectedProject)
         : [{ description: '', quantity: 1, rate: 0 }])
@@ -97,7 +101,7 @@ export function InvoiceForm({
   }
 
   // Update line item
-  const updateLineItem = (index: number, field: keyof LineItem, value: any) => {
+  const updateLineItem = (index: number, field: keyof LineItem, value: string | number) => {
     const updated = [...lineItems]
     updated[index] = { ...updated[index], [field]: value }
     setLineItems(updated)
@@ -324,25 +328,25 @@ export function InvoiceForm({
   )
 }
 
-function generateLineItemsFromProject(project: any): LineItem[] {
+function generateLineItemsFromProject(project: NonNullable<InvoiceFormProps['preselectedProject']>): LineItem[] {
   const items: LineItem[] = []
 
   // Add service template as line item
-  if (project.serviceTemplate) {
+  if (project.service_templates) {
     items.push({
-      description: project.serviceTemplate.name,
+      description: project.service_templates.name,
       quantity: 1,
-      rate: Number(project.serviceTemplate.price) || 0,
+      rate: Number(project.service_templates.price) || 0,
     })
   }
 
   // Add service instances
-  if (project.serviceInstances) {
-    for (const instance of project.serviceInstances) {
+  if (project.project_service_instances) {
+    for (const instance of project.project_service_instances) {
       items.push({
-        description: instance.serviceTemplate.name,
+        description: instance.service_templates.name,
         quantity: 1,
-        rate: Number(instance.customPrice || instance.serviceTemplate.price) || 0,
+        rate: Number(instance.customPrice || instance.service_templates.price) || 0,
       })
     }
   }

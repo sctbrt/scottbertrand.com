@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-  const user = await prisma.user.update({
+  const user = await prisma.users.update({
     where: { email: 'scott@scottbertrand.com' },
     data: { email: 'hello@bertrandbrands.com' }
   })

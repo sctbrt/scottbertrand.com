@@ -15,7 +15,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const { id } = await params
 
   // Get client and verify ownership
-  const client = await prisma.client.findUnique({
+  const client = await prisma.clients.findUnique({
     where: { userId: session.user.id },
     select: { id: true },
   })
@@ -25,14 +25,14 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   }
 
   // Fetch project with all related data
-  const project = await prisma.project.findFirst({
+  const project = await prisma.projects.findFirst({
     where: {
       id,
       // Only show client's own projects (unless admin)
       ...(session.user.role === 'CLIENT' ? { clientId: client?.id } : {}),
     },
     include: {
-      serviceTemplate: true,
+      service_templates: true,
       milestones: {
         orderBy: { sortOrder: 'asc' },
       },
@@ -40,7 +40,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         where: { isClientVisible: true },
         orderBy: { sortOrder: 'asc' },
       },
-      files: {
+      file_assets: {
         where: { accessLevel: { in: ['PUBLIC', 'CLIENT_VISIBLE'] } },
         orderBy: { createdAt: 'desc' },
       },
@@ -67,9 +67,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
             {project.name}
           </h1>
-          {project.serviceTemplate && (
+          {project.service_templates && (
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-              {project.serviceTemplate.name}
+              {project.service_templates.name}
             </p>
           )}
         </div>
@@ -215,13 +215,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       )}
 
       {/* Shared Files */}
-      {project.files.length > 0 && (
+      {project.file_assets.length > 0 && (
         <div className="bg-white dark:bg-[#2c2c2e] rounded-lg border border-gray-200 dark:border-gray-700 p-6">
           <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
             Shared Files
           </h2>
           <div className="space-y-3">
-            {project.files.map((file) => (
+            {project.file_assets.map((file) => (
               <a
                 key={file.id}
                 href={`/api/files/${file.id}/download`}

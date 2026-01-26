@@ -8,7 +8,7 @@ export default async function PortalPage() {
   if (!session?.user) return null
 
   // Get client's projects
-  const client = await prisma.client.findUnique({
+  const client = await prisma.clients.findUnique({
     where: { userId: session.user.id },
     include: {
       projects: {
@@ -18,7 +18,7 @@ export default async function PortalPage() {
             orderBy: { sortOrder: 'asc' },
             take: 3,
           },
-          serviceTemplate: {
+          service_templates: {
             select: { name: true },
           },
         },
@@ -66,9 +66,9 @@ export default async function PortalPage() {
                   <h2 className="text-lg font-medium text-[var(--text)] mb-1">
                     {project.name}
                   </h2>
-                  {project.serviceTemplate && (
+                  {project.service_templates && (
                     <p className="text-sm text-[var(--text-muted)] mb-3">
-                      {project.serviceTemplate.name}
+                      {project.service_templates.name}
                     </p>
                   )}
                 </div>

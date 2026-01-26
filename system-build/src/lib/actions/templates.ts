@@ -44,7 +44,7 @@ export async function createTemplate(
 
   try {
     // Check if slug is unique
-    const existingTemplate = await prisma.serviceTemplate.findUnique({
+    const existingTemplate = await prisma.service_templates.findUnique({
       where: { slug },
     })
 
@@ -68,12 +68,12 @@ export async function createTemplate(
     }
 
     // Get max sort order
-    const lastTemplate = await prisma.serviceTemplate.findFirst({
+    const lastTemplate = await prisma.service_templates.findFirst({
       orderBy: { sortOrder: 'desc' },
       select: { sortOrder: true },
     })
 
-    const template = await prisma.serviceTemplate.create({
+    const template = await prisma.service_templates.create({
       data: {
         name,
         slug,
@@ -89,7 +89,7 @@ export async function createTemplate(
     })
 
     // Log activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         userId: session.user.id,
         action: 'CREATE',
@@ -140,7 +140,7 @@ export async function updateTemplate(
   }
 
   try {
-    const template = await prisma.serviceTemplate.findUnique({
+    const template = await prisma.service_templates.findUnique({
       where: { id: templateId },
     })
 
@@ -150,7 +150,7 @@ export async function updateTemplate(
 
     // Check if slug is unique (excluding current template)
     if (slug !== template.slug) {
-      const existingTemplate = await prisma.serviceTemplate.findUnique({
+      const existingTemplate = await prisma.service_templates.findUnique({
         where: { slug },
       })
 
@@ -174,7 +174,7 @@ export async function updateTemplate(
       return { error: 'Invalid data format' }
     }
 
-    await prisma.serviceTemplate.update({
+    await prisma.service_templates.update({
       where: { id: templateId },
       data: {
         name,
@@ -190,7 +190,7 @@ export async function updateTemplate(
     })
 
     // Log activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         userId: session.user.id,
         action: 'UPDATE',
@@ -217,7 +217,7 @@ export async function deleteTemplate(templateId: string): Promise<TemplateAction
   }
 
   try {
-    const template = await prisma.serviceTemplate.findUnique({
+    const template = await prisma.service_templates.findUnique({
       where: { id: templateId },
       include: {
         _count: { select: { projects: true, leads: true } },
@@ -233,12 +233,12 @@ export async function deleteTemplate(templateId: string): Promise<TemplateAction
       return { error: 'Cannot delete template with existing projects or leads. Deactivate instead.' }
     }
 
-    await prisma.serviceTemplate.delete({
+    await prisma.service_templates.delete({
       where: { id: templateId },
     })
 
     // Log activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         userId: session.user.id,
         action: 'DELETE',

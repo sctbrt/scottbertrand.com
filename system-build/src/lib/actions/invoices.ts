@@ -52,7 +52,7 @@ export async function createInvoice(
 
   try {
     // Verify client exists
-    const client = await prisma.client.findUnique({
+    const client = await prisma.clients.findUnique({
       where: { id: clientId },
     })
 
@@ -69,7 +69,7 @@ export async function createInvoice(
     }
 
     // Create invoice
-    const invoice = await prisma.invoice.create({
+    const invoice = await prisma.invoices.create({
       data: {
         invoiceNumber,
         clientId,
@@ -85,7 +85,7 @@ export async function createInvoice(
     })
 
     // Log activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         userId: session.user.id,
         action: 'CREATE',
@@ -131,7 +131,7 @@ export async function updateInvoice(
   }
 
   try {
-    const invoice = await prisma.invoice.findUnique({
+    const invoice = await prisma.invoices.findUnique({
       where: { id: invoiceId },
     })
 
@@ -152,7 +152,7 @@ export async function updateInvoice(
       return { error: 'Invalid line items format' }
     }
 
-    await prisma.invoice.update({
+    await prisma.invoices.update({
       where: { id: invoiceId },
       data: {
         clientId,
@@ -167,7 +167,7 @@ export async function updateInvoice(
     })
 
     // Log activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         userId: session.user.id,
         action: 'UPDATE',
@@ -204,7 +204,7 @@ export async function updateInvoiceStatus(
   }
 
   try {
-    const invoice = await prisma.invoice.findUnique({
+    const invoice = await prisma.invoices.findUnique({
       where: { id: invoiceId },
     })
 
@@ -215,7 +215,7 @@ export async function updateInvoiceStatus(
     // Set paidAt if marking as paid
     const paidAt = status === 'PAID' && invoice.status !== 'PAID' ? new Date() : invoice.paidAt
 
-    await prisma.invoice.update({
+    await prisma.invoices.update({
       where: { id: invoiceId },
       data: {
         status: status as InvoiceStatus,
@@ -224,7 +224,7 @@ export async function updateInvoiceStatus(
     })
 
     // Log activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         userId: session.user.id,
         action: 'UPDATE_STATUS',
@@ -247,8 +247,8 @@ export async function updateInvoiceStatus(
 
 export async function sendInvoice(
   invoiceId: string,
-  prevState: InvoiceActionState,
-  formData: FormData
+  _prevState: InvoiceActionState,
+  _formData: FormData
 ): Promise<InvoiceActionState> {
   const session = await auth()
   if (!session?.user || session.user.role !== 'INTERNAL_ADMIN') {
@@ -256,13 +256,13 @@ export async function sendInvoice(
   }
 
   try {
-    const invoice = await prisma.invoice.findUnique({
+    const invoice = await prisma.invoices.findUnique({
       where: { id: invoiceId },
       include: {
-        client: {
+        clients: {
           select: { contactEmail: true, contactName: true, companyName: true },
         },
-        project: {
+        projects: {
           select: { name: true },
         },
       },
@@ -272,24 +272,28 @@ export async function sendInvoice(
       return { error: 'Invoice not found' }
     }
 
-    const lineItems = (invoice.lineItems as any[]) || []
-    const clientName = invoice.client.companyName || invoice.client.contactName
+    interface InvoiceLineItem {
+      description: string
+      quantity: number
+      rate: number
+    }
+    const lineItems = (invoice.lineItems as InvoiceLineItem[] | null) || []
 
     // Send email via Resend
     const { error: emailError } = await resend.emails.send({
       from: 'Bertrand Brands <invoices@bertrandbrands.com>',
-      to: invoice.client.contactEmail,
+      to: invoice.clients.contactEmail,
       subject: `Invoice ${invoice.invoiceNumber} from Bertrand Brands`,
       html: `
         <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #1a1a1a; font-size: 24px; margin-bottom: 24px;">Invoice ${escapeHtml(invoice.invoiceNumber)}</h1>
 
           <p style="color: #666; margin-bottom: 24px;">
-            Hi ${escapeHtml(invoice.client.contactName)},
+            Hi ${escapeHtml(invoice.clients.contactName)},
           </p>
 
           <p style="color: #666; margin-bottom: 24px;">
-            Please find your invoice details below${invoice.project ? ` for ${escapeHtml(invoice.project.name)}` : ''}.
+            Please find your invoice details below${invoice.projects ? ` for ${escapeHtml(invoice.projects.name)}` : ''}.
           </p>
 
           <div style="background: #f9f9f9; padding: 24px; border-radius: 8px; margin-bottom: 24px;">
@@ -301,7 +305,7 @@ export async function sendInvoice(
                 </tr>
               </thead>
               <tbody>
-                ${lineItems.map((item: any) => `
+                ${lineItems.map((item: InvoiceLineItem) => `
                   <tr style="border-bottom: 1px solid #e5e5e5;">
                     <td style="padding: 12px 0; color: #1a1a1a;">${escapeHtml(String(item.description || ''))}</td>
                     <td style="padding: 12px 0; color: #1a1a1a; text-align: right;">$${(Number(item.quantity) * Number(item.rate)).toFixed(2)}</td>
@@ -350,19 +354,19 @@ export async function sendInvoice(
     }
 
     // Update invoice status to SENT
-    await prisma.invoice.update({
+    await prisma.invoices.update({
       where: { id: invoiceId },
       data: { status: 'SENT' },
     })
 
     // Log activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         userId: session.user.id,
         action: 'SEND',
         entityType: 'Invoice',
         entityId: invoiceId,
-        details: { sentTo: invoice.client.contactEmail },
+        details: { sentTo: invoice.clients.contactEmail },
       },
     })
 
@@ -378,8 +382,8 @@ export async function sendInvoice(
 
 export async function deleteInvoice(
   invoiceId: string,
-  prevState: InvoiceActionState,
-  formData: FormData
+  _prevState: InvoiceActionState,
+  _formData: FormData
 ): Promise<InvoiceActionState> {
   const session = await auth()
   if (!session?.user || session.user.role !== 'INTERNAL_ADMIN') {
@@ -387,7 +391,7 @@ export async function deleteInvoice(
   }
 
   try {
-    const invoice = await prisma.invoice.findUnique({
+    const invoice = await prisma.invoices.findUnique({
       where: { id: invoiceId },
     })
 
@@ -400,12 +404,12 @@ export async function deleteInvoice(
       return { error: 'Only draft or cancelled invoices can be deleted' }
     }
 
-    await prisma.invoice.delete({
+    await prisma.invoices.delete({
       where: { id: invoiceId },
     })
 
     // Log activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         userId: session.user.id,
         action: 'DELETE',

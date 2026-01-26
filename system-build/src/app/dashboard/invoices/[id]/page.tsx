@@ -16,11 +16,11 @@ export default async function InvoiceDetailPage({ params, searchParams }: Invoic
 
   // Fetch clients and projects for the form
   const [clients, projects] = await Promise.all([
-    prisma.client.findMany({
+    prisma.clients.findMany({
       select: { id: true, companyName: true, contactName: true, contactEmail: true },
       orderBy: { companyName: 'asc' },
     }),
-    prisma.project.findMany({
+    prisma.projects.findMany({
       select: { id: true, name: true, clientId: true },
       orderBy: { name: 'asc' },
     }),
@@ -29,27 +29,27 @@ export default async function InvoiceDetailPage({ params, searchParams }: Invoic
   // Handle "new" as a special case
   if (id === 'new') {
     // Generate next invoice number
-    const lastInvoice = await prisma.invoice.findFirst({
+    const lastInvoice = await prisma.invoices.findFirst({
       orderBy: { invoiceNumber: 'desc' },
       select: { invoiceNumber: true },
     })
 
     const nextNumber = generateNextInvoiceNumber(lastInvoice?.invoiceNumber)
 
-    // If clientId provided, pre-select the client
-    const preselectedClient = queryParams.clientId
+    // If clientId provided, pre-select the client (used for form defaults)
+    const _preselectedClient = queryParams.clientId
       ? clients.find((c) => c.id === queryParams.clientId)
       : null
 
     // If projectId provided, get project details for line items
     let preselectedProject = null
     if (queryParams.projectId) {
-      preselectedProject = await prisma.project.findUnique({
+      preselectedProject = await prisma.projects.findUnique({
         where: { id: queryParams.projectId },
         include: {
-          serviceTemplate: true,
-          serviceInstances: {
-            include: { serviceTemplate: true },
+          service_templates: true,
+          project_service_instances: {
+            include: { service_templates: true },
           },
         },
       })
@@ -86,16 +86,16 @@ export default async function InvoiceDetailPage({ params, searchParams }: Invoic
   }
 
   // Fetch existing invoice
-  const invoice = await prisma.invoice.findUnique({
+  const invoice = await prisma.invoices.findUnique({
     where: { id },
     include: {
-      client: {
+      clients: {
         select: { id: true, companyName: true, contactName: true, contactEmail: true },
       },
-      project: {
+      projects: {
         select: { id: true, name: true },
       },
-      pdfFile: true,
+      file_assets: true,
     },
   })
 
@@ -103,7 +103,13 @@ export default async function InvoiceDetailPage({ params, searchParams }: Invoic
     notFound()
   }
 
-  const lineItems = (invoice.lineItems as any[]) || []
+  interface InvoiceLineItem {
+    description: string
+    details?: string
+    quantity: number
+    rate: number
+  }
+  const lineItems = (invoice.lineItems as InvoiceLineItem[] | null) || []
 
   return (
     <div className="space-y-8">
@@ -127,19 +133,19 @@ export default async function InvoiceDetailPage({ params, searchParams }: Invoic
             </div>
             <p className="text-gray-500 dark:text-gray-400 mt-1">
               <Link
-                href={`/dashboard/clients/${invoice.client.id}`}
+                href={`/dashboard/clients/${invoice.clients.id}`}
                 className="hover:underline"
               >
-                {invoice.client.companyName || invoice.client.contactName}
+                {invoice.clients.companyName || invoice.clients.contactName}
               </Link>
-              {invoice.project && (
+              {invoice.projects && (
                 <>
                   {' · '}
                   <Link
-                    href={`/dashboard/projects/${invoice.project.id}`}
+                    href={`/dashboard/projects/${invoice.projects.id}`}
                     className="hover:underline"
                   >
-                    {invoice.project.name}
+                    {invoice.projects.name}
                   </Link>
                 </>
               )}
@@ -181,15 +187,15 @@ export default async function InvoiceDetailPage({ params, searchParams }: Invoic
                   Bill To
                 </p>
                 <p className="font-medium text-gray-900 dark:text-gray-100">
-                  {invoice.client.companyName || invoice.client.contactName}
+                  {invoice.clients.companyName || invoice.clients.contactName}
                 </p>
-                {invoice.client.companyName && (
+                {invoice.clients.companyName && (
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {invoice.client.contactName}
+                    {invoice.clients.contactName}
                   </p>
                 )}
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {invoice.client.contactEmail}
+                  {invoice.clients.contactEmail}
                 </p>
               </div>
               <div className="text-right">
@@ -226,7 +232,7 @@ export default async function InvoiceDetailPage({ params, searchParams }: Invoic
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
-                  {lineItems.map((item: any, index: number) => (
+                  {lineItems.map((item: InvoiceLineItem, index: number) => (
                     <tr key={index}>
                       <td className="py-3">
                         <p className="text-gray-900 dark:text-gray-100">{item.description}</p>
@@ -344,13 +350,13 @@ export default async function InvoiceDetailPage({ params, searchParams }: Invoic
           )}
 
           {/* PDF Download */}
-          {invoice.pdfFile && (
+          {invoice.file_assets && (
             <div className="bg-white dark:bg-[#2c2c2e] rounded-lg border border-gray-200 dark:border-gray-700 p-6">
               <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
                 PDF Version
               </h2>
               <a
-                href={`/api/files/${invoice.pdfFile.id}/download`}
+                href={`/api/files/${invoice.file_assets.id}/download`}
                 className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               >
                 <div className="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded flex items-center justify-center">
@@ -363,7 +369,7 @@ export default async function InvoiceDetailPage({ params, searchParams }: Invoic
                     Download PDF
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400">
-                    {invoice.pdfFile.originalName}
+                    {invoice.file_assets.originalName}
                   </p>
                 </div>
               </a>

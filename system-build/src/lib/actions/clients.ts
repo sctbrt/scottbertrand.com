@@ -39,13 +39,13 @@ export async function createClient(
 
   try {
     // Check if user with this email already exists
-    const existingUser = await prisma.user.findUnique({
+    const existingUser = await prisma.users.findUnique({
       where: { email: contactEmail.toLowerCase() },
     })
 
     if (existingUser) {
       // Check if they already have a client profile
-      const existingClient = await prisma.client.findUnique({
+      const existingClient = await prisma.clients.findUnique({
         where: { userId: existingUser.id },
       })
 
@@ -54,7 +54,7 @@ export async function createClient(
       }
 
       // Create client profile for existing user
-      const client = await prisma.client.create({
+      const client = await prisma.clients.create({
         data: {
           userId: existingUser.id,
           contactName,
@@ -68,7 +68,7 @@ export async function createClient(
 
       // Update user role to CLIENT if not admin
       if (existingUser.role !== 'INTERNAL_ADMIN') {
-        await prisma.user.update({
+        await prisma.users.update({
           where: { id: existingUser.id },
           data: { role: 'CLIENT' },
         })
@@ -79,7 +79,7 @@ export async function createClient(
     }
 
     // Create new user and client
-    const user = await prisma.user.create({
+    const user = await prisma.users.create({
       data: {
         email: contactEmail.toLowerCase(),
         name: contactName,
@@ -87,7 +87,7 @@ export async function createClient(
       },
     })
 
-    const client = await prisma.client.create({
+    const client = await prisma.clients.create({
       data: {
         userId: user.id,
         contactName,
@@ -100,7 +100,7 @@ export async function createClient(
     })
 
     // Log activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         userId: session.user.id,
         action: 'CREATE',
@@ -113,7 +113,7 @@ export async function createClient(
     revalidatePath('/dashboard/clients')
     redirect(`/dashboard/clients/${client.id}`)
   } catch (error) {
-    console.error('Error creating client:', error)
+    console.error('Error creating clients:', error)
     return { error: 'Failed to create client' }
   }
 }
@@ -140,9 +140,9 @@ export async function updateClient(
   }
 
   try {
-    const client = await prisma.client.findUnique({
+    const client = await prisma.clients.findUnique({
       where: { id: clientId },
-      include: { user: true },
+      include: { users: true },
     })
 
     if (!client) {
@@ -151,7 +151,7 @@ export async function updateClient(
 
     // Check if email is being changed and if new email is already in use
     if (contactEmail.toLowerCase() !== client.contactEmail.toLowerCase()) {
-      const existingUser = await prisma.user.findUnique({
+      const existingUser = await prisma.users.findUnique({
         where: { email: contactEmail.toLowerCase() },
       })
 
@@ -160,14 +160,14 @@ export async function updateClient(
       }
 
       // Update user email
-      await prisma.user.update({
+      await prisma.users.update({
         where: { id: client.userId },
         data: { email: contactEmail.toLowerCase() },
       })
     }
 
     // Update client
-    await prisma.client.update({
+    await prisma.clients.update({
       where: { id: clientId },
       data: {
         contactName,
@@ -180,13 +180,13 @@ export async function updateClient(
     })
 
     // Update user name
-    await prisma.user.update({
+    await prisma.users.update({
       where: { id: client.userId },
       data: { name: contactName },
     })
 
     // Log activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         userId: session.user.id,
         action: 'UPDATE',
@@ -201,7 +201,7 @@ export async function updateClient(
 
     return { success: true }
   } catch (error) {
-    console.error('Error updating client:', error)
+    console.error('Error updating clients:', error)
     return { error: 'Failed to update client' }
   }
 }
@@ -213,7 +213,7 @@ export async function deleteClient(clientId: string): Promise<ClientActionState>
   }
 
   try {
-    const client = await prisma.client.findUnique({
+    const client = await prisma.clients.findUnique({
       where: { id: clientId },
       include: {
         _count: { select: { projects: true, invoices: true } },
@@ -230,17 +230,17 @@ export async function deleteClient(clientId: string): Promise<ClientActionState>
     }
 
     // Delete client (cascades to user due to relation)
-    await prisma.client.delete({
+    await prisma.clients.delete({
       where: { id: clientId },
     })
 
     // Delete user
-    await prisma.user.delete({
+    await prisma.users.delete({
       where: { id: client.userId },
     })
 
     // Log activity
-    await prisma.activityLog.create({
+    await prisma.activity_logs.create({
       data: {
         userId: session.user.id,
         action: 'DELETE',
@@ -252,7 +252,7 @@ export async function deleteClient(clientId: string): Promise<ClientActionState>
     revalidatePath('/dashboard/clients')
     redirect('/dashboard/clients')
   } catch (error) {
-    console.error('Error deleting client:', error)
+    console.error('Error deleting clients:', error)
     return { error: 'Failed to delete client' }
   }
 }

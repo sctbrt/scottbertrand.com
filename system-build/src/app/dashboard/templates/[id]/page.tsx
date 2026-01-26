@@ -36,14 +36,14 @@ export default async function TemplateDetailPage({ params }: TemplateDetailPageP
     )
   }
 
-  const template = await prisma.serviceTemplate.findUnique({
+  const template = await prisma.service_templates.findUnique({
     where: { id },
     include: {
       projects: {
         take: 5,
         orderBy: { createdAt: 'desc' },
         include: {
-          client: {
+          clients: {
             select: { companyName: true, contactName: true },
           },
         },
@@ -199,7 +199,7 @@ export default async function TemplateDetailPage({ params }: TemplateDetailPageP
                       {project.name}
                     </p>
                     <p className="text-xs text-gray-500 dark:text-gray-400">
-                      {project.client.companyName || project.client.contactName}
+                      {project.clients.companyName || project.clients.contactName}
                     </p>
                   </Link>
                 ))}

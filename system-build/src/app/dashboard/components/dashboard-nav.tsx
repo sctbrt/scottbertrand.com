@@ -1,6 +1,6 @@
 'use client'
 
-// Dashboard Navigation Component
+// Dashboard Navigation Component - V3 Glass Aesthetic
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -41,7 +41,7 @@ export function DashboardNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="w-64 bg-white dark:bg-[#2c2c2e] border-r border-gray-200 dark:border-gray-700 min-h-[calc(100vh-64px)] hidden lg:block">
+    <nav className="glass glass--nav w-64 min-h-[calc(100vh-64px)] hidden lg:block">
       <div className="p-4">
         <ul className="space-y-1">
           {navItems.map((item) => {
@@ -54,8 +54,8 @@ export function DashboardNav() {
                   href={item.href}
                   className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     isActive
-                      ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
-                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 hover:text-gray-900 dark:hover:text-gray-100'
+                      ? 'bg-[var(--accent-muted)] text-[var(--accent)]'
+                      : 'text-[var(--text-muted)] hover:bg-[var(--accent-subtle)] hover:text-[var(--text)]'
                   }`}
                 >
                   <item.icon className="w-5 h-5" />

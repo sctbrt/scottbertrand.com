@@ -1,26 +1,81 @@
 @import "tailwindcss";
+@import "./tokens.css";
+@import "./glass.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* Map V3 tokens to Tailwind theme */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-muted: var(--text-muted);
+  --color-border: var(--border);
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Base body styles */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* System-specific glass variants for dashboard/portal */
+.glass--nav {
+  border-radius: 0;
+  border: none;
+  border-right: 1px solid var(--border);
+}
+
+.glass--header {
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid var(--border);
+}
+
+.glass--card {
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
+.glass--stat {
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+}
+
+/* Status badge refinements using V3 accent system */
+.status-badge {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+/* Form input refinements */
+input, select, textarea {
+  transition: border-color var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-muted);
+}
+
+/* Link hover effects */
+a {
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+/* Button transitions */
+button {
+  transition: background-color var(--duration-fast) var(--ease-out),
+              border-color var(--duration-fast) var(--ease-out),
+              color var(--duration-fast) var(--ease-out);
 }

@@ -1,0 +1,341 @@
+/* ============================================================
+   Glass Material System — scottbertrand.com
+   v1.6.0
+   ------------------------------------------------------------
+   Architectural, edge-led glass with balanced light/dark parity.
+   Premium material feel without gimmicks.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. Root Variables — Light Mode (Default)
+   ------------------------------------------------------------ */
+
+:root {
+  /* Global light direction (normalized -1 → 1) */
+  --glass-lx: 0.15;
+  --glass-ly: -0.15;
+
+  /* Core material — Light mode */
+  /* Nav-style blur: higher blur with saturate and brightness for true glass */
+  --glass-blur-core: 24px;
+  --glass-blur-edge: 24px;
+
+  /* Fill: Nav-style multi-layer gradient for visible but translucent glass */
+  --glass-bg:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(0, 0, 0, 0.01) 100%
+    ),
+    rgba(250, 250, 250, 0.3);
+  --glass-bg-solid: rgba(250, 250, 250, 0.35);
+  /* Firefox fallback - lighter opacity for better glass feel */
+  --glass-bg-fallback: rgba(255, 255, 255, 0.5);
+
+  /* Borders: outer + inner stroke for plane definition */
+  --glass-border-outer: rgba(0, 0, 0, 0.04);
+  --glass-border-inner: rgba(255, 255, 255, 0.8);
+
+  /* Specular highlight — top edge light catch */
+  --glass-specular: rgba(255, 255, 255, 0.8);
+  --glass-specular-width: 1px;
+
+  /* Edge lighting */
+  --glass-edge-highlight: rgba(255, 255, 255, 0.4);
+  --glass-edge-shadow: rgba(0, 0, 0, 0.05);
+
+  /* Shadow stack — Nav-style multi-layer shadows */
+  --glass-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.05);
+
+  /* Micro-grain opacity */
+  --glass-grain-opacity: 0.035;
+
+  /* Radii — Glass uses larger radii for softer architectural feel
+     Maps to token system: sm→lg, md→xl, lg→custom */
+  --glass-radius-sm: var(--radius-lg, 12px);   /* 12px - callouts, small panels */
+  --glass-radius-md: var(--radius-xl, 16px);   /* 16px - standard panels */
+  --glass-radius-lg: 20px;                      /* 20px - hero, large containers */
+
+  /* Motion */
+  --glass-transition-fast: 240ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  --glass-transition-slow: 420ms cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* ------------------------------------------------------------
+   2. Dark Mode Variables — Lighter, Airier
+   ------------------------------------------------------------ */
+
+[data-theme="dark"] {
+  /* Fill: Nav-style dark mode glass - visible but translucent */
+  --glass-bg:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.06) 0%,
+      rgba(255, 255, 255, 0.01) 50%,
+      rgba(0, 0, 0, 0.03) 100%
+    ),
+    rgba(10, 10, 10, 0.3);
+  --glass-bg-solid: rgba(20, 20, 20, 0.4);
+  /* Firefox fallback */
+  --glass-bg-fallback: rgba(30, 30, 30, 0.6);
+
+  /* Borders: subtle luminous edge */
+  --glass-border-outer: rgba(255, 255, 255, 0.08);
+  --glass-border-inner: rgba(255, 255, 255, 0.1);
+
+  /* Specular — top edge glow */
+  --glass-specular: rgba(255, 255, 255, 0.1);
+
+  /* Edge lighting */
+  --glass-edge-highlight: rgba(255, 255, 255, 0.1);
+  --glass-edge-shadow: rgba(0, 0, 0, 0.15);
+
+  /* Shadow stack — Nav-style dark mode shadows */
+  --glass-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+
+  /* Grain slightly more visible on dark */
+  --glass-grain-opacity: 0.04;
+}
+
+/* ------------------------------------------------------------
+   3. Base Glass Container
+   ------------------------------------------------------------ */
+
+.glass {
+  position: relative;
+  background: var(--glass-bg);
+  border-radius: var(--glass-radius-md);
+  border: 1px solid var(--glass-border-outer);
+  box-shadow: var(--glass-shadow);
+  overflow: hidden;
+
+  /* Backdrop blur - Nav-style with saturate and brightness */
+  backdrop-filter: blur(var(--glass-blur-core)) saturate(180%) brightness(1.05);
+  -webkit-backdrop-filter: blur(var(--glass-blur-core)) saturate(180%) brightness(1.05);
+
+  transition:
+    background var(--glass-transition-slow),
+    border-color var(--glass-transition-slow),
+    box-shadow var(--glass-transition-slow);
+}
+
+/* Fallback when backdrop-filter is unsupported (Firefox, older browsers) */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass {
+    background: var(--glass-bg-fallback);
+    /* Enhanced border to compensate for missing blur effect */
+    border: 1px solid var(--glass-border-outer);
+    /* Subtle shadow for depth without blur */
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  [data-theme="dark"] .glass {
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* ------------------------------------------------------------
+   4. Edge-Led Refraction System
+   ------------------------------------------------------------ */
+
+.glass::before,
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* ::before — Inner stroke + specular highlight + edge glow */
+.glass::before {
+  /* Inner stroke for plane definition */
+  border: 1px solid var(--glass-border-inner);
+  /* Specular top-edge + directional highlight */
+  box-shadow:
+    inset 0 var(--glass-specular-width) 0 var(--glass-specular),
+    inset calc(var(--glass-lx) * -3px)
+          calc(var(--glass-ly) * -3px)
+          12px
+          var(--glass-edge-highlight);
+}
+
+/* ::after — Micro-grain texture overlay */
+.glass::after {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 128px 128px;
+  opacity: var(--glass-grain-opacity);
+  mix-blend-mode: overlay;
+}
+
+/* Opposing shadow on a third pseudo would require extra markup,
+   so we fold it into the box-shadow stack on .glass itself */
+
+/* ------------------------------------------------------------
+   5. Glass Variants
+   ------------------------------------------------------------ */
+
+/* Wide section divider / band */
+.glass--band {
+  border-radius: var(--glass-radius-lg);
+  padding: 1.25rem 1.5rem;
+}
+
+/* Content container (case studies, offerings) */
+.glass--panel {
+  padding: 2.5rem 2rem 4rem 2rem;
+}
+
+/* Narrow editorial callout / system note */
+.glass--callout {
+  border-radius: var(--glass-radius-sm);
+  padding: 1rem 1.25rem;
+}
+
+/* Footer / closing container */
+.glass--footer {
+  border-radius: var(--glass-radius-lg);
+  padding: 2rem;
+}
+
+/* ------------------------------------------------------------
+   6. Hero Glass — Prominent but Balanced
+   ------------------------------------------------------------ */
+
+.glass--hero {
+  --glass-blur-core: 24px;
+  border-radius: var(--glass-radius-lg);
+  padding: 3rem 2.5rem;
+
+  /* Fill container - width controlled by parent .container */
+  width: 100%;
+}
+
+/* Hero-specific edge lighting — slightly stronger than base */
+.glass--hero::before {
+  box-shadow:
+    inset 0 var(--glass-specular-width) 0 var(--glass-specular),
+    inset calc(var(--glass-lx) * -4px)
+          calc(var(--glass-ly) * -4px)
+          16px
+          var(--glass-edge-highlight);
+}
+
+/* Light mode hero enhancements - Nav-style glass */
+:root .glass--hero {
+  --glass-bg:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.45) 0%,
+      rgba(255, 255, 255, 0.25) 50%,
+      rgba(0, 0, 0, 0.01) 100%
+    ),
+    rgba(250, 250, 250, 0.35);
+  --glass-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode hero — Nav-style dark glass */
+[data-theme="dark"] .glass--hero {
+  --glass-bg:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.02) 50%,
+      rgba(0, 0, 0, 0.03) 100%
+    ),
+    rgba(10, 10, 10, 0.35);
+  --glass-border-outer: rgba(255, 255, 255, 0.08);
+  --glass-specular: rgba(255, 255, 255, 0.12);
+  --glass-edge-highlight: rgba(255, 255, 255, 0.1);
+  --glass-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode hero specular — refined top-edge */
+[data-theme="dark"] .glass--hero::before {
+  box-shadow:
+    inset 0 1px 0 var(--glass-specular),
+    inset calc(var(--glass-lx) * -4px)
+          calc(var(--glass-ly) * -4px)
+          16px
+          var(--glass-edge-highlight);
+}
+
+/* ------------------------------------------------------------
+   7. Responsive Adjustments
+   ------------------------------------------------------------ */
+
+@media (max-width: 768px) {
+  .glass--hero {
+    padding: 2rem 1.5rem;
+    border-radius: var(--glass-radius-md);
+  }
+
+  .glass--panel {
+    padding: 1.5rem 1rem;
+  }
+
+  /* Reduce grain on mobile for cleaner look */
+  :root {
+    --glass-grain-opacity: 0.025;
+  }
+}
+
+@media (max-width: 480px) {
+  .glass--hero {
+    padding: 1.5rem 1rem;
+    border-radius: var(--glass-radius-sm);
+  }
+
+  /* Remove grain entirely on small screens */
+  .glass::after {
+    opacity: 0;
+  }
+}
+
+/* ------------------------------------------------------------
+   8. Reduced Motion Handling
+   ------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .glass {
+    transition: none;
+  }
+}
+
+/* ------------------------------------------------------------
+   9. Guardrails
+   ------------------------------------------------------------ */
+
+/* Never stack visual noise */
+.glass > .glass {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+
+.glass > .glass::before,
+.glass > .glass::after {
+  display: none;
+}

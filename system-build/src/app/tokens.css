@@ -1,0 +1,505 @@
+/* ============================================================
+   Design Tokens — scottbertrand.com
+   v1.0.0
+   ------------------------------------------------------------
+   Normalized, semantic token system for architectural design.
+   Single source of truth for colors, spacing, typography, and effects.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. Color Palette — Light Mode (Default)
+   ------------------------------------------------------------ */
+
+:root {
+  /* === Surface Colors === */
+  --bg: #F7F6F3;                    /* Primary background - warm off-white */
+  --surface: #FFFFFF;               /* Elevated surfaces - cards, dropdowns */
+  --surface-2: #EFEFEA;             /* Secondary surface - section alternates */
+
+  /* === Text Colors === */
+  --text: #111111;                  /* Primary text - near black */
+  --text-muted: #5c5c5c;            /* Secondary text - WCAG AA compliant */
+
+  /* === Border Colors === */
+  --border: rgba(0, 0, 0, 0.08);    /* Default border */
+  --border-subtle: rgba(0, 0, 0, 0.05);
+  --border-hover: rgba(0, 0, 0, 0.15);
+
+  /* === Accent Colors === */
+  --accent: #D97706;                /* Primary accent - Warm Amber */
+  --accent-hover: #B45309;          /* Accent hover - Deep Terracotta */
+  --accent-muted: rgba(217, 119, 6, 0.12);
+  --accent-subtle: rgba(217, 119, 6, 0.06);
+
+  /* === Feedback Colors === */
+  --success-bg: #f0fdf4;
+  --success-border: #86efac;
+  --success-text: #166534;
+  --error-bg: rgba(220, 38, 38, 0.08);
+  --error-border: rgba(220, 38, 38, 0.25);
+  --error-text: #dc2626;
+
+  /* === Glass System === */
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(0, 0, 0, 0.06);
+  --glass-border-inner: rgba(255, 253, 248, 0.5);
+  --glass-blur: 12px;               /* Capped at 14px max */
+  --glass-specular: rgba(255, 253, 248, 0.85);
+
+  /* === Focus Ring === */
+  --focus-ring: rgba(217, 119, 6, 0.5);
+  --focus-ring-offset: 2px;
+
+  /* === Shadows (Restrained) === */
+  --shadow-sm:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-md:
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 4px 12px rgba(0, 0, 0, 0.06);
+
+  /* === Border Radius === */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* === Spacing Scale === */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* === Layout === */
+  --container-max: 1120px;
+  --container-narrow: 680px;
+  --container-wide: 1200px;
+  --gutter: 24px;
+  --grid-gap: 24px;
+
+  /* === Typography Scale === */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'Source Serif 4', Georgia, serif;
+
+  /* Font sizes - using clamp for fluid typography */
+  --text-xs: clamp(0.6875rem, 0.65rem + 0.15vw, 0.75rem);     /* 11-12px */
+  --text-sm: clamp(0.8125rem, 0.75rem + 0.2vw, 0.875rem);     /* 13-14px */
+  --text-base: clamp(0.9375rem, 0.875rem + 0.2vw, 1rem);      /* 15-16px */
+  --text-lg: clamp(1.0625rem, 1rem + 0.25vw, 1.125rem);       /* 17-18px */
+  --text-xl: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);          /* 20-24px */
+  --text-2xl: clamp(1.5rem, 1.25rem + 0.8vw, 2rem);           /* 24-32px */
+  --text-3xl: clamp(1.75rem, 1.4rem + 1.2vw, 2.5rem);         /* 28-40px */
+
+  /* Line heights */
+  --leading-tight: 1.2;
+  --leading-snug: 1.35;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+  --leading-loose: 1.75;
+
+  /* Letter spacing */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
+  --tracking-caps: 0.08em;
+
+  /* Font weights */
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  /* === Opacity Scale === */
+  --opacity-full: 1;
+  --opacity-high: 0.85;     /* Secondary text, prominent muted elements */
+  --opacity-medium: 0.70;   /* Tertiary text, labels, captions */
+  --opacity-low: 0.55;      /* Subtle text, placeholders */
+  --opacity-muted: 0.40;    /* Disabled, very subtle */
+
+  /* === Motion === */
+  --duration-fast: 120ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ------------------------------------------------------------
+   2. Dark Mode Overrides
+   ------------------------------------------------------------ */
+
+[data-theme="dark"] {
+  /* === Surface Colors === */
+  --bg: #1C1C1E;
+  --surface: #2C2C2E;
+  --surface-2: #232325;
+
+  /* === Text Colors === */
+  --text: #F7F6F3;
+  --text-muted: #a0a0a0;
+
+  /* === Border Colors === */
+  --border: rgba(255, 255, 255, 0.08);
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-hover: rgba(255, 255, 255, 0.15);
+
+  /* === Accent Colors (slightly brighter for dark mode) === */
+  --accent: #F59E0B;
+  --accent-hover: #D97706;
+  --accent-muted: rgba(245, 158, 11, 0.15);
+  --accent-subtle: rgba(245, 158, 11, 0.08);
+
+  /* === Feedback Colors === */
+  --success-bg: #0d1f0d;
+  --success-border: #1e3a1e;
+  --success-text: #86efac;
+  --error-bg: rgba(239, 68, 68, 0.12);
+  --error-border: rgba(239, 68, 68, 0.25);
+  --error-text: #f87171;
+
+  /* === Glass System === */
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-inner: rgba(255, 255, 255, 0.04);
+  --glass-specular: rgba(255, 255, 255, 0.12);
+
+  /* === Focus Ring === */
+  --focus-ring: rgba(245, 158, 11, 0.5);
+
+  /* === Shadows === */
+  --shadow-sm:
+    0 1px 2px rgba(0, 0, 0, 0.15),
+    0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md:
+    0 2px 4px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ------------------------------------------------------------
+   3. Layout Utilities
+   ------------------------------------------------------------ */
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+.container--narrow {
+  max-width: var(--container-narrow);
+}
+
+.container--wide {
+  max-width: var(--container-wide);
+}
+
+/* 12-column grid utility */
+.grid {
+  display: grid;
+  gap: var(--grid-gap);
+}
+
+.grid--cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid--cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid--cols-4 { grid-template-columns: repeat(4, 1fr); }
+.grid--cols-6 { grid-template-columns: repeat(6, 1fr); }
+.grid--cols-12 { grid-template-columns: repeat(12, 1fr); }
+
+/* Responsive grid adjustments */
+@media (max-width: 900px) {
+  .grid--cols-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid--cols-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --gutter: 20px;
+    --grid-gap: 16px;
+  }
+
+  .grid--cols-2,
+  .grid--cols-3,
+  .grid--cols-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Section spacing scale */
+.section {
+  padding-top: var(--space-16);
+  padding-bottom: var(--space-16);
+}
+
+.section--sm {
+  padding-top: var(--space-12);
+  padding-bottom: var(--space-12);
+}
+
+.section--lg {
+  padding-top: var(--space-24);
+  padding-bottom: var(--space-24);
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-12);
+  }
+  .section--lg {
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-16);
+  }
+}
+
+/* ------------------------------------------------------------
+   4. Typography Utilities
+   ------------------------------------------------------------ */
+
+/* Prose container - max line length */
+.prose {
+  max-width: 65ch;
+}
+
+.prose p {
+  line-height: var(--leading-loose);
+  margin-bottom: var(--space-5);
+}
+
+.prose p:last-child {
+  margin-bottom: 0;
+}
+
+/* Heading styles */
+.h1 {
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text);
+}
+
+.h2 {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--text);
+}
+
+.h3 {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--text);
+}
+
+.body {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--text-muted);
+}
+
+.small {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--text-muted);
+}
+
+/* Heading margins */
+.h1, .h2, .h3 {
+  margin-top: 0;
+}
+
+.h1 { margin-bottom: var(--space-4); }
+.h2 { margin-bottom: var(--space-3); }
+.h3 { margin-bottom: var(--space-2); }
+
+/* Serif body text */
+.serif {
+  font-family: var(--font-serif);
+}
+
+/* Category/label text */
+.label {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+/* ------------------------------------------------------------
+   5. Accent Utilities (Conservative Application)
+   ------------------------------------------------------------ */
+
+/* Accent text - for section headers (H2) */
+.accent-text {
+  color: var(--accent);
+}
+
+/* Accent underline for links */
+.accent-link {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-muted);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--duration-fast) var(--ease-out);
+}
+
+.accent-link:hover {
+  text-decoration-color: var(--accent);
+}
+
+/* Accent marker rule (thin section divider) */
+.accent-rule {
+  width: 48px;
+  height: 2px;
+  background: var(--accent);
+  border: none;
+  margin: var(--space-4) 0;
+}
+
+.accent-rule--center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Step number with accent ring */
+.step-number--accent {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent-muted);
+}
+
+/* ------------------------------------------------------------
+   6. Button System
+   ------------------------------------------------------------ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 var(--space-6);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out);
+}
+
+/* Primary button - neutral fill (NOT accent) */
+.btn--primary {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
+}
+
+.btn--primary:hover {
+  opacity: 0.85;
+}
+
+/* Secondary button - accent outline */
+.btn--secondary {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn--secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Ghost button - minimal */
+.btn--ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: transparent;
+}
+
+.btn--ghost:hover {
+  color: var(--text);
+}
+
+/* Button sizes */
+.btn--sm {
+  height: 36px;
+  padding: 0 var(--space-4);
+  font-size: var(--text-xs);
+}
+
+.btn--lg {
+  height: 52px;
+  padding: 0 var(--space-8);
+  font-size: var(--text-base);
+}
+
+/* Button focus states */
+.btn:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* ------------------------------------------------------------
+   7. Focus States (Accessibility)
+   ------------------------------------------------------------ */
+
+/* Global focus ring for interactive elements */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Remove default outline when using focus-visible */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Specific focus styles for form inputs */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-muted);
+}
+
+/* Link focus */
+a:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ------------------------------------------------------------
+   8. Reduced Motion
+   ------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

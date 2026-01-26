@@ -1,4 +1,4 @@
-// Dashboard Layout - Internal Operations (dashboard.bertrandbrands.com)
+// Dashboard Layout - V3 Glass Aesthetic
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { DashboardNav } from './components/dashboard-nav'
@@ -22,7 +22,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f6f3] dark:bg-[#1c1c1e]">
+    <div className="min-h-screen">
       <DashboardHeader user={session.user} />
 
       <div className="flex">

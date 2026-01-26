@@ -1,6 +1,6 @@
 'use client'
 
-// Dashboard Header Component
+// Dashboard Header Component - V3 Glass Aesthetic
 import { signOut } from 'next-auth/react'
 import type { Role } from '@prisma/client'
 
@@ -15,15 +15,15 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({ user }: DashboardHeaderProps) {
   return (
-    <header className="bg-white dark:bg-[#2c2c2e] border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
+    <header className="glass glass--header sticky top-0 z-40">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo / Brand */}
           <div className="flex items-center gap-4">
-            <span className="text-lg font-medium text-gray-900 dark:text-gray-100">
+            <span className="text-lg font-medium text-[var(--text)]">
               Bertrand Brands
             </span>
-            <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-xs font-medium text-gray-600 dark:text-gray-300 rounded">
+            <span className="px-2 py-1 bg-[var(--accent-subtle)] text-[var(--accent)] text-xs font-medium rounded">
               Internal
             </span>
           </div>
@@ -31,17 +31,17 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
           {/* User Menu */}
           <div className="flex items-center gap-4">
             <div className="text-right">
-              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+              <p className="text-sm font-medium text-[var(--text)]">
                 {user.name || user.email}
               </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
+              <p className="text-xs text-[var(--text-muted)]">
                 {user.role === 'INTERNAL_ADMIN' ? 'Admin' : 'User'}
               </p>
             </div>
 
             <button
               onClick={() => signOut({ callbackUrl: '/login' })}
-              className="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
+              className="px-3 py-1.5 text-sm text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-[var(--accent-subtle)] rounded-lg transition-colors"
             >
               Sign Out
             </button>

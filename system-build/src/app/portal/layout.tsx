@@ -1,4 +1,4 @@
-// Client Portal Layout (clients.bertrandbrands.com)
+// Client Portal Layout - V3 Glass Aesthetic
 import { auth } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
@@ -34,12 +34,12 @@ export default async function PortalLayout({
   // If no client record exists, show error
   if (!client && session.user.role === 'CLIENT') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f7f6f3] dark:bg-[#1c1c1e] px-4">
-        <div className="text-center">
-          <h1 className="text-xl font-medium text-gray-900 dark:text-gray-100 mb-2">
+      <div className="min-h-screen flex items-center justify-center px-4">
+        <div className="glass glass--card text-center max-w-md">
+          <h1 className="text-xl font-medium text-[var(--text)] mb-2">
             Account Not Found
           </h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <p className="text-sm text-[var(--text-muted)]">
             Your client account has not been set up yet. Please contact support.
           </p>
         </div>
@@ -48,7 +48,7 @@ export default async function PortalLayout({
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f6f3] dark:bg-[#1c1c1e]">
+    <div className="min-h-screen">
       <PortalHeader
         user={session.user}
         clientName={client?.companyName || client?.contactName || session.user.name || 'Client'}

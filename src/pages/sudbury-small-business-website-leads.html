@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- SEO -->
-    <link rel="canonical" href="https://scottbertrand.com/sudbury-small-business-website-leads.html">
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
-    <meta name="color-scheme" content="light dark">
     <title>How Small Businesses in Sudbury Can Get More Website Leads — Scott Bertrand</title>
     <meta name="description" content="Practical guidance for Sudbury and Northern Ontario small businesses on turning website visitors into leads. Local context, no jargon, actionable steps.">
+    <meta name="author" content="Scott Bertrand">
+    <link rel="canonical" href="https://scottbertrand.com/sudbury-small-business-website-leads.html">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/sb-dotted-logomark.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <!-- Open Graph -->
     <meta property="og:title" content="How Small Businesses in Sudbury Can Get More Website Leads">
     <meta property="og:description" content="Practical guidance for Sudbury and Northern Ontario small businesses on turning website visitors into leads.">
-    <meta property="og:image" content="https://scottbertrand.com/assets/og-image.png">
-    <meta property="og:url" content="https://scottbertrand.com/sudbury-small-business-website-leads.html">
     <meta property="og:type" content="article">
+    <meta property="og:url" content="https://scottbertrand.com/sudbury-small-business-website-leads.html">
+    <meta property="og:image" content="https://scottbertrand.com/assets/og-image.png">
+    <meta property="og:site_name" content="Scott Bertrand">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -35,65 +37,266 @@
     }
     </script>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/sb-monogram-light.png">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="/src/styles/styles.css">
-    <link rel="stylesheet" href="/src/styles/glass.css">
-    <link rel="stylesheet" href="/src/styles/dot-grid.css">
     <style>
-        .article-section {
-            padding: 6rem 2rem;
-            max-width: 720px;
-            margin: 0 auto;
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #F8F6F3;
+            --bg-warm: #F0EDE8;
+            --bg-card: #FFFFFF;
+            --text: #2C2825;
+            --text-muted: #4A4540;
+            --text-subtle: #706A63;
+            --border: rgba(44, 40, 37, 0.12);
+            --border-strong: rgba(44, 40, 37, 0.25);
+            --font-sans: 'Inter', -apple-system, sans-serif;
+            --font-serif: 'Fraunces', Georgia, serif;
+            --color-bertrand: #B54A1A;
+            --color-notes: #2D5A8A;
+            --color-goods: #4A5C44;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --gutter: clamp(1rem, 4vw, 2rem);
+            --container-max: 1120px;
         }
-        .article-section h1 {
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
+
+        [data-theme="dark"] {
+            --bg: #0F0E0D;
+            --bg-warm: #1a1816;
+            --bg-card: #1C1B19;
+            --text: #F5F3F0;
+            --text-muted: #B5B0A8;
+            --text-subtle: #8A847D;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-strong: rgba(255, 255, 255, 0.15);
+            --color-bertrand: #E07A3A;
+            --color-notes: #5A9BD4;
+            --color-goods: #8FA883;
+        }
+
+        html { font-size: 16px; }
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(181, 74, 26, 0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 20%, rgba(45, 90, 138, 0.03) 0%, transparent 45%),
+                radial-gradient(ellipse at 60% 90%, rgba(74, 92, 68, 0.03) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        [data-theme="dark"] body::before {
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(224, 122, 58, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 20%, rgba(90, 155, 212, 0.05) 0%, transparent 45%),
+                radial-gradient(ellipse at 60% 90%, rgba(143, 168, 131, 0.04) 0%, transparent 40%);
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem var(--gutter);
+        }
+
+        .header__glass {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            background: color-mix(in srgb, var(--bg) 20%, transparent);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 0.75rem 1.5rem;
+        }
+
+        .header__inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .header__logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .header__logo-mark {
+            width: 32px;
+            height: 32px;
+        }
+
+        .header__logo-text {
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+        }
+
+        .header__nav {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .header__link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 400;
+            padding: 0.5rem 0.875rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .header__link:hover {
+            color: var(--text);
+            background: var(--border);
+        }
+
+        .header__toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+        }
+
+        .header__toggle:hover {
+            color: var(--text);
+            background: var(--border-strong);
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+            padding-top: 120px;
+        }
+
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 var(--gutter);
+        }
+
+        .article {
+            padding: 4rem 0 6rem;
+            max-width: 680px;
+        }
+
+        .article h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(1.75rem, 4vw, 2rem);
+            font-weight: 400;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
             line-height: 1.3;
         }
-        .article-section h2 {
+
+        .article h2 {
+            font-family: var(--font-serif);
             font-size: 1.25rem;
+            font-weight: 400;
             margin-top: 2.5rem;
             margin-bottom: 1rem;
+            color: var(--text);
         }
-        .article-section p {
-            line-height: 1.7;
+
+        .article h3 {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+        }
+
+        .article p {
+            line-height: 1.75;
             margin-bottom: 1.25rem;
-            color: var(--text-secondary);
+            color: var(--text-muted);
         }
-        .article-section p:first-of-type {
+
+        .article p:first-of-type {
+            color: var(--text);
             font-size: 1.125rem;
-            color: var(--text-primary);
         }
-        .article-section ul, .article-section ol {
+
+        .article p strong {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .article ul, .article ol {
             margin: 1rem 0 1.5rem 1.5rem;
             line-height: 1.8;
+            color: var(--text-muted);
         }
-        .article-section li {
+
+        .article li {
             margin-bottom: 0.75rem;
         }
+
         .article-cta {
             margin-top: 3rem;
             padding: 2rem;
-            background: rgba(128, 128, 128, 0.05);
-            border: 1px solid rgba(128, 128, 128, 0.1);
-            border-radius: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
         }
+
         .article-cta h3 {
+            font-family: var(--font-serif);
             font-size: 1.125rem;
+            font-weight: 400;
             margin-bottom: 0.75rem;
+            margin-top: 0;
+            color: var(--text);
         }
+
         .article-cta p {
             margin-bottom: 1rem;
+            font-size: 0.9375rem;
         }
+
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             padding: 0.875rem 2rem;
-            border-radius: 6px;
+            border-radius: var(--radius-sm);
             text-decoration: none;
             font-weight: 500;
             font-size: 0.9375rem;
@@ -101,97 +304,97 @@
             transition: all 0.2s ease;
             border: 1px solid transparent;
         }
+
         .btn-primary {
-            background: var(--text-primary);
-            color: var(--bg-primary);
-            border-color: var(--text-primary);
+            background: var(--text);
+            color: var(--bg);
+            border-color: var(--text);
         }
+
         .btn-primary:hover {
             opacity: 0.85;
         }
-        .site-footer {
-            padding: 3rem 2rem;
-            border-top: 1px solid rgba(128, 128, 128, 0.1);
-        }
-        .footer-text {
+
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem var(--gutter);
             text-align: center;
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            opacity: 0.75;
         }
-        .footer-text a {
+
+        .footer__text {
+            font-size: 0.875rem;
+            color: var(--text-subtle);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer__links {
+            font-size: 0.8125rem;
+            color: var(--text-subtle);
+            opacity: 0.7;
+        }
+
+        .footer__links a {
             color: inherit;
             text-decoration: none;
         }
-        .footer-text a:hover {
+
+        .footer__links a:hover {
             opacity: 1;
+            color: var(--text-muted);
+        }
+
+        .header__menu-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .header__nav {
+                display: none;
+            }
+
+            .header__menu-btn {
+                display: flex;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Dynamic Background -->
-    <div class="dot-grid" aria-hidden="true"><canvas id="dotWaveCanvas"></canvas></div>
+    <!-- Glass Header -->
+    <header class="header">
+        <div class="header__glass">
+            <div class="header__inner">
+                <a href="/" class="header__logo">
+                    <img src="/assets/sb-dotted-logomark.png" alt="SB" class="header__logo-mark" width="32" height="32">
+                    <span class="header__logo-text">Scott Bertrand</span>
+                </a>
 
-    <!-- Menu Backdrop -->
-    <div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
+                <nav class="header__nav">
+                    <a href="/" class="header__link">Home</a>
+                    <a href="/how-it-works.html" class="header__link">How It Works</a>
+                    <a href="/about.html" class="header__link">About</a>
+                    <a href="/contact.html" class="header__link">Contact</a>
+                    <a href="/request.html" class="header__link">Request</a>
+                </nav>
 
-    <!-- Navigation Header -->
-    <header class="site-header">
-        <div class="nav-container">
-            <a href="https://scottbertrand.com/" class="site-brand">
-                <img src="assets/sb-monogram-light.png" alt="SB" class="brand-monogram brand-monogram--light" width="100" height="100">
-                <img src="assets/sb-monogram-dark.png" alt="SB" class="brand-monogram brand-monogram--dark" width="100" height="100">
-                <span class="brand-separator">|</span>
-                <img src="assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="brand-wordmark brand-wordmark--light" width="400" height="100">
-                <img src="assets/scott-bertrand-wordmark-dark.png" alt="Scott Bertrand" class="brand-wordmark brand-wordmark--dark" width="400" height="100">
-            </a>
-
-            <nav class="nav-menu" id="navMenu" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1">
-                <button type="button" class="mobile-menu-close" aria-label="Close menu"></button>
-                <a href="/#services">Services</a>
-                <a href="https://scottbertrand.com/how-it-works.html">How It Works</a>
-                <a href="https://scottbertrand.com/about.html">About</a>
-                <div class="nav-dropdown">
-                    <button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-haspopup="true">
-                        Case Studies
-                        <span class="dropdown-arrow">▾</span>
-                    </button>
-                    <div class="nav-dropdown-menu" role="menu" aria-hidden="true">
-                        <a href="https://notes.scottbertrand.com/" class="nav-dropdown-item">
-                            <div class="dropdown-item-header">
-                                <img src="assets/field-notes-menu-light.png" alt="Field Notes" class="dropdown-brand-img dropdown-brand-img--light" width="599" height="110">
-                                <img src="assets/field-notes-menu-dark.png" alt="Field Notes" class="dropdown-brand-img dropdown-brand-img--dark" width="599" height="110">
-                            </div>
-                            <span class="dropdown-descriptor">Working archive · essays · systems</span>
-                        </a>
-                        <a href="https://goods.scottbertrand.com/" class="nav-dropdown-item">
-                            <div class="dropdown-item-header">
-                                <img src="assets/still-goods-menu-light.png" alt="Still Goods" class="dropdown-brand-img dropdown-brand-img--light" width="1333" height="283">
-                                <img src="assets/still-goods-menu-dark.png" alt="Still Goods" class="dropdown-brand-img dropdown-brand-img--dark" width="1333" height="283">
-                            </div>
-                            <span class="dropdown-descriptor">Seasonal objects · limited issues</span>
-                        </a>
-                        <a href="https://maxstewart.life/" class="nav-dropdown-item nav-dropdown-item--disabled">
-                            <div class="dropdown-item-header">
-                                <img src="assets/maxstewart-light.png" alt="Max Stewart" class="dropdown-brand-img dropdown-brand-img--light" width="2100" height="434">
-                                <img src="assets/maxstewart-dark.png" alt="Max Stewart" class="dropdown-brand-img dropdown-brand-img--dark" width="2100" height="434">
-                            </div>
-                            <span class="dropdown-descriptor">Lifestyle brand · coming soon</span>
-                        </a>
-                    </div>
-                </div>
-                <a href="https://scottbertrand.com/contact.html">Contact</a>
-            </nav>
-
-            <div class="nav-utilities">
-                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                    <span class="theme-icon">◐</span>
+                <button type="button" class="header__toggle" id="themeToggle" aria-label="Toggle theme">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
                 </button>
 
-                <button type="button" class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navMenu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                <button type="button" class="header__menu-btn" id="menuToggle" aria-label="Toggle menu">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12h18M3 6h18M3 18h18"/>
+                    </svg>
                 </button>
             </div>
         </div>
@@ -199,84 +402,99 @@
 
     <!-- Main Content -->
     <main>
-        <article class="article-section">
-            <h1>How Small Businesses in Sudbury Can Get More Website Leads</h1>
+        <div class="container">
+            <article class="article">
+                <h1>How Small Businesses in Sudbury Can Get More Website Leads</h1>
 
-            <p>If you run a small business in Sudbury or Northern Ontario, your website should be generating leads. If it's not, something is broken—and it's usually fixable.</p>
+                <p>If you run a small business in Sudbury or Northern Ontario, your website should be generating leads. If it's not, something is broken—and it's usually fixable.</p>
 
-            <p>This isn't about fancy marketing tactics or expensive advertising. It's about the basics: making sure your website clearly explains what you do, who you help, and how to contact you.</p>
+                <p>This isn't about fancy marketing tactics or expensive advertising. It's about the basics: making sure your website clearly explains what you do, who you help, and how to contact you.</p>
 
-            <h2>Why Most Small Business Websites Don't Convert</h2>
+                <h2>Why Most Small Business Websites Don't Convert</h2>
 
-            <p>Most small business websites have the same problems:</p>
+                <p>Most small business websites have the same problems:</p>
 
-            <ul>
-                <li><strong>Unclear messaging</strong> — Visitors can't quickly understand what you do or who you help</li>
-                <li><strong>No clear next step</strong> — There's no obvious way to contact you or request a quote</li>
-                <li><strong>Too much information</strong> — Pages are cluttered with everything you've ever done instead of what matters most</li>
-                <li><strong>Outdated design</strong> — The site looks like it was built in 2010, which undermines trust</li>
-                <li><strong>Slow loading</strong> — The site takes too long to load, especially on mobile</li>
-            </ul>
+                <ul>
+                    <li><strong>Unclear messaging</strong> — Visitors can't quickly understand what you do or who you help</li>
+                    <li><strong>No clear next step</strong> — There's no obvious way to contact you or request a quote</li>
+                    <li><strong>Too much information</strong> — Pages are cluttered with everything you've ever done instead of what matters most</li>
+                    <li><strong>Outdated design</strong> — The site looks like it was built in 2010, which undermines trust</li>
+                    <li><strong>Slow loading</strong> — The site takes too long to load, especially on mobile</li>
+                </ul>
 
-            <p>These problems are common because most small business owners built their website once and haven't touched it since. Or they hired someone who focused on making it look nice without thinking about conversion.</p>
+                <p>These problems are common because most small business owners built their website once and haven't touched it since. Or they hired someone who focused on making it look nice without thinking about conversion.</p>
 
-            <h2>What Actually Works</h2>
+                <h2>What Actually Works</h2>
 
-            <p>Getting more leads from your website comes down to a few fundamentals:</p>
+                <p>Getting more leads from your website comes down to a few fundamentals:</p>
 
-            <h3>1. Clear Homepage Messaging</h3>
-            <p>Within 5 seconds of landing on your homepage, visitors should understand:</p>
-            <ul>
-                <li>What you do</li>
-                <li>Who you help</li>
-                <li>Why they should choose you</li>
-            </ul>
-            <p>If your homepage starts with "Welcome to our website" or a paragraph about your company history, you're losing people before they even start reading.</p>
+                <h3>1. Clear Homepage Messaging</h3>
+                <p>Within 5 seconds of landing on your homepage, visitors should understand:</p>
+                <ul>
+                    <li>What you do</li>
+                    <li>Who you help</li>
+                    <li>Why they should choose you</li>
+                </ul>
+                <p>If your homepage starts with "Welcome to our website" or a paragraph about your company history, you're losing people before they even start reading.</p>
 
-            <h3>2. Obvious Call-to-Action</h3>
-            <p>Every page should have a clear next step. For most service businesses, this is "Contact Us" or "Request a Quote." Make it obvious. Put it in the header. Put it at the bottom of every page. Don't make people hunt for how to reach you.</p>
+                <h3>2. Obvious Call-to-Action</h3>
+                <p>Every page should have a clear next step. For most service businesses, this is "Contact Us" or "Request a Quote." Make it obvious. Put it in the header. Put it at the bottom of every page. Don't make people hunt for how to reach you.</p>
 
-            <h3>3. Local Credibility</h3>
-            <p>If you serve Sudbury and Northern Ontario, say so. Mention your service area. Include your physical address if you have one. Local businesses trust other local businesses.</p>
+                <h3>3. Local Credibility</h3>
+                <p>If you serve Sudbury and Northern Ontario, say so. Mention your service area. Include your physical address if you have one. Local businesses trust other local businesses.</p>
 
-            <h3>4. Mobile-First Design</h3>
-            <p>More than half of your visitors are on phones. If your website is hard to use on mobile, you're losing half your potential leads before they even see your content.</p>
+                <h3>4. Mobile-First Design</h3>
+                <p>More than half of your visitors are on phones. If your website is hard to use on mobile, you're losing half your potential leads before they even see your content.</p>
 
-            <h3>5. Fast Loading</h3>
-            <p>If your site takes more than 3 seconds to load, a significant percentage of visitors will leave before seeing anything. Compress your images. Remove unnecessary plugins. Speed matters.</p>
+                <h3>5. Fast Loading</h3>
+                <p>If your site takes more than 3 seconds to load, a significant percentage of visitors will leave before seeing anything. Compress your images. Remove unnecessary plugins. Speed matters.</p>
 
-            <h2>The Easiest First Step</h2>
+                <h2>The Easiest First Step</h2>
 
-            <p>Before investing in a new website or hiring a marketing agency, figure out what's actually broken. Sometimes it's one or two small fixes. Sometimes it's a fundamental problem with your brand positioning.</p>
+                <p>Before investing in a new website or hiring a marketing agency, figure out what's actually broken. Sometimes it's one or two small fixes. Sometimes it's a fundamental problem with your brand positioning.</p>
 
-            <p>An audit gives you a clear picture of what's working, what's not, and what to fix first. Most small businesses don't need to start from scratch—they need targeted improvements in the right places.</p>
+                <p>An audit gives you a clear picture of what's working, what's not, and what to fix first. Most small businesses don't need to start from scratch—they need targeted improvements in the right places.</p>
 
-            <div class="article-cta">
-                <h3>Find out what's broken</h3>
-                <p>A Website Snapshot ($225 CAD) is a focused, live review of your site's most visible issues. You'll walk away with clear priorities—not a sales pitch.</p>
-                <a href="/#website-snapshot" class="btn btn-primary">Start with a Website Snapshot</a>
-            </div>
-        </article>
+                <div class="article-cta">
+                    <h3>Find out what's broken</h3>
+                    <p>A Website Snapshot ($225 CAD) is a focused, live review of your site's most visible issues. You'll walk away with clear priorities—not a sales pitch.</p>
+                    <a href="/request.html?service=website-snapshot" class="btn btn-primary">Start with a Website Snapshot</a>
+                </div>
+            </article>
+        </div>
     </main>
 
     <!-- Footer -->
-    <footer class="site-footer">
-        <div class="container">
-            <p class="footer-text">
-                Serving Sudbury, Northern Ontario, and clients across Canada
-            </p>
-            <p class="footer-text" style="margin-top: 1rem; opacity: 0.5;">
-                &copy; 2026 Scott Bertrand ·
-                <a href="/request.html">Request Service</a>
-            </p>
-        </div>
+    <footer class="footer">
+        <p class="footer__text">Serving Sudbury, Northern Ontario, and clients across Canada</p>
+        <p class="footer__links">
+            &copy; 2026 Scott Bertrand &middot;
+            <a href="/request.html">Request Service</a>
+        </p>
     </footer>
 
-    <!-- Scripts -->
-    <script type="module" src="/src/scripts/theme.js"></script>
-    <script type="module" src="/src/scripts/dropdown.js"></script>
-    <script type="module" src="/src/scripts/modal.js"></script>
-    <script type="module" src="/src/scripts/visitor-notify.js"></script>
-    <script type="module" src="/src/scripts/dot-grid.js"></script>
+    <!-- Theme Toggle Script -->
+    <script>
+        (function() {
+            const toggle = document.getElementById('themeToggle');
+            const html = document.documentElement;
+
+            const savedTheme = localStorage.getItem('theme');
+            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (savedTheme) {
+                html.setAttribute('data-theme', savedTheme);
+            } else if (!systemDark) {
+                html.setAttribute('data-theme', 'light');
+            }
+
+            toggle.addEventListener('click', () => {
+                const current = html.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                html.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+            });
+        })();
+    </script>
 </body>
 </html>

@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- SEO -->
-    <link rel="canonical" href="https://scottbertrand.com/how-it-works.html">
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
-    <meta name="color-scheme" content="light dark">
     <title>How It Works — Brand & Web Consulting Process | Scott Bertrand</title>
     <meta name="description" content="Clear, structured process for brand and web design work in Sudbury and Northern Ontario. Fixed scope, fixed price, no surprises. See how we work together.">
+    <meta name="author" content="Scott Bertrand">
+    <link rel="canonical" href="https://scottbertrand.com/how-it-works.html">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/sb-dotted-logomark.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <!-- Open Graph -->
     <meta property="og:title" content="How It Works — Brand & Web Consulting Process | Scott Bertrand">
     <meta property="og:description" content="Clear, structured process for brand and web design work. Fixed scope, fixed price, no surprises.">
-    <meta property="og:image" content="https://scottbertrand.com/assets/og-image.png">
-    <meta property="og:url" content="https://scottbertrand.com/how-it-works.html">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://scottbertrand.com/how-it-works.html">
+    <meta property="og:image" content="https://scottbertrand.com/assets/og-image.png">
+    <meta property="og:site_name" content="Scott Bertrand">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -35,78 +37,467 @@
     }
     </script>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/sb-monogram-light.png">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="/src/styles/styles.css">
-    <link rel="stylesheet" href="/src/styles/glass.css">
-    <link rel="stylesheet" href="/src/styles/dot-grid.css">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            /* Light Mode */
+            --bg: #F8F6F3;
+            --bg-warm: #F0EDE8;
+            --bg-card: #FFFFFF;
+            --text: #2C2825;
+            --text-muted: #4A4540;
+            --text-subtle: #706A63;
+            --border: rgba(44, 40, 37, 0.12);
+            --border-strong: rgba(44, 40, 37, 0.25);
+            --font-sans: 'Inter', -apple-system, sans-serif;
+            --font-serif: 'Fraunces', Georgia, serif;
+            --color-bertrand: #B54A1A;
+            --color-notes: #2D5A8A;
+            --color-goods: #4A5C44;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --gutter: clamp(1rem, 4vw, 2rem);
+            --container-max: 1120px;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0F0E0D;
+            --bg-warm: #1a1816;
+            --bg-card: #1C1B19;
+            --text: #F5F3F0;
+            --text-muted: #B5B0A8;
+            --text-subtle: #8A847D;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-strong: rgba(255, 255, 255, 0.15);
+            --color-bertrand: #E07A3A;
+            --color-notes: #5A9BD4;
+            --color-goods: #8FA883;
+        }
+
+        html { font-size: 16px; }
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        /* Organic gradient overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(181, 74, 26, 0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 20%, rgba(45, 90, 138, 0.03) 0%, transparent 45%),
+                radial-gradient(ellipse at 60% 90%, rgba(74, 92, 68, 0.03) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        [data-theme="dark"] body::before {
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(224, 122, 58, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 20%, rgba(90, 155, 212, 0.05) 0%, transparent 45%),
+                radial-gradient(ellipse at 60% 90%, rgba(143, 168, 131, 0.04) 0%, transparent 40%);
+        }
+
+        /* Glass Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem var(--gutter);
+        }
+
+        .header__glass {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            background: color-mix(in srgb, var(--bg) 20%, transparent);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 0.75rem 1.5rem;
+        }
+
+        .header__inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .header__logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .header__logo-mark {
+            width: 32px;
+            height: 32px;
+        }
+
+        .header__logo-text {
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+        }
+
+        .header__nav {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .header__link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 400;
+            padding: 0.5rem 0.875rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .header__link:hover {
+            color: var(--text);
+            background: var(--border);
+        }
+
+        .header__link--active {
+            color: var(--text);
+            background: var(--border);
+        }
+
+        .header__toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+        }
+
+        .header__toggle:hover {
+            color: var(--text);
+            background: var(--border-strong);
+        }
+
+        .header__menu-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        /* Main Content */
+        main {
+            position: relative;
+            z-index: 1;
+            padding-top: 120px;
+        }
+
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 var(--gutter);
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 4rem 0 3rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            font-weight: 400;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .page-intro {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Sections */
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section--alt {
+            background: var(--bg-warm);
+        }
+
+        .section h2 {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            letter-spacing: -0.01em;
+        }
+
+        /* Process Steps */
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .process-step {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--border);
+            border-radius: 50%;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-content p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* Text Content */
+        .text-content {
+            max-width: 680px;
+        }
+
+        .text-content p {
+            line-height: 1.75;
+            margin-bottom: 1.25rem;
+            color: var(--text-muted);
+        }
+
+        .text-content p strong {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .text-content ul {
+            margin: 1rem 0 1.5rem 1.5rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+        }
+
+        .text-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Payment Grid */
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .payment-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+        }
+
+        .payment-item h3 {
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-item p {
+            font-size: 0.9375rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 5rem 0 6rem;
+        }
+
+        .cta-section h2 {
+            font-family: var(--font-serif);
+            font-size: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.875rem 2rem;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            letter-spacing: -0.01em;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--text);
+            color: var(--bg);
+            border-color: var(--text);
+        }
+
+        .btn-primary:hover {
+            opacity: 0.85;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border-color: var(--border-strong);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem var(--gutter);
+            text-align: center;
+        }
+
+        .footer__text {
+            font-size: 0.875rem;
+            color: var(--text-subtle);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer__links {
+            font-size: 0.8125rem;
+            color: var(--text-subtle);
+            opacity: 0.7;
+        }
+
+        .footer__links a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .footer__links a:hover {
+            opacity: 1;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .header__nav {
+                display: none;
+            }
+
+            .header__menu-btn {
+                display: flex;
+            }
+
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Dynamic Background -->
-    <div class="dot-grid" aria-hidden="true"><canvas id="dotWaveCanvas"></canvas></div>
+    <!-- Glass Header -->
+    <header class="header">
+        <div class="header__glass">
+            <div class="header__inner">
+                <a href="/" class="header__logo">
+                    <img src="/assets/sb-dotted-logomark.png" alt="SB" class="header__logo-mark" width="32" height="32">
+                    <span class="header__logo-text">Scott Bertrand</span>
+                </a>
 
-    <!-- Menu Backdrop -->
-    <div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
+                <nav class="header__nav">
+                    <a href="/" class="header__link">Home</a>
+                    <a href="/how-it-works.html" class="header__link header__link--active">How It Works</a>
+                    <a href="/about.html" class="header__link">About</a>
+                    <a href="/contact.html" class="header__link">Contact</a>
+                    <a href="/request.html" class="header__link">Request</a>
+                </nav>
 
-    <!-- Navigation Header -->
-        <header class="site-header">
-        <div class="nav-container">
-            <a href="https://scottbertrand.com/" class="site-brand">
-                <img src="assets/sb-monogram-light.png" alt="SB" class="brand-monogram brand-monogram--light" width="100" height="100">
-                <img src="assets/sb-monogram-dark.png" alt="SB" class="brand-monogram brand-monogram--dark" width="100" height="100">
-                <span class="brand-separator">|</span>
-                <img src="assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="brand-wordmark brand-wordmark--light" width="400" height="100">
-                <img src="assets/scott-bertrand-wordmark-dark.png" alt="Scott Bertrand" class="brand-wordmark brand-wordmark--dark" width="400" height="100">
-            </a>
-
-            <nav class="nav-menu" id="navMenu" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1">
-                <button type="button" class="mobile-menu-close" aria-label="Close menu"></button>
-                <a href="/#services">Services</a>
-                <a href="https://scottbertrand.com/how-it-works.html">How It Works</a>
-                <a href="https://scottbertrand.com/about.html">About</a>
-                <div class="nav-dropdown">
-                    <button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-haspopup="true">
-                        Case Studies
-                        <span class="dropdown-arrow">▾</span>
-                    </button>
-                    <div class="nav-dropdown-menu" role="menu" aria-hidden="true">
-                        <a href="https://notes.scottbertrand.com/" class="nav-dropdown-item">
-                            <div class="dropdown-item-header">
-                                <img src="assets/field-notes-menu-light.png" alt="Field Notes" class="dropdown-brand-img dropdown-brand-img--light" width="599" height="110">
-                                <img src="assets/field-notes-menu-dark.png" alt="Field Notes" class="dropdown-brand-img dropdown-brand-img--dark" width="599" height="110">
-                            </div>
-                            <span class="dropdown-descriptor">Working archive · essays · systems</span>
-                        </a>
-                        <a href="https://goods.scottbertrand.com/" class="nav-dropdown-item">
-                            <div class="dropdown-item-header">
-                                <img src="assets/still-goods-menu-light.png" alt="Still Goods" class="dropdown-brand-img dropdown-brand-img--light" width="1333" height="283">
-                                <img src="assets/still-goods-menu-dark.png" alt="Still Goods" class="dropdown-brand-img dropdown-brand-img--dark" width="1333" height="283">
-                            </div>
-                            <span class="dropdown-descriptor">Seasonal objects · limited issues</span>
-                        </a>
-                        <a href="https://maxstewart.life/" class="nav-dropdown-item nav-dropdown-item--disabled">
-                            <div class="dropdown-item-header">
-                                <img src="assets/maxstewart-light.png" alt="Max Stewart" class="dropdown-brand-img dropdown-brand-img--light" width="2100" height="434">
-                                <img src="assets/maxstewart-dark.png" alt="Max Stewart" class="dropdown-brand-img dropdown-brand-img--dark" width="2100" height="434">
-                            </div>
-                            <span class="dropdown-descriptor">Lifestyle brand · coming soon</span>
-                        </a>
-                    </div>
-                </div>
-                <a href="https://scottbertrand.com/contact.html">Contact</a>
-            </nav>
-
-            <div class="nav-utilities">
-                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                    <span class="theme-icon">◐</span>
+                <button type="button" class="header__toggle" id="themeToggle" aria-label="Toggle theme">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
                 </button>
 
-                <button type="button" class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navMenu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                <button type="button" class="header__menu-btn" id="menuToggle" aria-label="Toggle menu">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12h18M3 6h18M3 18h18"/>
+                    </svg>
                 </button>
             </div>
         </div>
@@ -115,22 +506,22 @@
     <!-- Main Content -->
     <main>
         <!-- Page Header -->
-        <section class="page-header">
+        <div class="page-header">
             <div class="container">
                 <h1>How It Works</h1>
                 <p class="page-intro">
                     A clear, structured process for brand and website work. Fixed scope, fixed price, no surprises.
                 </p>
             </div>
-        </section>
+        </div>
 
-        <!-- Overview Process -->
-        <section class="section" id="how-it-works">
+        <!-- Process Steps -->
+        <section class="section">
             <div class="container">
                 <h2>The Process</h2>
 
                 <div class="process-steps">
-                    <div class="process-step glass glass--panel">
+                    <div class="process-step">
                         <span class="step-number">1</span>
                         <div class="step-content">
                             <h3>Choose a Service</h3>
@@ -138,7 +529,7 @@
                         </div>
                     </div>
 
-                    <div class="process-step glass glass--panel">
+                    <div class="process-step">
                         <span class="step-number">2</span>
                         <div class="step-content">
                             <h3>Request & Confirm</h3>
@@ -146,7 +537,7 @@
                         </div>
                     </div>
 
-                    <div class="process-step glass glass--panel">
+                    <div class="process-step">
                         <span class="step-number">3</span>
                         <div class="step-content">
                             <h3>Collaborate</h3>
@@ -154,7 +545,7 @@
                         </div>
                     </div>
 
-                    <div class="process-step glass glass--panel">
+                    <div class="process-step">
                         <span class="step-number">4</span>
                         <div class="step-content">
                             <h3>Receive Deliverables</h3>
@@ -166,7 +557,7 @@
         </section>
 
         <!-- Fixed Scope Philosophy -->
-        <section class="section bg-subtle">
+        <section class="section section--alt">
             <div class="container">
                 <h2>Why Fixed Scope</h2>
 
@@ -206,12 +597,12 @@
         </section>
 
         <!-- Revision Policy -->
-        <section class="section bg-subtle">
+        <section class="section section--alt">
             <div class="container">
                 <h2>Revisions & Feedback</h2>
 
                 <div class="text-content">
-                    <p>Most services include 2 revision rounds. This keeps case-studies on track while ensuring you're satisfied with the work.</p>
+                    <p>Most services include 2 revision rounds. This keeps projects on track while ensuring you're satisfied with the work.</p>
 
                     <p><strong>What's a revision round?</strong> A structured opportunity to provide feedback after seeing initial concepts (round 1) and refined direction (round 2). Each round includes up to 5 business days for implementation.</p>
 
@@ -236,14 +627,14 @@
         </section>
 
         <!-- Timeline Expectations -->
-        <section class="section bg-subtle">
+        <section class="section section--alt">
             <div class="container">
                 <h2>Timeline Expectations</h2>
 
                 <div class="text-content">
                     <p>Each service has an estimated timeline (e.g., 5 business days for audits, 3-4 weeks for Brand Reset). These assume:</p>
 
-                    <ul class="content-list">
+                    <ul>
                         <li>You provide required materials within 2 business days of request</li>
                         <li>You provide feedback within 5 business days of each deliverable</li>
                         <li>No major scope changes after project start</li>
@@ -254,26 +645,51 @@
             </div>
         </section>
 
-        <!-- Ready to Start -->
-        <section class="section service-cta-section">
+        <!-- CTA Section -->
+        <section class="cta-section">
             <div class="container">
-                <div class="service-cta-content">
-                    <h2>Ready to get started?</h2>
-                    <p>Browse services or submit a request to begin.</p>
-                    <div class="cta-group">
-                        <a href="/#services" class="btn btn-primary">View Services</a>
-                        <a href="/request.html" class="btn btn-secondary">Submit Request</a>
-                    </div>
+                <h2>Ready to get started?</h2>
+                <p>Browse services or submit a request to begin.</p>
+                <div class="cta-buttons">
+                    <a href="/" class="btn btn-primary">View Services</a>
+                    <a href="/request.html" class="btn btn-secondary">Submit Request</a>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Scripts -->
-    <script type="module" src="/src/scripts/theme.js"></script>
-    <script type="module" src="/src/scripts/dropdown.js"></script>
-    <script type="module" src="/src/scripts/modal.js"></script>
-    <script type="module" src="/src/scripts/visitor-notify.js"></script>
-    <script type="module" src="/src/scripts/dot-grid.js"></script>
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer__text">Based in Greater Sudbury, serving Northern Ontario & Canada remotely</p>
+        <p class="footer__links">
+            &copy; 2026 Scott Bertrand &middot;
+            <a href="/request.html">Request Service</a>
+        </p>
+    </footer>
+
+    <!-- Theme Toggle Script -->
+    <script>
+        (function() {
+            const toggle = document.getElementById('themeToggle');
+            const html = document.documentElement;
+
+            // Check for saved preference or system preference
+            const savedTheme = localStorage.getItem('theme');
+            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (savedTheme) {
+                html.setAttribute('data-theme', savedTheme);
+            } else if (!systemDark) {
+                html.setAttribute('data-theme', 'light');
+            }
+
+            toggle.addEventListener('click', () => {
+                const current = html.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                html.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+            });
+        })();
+    </script>
 </body>
 </html>

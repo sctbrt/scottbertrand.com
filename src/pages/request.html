@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- SEO -->
-    <link rel="canonical" href="https://scottbertrand.com/request.html">
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)">
-    <meta name="color-scheme" content="light dark">
     <title>Request Service — Scott Bertrand</title>
     <meta name="description" content="Request a brand or website service. Fill out the intake form to get started.">
+    <meta name="author" content="Scott Bertrand">
+    <link rel="canonical" href="https://scottbertrand.com/request.html">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets/sb-dotted-logomark.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
     <!-- Open Graph -->
     <meta property="og:title" content="Request Service — Scott Bertrand">
     <meta property="og:description" content="Request a brand or website service. Fill out the intake form to get started.">
-    <meta property="og:image" content="https://scottbertrand.com/assets/og-image.png">
-    <meta property="og:url" content="https://scottbertrand.com/request.html">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://scottbertrand.com/request.html">
+    <meta property="og:image" content="https://scottbertrand.com/assets/og-image.png">
+    <meta property="og:site_name" content="Scott Bertrand">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
@@ -35,108 +37,450 @@
     }
     </script>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/sb-monogram-light.png">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="/src/styles/styles.css">
-    <link rel="stylesheet" href="/src/styles/dot-grid.css">
     <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            /* Light Mode */
+            --bg: #F8F6F3;
+            --bg-warm: #F0EDE8;
+            --bg-card: #FFFFFF;
+            --text: #2C2825;
+            --text-muted: #4A4540;
+            --text-subtle: #706A63;
+            --border: rgba(44, 40, 37, 0.12);
+            --border-strong: rgba(44, 40, 37, 0.25);
+            --font-sans: 'Inter', -apple-system, sans-serif;
+            --font-serif: 'Fraunces', Georgia, serif;
+            --color-bertrand: #B54A1A;
+            --color-notes: #2D5A8A;
+            --color-goods: #4A5C44;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --gutter: clamp(1rem, 4vw, 2rem);
+            --container-max: 1120px;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0F0E0D;
+            --bg-warm: #1a1816;
+            --bg-card: #1C1B19;
+            --text: #F5F3F0;
+            --text-muted: #B5B0A8;
+            --text-subtle: #8A847D;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-strong: rgba(255, 255, 255, 0.15);
+            --color-bertrand: #E07A3A;
+            --color-notes: #5A9BD4;
+            --color-goods: #8FA883;
+        }
+
+        html { font-size: 16px; }
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        /* Organic gradient overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(181, 74, 26, 0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 20%, rgba(45, 90, 138, 0.03) 0%, transparent 45%),
+                radial-gradient(ellipse at 60% 90%, rgba(74, 92, 68, 0.03) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        [data-theme="dark"] body::before {
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(224, 122, 58, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 20%, rgba(90, 155, 212, 0.05) 0%, transparent 45%),
+                radial-gradient(ellipse at 60% 90%, rgba(143, 168, 131, 0.04) 0%, transparent 40%);
+        }
+
+        .page { position: relative; z-index: 1; }
+
+        /* ===== HEADER ===== */
+        .header {
+            padding: 0.75rem var(--gutter);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header__glass {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0.75rem 1.5rem;
+            background: color-mix(in srgb, var(--bg) 20%, transparent);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        .header__inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        .header__logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: inherit;
+        }
+        .header__logo-mark {
+            width: 32px;
+            height: 32px;
+        }
+        .header__logo-divider {
+            color: var(--text-subtle);
+            font-weight: 200;
+            opacity: 0.4;
+        }
+        .header__logo-text {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        .header__nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        .header__link {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.25rem 0;
+            transition: color 0.2s;
+        }
+        .header__link:hover { color: var(--text); }
+        .header__link--active {
+            color: var(--color-bertrand);
+            font-weight: 500;
+        }
+
+        /* SB Monogram */
+        .sb-monogram {
+            display: block;
+            object-fit: contain;
+            filter: brightness(2) contrast(1.1);
+        }
+        [data-theme="light"] .sb-monogram {
+            filter: brightness(0) saturate(100%);
+        }
+
+        /* Mobile header */
+        @media (max-width: 640px) {
+            .header { padding: 0.5rem var(--gutter); }
+            .header__glass { padding: 0.625rem 1rem; }
+            .header__logo-text { font-size: 0.75rem; letter-spacing: 0.1em; }
+            .header__logo-divider { display: none; }
+            .header__nav { gap: 1rem; }
+            .header__link { font-size: 0.75rem; }
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 3rem var(--gutter) 4rem;
+        }
+
+        .page-header {
+            margin-bottom: 2.5rem;
+        }
+        .page-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 5vw, 2.75rem);
+            font-weight: 300;
+            margin-bottom: 0.75rem;
+        }
+        .page-intro {
+            font-size: 1.0625rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* ===== FORM STYLES ===== */
+        .form-section {
+            margin-bottom: 2.5rem;
+        }
+        .form-section h2 {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-subtle);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .form-section label {
+            display: block;
+            margin-bottom: 1.25rem;
+            font-size: 0.9375rem;
+            color: var(--text-muted);
+        }
+        .form-section input,
+        .form-section select,
+        .form-section textarea {
+            display: block;
+            width: 100%;
+            margin-top: 0.5rem;
+            padding: 0.875rem 1rem;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            color: var(--text);
+            background: var(--bg-card);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius-sm);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-section input:focus,
+        .form-section select:focus,
+        .form-section textarea:focus {
+            outline: none;
+            border-color: var(--color-bertrand);
+            box-shadow: 0 0 0 3px rgba(224, 122, 58, 0.1);
+        }
+        .form-section textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .form-section select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23706A63' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.5rem;
+        }
+
+        /* Service description box */
         .service-description-box {
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             padding: 1.25rem 1.5rem;
-            background: rgba(128, 128, 128, 0.03);
-            border: 1px solid rgba(128, 128, 128, 0.1);
-            border-radius: 6px;
+            background: color-mix(in srgb, var(--color-bertrand) 5%, var(--bg-card));
+            border: 1px solid color-mix(in srgb, var(--color-bertrand) 15%, var(--border));
+            border-radius: var(--radius-sm);
         }
         .service-description-text {
             font-size: 0.9375rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 0.5rem;
         }
         .service-description-meta {
             font-size: 0.8125rem;
-            color: var(--text-secondary);
-            opacity: 0.7;
+            color: var(--text-subtle);
             margin: 0;
+        }
+
+        /* Form actions */
+        .form-actions {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        .btn-primary {
+            background: var(--color-bertrand);
+            color: white;
+            width: 100%;
+        }
+        .btn-primary:hover {
+            background: color-mix(in srgb, var(--color-bertrand) 85%, white);
+        }
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .btn-primary.loading {
+            position: relative;
+            color: transparent;
+        }
+        .btn-primary.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid white;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .form-note {
+            margin-top: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-subtle);
+            text-align: center;
+        }
+        .form-fallback {
+            margin-top: 0.75rem;
+            font-size: 0.8125rem;
+            color: var(--text-subtle);
+            text-align: center;
+        }
+        .form-fallback a {
+            color: var(--color-bertrand);
+        }
+
+        /* Error state */
+        .form-error {
+            display: none;
+            margin-bottom: 1.5rem;
+            padding: 1rem 1.25rem;
+            background: rgba(220, 53, 53, 0.1);
+            border: 1px solid rgba(220, 53, 53, 0.3);
+            border-radius: var(--radius-sm);
+            color: #DC3535;
+            font-size: 0.9375rem;
+        }
+        .form-error.show { display: block; }
+        .form-error a { color: inherit; }
+
+        /* Success state */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        .success-message h2 {
+            font-family: var(--font-serif);
+            font-size: 1.75rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+        .success-message p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border-strong);
+            color: var(--text);
+        }
+        .btn-secondary:hover {
+            background: var(--bg-warm);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 2rem var(--gutter);
+            border-top: 1px solid var(--border);
+        }
+        .footer__text {
+            font-size: 0.8125rem;
+            color: var(--text-subtle);
+            text-align: center;
+        }
+        .footer__text a {
+            color: inherit;
+            text-decoration: none;
+        }
+        .footer__text a:hover { color: var(--text); }
+
+        /* Theme toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-strong);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            transition: all 0.2s;
+            z-index: 50;
+        }
+        .theme-toggle:hover {
+            background: var(--bg-warm);
+            color: var(--text);
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Dynamic Background -->
-    <div class="dot-grid" aria-hidden="true"><canvas id="dotWaveCanvas"></canvas></div>
+    <a href="#main" class="skip-link" style="position:absolute;left:-9999px;">Skip to main content</a>
 
-    <!-- Menu Backdrop -->
-    <div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
-
-    <header class="site-header">
-        <div class="nav-container">
-            <a href="https://scottbertrand.com/" class="site-brand">
-                <img src="assets/sb-monogram-light.png" alt="SB" class="brand-monogram brand-monogram--light" width="100" height="100">
-                <img src="assets/sb-monogram-dark.png" alt="SB" class="brand-monogram brand-monogram--dark" width="100" height="100">
-                <span class="brand-separator">|</span>
-                <img src="assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="brand-wordmark brand-wordmark--light" width="400" height="100">
-                <img src="assets/scott-bertrand-wordmark-dark.png" alt="Scott Bertrand" class="brand-wordmark brand-wordmark--dark" width="400" height="100">
-            </a>
-
-            <nav class="nav-menu" id="navMenu" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1">
-                <button type="button" class="mobile-menu-close" aria-label="Close menu"></button>
-                <a href="/#services">Services</a>
-                <a href="https://scottbertrand.com/how-it-works.html">How It Works</a>
-                <a href="https://scottbertrand.com/about.html">About</a>
-                <div class="nav-dropdown">
-                    <button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-haspopup="true">
-                        Case Studies
-                        <span class="dropdown-arrow">▾</span>
-                    </button>
-                    <div class="nav-dropdown-menu" role="menu" aria-hidden="true">
-                        <a href="https://notes.scottbertrand.com/" class="nav-dropdown-item">
-                            <div class="dropdown-item-header">
-                                <img src="assets/field-notes-menu-light.png" alt="Field Notes" class="dropdown-brand-img dropdown-brand-img--light" width="599" height="110">
-                                <img src="assets/field-notes-menu-dark.png" alt="Field Notes" class="dropdown-brand-img dropdown-brand-img--dark" width="599" height="110">
-                            </div>
-                            <span class="dropdown-descriptor">Working archive · essays · systems</span>
-                        </a>
-                        <a href="https://goods.scottbertrand.com/" class="nav-dropdown-item">
-                            <div class="dropdown-item-header">
-                                <img src="assets/still-goods-menu-light.png" alt="Still Goods" class="dropdown-brand-img dropdown-brand-img--light" width="1333" height="283">
-                                <img src="assets/still-goods-menu-dark.png" alt="Still Goods" class="dropdown-brand-img dropdown-brand-img--dark" width="1333" height="283">
-                            </div>
-                            <span class="dropdown-descriptor">Seasonal objects · limited issues</span>
-                        </a>
-                        <a href="https://maxstewart.life/" class="nav-dropdown-item nav-dropdown-item--disabled">
-                            <div class="dropdown-item-header">
-                                <img src="assets/maxstewart-light.png" alt="Max Stewart" class="dropdown-brand-img dropdown-brand-img--light" width="2100" height="434">
-                                <img src="assets/maxstewart-dark.png" alt="Max Stewart" class="dropdown-brand-img dropdown-brand-img--dark" width="2100" height="434">
-                            </div>
-                            <span class="dropdown-descriptor">Lifestyle brand · coming soon</span>
-                        </a>
-                    </div>
+    <div class="page">
+        <header class="header">
+            <div class="header__glass">
+                <div class="header__inner">
+                    <a href="/" class="header__logo">
+                        <img src="/assets/sb-dotted-logomark.png" alt="SB" class="header__logo-mark sb-monogram" width="50" height="32">
+                        <span class="header__logo-divider">|</span>
+                        <span class="header__logo-text">Scott Bertrand</span>
+                    </a>
+                    <nav class="header__nav">
+                        <a href="/" class="header__link">Home</a>
+                        <a href="/request.html" class="header__link header__link--active">Request</a>
+                    </nav>
                 </div>
-                <a href="https://scottbertrand.com/contact.html">Contact</a>
-            </nav>
-
-            <div class="nav-utilities">
-                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                    <span class="theme-icon">◐</span>
-                </button>
-
-                <button type="button" class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="navMenu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
             </div>
-        </div>
-    </header>
+        </header>
 
-<main>
-    <section class="request-section">
-        <div class="container">
-            <header class="request-header" id="requestHeader">
-                <h1>Request Service</h1>
-                <p class="request-intro">
+        <main id="main" class="main">
+            <header class="page-header" id="requestHeader">
+                <h1 class="page-title">Request Service</h1>
+                <p class="page-intro">
                     Fill out the intake form below. I'll review your request and respond within 24–48 hours.
                 </p>
             </header>
@@ -153,7 +497,6 @@
                 method="POST"
                 accept-charset="UTF-8"
             >
-
                 <!-- Formspree configuration -->
                 <input type="hidden" name="_subject" value="New Service Request — scottbertrand.com">
                 <input type="hidden" name="_next" value="https://scottbertrand.com/request.html?success=true">
@@ -277,7 +620,7 @@
 
                 <!-- Submit -->
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary btn-large">
+                    <button type="submit" class="btn btn-primary">
                         Submit Request
                     </button>
                     <p class="form-note">
@@ -287,7 +630,6 @@
                         Having trouble? Email me directly at <a href="mailto:hello@bertrandbrands.com">hello@bertrandbrands.com</a>
                     </p>
                 </div>
-
             </form>
 
             <!-- Success message -->
@@ -296,142 +638,161 @@
                 <p>Thank you for your interest. I'll review your request and respond within 24–48 hours.</p>
                 <a href="/" class="btn btn-secondary">Return Home</a>
             </div>
-        </div>
-    </section>
-</main>
+        </main>
 
-<!-- Scripts -->
-<script type="module" src="/src/scripts/theme.js"></script>
-<script type="module" src="/src/scripts/dropdown.js"></script>
-<script>
-    const form = document.getElementById('requestForm');
-    const requestHeader = document.getElementById('requestHeader');
-    const successMessage = document.getElementById('successMessage');
-    const formError = document.getElementById('formError');
-    const fallbackEmail = 'hello@bertrandbrands.com';
+        <footer class="footer">
+            <p class="footer__text">&copy; 2026 &middot; Sudbury, Canada &middot; <a href="mailto:hello@scottbertrand.com">hello@scottbertrand.com</a></p>
+        </footer>
+    </div>
 
-    // Service descriptions
-    const serviceDescriptions = {
-        'website-snapshot': {
-            text: 'A focused, live review of your website\'s most visible issues. We\'ll assess homepage clarity, messaging alignment, and immediate friction points—then outline what to fix first.',
-            meta: '30-minute live call · No PDF or written report'
-        },
-        'brand-clarity': {
-            text: 'A strategic session to clarify what your brand is communicating today—and where it\'s misaligned. Ideal if your brand feels inconsistent, dated, or unclear.',
-            meta: '45-minute live session · Optional short follow-up email (3–5 bullets)'
-        },
-        'website-audit': {
-            text: 'Comprehensive PDF assessment of your website\'s UX, messaging, performance, and SEO basics. Includes prioritized recommendations (Now / Next / Later).',
-            meta: 'Delivered in 5 business days'
-        },
-        'brand-audit': {
-            text: 'Strategic review of brand clarity, voice & tone, visual cohesion, and positioning. Written PDF with actionable recommendations.',
-            meta: 'Delivered in 5–7 business days'
-        },
-        'brand-reset': {
-            text: 'Complete brand positioning synthesis, voice & tone framework, visual direction (type, color, layout principles), and brand guide PDF.',
-            meta: 'Timeline: 3–4 weeks'
-        },
-        'website-foundation': {
-            text: 'Full site build: structure & hierarchy, homepage + key page copy refinement, design & development, mobile optimization, SEO basics, and launch support.',
-            meta: 'Timeline: 4–6 weeks'
-        },
-        'full-brand-website-reset': {
-            text: 'Complete system: Brand Reset + Website Foundation with unified strategic thinking, priority scheduling, and end-to-end cohesion.',
-            meta: 'Timeline: 6–8 weeks'
-        },
-        'not-sure': {
-            text: 'Not sure which service fits? No problem. Share your goals and challenges below, and I\'ll recommend the right starting point.',
-            meta: ''
+    <!-- Theme Toggle -->
+    <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle theme">◐</button>
+
+    <script>
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        // Check for saved preference or system preference
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme) {
+            html.setAttribute('data-theme', savedTheme);
+        } else if (!systemPrefersDark) {
+            html.setAttribute('data-theme', 'light');
         }
-    };
 
-    // Update service description display
-    function updateServiceDescription(value) {
-        const descBox = document.getElementById('serviceDescription');
-        const descText = document.getElementById('serviceDescriptionText');
-        const descMeta = document.getElementById('serviceDescriptionMeta');
-
-        if (value && serviceDescriptions[value]) {
-            descText.textContent = serviceDescriptions[value].text;
-            descMeta.textContent = serviceDescriptions[value].meta;
-            descBox.style.display = 'block';
-        } else {
-            descBox.style.display = 'none';
-        }
-    }
-
-    // Check for success param (redirect from Formspree)
-    if (new URLSearchParams(window.location.search).get('success') === 'true') {
-        form.style.display = 'none';
-        requestHeader.style.display = 'none';
-        successMessage.style.display = 'block';
-    }
-
-    // Pre-select service from URL param (e.g., ?service=website-audit)
-    const serviceParam = new URLSearchParams(window.location.search).get('service');
-    const serviceSelect = form.querySelector('select[name="service"]');
-
-    if (serviceParam && serviceSelect) {
-        const option = serviceSelect.querySelector(`option[value="${serviceParam}"]`);
-        if (option) {
-            serviceSelect.value = serviceParam;
-            updateServiceDescription(serviceParam);
-        }
-    }
-
-    // Listen for service selection changes
-    if (serviceSelect) {
-        serviceSelect.addEventListener('change', (e) => {
-            updateServiceDescription(e.target.value);
+        themeToggle.addEventListener('click', () => {
+            const current = html.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
         });
-    }
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+        // Form functionality
+        const form = document.getElementById('requestForm');
+        const requestHeader = document.getElementById('requestHeader');
+        const successMessage = document.getElementById('successMessage');
+        const formError = document.getElementById('formError');
 
-        const formData = new FormData(form);
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const originalText = submitBtn.textContent;
+        // Service descriptions
+        const serviceDescriptions = {
+            'website-snapshot': {
+                text: 'A focused, live review of your website\'s most visible issues. We\'ll assess homepage clarity, messaging alignment, and immediate friction points—then outline what to fix first.',
+                meta: '30-minute live call · No PDF or written report'
+            },
+            'brand-clarity': {
+                text: 'A strategic session to clarify what your brand is communicating today—and where it\'s misaligned. Ideal if your brand feels inconsistent, dated, or unclear.',
+                meta: '45-minute live session · Optional short follow-up email (3–5 bullets)'
+            },
+            'website-audit': {
+                text: 'Comprehensive PDF assessment of your website\'s UX, messaging, performance, and SEO basics. Includes prioritized recommendations (Now / Next / Later).',
+                meta: 'Delivered in 5 business days'
+            },
+            'brand-audit': {
+                text: 'Strategic review of brand clarity, voice & tone, visual cohesion, and positioning. Written PDF with actionable recommendations.',
+                meta: 'Delivered in 5–7 business days'
+            },
+            'brand-reset': {
+                text: 'Complete brand positioning synthesis, voice & tone framework, visual direction (type, color, layout principles), and brand guide PDF.',
+                meta: 'Timeline: 3–4 weeks'
+            },
+            'website-foundation': {
+                text: 'Full site build: structure & hierarchy, homepage + key page copy refinement, design & development, mobile optimization, SEO basics, and launch support.',
+                meta: 'Timeline: 4–6 weeks'
+            },
+            'full-brand-website-reset': {
+                text: 'Complete system: Brand Reset + Website Foundation with unified strategic thinking, priority scheduling, and end-to-end cohesion.',
+                meta: 'Timeline: 6–8 weeks'
+            },
+            'not-sure': {
+                text: 'Not sure which service fits? No problem. Share your goals and challenges below, and I\'ll recommend the right starting point.',
+                meta: ''
+            }
+        };
 
-        // Reset error state
-        formError.classList.remove('show');
+        // Update service description display
+        function updateServiceDescription(value) {
+            const descBox = document.getElementById('serviceDescription');
+            const descText = document.getElementById('serviceDescriptionText');
+            const descMeta = document.getElementById('serviceDescriptionMeta');
 
-        // Show loading state
-        submitBtn.disabled = true;
-        submitBtn.classList.add('loading');
-        submitBtn.setAttribute('aria-busy', 'true');
-
-        try {
-            const response = await fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-
-            if (response.ok) {
-                form.style.display = 'none';
-                requestHeader.style.display = 'none';
-                successMessage.style.display = 'block';
+            if (value && serviceDescriptions[value]) {
+                descText.textContent = serviceDescriptions[value].text;
+                descMeta.textContent = serviceDescriptions[value].meta;
+                descBox.style.display = 'block';
             } else {
-                // Show error and reset button
+                descBox.style.display = 'none';
+            }
+        }
+
+        // Check for success param (redirect from Formspree)
+        if (new URLSearchParams(window.location.search).get('success') === 'true') {
+            form.style.display = 'none';
+            requestHeader.style.display = 'none';
+            successMessage.style.display = 'block';
+        }
+
+        // Pre-select service from URL param (e.g., ?service=website-audit)
+        const serviceParam = new URLSearchParams(window.location.search).get('service');
+        const serviceSelect = form.querySelector('select[name="service"]');
+
+        if (serviceParam && serviceSelect) {
+            const option = serviceSelect.querySelector(`option[value="${serviceParam}"]`);
+            if (option) {
+                serviceSelect.value = serviceParam;
+                updateServiceDescription(serviceParam);
+            }
+        }
+
+        // Listen for service selection changes
+        if (serviceSelect) {
+            serviceSelect.addEventListener('change', (e) => {
+                updateServiceDescription(e.target.value);
+            });
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const submitBtn = form.querySelector('button[type="submit"]');
+
+            // Reset error state
+            formError.classList.remove('show');
+
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.classList.add('loading');
+            submitBtn.setAttribute('aria-busy', 'true');
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    form.style.display = 'none';
+                    requestHeader.style.display = 'none';
+                    successMessage.style.display = 'block';
+                } else {
+                    formError.classList.add('show');
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('loading');
+                    submitBtn.setAttribute('aria-busy', 'false');
+                }
+            } catch (error) {
                 formError.classList.add('show');
                 submitBtn.disabled = false;
                 submitBtn.classList.remove('loading');
                 submitBtn.setAttribute('aria-busy', 'false');
             }
-        } catch (error) {
-            // Show error and reset button
-            formError.classList.add('show');
-            submitBtn.disabled = false;
-            submitBtn.classList.remove('loading');
-            submitBtn.setAttribute('aria-busy', 'false');
-        }
-    });
-</script>
-<script type="module" src="/src/scripts/visitor-notify.js"></script>
-<script type="module" src="/src/scripts/dot-grid.js"></script>
+        });
+    </script>
 </body>
 </html>

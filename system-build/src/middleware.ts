@@ -13,6 +13,13 @@ const DOMAINS: Record<string, string[]> = {
   DASHBOARD: ['dashboard.bertrandbrands.com'],
   PORTAL: ['clients.bertrandbrands.com'],
 
+  // Test/Staging domains (test.bertrandbrands.com)
+  TEST_PUBLIC: ['test.bertrandbrands.com'],
+  TEST_NOTES: ['notes.test.bertrandbrands.com'],
+  TEST_GOODS: ['goods.test.bertrandbrands.com'],
+  TEST_DASHBOARD: ['dashboard.test.bertrandbrands.com'],
+  TEST_PORTAL: ['clients.test.bertrandbrands.com'],
+
   // Development patterns
   DEV_PUBLIC: ['localhost', '127.0.0.1'],
   DEV_DASHBOARD: ['dashboard.localhost'],
@@ -76,27 +83,45 @@ export async function middleware(request: NextRequest) {
 }
 
 function getSiteType(host: string): 'public' | 'dashboard' | 'portal' | 'notes' | 'goods' {
-  // Dashboard
-  if (DOMAINS.DASHBOARD.includes(host) || host.startsWith('dashboard.')) {
+  // Dashboard (production, test, or dev)
+  if (
+    DOMAINS.DASHBOARD.includes(host) ||
+    DOMAINS.TEST_DASHBOARD.includes(host) ||
+    DOMAINS.DEV_DASHBOARD.includes(host) ||
+    host.startsWith('dashboard.')
+  ) {
     return 'dashboard'
   }
 
-  // Portal
-  if (DOMAINS.PORTAL.includes(host) || host.startsWith('clients.')) {
+  // Portal (production, test, or dev)
+  if (
+    DOMAINS.PORTAL.includes(host) ||
+    DOMAINS.TEST_PORTAL.includes(host) ||
+    DOMAINS.DEV_PORTAL.includes(host) ||
+    host.startsWith('clients.')
+  ) {
     return 'portal'
   }
 
-  // Notes
-  if (DOMAINS.NOTES.includes(host) || host.startsWith('notes.')) {
+  // Notes (production or test)
+  if (
+    DOMAINS.NOTES.includes(host) ||
+    DOMAINS.TEST_NOTES.includes(host) ||
+    host.startsWith('notes.')
+  ) {
     return 'notes'
   }
 
-  // Goods
-  if (DOMAINS.GOODS.includes(host) || host.startsWith('goods.')) {
+  // Goods (production or test)
+  if (
+    DOMAINS.GOODS.includes(host) ||
+    DOMAINS.TEST_GOODS.includes(host) ||
+    host.startsWith('goods.')
+  ) {
     return 'goods'
   }
 
-  // Default to public
+  // Default to public (includes test.bertrandbrands.com)
   return 'public'
 }
 

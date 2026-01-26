@@ -129,11 +129,9 @@ function getSiteType(host: string): 'public' | 'dashboard' | 'portal' | 'notes' 
 }
 
 async function handleDashboardRouting(request: NextRequest, pathname: string) {
-  // Allow auth routes without authentication
+  // Allow auth routes without authentication (don't rewrite - use root-level auth pages)
   if (AUTH_PATHS.some(path => pathname.startsWith(path))) {
-    const url = request.nextUrl.clone()
-    url.pathname = `/dashboard${pathname}`
-    return NextResponse.rewrite(url)
+    return NextResponse.next()
   }
 
   // Allow public API routes (webhooks, intake, etc.) without authentication
@@ -161,11 +159,9 @@ async function handleDashboardRouting(request: NextRequest, pathname: string) {
 }
 
 async function handlePortalRouting(request: NextRequest, pathname: string) {
-  // Allow auth routes without authentication
+  // Allow auth routes without authentication (don't rewrite - use root-level auth pages)
   if (AUTH_PATHS.some(path => pathname.startsWith(path))) {
-    const url = request.nextUrl.clone()
-    url.pathname = `/portal${pathname}`
-    return NextResponse.rewrite(url)
+    return NextResponse.next()
   }
 
   // Check for session token (Auth.js cookie)

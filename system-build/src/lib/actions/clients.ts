@@ -37,22 +37,26 @@ export async function createClient(
     return { error: 'Invalid email format' }
   }
 
-  try {
-    // Check if user with this email already exists
-    const existingUser = await prisma.users.findUnique({
-      where: { email: contactEmail.toLowerCase() },
+  // Check if user with this email already exists
+  const existingUser = await prisma.users.findUnique({
+    where: { email: contactEmail.toLowerCase() },
+  })
+
+  if (existingUser) {
+    // Check if they already have a client profile
+    const existingClient = await prisma.clients.findUnique({
+      where: { userId: existingUser.id },
     })
 
+    if (existingClient) {
+      return { error: 'A client with this email already exists' }
+    }
+  }
+
+  let clientId: string
+
+  try {
     if (existingUser) {
-      // Check if they already have a client profile
-      const existingClient = await prisma.clients.findUnique({
-        where: { userId: existingUser.id },
-      })
-
-      if (existingClient) {
-        return { error: 'A client with this email already exists' }
-      }
-
       // Create client profile for existing user
       const client = await prisma.clients.create({
         data: {
@@ -74,48 +78,49 @@ export async function createClient(
         })
       }
 
-      revalidatePath('/dashboard/clients')
-      redirect(`/dashboard/clients/${client.id}`)
+      clientId = client.id
+    } else {
+      // Create new user and client
+      const user = await prisma.users.create({
+        data: {
+          email: contactEmail.toLowerCase(),
+          name: contactName,
+          role: 'CLIENT',
+        },
+      })
+
+      const client = await prisma.clients.create({
+        data: {
+          userId: user.id,
+          contactName,
+          contactEmail: contactEmail.toLowerCase(),
+          companyName: companyName || null,
+          phone: phone || null,
+          website: website || null,
+          notes: notes || null,
+        },
+      })
+
+      // Log activity
+      await prisma.activity_logs.create({
+        data: {
+          userId: session.user.id,
+          action: 'CREATE',
+          entityType: 'Client',
+          entityId: client.id,
+          details: { contactName, contactEmail },
+        },
+      })
+
+      clientId = client.id
     }
-
-    // Create new user and client
-    const user = await prisma.users.create({
-      data: {
-        email: contactEmail.toLowerCase(),
-        name: contactName,
-        role: 'CLIENT',
-      },
-    })
-
-    const client = await prisma.clients.create({
-      data: {
-        userId: user.id,
-        contactName,
-        contactEmail: contactEmail.toLowerCase(),
-        companyName: companyName || null,
-        phone: phone || null,
-        website: website || null,
-        notes: notes || null,
-      },
-    })
-
-    // Log activity
-    await prisma.activity_logs.create({
-      data: {
-        userId: session.user.id,
-        action: 'CREATE',
-        entityType: 'Client',
-        entityId: client.id,
-        details: { contactName, contactEmail },
-      },
-    })
-
-    revalidatePath('/dashboard/clients')
-    redirect(`/dashboard/clients/${client.id}`)
   } catch (error) {
-    console.error('Error creating clients:', error)
+    console.error('Error creating client:', error)
     return { error: 'Failed to create client' }
   }
+
+  revalidatePath('/dashboard/clients')
+  redirect(`/dashboard/clients/${clientId}`)
 }
 
 export async function updateClient(

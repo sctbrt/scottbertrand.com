@@ -33,27 +33,29 @@ export async function createProject(
     return { error: 'Project name and client are required' }
   }
 
-  try {
-    // Verify client exists
-    const client = await prisma.clients.findUnique({
-      where: { id: clientId },
+  // Verify client exists
+  const client = await prisma.clients.findUnique({
+    where: { id: clientId },
+  })
+
+  if (!client) {
+    return { error: 'Client not found' }
+  }
+
+  // If service template selected, get its default checklist items
+  let defaultTasks: { title: string; description?: string }[] = []
+  if (serviceTemplateId) {
+    const template = await prisma.service_templates.findUnique({
+      where: { id: serviceTemplateId },
     })
-
-    if (!client) {
-      return { error: 'Client not found' }
+    if (template?.checklistItems) {
+      defaultTasks = template.checklistItems as typeof defaultTasks
     }
+  }
 
-    // If service template selected, get its default checklist items
-    let defaultTasks: { title: string; description?: string }[] = []
-    if (serviceTemplateId) {
-      const template = await prisma.service_templates.findUnique({
-        where: { id: serviceTemplateId },
-      })
-      if (template?.checklistItems) {
-        defaultTasks = template.checklistItems as typeof defaultTasks
-      }
-    }
+  let projectId: string
 
+  try {
     // Create project
     const project = await prisma.projects.create({
       data: {
@@ -92,13 +94,15 @@ export async function createProject(
       },
     })
 
-    revalidatePath('/dashboard/projects')
-    revalidatePath(`/dashboard/clients/${clientId}`)
-    redirect(`/dashboard/projects/${project.id}`)
+    projectId = project.id
   } catch (error) {
     console.error('Error creating project:', error)
     return { error: 'Failed to create project' }
   }
+
+  revalidatePath('/dashboard/projects')
+  revalidatePath(`/dashboard/clients/${clientId}`)
+  redirect(`/dashboard/projects/${projectId}`)
 }
 
 export async function updateProject(

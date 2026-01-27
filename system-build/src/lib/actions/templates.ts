@@ -42,37 +42,39 @@ export async function createTemplate(
     return { error: 'Slug must contain only lowercase letters, numbers, and hyphens' }
   }
 
+  // Check if slug is unique
+  const existingTemplate = await prisma.service_templates.findUnique({
+    where: { slug },
+  })
+
+  if (existingTemplate) {
+    return { error: 'A template with this slug already exists' }
+  }
+
+  // Parse JSON arrays
+  let parsedScope = []
+  let parsedDeliverables = []
+  let parsedChecklistItems = []
+
   try {
-    // Check if slug is unique
-    const existingTemplate = await prisma.service_templates.findUnique({
-      where: { slug },
-    })
+    parsedScope = JSON.parse(scope).filter((s: string) => s.trim())
+    parsedDeliverables = JSON.parse(deliverables).filter((d: string) => d.trim())
+    parsedChecklistItems = JSON.parse(checklistItems).filter(
+      (c: { title: string }) => c.title.trim()
+    )
+  } catch {
+    return { error: 'Invalid data format' }
+  }
 
-    if (existingTemplate) {
-      return { error: 'A template with this slug already exists' }
-    }
+  // Get max sort order
+  const lastTemplate = await prisma.service_templates.findFirst({
+    orderBy: { sortOrder: 'desc' },
+    select: { sortOrder: true },
+  })
 
-    // Parse JSON arrays
-    let parsedScope = []
-    let parsedDeliverables = []
-    let parsedChecklistItems = []
+  let templateId: string
 
-    try {
-      parsedScope = JSON.parse(scope).filter((s: string) => s.trim())
-      parsedDeliverables = JSON.parse(deliverables).filter((d: string) => d.trim())
-      parsedChecklistItems = JSON.parse(checklistItems).filter(
-        (c: { title: string }) => c.title.trim()
-      )
-    } catch {
-      return { error: 'Invalid data format' }
-    }
-
-    // Get max sort order
-    const lastTemplate = await prisma.service_templates.findFirst({
-      orderBy: { sortOrder: 'desc' },
-      select: { sortOrder: true },
-    })
-
+  try {
     const template = await prisma.service_templates.create({
       data: {
         name,
@@ -99,12 +101,14 @@ export async function createTemplate(
       },
     })
 
-    revalidatePath('/dashboard/templates')
-    redirect(`/dashboard/templates/${template.id}`)
+    templateId = template.id
   } catch (error) {
     console.error('Error creating template:', error)
     return { error: 'Failed to create template' }
   }
+
+  revalidatePath('/dashboard/templates')
+  redirect(`/dashboard/templates/${templateId}`)
 }
 
 export async function updateTemplate(

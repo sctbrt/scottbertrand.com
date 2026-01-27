@@ -50,24 +50,26 @@ export async function createInvoice(
     return { error: 'Invoice number and client are required' }
   }
 
+  // Verify client exists
+  const client = await prisma.clients.findUnique({
+    where: { id: clientId },
+  })
+
+  if (!client) {
+    return { error: 'Client not found' }
+  }
+
+  // Parse line items
+  let parsedLineItems = []
   try {
-    // Verify client exists
-    const client = await prisma.clients.findUnique({
-      where: { id: clientId },
-    })
+    parsedLineItems = JSON.parse(lineItems)
+  } catch {
+    return { error: 'Invalid line items format' }
+  }
 
-    if (!client) {
-      return { error: 'Client not found' }
-    }
+  let invoiceId: string
 
-    // Parse line items
-    let parsedLineItems = []
-    try {
-      parsedLineItems = JSON.parse(lineItems)
-    } catch {
-      return { error: 'Invalid line items format' }
-    }
-
+  try {
     // Create invoice
     const invoice = await prisma.invoices.create({
       data: {
@@ -95,16 +97,18 @@ export async function createInvoice(
       },
     })
 
-    revalidatePath('/dashboard/invoices')
-    revalidatePath(`/dashboard/clients/${clientId}`)
-    if (projectId) {
-      revalidatePath(`/dashboard/projects/${projectId}`)
-    }
-    redirect(`/dashboard/invoices/${invoice.id}`)
+    invoiceId = invoice.id
   } catch (error) {
     console.error('Error creating invoice:', error)
     return { error: 'Failed to create invoice' }
   }
+
+  revalidatePath('/dashboard/invoices')
+  revalidatePath(`/dashboard/clients/${clientId}`)
+  if (projectId) {
+    revalidatePath(`/dashboard/projects/${projectId}`)
+  }
+  redirect(`/dashboard/invoices/${invoiceId}`)
 }
 
 export async function updateInvoice(

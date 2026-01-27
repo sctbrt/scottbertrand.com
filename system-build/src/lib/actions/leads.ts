@@ -140,6 +140,65 @@ export async function deleteLead(
   redirect('/dashboard/leads')
 }
 
+export async function archiveMultipleLeads(
+  leadIds: string[]
+): Promise<LeadActionState> {
+  const session = await auth()
+  if (!session?.user || session.user.role !== 'INTERNAL_ADMIN') {
+    return { error: 'Unauthorized' }
+  }
+
+  if (!leadIds || leadIds.length === 0) {
+    return { error: 'No leads selected' }
+  }
+
+  // Check for converted leads - these cannot be archived
+  const leads = await prisma.leads.findMany({
+    where: { id: { in: leadIds } },
+    select: { id: true, status: true, convertedToClientId: true },
+  })
+
+  const convertedLeads = leads.filter(
+    (lead) => lead.status === 'CONVERTED' || lead.convertedToClientId
+  )
+
+  if (convertedLeads.length > 0) {
+    return {
+      error: `Cannot archive ${convertedLeads.length} converted lead(s). Please deselect them and try again.`,
+    }
+  }
+
+  try {
+    await prisma.leads.updateMany({
+      where: {
+        id: { in: leadIds },
+        status: { not: 'CONVERTED' },
+        convertedToClientId: null,
+      },
+      data: {
+        status: 'ARCHIVED',
+      },
+    })
+
+    // Log activity
+    await prisma.activity_logs.create({
+      data: {
+        userId: session.user.id,
+        action: 'BULK_ARCHIVE',
+        entityType: 'Lead',
+        entityId: 'multiple',
+        details: { count: leadIds.length, leadIds },
+      },
+    })
+  } catch (error) {
+    console.error('Error archiving leads:', error)
+    return { error: 'Failed to archive leads' }
+  }
+
+  revalidatePath('/dashboard/leads')
+  return { success: true }
+}
+
 export async function convertToClient(
   leadId: string,
   prevState: LeadActionState,
@@ -280,13 +339,6 @@ export async function convertToClient(
     })
 
     clientId = result.clientId
-
-    revalidatePath(`/dashboard/leads/${leadId}`)
-    revalidatePath('/dashboard/leads')
-    revalidatePath('/dashboard/clients')
-    revalidatePath('/dashboard')
-
-    redirect(`/dashboard/clients/${clientId}`)
   } catch (error) {
     console.error('Error converting lead to client:', error)
     // Return specific error messages from transaction
@@ -295,4 +347,11 @@ export async function convertToClient(
     }
     return { error: 'Failed to convert lead to client' }
   }
+
+  revalidatePath(`/dashboard/leads/${leadId}`)
+  revalidatePath('/dashboard/leads')
+  revalidatePath('/dashboard/clients')
+  revalidatePath('/dashboard')
+
+  redirect(`/dashboard/clients/${clientId}`)
 }

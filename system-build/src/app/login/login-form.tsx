@@ -46,20 +46,27 @@ export function LoginForm({ callbackUrl, isDev }: LoginFormProps) {
         setAttempts(prev => prev + 1)
         setLastAttempt(now)
 
+        console.log('[LoginForm] Calling signIn with email:', email)
         const result = await signIn('resend', {
           email,
           callbackUrl: callbackUrl || '/',
           redirect: false,
         })
+        console.log('[LoginForm] signIn result:', JSON.stringify(result))
 
         if (result?.error) {
+          console.error('[LoginForm] signIn error:', result.error)
           // Neutral response - don't reveal if account exists
           setError('Unable to send sign-in link. Please try again.')
-        } else {
+        } else if (result?.ok) {
           // Redirect to verify page
           window.location.href = '/login/verify?email=' + encodeURIComponent(email)
+        } else {
+          console.error('[LoginForm] Unexpected result:', result)
+          setError('Unable to send sign-in link. Please try again.')
         }
-      } catch {
+      } catch (err) {
+        console.error('[LoginForm] Exception:', err)
         setError('An unexpected error occurred. Please try again.')
       }
     })

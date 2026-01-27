@@ -30,6 +30,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
   providers: [
     Resend({
+      apiKey: process.env.AUTH_RESEND_KEY || process.env.RESEND_API_KEY,
       from: 'Bertrand Brands <hello@bertrandbrands.com>',
       // Custom magic link email
       sendVerificationRequest: async ({ identifier, url, provider }) => {
@@ -126,7 +127,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
   // Security settings per spec
   trustHost: true,
-  debug: process.env.NODE_ENV === 'development',
+  debug: true, // Temporarily enabled for debugging
+
+  // Add logger for debugging
+  logger: {
+    error(code, ...message) {
+      console.error('[Auth Error]', code, ...message)
+    },
+    warn(code, ...message) {
+      console.warn('[Auth Warn]', code, ...message)
+    },
+    debug(code, ...message) {
+      console.log('[Auth Debug]', code, ...message)
+    },
+  },
 })
 
 // Magic link email templates

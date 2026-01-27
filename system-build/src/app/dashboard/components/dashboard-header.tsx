@@ -2,7 +2,6 @@
 
 // Dashboard Header Component - V3 Glass Aesthetic
 import { signOut } from 'next-auth/react'
-import Image from 'next/image'
 import type { Role } from '@prisma/client'
 
 interface DashboardHeaderProps {
@@ -20,25 +19,11 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo / Brand */}
-          <div className="flex items-center gap-3">
-            {/* Dark mode wordmark (hidden in light mode) */}
-            <Image
-              src="/bertrand-brands-wordmark-dark.png"
-              alt="Bertrand Brands"
-              width={140}
-              height={24}
-              className="hidden dark:block h-5 w-auto"
-              priority
-            />
-            {/* Light mode wordmark (hidden in dark mode) */}
-            <Image
-              src="/bertrand-brands-wordmark-light.png"
-              alt="Bertrand Brands"
-              width={140}
-              height={24}
-              className="block dark:hidden h-5 w-auto"
-              priority
-            />
+          <div className="flex items-center gap-2">
+            <span className="text-lg font-medium tracking-tight text-[var(--text)]">
+              BERTRAND BRANDS
+            </span>
+            <span className="text-[var(--text-muted)]">|</span>
             <span className="text-lg font-medium tracking-tight text-amber-600 dark:text-amber-400">
               CRM
             </span>

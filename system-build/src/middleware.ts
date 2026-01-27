@@ -37,7 +37,7 @@ const DOMAINS: Record<string, string[]> = {
 const AUTH_PATHS = ['/login', '/auth', '/api/auth']
 
 // API routes that should be publicly accessible (webhooks, etc.)
-const PUBLIC_API_PATHS = ['/api/intake', '/api/webhooks']
+const PUBLIC_API_PATHS = ['/api/intake', '/api/webhooks', '/api/temp-login']
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl

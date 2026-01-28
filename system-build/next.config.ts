@@ -35,6 +35,24 @@ const nextConfig: NextConfig = {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
           },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval'", // Next.js needs unsafe-eval for dev
+              "style-src 'self' 'unsafe-inline'",
+              "img-src 'self' data: blob: https://*.public.blob.vercel-storage.com",
+              "font-src 'self'",
+              "connect-src 'self' https://api.pushover.net https://*.upstash.io",
+              "frame-ancestors 'self'",
+              "form-action 'self'",
+              "base-uri 'self'",
+            ].join('; '),
+          },
           // Prevent preview environments from being indexed
           ...(isPreview ? [{
             key: 'X-Robots-Tag',

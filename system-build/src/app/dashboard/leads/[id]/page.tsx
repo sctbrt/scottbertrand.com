@@ -1,5 +1,6 @@
 // Dashboard - Lead Detail Page
 import { prisma } from '@/lib/prisma'
+import { getLead } from '@/lib/data/leads'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { LeadActions } from './lead-actions'
@@ -13,21 +14,10 @@ interface LeadDetailPageProps {
 export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
   const { id } = await params
 
+  // Fetch lead with automatic decryption of sensitive fields
+  // getLead now takes just the ID and includes all relations automatically
   const [lead, templates] = await Promise.all([
-    prisma.leads.findUnique({
-      where: { id },
-      include: {
-        service_templates: true,
-        clients: {
-          include: {
-            users: { select: { email: true } },
-          },
-        },
-        users: {
-          select: { name: true, email: true },
-        },
-      },
-    }),
+    getLead(id),
     prisma.service_templates.findMany({
       where: { isActive: true },
       orderBy: { sortOrder: 'asc' },

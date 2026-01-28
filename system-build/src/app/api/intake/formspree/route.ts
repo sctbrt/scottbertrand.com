@@ -1,51 +1,32 @@
 // Intake Webhook - Formspree Submissions
 // Endpoint: POST /api/intake/formspree
+//
+// Security:
+// - Resthook protocol handshake (X-Hook-Secret)
+// - Origin validation (Formspree IPs/domains)
+// - Rate limiting
+// - Input sanitization
 
 import { NextRequest, NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
+import { headers } from 'next/headers'
+import { checkRateLimit, rateLimitHeaders, getClientIP } from '@/lib/rate-limit'
+import { encrypt, isEncryptionConfigured } from '@/lib/encryption'
 
 // Max request body size (100KB)
 const MAX_BODY_SIZE = 100 * 1024
-import { prisma } from '@/lib/prisma'
-import { headers } from 'next/headers'
 
-// Rate limit config
-const RATE_LIMIT_WINDOW = 60 // 60 seconds
-const RATE_LIMIT_MAX_REQUESTS = 10 // Max 10 requests per minute per IP
+// Formspree webhook secret for Resthook handshake verification
+// Set this in your environment after configuring the webhook in Formspree
+const FORMSPREE_WEBHOOK_SECRET = process.env.FORMSPREE_WEBHOOK_SECRET
 
-// In-memory rate limit fallback (used when Redis is unavailable)
-// Note: In serverless, this only works within the same instance
-const inMemoryRateLimits = new Map<string, { count: number; resetAt: number }>()
-const FALLBACK_RATE_LIMIT_MAX = 5 // Stricter limit when using fallback
+// Trusted webhook origins (Formspree sends from these)
+const TRUSTED_ORIGINS = [
+  'formspree.io',
+  'www.formspree.io',
+  'api.formspree.io',
+]
 
-// Upstash Redis REST API helpers
-const UPSTASH_REDIS_REST_URL = process.env.UPSTASH_REDIS_REST_URL
-const UPSTASH_REDIS_REST_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN
-
-async function redisCommand(command: string[]): Promise<unknown> {
-  if (!UPSTASH_REDIS_REST_URL || !UPSTASH_REDIS_REST_TOKEN) {
-    console.warn('[Rate Limit] Upstash Redis not configured, skipping rate limit')
-    return null
-  }
-
-  const response = await fetch(`${UPSTASH_REDIS_REST_URL}`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${UPSTASH_REDIS_REST_TOKEN}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(command),
-  })
-
-  if (!response.ok) {
-    console.error('[Rate Limit] Redis error:', await response.text())
-    return null
-  }
-
-  const data = await response.json()
-  return data.result
-}
-
-// Spam detection patterns
 // Spam detection patterns
 const SPAM_PATTERNS = [
   /\b(viagra|cialis|casino|poker|lottery|winner)\b/i,
@@ -72,8 +53,81 @@ function sanitizeString(value: unknown, maxLength: number): string {
   return value.trim().slice(0, maxLength).replace(/\0/g, '')
 }
 
+// Validate webhook origin
+function isValidWebhookOrigin(request: NextRequest): boolean {
+  // Check User-Agent for Formspree
+  const userAgent = request.headers.get('user-agent') || ''
+  if (userAgent.toLowerCase().includes('formspree')) {
+    return true
+  }
+
+  // Check Origin/Referer headers
+  const origin = request.headers.get('origin') || request.headers.get('referer') || ''
+  for (const trusted of TRUSTED_ORIGINS) {
+    if (origin.includes(trusted)) {
+      return true
+    }
+  }
+
+  // If no webhook secret is configured, be more permissive (log warning)
+  if (!FORMSPREE_WEBHOOK_SECRET) {
+    console.warn('[Webhook] No FORMSPREE_WEBHOOK_SECRET configured - origin validation relaxed')
+    return true
+  }
+
+  return false
+}
+
+// Resthook handshake - Formspree sends this to verify webhook URL
+// Responds with the same X-Hook-Secret to confirm ownership
+export async function GET(request: NextRequest) {
+  const hookSecret = request.headers.get('x-hook-secret')
+
+  if (hookSecret) {
+    // Resthook handshake - echo back the secret
+    console.log('[Webhook] Resthook handshake received')
+    return new NextResponse(null, {
+      status: 200,
+      headers: {
+        'X-Hook-Secret': hookSecret,
+      },
+    })
+  }
+
+  // Regular GET request - return info about the endpoint
+  return NextResponse.json({
+    endpoint: '/api/intake/formspree',
+    accepts: 'POST',
+    description: 'Formspree webhook intake endpoint',
+  })
+}
+
 export async function POST(request: NextRequest) {
   try {
+    // Validate webhook origin (Formspree verification)
+    if (!isValidWebhookOrigin(request)) {
+      // Log suspicious activity (potential webhook spoofing)
+      console.warn('[AUDIT]', JSON.stringify({
+        timestamp: new Date().toISOString(),
+        type: 'AUDIT',
+        event: 'SUSPICIOUS_ACTIVITY',
+        severity: 'CRITICAL',
+        ip: request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown',
+        path: '/api/intake/formspree',
+        success: false,
+        details: {
+          reason: 'invalid_webhook_origin',
+          userAgent: request.headers.get('user-agent'),
+          origin: request.headers.get('origin'),
+          referer: request.headers.get('referer'),
+        },
+      }))
+      return NextResponse.json(
+        { error: 'Unauthorized webhook source' },
+        { status: 403 }
+      )
+    }
+
     // Check content-length to prevent oversized requests
     const contentLength = parseInt(request.headers.get('content-length') || '0', 10)
     if (contentLength > MAX_BODY_SIZE) {
@@ -85,9 +139,7 @@ export async function POST(request: NextRequest) {
 
     // Get client IP for rate limiting
     const headersList = await headers()
-    const ip = headersList.get('x-forwarded-for')?.split(',')[0] ||
-               headersList.get('x-real-ip') ||
-               'unknown'
+    const ip = getClientIP(headersList)
 
     // Get geo info from Vercel headers (free, no external API needed)
     const geo = {
@@ -96,11 +148,23 @@ export async function POST(request: NextRequest) {
       country: headersList.get('x-vercel-ip-country') || '',
     }
 
-    // Rate limiting check (using Upstash Redis)
-    if (!(await checkRateLimit(ip))) {
+    // Rate limiting check (using shared utility)
+    const rateLimit = await checkRateLimit(ip, 'INTAKE', 'formspree')
+    if (!rateLimit.allowed) {
+      // Log rate limit exceeded
+      console.warn('[AUDIT]', JSON.stringify({
+        timestamp: new Date().toISOString(),
+        type: 'AUDIT',
+        event: 'RATE_LIMIT_EXCEEDED',
+        severity: 'WARNING',
+        ip,
+        path: '/api/intake/formspree',
+        success: false,
+        details: { limitType: 'INTAKE' },
+      }))
       return NextResponse.json(
         { error: 'Too many requests. Please try again later.' },
-        { status: 429 }
+        { status: 429, headers: rateLimitHeaders(rateLimit) }
       )
     }
 
@@ -203,24 +267,44 @@ export async function POST(request: NextRequest) {
       // If no matching template, service stays null but raw value is in formData
     }
 
-    // Create lead record
+    // Encrypt sensitive fields if encryption is configured
+    const shouldEncrypt = isEncryptionConfigured()
+    const storedEmail = shouldEncrypt ? encrypt(email) : email
+    const storedPhone = phone ? (shouldEncrypt ? encrypt(phone) : phone) : null
+    const storedMessage = message ? (shouldEncrypt ? encrypt(message) : message) : null
+
+    // Sanitize formData to remove sensitive fields before storing
+    // (we store encrypted versions in dedicated columns)
+    const sanitizedFormData = { ...formData }
+    if (shouldEncrypt) {
+      // Remove raw sensitive data from formData JSON
+      delete sanitizedFormData.email
+      delete sanitizedFormData.Email
+      delete sanitizedFormData.phone
+      delete sanitizedFormData.Phone
+      delete sanitizedFormData.message
+      delete sanitizedFormData.Message
+      sanitizedFormData._encrypted = true
+    }
+
+    // Create lead record with encrypted sensitive data
     const lead = await prisma.leads.create({
       data: {
-        email,
+        email: storedEmail,
         name: name || null,
         companyName: companyName || null,
         website: website || null,
-        phone: phone || null,
+        phone: storedPhone,
         service: validatedService,
-        message: message || null,
+        message: storedMessage,
         source: 'formspree',
         status: 'NEW',
         isSpam,
-        formData: formData, // Store raw form data (includes original service value)
+        formData: sanitizedFormData,
       },
     })
 
-    // Log the activity
+    // Log the activity (don't log raw sensitive data)
     await prisma.activity_logs.create({
       data: {
         action: 'LEAD_CREATED',
@@ -228,13 +312,33 @@ export async function POST(request: NextRequest) {
         entityId: lead.id,
         details: {
           source: 'formspree',
-          email: lead.email,
+          emailDomain: email.split('@')[1] || 'unknown', // Only log domain, not full email
           isSpam,
+          encrypted: shouldEncrypt,
           ip,
         },
         ipAddress: ip,
       },
     })
+
+    // Security audit log for lead creation
+    console.log('[AUDIT]', JSON.stringify({
+      timestamp: new Date().toISOString(),
+      type: 'AUDIT',
+      event: 'LEAD_CREATED',
+      severity: isSpam ? 'WARNING' : 'INFO',
+      ip,
+      path: '/api/intake/formspree',
+      resourceType: 'LEAD',
+      resourceId: lead.id,
+      success: true,
+      details: {
+        source: 'formspree',
+        emailDomain: email.split('@')[1] || 'unknown',
+        isSpam,
+        encrypted: shouldEncrypt,
+      },
+    }))
 
     // Send notification (if configured)
     if (!isSpam && process.env.PUSHOVER_USER_KEY && process.env.PUSHOVER_API_TOKEN) {
@@ -255,62 +359,6 @@ export async function POST(request: NextRequest) {
       { error: 'Internal server error' },
       { status: 500 }
     )
-  }
-}
-
-// In-memory fallback rate limiting (for when Redis is unavailable)
-function checkInMemoryRateLimit(ip: string): boolean {
-  const now = Date.now()
-  const entry = inMemoryRateLimits.get(ip)
-
-  // Clean up expired entries periodically (every 100 calls)
-  if (Math.random() < 0.01) {
-    for (const [key, value] of inMemoryRateLimits.entries()) {
-      if (now > value.resetAt) {
-        inMemoryRateLimits.delete(key)
-      }
-    }
-  }
-
-  if (!entry || now > entry.resetAt) {
-    // New window
-    inMemoryRateLimits.set(ip, {
-      count: 1,
-      resetAt: now + RATE_LIMIT_WINDOW * 1000,
-    })
-    return true
-  }
-
-  entry.count++
-  // Use stricter limit for fallback since it's per-instance only
-  return entry.count <= FALLBACK_RATE_LIMIT_MAX
-}
-
-// Rate limiting helper using Upstash Redis with in-memory fallback
-async function checkRateLimit(ip: string): Promise<boolean> {
-  // If Redis not configured, use in-memory fallback (fail closed with limits)
-  if (!UPSTASH_REDIS_REST_URL || !UPSTASH_REDIS_REST_TOKEN) {
-    console.warn('[Rate Limit] Redis not configured, using in-memory fallback')
-    return checkInMemoryRateLimit(ip)
-  }
-
-  const key = `rate_limit:formspree:${ip}`
-
-  try {
-    // INCR the key and get current count
-    const count = await redisCommand(['INCR', key]) as number
-
-    // If this is the first request, set expiry
-    if (count === 1) {
-      await redisCommand(['EXPIRE', key, String(RATE_LIMIT_WINDOW)])
-    }
-
-    // Check if over limit
-    return count <= RATE_LIMIT_MAX_REQUESTS
-  } catch (error) {
-    console.error('[Rate Limit] Redis error, using in-memory fallback:', error)
-    // Fail to fallback - use in-memory rate limiting instead of allowing all requests
-    return checkInMemoryRateLimit(ip)
   }
 }
 

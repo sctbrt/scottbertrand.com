@@ -4,21 +4,10 @@ import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { archiveMultipleLeads, updateLeadStatus, updateLeadNotes } from '@/lib/actions/leads'
-
-interface Lead {
-  id: string
-  name: string | null
-  email: string
-  service: string | null
-  status: string
-  source: string | null
-  createdAt: Date
-  internalNotes: string | null
-  service_templates: { name: string } | null
-}
+import type { LeadListItem } from '@/lib/data/leads'
 
 interface LeadsTableProps {
-  leads: Lead[]
+  leads: LeadListItem[]
 }
 
 const STATUSES = ['NEW', 'CONTACTED', 'QUALIFIED', 'CONVERTED', 'DISQUALIFIED', 'ARCHIVED']
@@ -84,7 +73,7 @@ export function LeadsTable({ leads }: LeadsTableProps) {
     setUpdatingStatusId(null)
   }
 
-  const openNotesPanel = (lead: Lead) => {
+  const openNotesPanel = (lead: LeadListItem) => {
     setNotesPanel({ leadId: lead.id, notes: lead.internalNotes || '' })
   }
 

@@ -4,6 +4,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { checkRateLimit, rateLimitHeaders, getClientIP } from '@/lib/rate-limit'
 import crypto from 'crypto'
 
 // Link expires in 15 minutes (same as normal magic links)
@@ -20,6 +21,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Request body too large' },
         { status: 413 }
+      )
+    }
+
+    // Rate limiting (even for admin endpoints - prevents abuse)
+    const ip = getClientIP(request.headers)
+    const rateLimit = await checkRateLimit(ip, 'ADMIN', 'generate-login-link')
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429, headers: rateLimitHeaders(rateLimit) }
       )
     }
 

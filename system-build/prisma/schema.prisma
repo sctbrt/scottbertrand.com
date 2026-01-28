@@ -43,6 +43,32 @@ model activity_logs {
   @@index([userId])
 }
 
+// Security audit logs - dedicated table for security-relevant events
+// Separate from activity_logs for security isolation and retention policies
+model audit_logs {
+  id           String   @id @default(cuid())
+  eventType    String   // AUTH_LOGIN_SUCCESS, RATE_LIMIT_EXCEEDED, etc.
+  severity     String   // INFO, WARNING, ERROR, CRITICAL
+  userId       String?
+  sessionId    String?
+  ip           String
+  userAgent    String?
+  path         String?
+  method       String?
+  resourceType String?  // LEAD, CLIENT, FILE, etc.
+  resourceId   String?
+  details      String?  // JSON string for flexible data
+  success      Boolean
+  createdAt    DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([eventType])
+  @@index([severity])
+  @@index([userId])
+  @@index([ip])
+  @@index([resourceType, resourceId])
+}
+
 model clients {
   id           String     @id @default(cuid())
   userId       String     @unique

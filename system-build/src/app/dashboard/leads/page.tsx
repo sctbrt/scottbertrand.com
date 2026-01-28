@@ -1,5 +1,5 @@
 // Dashboard - Leads Management Page
-import { prisma } from '@/lib/prisma'
+import { getLeads, countLeads, groupLeadsByStatus } from '@/lib/data/leads'
 import Link from 'next/link'
 import type { LeadStatus } from '@prisma/client'
 import { RefreshButton } from './refresh-button'
@@ -15,39 +15,22 @@ export default async function LeadsPage({
   const page = parseInt(params.page || '1')
   const perPage = 20
 
-  // Fetch leads with filtering and pagination
+  // Fetch leads with filtering, pagination, and automatic decryption
+  // getLeads includes service_templates automatically
   const [leads, totalCount] = await Promise.all([
-    prisma.leads.findMany({
+    getLeads({
       where: status ? { status: status as LeadStatus } : undefined,
       orderBy: { createdAt: 'desc' },
       skip: (page - 1) * perPage,
       take: perPage,
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        service: true,
-        status: true,
-        source: true,
-        createdAt: true,
-        internalNotes: true,
-        service_templates: {
-          select: { name: true },
-        },
-      },
     }),
-    prisma.leads.count({
-      where: status ? { status: status as LeadStatus } : undefined,
-    }),
+    countLeads(status ? { status: status as LeadStatus } : undefined),
   ])
 
   const totalPages = Math.ceil(totalCount / perPage)
 
   // Status counts for filters
-  const statusCounts = await prisma.leads.groupBy({
-    by: ['status'],
-    _count: { id: true },
-  })
+  const statusCounts = await groupLeadsByStatus()
 
   const statusCountMap = statusCounts.reduce((acc, curr) => {
     acc[curr.status] = curr._count.id

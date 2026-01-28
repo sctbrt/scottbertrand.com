@@ -2,7 +2,9 @@ import { defineConfig, loadEnv } from 'vite'
 import { resolve } from 'path'
 import { imagetools } from 'vite-imagetools'
 
-// Custom plugin to handle /api/field-notes locally
+// Custom plugin to handle /api/field-notes locally during development
+// NOTE: The same logic exists in api/field-notes.js for production (Vercel).
+// If you update the transform logic here, also update api/field-notes.js to match.
 function notionApiPlugin() {
   return {
     name: 'notion-api',
@@ -90,33 +92,10 @@ export default defineConfig({
         main: resolve(__dirname, 'src/pages/index.html'),
         about: resolve(__dirname, 'src/pages/about.html'),
         approach: resolve(__dirname, 'src/pages/approach.html'),
-        focus: resolve(__dirname, 'src/pages/focus.html'),
         contact: resolve(__dirname, 'src/pages/contact.html'),
         fieldNotes: resolve(__dirname, 'src/pages/field-notes.html'),
         fieldNote: resolve(__dirname, 'src/pages/field-note.html'),
-        // V1.2.0 pages
-        howItWorks: resolve(__dirname, 'src/pages/how-it-works.html'),
-        request: resolve(__dirname, 'src/pages/request.html'),
-        // Entry-level service pages
-        microConsult: resolve(__dirname, 'src/pages/services/micro-consult.html'),
-        websiteSnapshot: resolve(__dirname, 'src/pages/services/website-snapshot.html'),
-        brandClarity: resolve(__dirname, 'src/pages/services/brand-clarity.html'),
-        // Strategic review pages
-        strategicWebsiteReview: resolve(__dirname, 'src/pages/services/strategic-website-review.html'),
-        strategicBrandReview: resolve(__dirname, 'src/pages/services/strategic-brand-review.html'),
-        // Full system pages
-        brandReset: resolve(__dirname, 'src/pages/services/brand-reset.html'),
-        websiteFoundation: resolve(__dirname, 'src/pages/services/website-foundation.html'),
-        brandWebsiteReset: resolve(__dirname, 'src/pages/services/brand-website-reset.html'),
-        // Ongoing support pages
-        asyncAdvisory: resolve(__dirname, 'src/pages/services/async-advisory.html'),
-        phoneConsultation: resolve(__dirname, 'src/pages/services/phone-consultation.html'),
-        // SEO / LLM-EO content pages
-        whatIsBrandWebSystem: resolve(__dirname, 'src/pages/what-is-a-brand-web-system.html'),
-        sudburyWebsiteLeads: resolve(__dirname, 'src/pages/sudbury-small-business-website-leads.html'),
-        // Landing pages
-        websiteSnapshotLanding: resolve(__dirname, 'src/pages/website-snapshot.html'),
-        sudburyBrandWebsiteClarity: resolve(__dirname, 'src/pages/sudbury-brand-website-clarity.html'),
+        sitemapX: resolve(__dirname, 'src/pages/sitemapX.html'),
       },
     },
   },

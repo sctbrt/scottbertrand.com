@@ -865,6 +865,30 @@
         .venture__link:hover {
             color: var(--venture-color);
         }
+        /* Coming soon state for venture cards */
+        .venture--soon {
+            opacity: 0.5;
+        }
+        .venture--soon:hover {
+            opacity: 0.6;
+            box-shadow: none;
+            border-color: var(--border);
+        }
+        .venture--soon .venture__link {
+            cursor: default;
+        }
+        .venture--soon .venture__link:hover {
+            color: var(--text);
+        }
+        .venture__soon-label {
+            display: block;
+            font-size: 0.5625rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-subtle);
+            margin-top: 0.25rem;
+        }
 
         /* Footer */
         .footer {
@@ -1028,19 +1052,19 @@
                     <span class="ventures__count">02 Projects</span>
                 </div>
                 <div class="ventures__grid">
-                    <article class="venture venture--notes">
+                    <article class="venture venture--notes venture--soon">
                         <p class="venture__number">02</p>
                         <h3 class="venture__name">Field Notes</h3>
                         <p class="venture__type">Writing</p>
                         <p class="venture__description">Thoughts on design, building, and working independently.</p>
-                        <a href="https://notes.scottbertrand.com" class="venture__link">Read notes &rarr;</a>
+                        <span class="venture__link">Read notes &rarr;<span class="venture__soon-label">Coming soon</span></span>
                     </article>
-                    <article class="venture venture--goods">
+                    <article class="venture venture--goods venture--soon">
                         <p class="venture__number">03</p>
                         <h3 class="venture__name">Still Goods</h3>
                         <p class="venture__type">Products</p>
                         <p class="venture__description">Curated goods and original products. Quality items that last.</p>
-                        <a href="https://goods.scottbertrand.com" class="venture__link">Browse goods &rarr;</a>
+                        <span class="venture__link">Browse goods &rarr;<span class="venture__soon-label">Coming soon</span></span>
                     </article>
                 </div>
             </section>

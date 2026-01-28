@@ -122,7 +122,8 @@ export async function checkFileAccess({
   }
 
   // Client-visible files require ownership check
-  if (file.accessLevel === 'CLIENT_VISIBLE' && file.projects?.clients) {
+  // file.projects.clients is a single client record (not an array) linked to the project
+  if (file.accessLevel === 'CLIENT_VISIBLE' && file.projects?.clients?.userId) {
     return file.projects.clients.userId === userId
   }
 

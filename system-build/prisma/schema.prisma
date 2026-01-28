@@ -273,6 +273,30 @@ model verification_tokens {
   @@unique([identifier, token])
 }
 
+// Pricing access magic links (for gated pricing page)
+// Uses UUID to match existing bertrandbrands.com schema
+model pricing_magic_links {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email     String
+  tokenHash String    @unique @map("token_hash")
+  expiresAt DateTime  @map("expires_at") @db.Timestamptz
+  usedAt    DateTime? @map("used_at") @db.Timestamptz
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([email, createdAt])
+}
+
+// Pricing access sessions (active pricing page access)
+// Uses UUID to match existing bertrandbrands.com schema
+model pricing_sessions {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email     String
+  expiresAt DateTime @map("expires_at") @db.Timestamptz
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([expiresAt])
+}
+
 enum FileAccessLevel {
   PUBLIC
   PRIVATE

@@ -5,10 +5,23 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { cookies } from 'next/headers'
 
+// Explicit flag to enable dev login - must be explicitly set to 'true'
+const DEV_LOGIN_ENABLED = process.env.DEV_LOGIN_ENABLED === 'true'
+
 export async function GET() {
-  // Only allow in development
-  if (process.env.NODE_ENV !== 'development') {
-    return NextResponse.json({ error: 'Not available in production' }, { status: 403 })
+  // Multiple checks to prevent accidental production exposure
+  const isProduction = process.env.NODE_ENV === 'production'
+  const isVercel = !!process.env.VERCEL
+  const isDevEnabled = DEV_LOGIN_ENABLED && !isProduction
+
+  // Block if: production mode, on Vercel (any env), or dev login not explicitly enabled
+  if (isProduction || isVercel || !isDevEnabled) {
+    console.warn('[Security] Dev login attempt blocked:', {
+      isProduction,
+      isVercel,
+      devLoginEnabled: DEV_LOGIN_ENABLED,
+    })
+    return NextResponse.json({ error: 'Not available' }, { status: 403 })
   }
 
   const adminEmail = 'hello@bertrandbrands.com'

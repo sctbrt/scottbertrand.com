@@ -125,6 +125,18 @@ async function handleDashboardRouting(request: NextRequest, pathname: string) {
                        request.cookies.get('__Secure-authjs.session-token')?.value
 
   if (!sessionToken) {
+    // Log failed auth attempt (no session)
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ||
+               request.headers.get('x-real-ip') ||
+               'unknown'
+    const hostname = request.headers.get('host') || 'unknown'
+    console.warn('[Auth] Dashboard access denied - no session:', {
+      path: pathname,
+      ip,
+      host: hostname,
+      timestamp: new Date().toISOString(),
+    })
+
     // Redirect to login
     const url = request.nextUrl.clone()
     url.pathname = '/login'
@@ -154,6 +166,18 @@ async function handlePortalRouting(request: NextRequest, pathname: string) {
                        request.cookies.get('__Secure-authjs.session-token')?.value
 
   if (!sessionToken) {
+    // Log failed auth attempt (no session)
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ||
+               request.headers.get('x-real-ip') ||
+               'unknown'
+    const hostname = request.headers.get('host') || 'unknown'
+    console.warn('[Auth] Portal access denied - no session:', {
+      path: pathname,
+      ip,
+      host: hostname,
+      timestamp: new Date().toISOString(),
+    })
+
     // Redirect to login
     const url = request.nextUrl.clone()
     url.pathname = '/login'

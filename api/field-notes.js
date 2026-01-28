@@ -1,4 +1,6 @@
 // Vercel Serverless Function to fetch Field Notes from Notion
+// NOTE: The same logic exists in vite.config.js for local development.
+// If you update the transform logic here, also update vite.config.js to match.
 export default async function handler(req, res) {
   const NOTION_API_KEY = process.env.NOTION_API_KEY;
   const DATABASE_ID = process.env.NOTION_DATABASE_ID;

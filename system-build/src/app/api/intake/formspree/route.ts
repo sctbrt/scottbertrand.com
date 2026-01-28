@@ -12,6 +12,11 @@ import { headers } from 'next/headers'
 const RATE_LIMIT_WINDOW = 60 // 60 seconds
 const RATE_LIMIT_MAX_REQUESTS = 10 // Max 10 requests per minute per IP
 
+// In-memory rate limit fallback (used when Redis is unavailable)
+// Note: In serverless, this only works within the same instance
+const inMemoryRateLimits = new Map<string, { count: number; resetAt: number }>()
+const FALLBACK_RATE_LIMIT_MAX = 5 // Stricter limit when using fallback
+
 // Upstash Redis REST API helpers
 const UPSTASH_REDIS_REST_URL = process.env.UPSTASH_REDIS_REST_URL
 const UPSTASH_REDIS_REST_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN
@@ -253,11 +258,40 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Rate limiting helper using Upstash Redis
-async function checkRateLimit(ip: string): Promise<boolean> {
-  // If Redis not configured, allow request (fail open)
-  if (!UPSTASH_REDIS_REST_URL || !UPSTASH_REDIS_REST_TOKEN) {
+// In-memory fallback rate limiting (for when Redis is unavailable)
+function checkInMemoryRateLimit(ip: string): boolean {
+  const now = Date.now()
+  const entry = inMemoryRateLimits.get(ip)
+
+  // Clean up expired entries periodically (every 100 calls)
+  if (Math.random() < 0.01) {
+    for (const [key, value] of inMemoryRateLimits.entries()) {
+      if (now > value.resetAt) {
+        inMemoryRateLimits.delete(key)
+      }
+    }
+  }
+
+  if (!entry || now > entry.resetAt) {
+    // New window
+    inMemoryRateLimits.set(ip, {
+      count: 1,
+      resetAt: now + RATE_LIMIT_WINDOW * 1000,
+    })
     return true
+  }
+
+  entry.count++
+  // Use stricter limit for fallback since it's per-instance only
+  return entry.count <= FALLBACK_RATE_LIMIT_MAX
+}
+
+// Rate limiting helper using Upstash Redis with in-memory fallback
+async function checkRateLimit(ip: string): Promise<boolean> {
+  // If Redis not configured, use in-memory fallback (fail closed with limits)
+  if (!UPSTASH_REDIS_REST_URL || !UPSTASH_REDIS_REST_TOKEN) {
+    console.warn('[Rate Limit] Redis not configured, using in-memory fallback')
+    return checkInMemoryRateLimit(ip)
   }
 
   const key = `rate_limit:formspree:${ip}`
@@ -274,9 +308,9 @@ async function checkRateLimit(ip: string): Promise<boolean> {
     // Check if over limit
     return count <= RATE_LIMIT_MAX_REQUESTS
   } catch (error) {
-    console.error('[Rate Limit] Error checking rate limit:', error)
-    // Fail open - allow request if Redis fails
-    return true
+    console.error('[Rate Limit] Redis error, using in-memory fallback:', error)
+    // Fail to fallback - use in-memory rate limiting instead of allowing all requests
+    return checkInMemoryRateLimit(ip)
   }
 }
 

@@ -17,14 +17,19 @@ export default async function LeadsPage({
 
   // Fetch leads with filtering, pagination, and automatic decryption
   // getLeads includes service_templates automatically
+  // "All" view excludes archived leads; archived only shows in ARCHIVED filter
+  const whereClause = status
+    ? { status: status as LeadStatus }
+    : { status: { not: 'ARCHIVED' as LeadStatus } }
+
   const [leads, totalCount] = await Promise.all([
     getLeads({
-      where: status ? { status: status as LeadStatus } : undefined,
+      where: whereClause,
       orderBy: { createdAt: 'desc' },
       skip: (page - 1) * perPage,
       take: perPage,
     }),
-    countLeads(status ? { status: status as LeadStatus } : undefined),
+    countLeads(whereClause),
   ])
 
   const totalPages = Math.ceil(totalCount / perPage)
@@ -52,13 +57,13 @@ export default async function LeadsPage({
       </div>
 
       {/* Status Filters */}
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex gap-2 flex-wrap items-center">
         <FilterChip
           label={`All (${totalCount})`}
           href="/dashboard/leads"
           active={!status}
         />
-        {['NEW', 'CONTACTED', 'QUALIFIED', 'CONVERTED', 'DISQUALIFIED', 'ARCHIVED'].map((s) => (
+        {['NEW', 'CONTACTED', 'QUALIFIED', 'CONVERTED', 'DISQUALIFIED'].map((s) => (
           <FilterChip
             key={s}
             label={`${s} (${statusCountMap[s] || 0})`}
@@ -66,6 +71,12 @@ export default async function LeadsPage({
             active={status === s}
           />
         ))}
+        <span className="text-gray-300 dark:text-gray-600 mx-1">|</span>
+        <FilterChip
+          label={`Archived (${statusCountMap['ARCHIVED'] || 0})`}
+          href="/dashboard/leads?status=ARCHIVED"
+          active={status === 'ARCHIVED'}
+        />
       </div>
 
       {/* Leads Table with Selection */}

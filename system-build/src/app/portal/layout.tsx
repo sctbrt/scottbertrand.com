@@ -57,6 +57,13 @@ export default async function PortalLayout({
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {children}
       </main>
+
+      {/* Mobile Footer - Shows wordmark hidden from header */}
+      <footer className="sm:hidden py-6 text-center border-t border-[var(--border)]">
+        <span className="text-sm font-medium tracking-tight text-[var(--text-muted)]">
+          BERTRAND BRANDS
+        </span>
+      </footer>
     </div>
   )
 }

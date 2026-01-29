@@ -40,7 +40,7 @@ export default async function AuthErrorPage({
             alt=""
             width={32}
             height={32}
-            className="w-8 h-8 brightness-0 invert opacity-60"
+            className="w-8 h-8"
           />
           <Image
             src="/bertrand-brands-wordmark-light-2026.png"

@@ -864,8 +864,14 @@
         }
         .flagship__wordmark {
             display: block;
-            height: 28px;
+            height: 20px;
             width: auto;
+            max-width: 100%;
+        }
+        @media (min-width: 768px) {
+            .flagship__wordmark {
+                height: 28px;
+            }
         }
         .flagship__tagline {
             font-size: 1.125rem;

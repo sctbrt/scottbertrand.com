@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { PayInvoiceButton } from './components/pay-invoice-button'
 
 interface InvoicePageProps {
   params: Promise<{ id: string }>
@@ -247,10 +248,10 @@ export default async function PortalInvoiceDetailPage({ params }: InvoicePagePro
           </div>
         )}
 
-        {/* Pay Now CTA - Show if unpaid and project has payment link */}
+        {/* Pay Now CTA - Show if unpaid and has line items */}
         {!['PAID', 'CANCELLED'].includes(invoice.status) &&
-          invoice.projects?.stripePaymentLinkUrl &&
-          invoice.projects?.paymentStatus !== 'PAID' && (
+          invoice.projects?.paymentStatus !== 'PAID' &&
+          lineItems.length > 0 && (
           <div className="p-6 bg-amber-50 dark:bg-amber-900/20 border-t border-amber-200 dark:border-amber-800">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
@@ -261,17 +262,11 @@ export default async function PortalInvoiceDetailPage({ params }: InvoicePagePro
                   Pay securely with credit card via Stripe.
                 </p>
               </div>
-              <a
-                href={invoice.projects.stripePaymentLinkUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-amber-600 text-white font-medium rounded-lg hover:bg-amber-700 transition-colors text-sm whitespace-nowrap"
-              >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                </svg>
-                Pay Now — {formatCurrency(Number(invoice.total))}
-              </a>
+              <PayInvoiceButton
+                invoiceId={invoice.id}
+                total={Number(invoice.total)}
+                currency={invoice.currency}
+              />
             </div>
           </div>
         )}

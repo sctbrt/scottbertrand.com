@@ -417,6 +417,7 @@ enum PortalStage {
 enum PaymentStatus {
   UNPAID
   PAID
+  PARTIALLY_REFUNDED
   REFUNDED
 }
 

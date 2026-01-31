@@ -282,3 +282,113 @@ export async function updateProjectPaymentLink(
 function hashPayload(payload: string): string {
   return createHash('sha256').update(payload).digest('hex').slice(0, 16)
 }
+
+// ============================================
+// Stripe Refund Handling
+// ============================================
+
+interface StripeRefundData {
+  eventId: string
+  eventType: string
+  chargeId: string
+  paymentIntentId?: string
+  refundAmount: number
+  originalAmount?: number
+  isFullRefund?: boolean
+  currency: string
+  projectId?: string
+}
+
+/**
+ * Process a Stripe charge.refunded event.
+ * Marks the project as PARTIALLY_REFUNDED or REFUNDED based on refund amount.
+ *
+ * - Full refund (charge.refunded === true): Sets status to REFUNDED
+ * - Partial refund: Sets status to PARTIALLY_REFUNDED
+ */
+export async function processStripeRefund(
+  data: StripeRefundData
+): Promise<{ success: true; projectId?: string; isPartial?: boolean } | { success: false; error: string }> {
+  const {
+    eventId,
+    eventType,
+    chargeId,
+    paymentIntentId,
+    refundAmount,
+    originalAmount,
+    isFullRefund,
+    currency,
+    projectId,
+  } = data
+
+  // Idempotency check
+  if (await isEventProcessed(eventId)) {
+    return { success: true, projectId }
+  }
+
+  // Determine refund type: use Stripe's refunded flag if available, else compare amounts
+  // isFullRefund comes from charge.refunded which Stripe sets to true only for full refunds
+  const isPartialRefund: boolean = isFullRefund === false || (originalAmount !== undefined && refundAmount < originalAmount)
+  const newStatus: PaymentStatus = isPartialRefund ? 'PARTIALLY_REFUNDED' : 'REFUNDED'
+
+  // If we have a project, update its status
+  if (projectId) {
+    try {
+      await prisma.$transaction([
+        prisma.projects.update({
+          where: { id: projectId },
+          data: {
+            paymentStatus: newStatus,
+          },
+        }),
+        prisma.payment_events.create({
+          data: {
+            provider: 'STRIPE',
+            eventId,
+            eventType,
+            projectId,
+            status: 'SUCCESS',
+            payloadHash: hashPayload(JSON.stringify(data)),
+            metadata: {
+              chargeId,
+              paymentIntentId,
+              refundAmount,
+              originalAmount,
+              isFullRefund,
+              refundType: isPartialRefund ? 'partial' : 'full',
+              currency,
+            },
+          },
+        }),
+      ])
+
+      return { success: true, projectId, isPartial: isPartialRefund }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error'
+      return { success: false, error: message }
+    }
+  }
+
+  // No project found - log as unmatched for manual reconciliation
+  await prisma.payment_events.create({
+    data: {
+      provider: 'STRIPE',
+      eventId,
+      eventType,
+      status: 'UNMATCHED',
+      errorMsg: 'No matching project found for refund',
+      payloadHash: hashPayload(JSON.stringify(data)),
+      metadata: {
+        chargeId,
+        paymentIntentId,
+        refundAmount,
+        originalAmount,
+        isFullRefund,
+        refundType: isPartialRefund ? 'partial' : 'full',
+        currency,
+      },
+    },
+  })
+
+  return { success: true, isPartial: isPartialRefund } // Still successful - just unmatched
+}

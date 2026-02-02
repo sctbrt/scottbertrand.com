@@ -2,11 +2,11 @@
 <html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About — Scott Bertrand | Brand & Web Consultant</title>
-    <meta name="description" content="Scott Bertrand is a Canadian brand and web systems consultant based in Sudbury, Ontario, helping small businesses clarify their brand and build websites that generate leads.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>About — Scott Bertrand | Brand & Web Systems Builder</title>
+    <meta name="description" content="Scott Bertrand is a brand and web systems builder based in Northern Ontario. Designing digital experiences that feel calm, intentional, and finished.">
     <meta name="author" content="Scott Bertrand">
-    <link rel="canonical" href="https://scottbertrand.com/about.html">
+    <link rel="canonical" href="https://scottbertrand.com/about">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
@@ -17,18 +17,18 @@
     <link rel="manifest" href="/site.webmanifest">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="About — Scott Bertrand | Brand & Web Consultant">
-    <meta property="og:description" content="Scott Bertrand is a Canadian brand and web systems consultant based in Sudbury, Ontario, helping small businesses clarify their brand and build websites that generate leads.">
+    <meta property="og:title" content="About — Scott Bertrand | Brand & Web Systems Builder">
+    <meta property="og:description" content="Scott Bertrand is a brand and web systems builder based in Northern Ontario. Designing digital experiences that feel calm, intentional, and finished.">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="en_CA">
-    <meta property="og:url" content="https://scottbertrand.com/about.html">
+    <meta property="og:url" content="https://scottbertrand.com/about">
     <meta property="og:image" content="https://scottbertrand.com/assets/og-image.png">
     <meta property="og:site_name" content="Scott Bertrand">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="About — Scott Bertrand | Brand & Web Consultant">
-    <meta name="twitter:description" content="Scott Bertrand is a Canadian brand and web systems consultant based in Sudbury, Ontario, helping small businesses clarify their brand and build websites that generate leads.">
+    <meta name="twitter:title" content="About — Scott Bertrand | Brand & Web Systems Builder">
+    <meta name="twitter:description" content="Scott Bertrand is a brand and web systems builder based in Northern Ontario. Designing digital experiences that feel calm, intentional, and finished.">
     <meta name="twitter:image" content="https://scottbertrand.com/assets/og-image.png">
 
     <!-- Cloudflare Web Analytics (production only) -->
@@ -65,9 +65,10 @@
             --color-bertrand: #B54A1A;
             --color-notes: #2D5A8A;
             --color-goods: #4A5C44;
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
             --gutter: clamp(1rem, 4vw, 2rem);
             --container-max: 1120px;
         }
@@ -86,7 +87,10 @@
             --color-goods: #8FA883;
         }
 
-        html { font-size: 16px; }
+        html { font-size: 16px; overflow-x: hidden; scroll-padding-top: 5rem; touch-action: pan-x pan-y; }
+        @supports (-webkit-touch-callout: none) {
+            html { -webkit-text-size-adjust: 100%; }
+        }
         body {
             font-family: var(--font-sans);
             background: var(--bg);
@@ -96,127 +100,325 @@
             min-height: 100vh;
         }
 
-        /* Organic gradient overlay */
-        body::before {
-            content: '';
+        .page {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== RGB HERO SPOTLIGHTS ===== */
+        .hero__lights {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            bottom: 0;
-            background-image:
-                radial-gradient(ellipse at 20% 50%, rgba(181, 74, 26, 0.04) 0%, transparent 50%),
-                radial-gradient(ellipse at 85% 20%, rgba(45, 90, 138, 0.03) 0%, transparent 45%),
-                radial-gradient(ellipse at 60% 90%, rgba(74, 92, 68, 0.03) 0%, transparent 40%);
+            height: 100vh;
             pointer-events: none;
             z-index: 0;
+            opacity: 0;
+            transition: opacity 1.5s ease-out;
+        }
+        .hero__lights.on {
+            opacity: 1;
+        }
+        .hero__light {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+        }
+        /* Red - unanchored, drifts freely */
+        .hero__light--red {
+            top: 8%;
+            left: 0%;
+            width: 550px;
+            height: 420px;
+            background: rgba(220, 60, 60, 0.30);
+            animation: driftRed 45s ease-in-out infinite;
+        }
+        /* Green - unanchored, drifts freely */
+        .hero__light--green {
+            top: 25%;
+            left: 25%;
+            width: 500px;
+            height: 380px;
+            background: rgba(60, 180, 80, 0.22);
+            animation: driftGreen 55s ease-in-out infinite;
+        }
+        /* Blue - unanchored, drifts freely */
+        .hero__light--blue {
+            top: 5%;
+            right: 5%;
+            width: 520px;
+            height: 400px;
+            background: rgba(60, 100, 220, 0.28);
+            animation: driftBlue 50s ease-in-out infinite;
+        }
+        /* Slow organic drift - each light wanders independently */
+        @keyframes driftRed {
+            0% { transform: translate(0, 0) scale(1); }
+            15% { transform: translate(60px, 40px) scale(1.05); }
+            30% { transform: translate(20px, 80px) scale(0.98); }
+            45% { transform: translate(-40px, 50px) scale(1.03); }
+            60% { transform: translate(-70px, 10px) scale(0.97); }
+            75% { transform: translate(-30px, -30px) scale(1.02); }
+            90% { transform: translate(30px, -20px) scale(0.99); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes driftGreen {
+            0% { transform: translate(0, 0) scale(1); }
+            12% { transform: translate(-50px, -30px) scale(1.04); }
+            28% { transform: translate(-80px, 20px) scale(0.96); }
+            42% { transform: translate(-30px, 70px) scale(1.02); }
+            58% { transform: translate(40px, 50px) scale(0.98); }
+            72% { transform: translate(70px, 0px) scale(1.03); }
+            88% { transform: translate(30px, -40px) scale(0.97); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        @keyframes driftBlue {
+            0% { transform: translate(0, 0) scale(1); }
+            18% { transform: translate(-60px, 50px) scale(0.97); }
+            35% { transform: translate(-40px, -20px) scale(1.04); }
+            52% { transform: translate(30px, -50px) scale(0.99); }
+            68% { transform: translate(80px, 10px) scale(1.02); }
+            85% { transform: translate(40px, 60px) scale(0.96); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+        /* Light mode - softer, more subtle */
+        [data-theme="light"] .hero__light--red { background: rgba(200, 50, 50, 0.10); }
+        [data-theme="light"] .hero__light--green { background: rgba(50, 160, 70, 0.08); }
+        [data-theme="light"] .hero__light--blue { background: rgba(50, 90, 200, 0.10); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .hero__lights {
+                display: none;
+            }
+            .hero__light {
+                animation: none;
+            }
         }
 
-        [data-theme="dark"] body::before {
-            background-image:
-                radial-gradient(ellipse at 20% 50%, rgba(224, 122, 58, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 85% 20%, rgba(90, 155, 212, 0.05) 0%, transparent 45%),
-                radial-gradient(ellipse at 60% 90%, rgba(143, 168, 131, 0.04) 0%, transparent 40%);
-        }
-
-        /* Glass Header */
+        /* ===== HEADER ===== */
         .header {
-            position: fixed;
+            padding: 0.75rem var(--gutter);
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            padding: 1rem var(--gutter);
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            isolation: isolate;
+            background: var(--bg);
         }
-
+        .header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .header.hidden-scroll {
+            opacity: 0;
+            transform: translateY(-100%);
+        }
         .header__glass {
             max-width: var(--container-max);
             margin: 0 auto;
+            padding: 0.75rem 1.5rem;
             background: color-mix(in srgb, var(--bg) 20%, transparent);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
             border-radius: var(--radius-lg);
-            padding: 0.75rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+            --red-pos: 10%;
+            --yellow-pos: 50%;
+            --blue-pos: 90%;
         }
-
+        /* Reactive primary color ambient lighting */
+        .header__glass::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse 250px 80px at var(--red-pos) 70%, var(--light-red, transparent), transparent),
+                radial-gradient(ellipse 200px 90px at var(--yellow-pos) 50%, var(--light-yellow, transparent), transparent),
+                radial-gradient(ellipse 250px 80px at var(--blue-pos) 30%, var(--light-blue, transparent), transparent);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 2s ease-out;
+            border-radius: inherit;
+        }
+        .header.lights-on .header__glass::before {
+            opacity: 1;
+        }
+        [data-theme="dark"] .header.lights-on .header__glass {
+            --light-red: rgba(220, 53, 53, 0.14);
+            --light-yellow: rgba(220, 180, 50, 0.08);
+            --light-blue: rgba(50, 100, 220, 0.11);
+        }
+        [data-theme="light"] .header.lights-on .header__glass {
+            --light-red: rgba(220, 53, 53, 0.07);
+            --light-yellow: rgba(220, 180, 50, 0.04);
+            --light-blue: rgba(50, 100, 220, 0.055);
+        }
         .header__inner {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            gap: 2rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
         }
-
         .header__logo {
             display: flex;
             align-items: center;
             gap: 0.75rem;
             text-decoration: none;
-            color: var(--text);
+            color: inherit;
         }
-
         .header__logo-mark {
             width: 32px;
             height: 32px;
         }
-
-        .header__logo-text {
-            font-family: var(--font-serif);
-            font-size: 1rem;
-            font-weight: 400;
-            letter-spacing: -0.02em;
+        .header__logo-divider {
+            color: var(--text-subtle);
+            font-weight: 200;
+            opacity: 0.4;
         }
-
+        .header__logo-text {
+            height: 18px;
+            width: auto;
+            object-fit: contain;
+        }
         .header__nav {
             display: flex;
+            gap: 2rem;
             align-items: center;
-            gap: 0.25rem;
         }
-
         .header__link {
+            font-size: 0.875rem;
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 400;
-            padding: 0.5rem 0.875rem;
-            border-radius: var(--radius-sm);
-            transition: all 0.2s ease;
+            padding: 0.25rem 0;
+            transition: color 0.2s;
         }
-
-        .header__link:hover {
-            color: var(--text);
-            background: var(--border);
-        }
-
+        .header__link:hover { color: var(--text); }
         .header__link--active {
             color: var(--text);
-            background: var(--border);
+        }
+        .header__link--primary {
+            color: var(--color-bertrand);
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
         }
 
-        .header__toggle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
+        /* SB Monogram */
+        .sb-monogram {
+            display: block;
+            object-fit: contain;
+            filter: brightness(2) contrast(1.1);
+        }
+        [data-theme="light"] .sb-monogram {
+            filter: brightness(0) saturate(100%);
+        }
+
+        /* Mobile Menu Button */
+        .header__menu-btn {
+            display: none;
+            width: 40px;
+            height: 40px;
+            background: transparent;
             border: none;
-            background: var(--border);
-            border-radius: var(--radius-sm);
             cursor: pointer;
-            color: var(--text-muted);
-            transition: all 0.2s ease;
+            padding: 8px;
+            margin-right: -8px;
+            position: relative;
+            z-index: 101;
         }
+        .header__menu-icon {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+            position: relative;
+            transition: background 0.2s;
+        }
+        .header__menu-icon::before,
+        .header__menu-icon::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+            transition: transform 0.3s ease;
+        }
+        .header__menu-icon::before { top: -7px; }
+        .header__menu-icon::after { bottom: -7px; }
+        .header__menu-btn.active .header__menu-icon { background: transparent; }
+        .header__menu-btn.active .header__menu-icon::before { transform: rotate(45deg) translate(5px, 5px); }
+        .header__menu-btn.active .header__menu-icon::after { transform: rotate(-45deg) translate(5px, -5px); }
 
-        .header__toggle:hover {
+        /* Mobile Menu Overlay */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: color-mix(in srgb, var(--bg) 95%, transparent);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+        }
+        .mobile-menu.open {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.3s ease, visibility 0s linear 0s;
+        }
+        .mobile-menu__inner {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            gap: 2rem;
+            padding: 2rem;
+        }
+        .mobile-menu__link {
+            font-family: var(--font-serif);
+            font-size: 1.75rem;
+            font-weight: 400;
             color: var(--text);
-            background: var(--border-strong);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            transition: color 0.2s;
+        }
+        .mobile-menu__link:hover { color: var(--color-bertrand); }
+        .mobile-menu__link--primary { color: var(--color-bertrand); }
+
+        @media (max-width: 640px) {
+            .header { padding: 0.5rem var(--gutter); }
+            .header__glass { padding: 0.625rem 1rem; }
+            .header__logo { flex-shrink: 0; }
+            .header__logo-text { height: 12px; }
+            .header__logo-divider { display: none; }
+            .header__nav { display: none; }
+            .header__menu-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .mobile-menu { display: block; }
         }
 
-        /* Main Content */
+        /* ===== MAIN CONTENT ===== */
         main {
             position: relative;
             z-index: 1;
-            padding-top: 120px;
+            padding-top: 80px;
         }
 
         .container {
@@ -230,260 +432,177 @@
             padding: 4rem 0 6rem;
         }
 
-        .about h1 {
+        .about__header {
+            margin-bottom: 3rem;
+        }
+
+        .about__eyebrow {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-subtle);
+            margin-bottom: 1rem;
+        }
+
+        .about__title {
             font-family: var(--font-serif);
-            font-size: clamp(2rem, 5vw, 2.5rem);
-            font-weight: 400;
-            margin-bottom: 2rem;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 300;
+            line-height: 1.1;
             letter-spacing: -0.02em;
         }
 
-        .about h2 {
-            font-family: var(--font-serif);
-            font-size: 1.25rem;
+        .about__title em {
+            font-style: italic;
             font-weight: 400;
-            margin-top: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--text);
         }
 
-        .about p {
-            max-width: 680px;
-            line-height: 1.75;
-            margin-bottom: 1.25rem;
+        .about__content {
+            display: grid;
+            gap: 4rem;
+        }
+
+        @media (min-width: 768px) {
+            .about__content {
+                grid-template-columns: 1.2fr 1fr;
+                gap: 6rem;
+            }
+        }
+
+        .about__main p {
+            font-size: 1.0625rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
             color: var(--text-muted);
         }
 
-        .about p:first-of-type {
+        .about__main p:first-child {
+            font-size: 1.125rem;
             color: var(--text);
         }
 
-        .about p strong {
+        .about__main p strong {
             color: var(--text);
             font-weight: 500;
         }
 
-        .about ul {
-            max-width: 680px;
-            margin: 1rem 0 1.5rem 1.5rem;
-            line-height: 1.8;
+        .about__aside {
+            padding-top: 0.5rem;
+        }
+
+        .about__principles {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            position: relative;
+        }
+
+        .about__principles::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 1.5rem;
+            right: 1.5rem;
+            height: 3px;
+            background: var(--color-bertrand);
+            border-radius: 0 0 2px 2px;
+        }
+
+        .about__principles-title {
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            font-weight: 400;
+            margin-bottom: 1.25rem;
+            color: var(--text);
+        }
+
+        .about__principles-text {
+            font-size: 0.9375rem;
             color: var(--text-muted);
+            line-height: 1.7;
         }
 
-        .about li {
-            margin-bottom: 0.5rem;
+        /* CTA Section */
+        .about__cta {
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--border);
         }
 
-        /* CTA Button */
+        .about__cta p {
+            font-size: 1.0625rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            max-width: 480px;
+        }
+
         .btn {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            padding: 0.875rem 2rem;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            background: var(--color-bertrand);
+            color: white;
+            font-size: 0.9375rem;
+            font-weight: 500;
             border-radius: var(--radius-sm);
             text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9375rem;
-            letter-spacing: -0.01em;
-            transition: all 0.2s ease;
-            border: 1px solid transparent;
+            transition: background 0.2s;
         }
 
-        .btn-primary {
-            background: var(--text);
-            color: var(--bg);
-            border-color: var(--text);
-        }
-
-        .btn-primary:hover {
-            opacity: 0.85;
-        }
-
-        /* Signature */
-        .about-signature {
-            margin-top: 4rem;
-            text-align: center;
-        }
-
-        .signature-img {
-            width: 60px;
-            height: auto;
-            opacity: 0.4;
-        }
-
-        .signature-img--light {
-            display: block;
-            margin: 0 auto;
-        }
-
-        .signature-img--dark {
-            display: none;
-        }
-
-        [data-theme="dark"] .signature-img--light {
-            display: none;
-        }
-
-        [data-theme="dark"] .signature-img--dark {
-            display: block;
-            margin: 0 auto;
+        .btn:hover {
+            background: #F08A4A;
         }
 
         /* Footer */
         .footer {
-            border-top: 1px solid var(--border);
+            max-width: var(--container-max);
+            margin: 0 auto;
             padding: 3rem var(--gutter);
-            text-align: center;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
-
+        .footer__brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .footer__mark {
+            width: 32px;
+            height: 20px;
+        }
+        .footer__divider {
+            color: var(--text-subtle);
+            font-weight: 200;
+            opacity: 0.4;
+        }
+        .footer__name {
+            height: 14px;
+            width: auto;
+            object-fit: contain;
+        }
         .footer__text {
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             color: var(--text-subtle);
-            margin-bottom: 0.5rem;
         }
-
-        .footer__links {
-            font-size: 0.8125rem;
-            color: var(--text-subtle);
-            opacity: 0.7;
-        }
-
-        .footer__links a {
+        .footer__text a {
             color: inherit;
             text-decoration: none;
+            transition: color 0.2s;
         }
-
-        .footer__links a:hover {
-            opacity: 1;
-            color: var(--text-muted);
-        }
-
-        /* Mobile Menu Button */
-        .header__menu-btn {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            color: var(--text-muted);
-        }
-
-        /* Mobile Menu Drawer */
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 280px;
-            max-width: 85vw;
-            background: var(--bg);
-            z-index: 2000;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .mobile-menu.open {
-            transform: translateX(0);
-        }
-
-        .mobile-menu__overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1999;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .mobile-menu__overlay.open {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .mobile-menu__header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem 1.25rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .mobile-menu__title {
-            font-family: var(--font-serif);
-            font-size: 1rem;
-            font-weight: 400;
-        }
-
-        .mobile-menu__close {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            color: var(--text-muted);
-        }
-
-        .mobile-menu__nav {
-            flex: 1;
-            padding: 1rem 0;
-            overflow-y: auto;
-        }
-
-        .mobile-menu__link {
-            display: block;
-            padding: 0.875rem 1.25rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 1rem;
-            transition: all 0.2s ease;
-        }
-
-        .mobile-menu__link:hover,
-        .mobile-menu__link--active {
+        .footer__text a:hover {
             color: var(--text);
-            background: var(--border);
-        }
-
-        .mobile-menu__footer {
-            padding: 1rem 1.25rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .mobile-menu__cta {
-            display: block;
-            width: 100%;
-            padding: 0.875rem 1.25rem;
-            background: var(--color-bertrand);
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            font-size: 0.9375rem;
-            font-weight: 500;
-            border-radius: var(--radius-sm);
-        }
-
-        @media (max-width: 768px) {
-            .header__nav {
-                display: none;
-            }
-
-            .header__menu-btn {
-                display: flex;
-            }
         }
 
         /* Skip link */
         .skip-link {
-            position: absolute;
+            position: fixed;
             top: -100%;
             left: 1rem;
             padding: 0.75rem 1rem;
@@ -492,187 +611,275 @@
             font-size: 0.875rem;
             font-weight: 500;
             border-radius: var(--radius-sm);
-            z-index: 300;
+            z-index: 10001;
             text-decoration: none;
         }
         .skip-link:focus {
             top: 1rem;
         }
+
+        /* Focus styles */
+        :focus-visible {
+            outline: 2px solid var(--color-bertrand);
+            outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Prevent zoom on iOS -->
+    <script>
+        document.addEventListener('gesturestart', function(e) { e.preventDefault(); }, { passive: false });
+        document.addEventListener('gesturechange', function(e) { e.preventDefault(); }, { passive: false });
+        document.addEventListener('gestureend', function(e) { e.preventDefault(); }, { passive: false });
+    </script>
+
     <a href="#main" class="skip-link">Skip to main content</a>
 
-    <!-- Glass Header -->
-    <header class="header">
-        <div class="header__glass">
-            <div class="header__inner">
-                <a href="/" class="header__logo">
-                    <img src="/assets/sb-dotted-logomark.png" alt="SB" class="header__logo-mark" width="32" height="32">
-                    <img src="/assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="header__logo-text" height="16">
-                </a>
-
-                <nav class="header__nav">
-                    <a href="/" class="header__link">Home</a>
-                    <a href="/about.html" class="header__link header__link--active">About</a>
-                    <a href="/approach.html" class="header__link">Approach</a>
-                    <a href="/contact.html" class="header__link">Contact</a>
-                    <a href="https://bertrandbrands.com" class="header__link">Services</a>
-                </nav>
-
-                <button type="button" class="header__toggle" id="themeToggle" aria-label="Toggle theme">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="5"/>
-                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-                    </svg>
-                </button>
-
-                <button type="button" class="header__menu-btn" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 12h18M3 6h18M3 18h18"/>
-                    </svg>
-                </button>
-            </div>
+    <div class="page">
+        <!-- RGB Hero Spotlights -->
+        <div class="hero__lights" id="heroLights">
+            <div class="hero__light hero__light--red"></div>
+            <div class="hero__light hero__light--green"></div>
+            <div class="hero__light hero__light--blue"></div>
         </div>
-    </header>
 
-    <!-- Mobile Menu Overlay -->
-    <div class="mobile-menu__overlay" id="menuOverlay"></div>
-
-    <!-- Mobile Menu Drawer -->
-    <nav class="mobile-menu" id="mobileMenu">
-        <div class="mobile-menu__header">
-            <span class="mobile-menu__title">Menu</span>
-            <button type="button" class="mobile-menu__close" id="menuClose" aria-label="Close menu">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M18 6L6 18M6 6l12 12"/>
-                </svg>
-            </button>
-        </div>
-        <div class="mobile-menu__nav">
-            <a href="/" class="mobile-menu__link">Home</a>
-            <a href="/about.html" class="mobile-menu__link">About</a>
-            <a href="/approach.html" class="mobile-menu__link">Approach</a>
-            <a href="/contact.html" class="mobile-menu__link">Contact</a>
-        </div>
-        <div class="mobile-menu__footer">
-            <a href="https://bertrandbrands.com/#contact" class="mobile-menu__cta">Work With Me</a>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main id="main">
-        <section class="about">
-            <div class="container">
-                <h1>About</h1>
-
-                <p><strong>I'm Scott Bertrand, a brand and web systems consultant based in Greater Sudbury, Ontario.</strong> I help businesses bring structure to areas that are almost working—but not quite.</p>
-
-                <p>I work with service-based businesses, independent founders, and local organizations across Northern Ontario. Most of my clients come to me at a crossroads: their current brand or website worked well enough to get them here, but it's no longer keeping up with where they're headed.</p>
-
-                <h2>How I Think</h2>
-                <p>I help small businesses clarify their brand, fix underperforming websites, and build simple digital systems that actually generate leads.</p>
-
-                <p>My work is about structure. That means auditing what's already in place, identifying what's working and what isn't, and replacing scattered, ad-hoc efforts with clear systems. I don't build elaborate marketing funnels or chase trends. I focus on clarity, consistency, and conversion: the foundation of any site or brand that needs to work without constant attention.</p>
-
-                <h2>How I Work</h2>
-                <p>I offer structured services with fixed scope and clear pricing. No hourly billing, no ambiguous retainers. You know what you're getting, what it costs, and what the outcome will be before we start.</p>
-
-                <p>Every engagement begins with a review: either a Website Snapshot or Brand Clarity Session. This gives us both a clear picture of what's going on and what to do about it. From there, we decide together if deeper work makes sense.</p>
-
-                <h2>Background & Perspective</h2>
-                <p>I've spent most of my career inside complex systems: corporate operations, project management, process design. What I've seen, again and again, is how small structural decisions cascade into big problems (or big wins) over time.</p>
-
-                <p>I don't see brands or websites as creative expressions. I see them as systems. And like any system, they need architecture. They need intention. They need a point of view.</p>
-
-                <p>That perspective shapes everything I do. I'm not interested in what looks good. I'm interested in what works.</p>
-
-                <h2>Who This Is For</h2>
-                <p>I work best with clients who:</p>
-                <ul>
-                    <li>Are running a business that already works and want to build on it</li>
-                    <li>Prefer direct, honest feedback over polite flattery</li>
-                    <li>Value clear systems over vague strategy decks</li>
-                    <li>Want a partner who thinks critically, not one who just executes tasks</li>
-                </ul>
-
-                <p>I work best with clients who value clarity, momentum, and shared responsibility. That's why most engagements start with a review.</p>
-
-                <h2>Based in Sudbury, Ontario</h2>
-                <p>I live and work in Sudbury, in the heart of Northern Ontario. I serve clients across the region and across Canada, mostly remotely, with a strong preference for businesses that are genuinely rooted somewhere.</p>
-
-                <h2>Where to Start</h2>
-                <p>If your website isn't converting or your brand feels scattered, start with a quick review. You'll walk away with a clear understanding of what's wrong and a concrete set of priorities to address it, whether we continue working together or not.</p>
-
-                <p style="margin-top: 2rem;"><a href="https://bertrandbrands.com/#contact" class="btn btn-primary">Get in Touch</a></p>
-
-                <!-- Handwritten signature -->
-                <div class="about-signature">
-                    <img src="/assets/sb-signature-grey.png" alt="" class="signature-img signature-img--light" width="120" height="60">
-                    <img src="/assets/sb-signature-dark.png" alt="" class="signature-img signature-img--dark" width="120" height="60">
+        <header class="header">
+            <div class="header__glass">
+                <div class="header__inner">
+                    <a href="/" class="header__logo">
+                        <img src="/assets/sb-dotted-logomark.png" alt="SB" class="header__logo-mark sb-monogram" width="50" height="32">
+                        <span class="header__logo-divider">|</span>
+                        <img src="/assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="header__logo-text" height="18">
+                    </a>
+                    <nav class="header__nav">
+                        <a href="/" class="header__link">Home</a>
+                        <a href="/about" class="header__link header__link--active">About</a>
+                        <a href="https://bertrandbrands.com" class="header__link header__link--primary">Bertrand Brands</a>
+                        <a href="mailto:bertrandbrands@outlook.com" class="header__link">Contact</a>
+                    </nav>
+                    <button class="header__menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">
+                        <span class="header__menu-icon"></span>
+                    </button>
                 </div>
             </div>
-        </section>
-    </main>
+        </header>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p class="footer__text">Based in Greater Sudbury, serving Northern Ontario & Canada remotely</p>
-        <p class="footer__links">
-            &copy; <script>document.write(new Date().getFullYear())</script> Scott Bertrand &middot;
-            <a href="https://bertrandbrands.com">Bertrand Brands</a>
-        </p>
-    </footer>
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu" id="mobileMenu">
+            <nav class="mobile-menu__inner">
+                <a href="/" class="mobile-menu__link">Home</a>
+                <a href="/about" class="mobile-menu__link">About</a>
+                <a href="https://bertrandbrands.com" class="mobile-menu__link mobile-menu__link--primary">Bertrand Brands</a>
+                <a href="mailto:bertrandbrands@outlook.com" class="mobile-menu__link">Contact</a>
+            </nav>
+        </div>
 
-    <!-- Theme Toggle & Mobile Menu Script -->
+        <main id="main">
+            <section class="about">
+                <div class="container">
+                    <header class="about__header">
+                        <p class="about__eyebrow">Northern Ontario</p>
+                        <h1 class="about__title">Brand & Web<br><em>Systems Builder</em></h1>
+                    </header>
+
+                    <div class="about__content">
+                        <div class="about__main">
+                            <p>I'm Scott Bertrand, a brand and web systems builder based in Northern Ontario. I design digital experiences that feel calm, intentional, and finished — and I build the underlying structure so they remain clear and consistent long after launch.</p>
+
+                            <p>My work lives at the intersection of taste and systems. That means visual identity, website design, and content flow — but also the operational logic behind them: navigation structure, reusable components, design standards, and decision-making frameworks that prevent drift. I'm less interested in clever design moves and more focused on clarity — reducing friction for real people using real products.</p>
+
+                            <p>I lead <strong>Bertrand Brands</strong>, a brand and web systems studio focused on helping founders and small businesses tighten their identity, rebuild their web presence, and install digital foundations they can actually operate. Projects range from focused refreshes to full platform builds, but the objective is always the same: fewer decisions, less confusion, and more trust.</p>
+
+                            <p>Before running my own studio, I spent over a decade working across business and high-volume retail environments. That experience shaped how I think about design: it has to communicate instantly, hold up under pressure, and function reliably day after day. If something looks good but creates confusion, it isn't done.</p>
+
+                            <p>I'm especially drawn to work that values restraint, coherence, and longevity — systems that feel obvious in hindsight and continue working quietly in the background. My goal is not to impress, but to make things easier to understand, easier to maintain, and easier to trust.</p>
+
+                            <div class="about__cta">
+                                <p>If you're building something real and want it to feel intentional, coherent, and built to last, let's talk.</p>
+                                <a href="https://bertrandbrands.com" class="btn">Get in touch &rarr;</a>
+                            </div>
+                        </div>
+
+                        <aside class="about__aside">
+                            <div class="about__principles">
+                                <h2 class="about__principles-title">How I work</h2>
+                                <p class="about__principles-text">Clear structure reduces anxiety. I build with that principle in mind — for users, clients, and teams alike.</p>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="footer__brand">
+                <img src="/assets/sb-dotted-logomark.png" alt="SB" class="footer__mark sb-monogram" width="32" height="20">
+                <span class="footer__divider">|</span>
+                <img src="/assets/scott-bertrand-wordmark-light.png" alt="Scott Bertrand" class="footer__name" height="14">
+            </div>
+            <p class="footer__text">&copy; <span id="currentYear"></span> &middot; Sudbury, Canada &middot; <a href="mailto:bertrandbrands@outlook.com">bertrandbrands@outlook.com</a></p>
+        </footer>
+    </div>
+
     <script>
         (function() {
-            // Theme toggle
-            const toggle = document.getElementById('themeToggle');
-            const html = document.documentElement;
+            const header = document.querySelector('.header');
+            const headerGlass = document.querySelector('.header__glass');
+            const heroLights = document.getElementById('heroLights');
 
-            const savedTheme = localStorage.getItem('theme');
-            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-            if (savedTheme) {
-                html.setAttribute('data-theme', savedTheme);
-            } else if (!systemDark) {
-                html.setAttribute('data-theme', 'light');
+            // Immediately show header and lights (no intro on about page)
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                header.classList.add('visible', 'lights-on');
+                if (heroLights) heroLights.classList.add('on');
+            } else {
+                // Small delay for smoother page load
+                setTimeout(() => {
+                    header.classList.add('visible', 'lights-on');
+                    if (heroLights) heroLights.classList.add('on');
+                }, 100);
             }
 
-            toggle.addEventListener('click', () => {
-                const current = html.getAttribute('data-theme');
-                const next = current === 'dark' ? 'light' : 'dark';
-                html.setAttribute('data-theme', next);
-                localStorage.setItem('theme', next);
+            // Reactive header lighting - responds to mouse + organic drift
+            let mouseInfluenceRed = 0;
+            let mouseInfluenceYellow = 0;
+            let mouseInfluenceBlue = 0;
+            let currentRedPos = 10;
+            let currentYellowPos = 50;
+            let currentBluePos = 90;
+
+            document.addEventListener('mousemove', (e) => {
+                if (!header.classList.contains('lights-on')) return;
+                const mouseX = e.clientX / window.innerWidth;
+                mouseInfluenceRed = mouseX * 12;
+                mouseInfluenceYellow = (mouseX - 0.5) * 8;
+                mouseInfluenceBlue = -mouseX * 12;
             });
 
-            // Mobile menu
-            const menuToggle = document.getElementById('menuToggle');
-            const menuClose = document.getElementById('menuClose');
-            const menuOverlay = document.getElementById('menuOverlay');
+            // Organic drift using layered sine waves
+            let lastFrameTime = performance.now();
+            let animationFrameId = null;
+            let isAnimating = false;
+
+            function animateLights(currentTime) {
+                if (!isAnimating) return;
+
+                const elapsed = currentTime / 1000;
+                const deltaTime = (currentTime - lastFrameTime) / 16.67;
+                lastFrameTime = currentTime;
+
+                const redDrift = Math.sin(elapsed * 0.23) * 15 + Math.sin(elapsed * 0.57 + 1.2) * 8 + Math.sin(elapsed * 0.89) * 4;
+                const yellowDrift = Math.sin(elapsed * 0.19 + 2.5) * 18 + Math.sin(elapsed * 0.47) * 9;
+                const blueDrift = Math.sin(elapsed * 0.31 + 4.0) * 15 + Math.sin(elapsed * 0.71 + 0.8) * 8 + Math.sin(elapsed * 0.43) * 4;
+
+                const targetRedPos = 20 + redDrift + mouseInfluenceRed;
+                const targetYellowPos = 50 + yellowDrift + mouseInfluenceYellow;
+                const targetBluePos = 75 + blueDrift + mouseInfluenceBlue;
+
+                const ease = 1 - Math.pow(0.92, deltaTime);
+                currentRedPos += (targetRedPos - currentRedPos) * ease;
+                currentYellowPos += (targetYellowPos - currentYellowPos) * ease;
+                currentBluePos += (targetBluePos - currentBluePos) * ease;
+
+                if (headerGlass) {
+                    headerGlass.style.setProperty('--red-pos', currentRedPos + '%');
+                    headerGlass.style.setProperty('--yellow-pos', currentYellowPos + '%');
+                    headerGlass.style.setProperty('--blue-pos', currentBluePos + '%');
+                }
+                animationFrameId = requestAnimationFrame(animateLights);
+            }
+
+            function startAnimation() {
+                if (!isAnimating) {
+                    isAnimating = true;
+                    lastFrameTime = performance.now();
+                    animationFrameId = requestAnimationFrame(animateLights);
+                }
+            }
+
+            function stopAnimation() {
+                isAnimating = false;
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                    animationFrameId = null;
+                }
+            }
+
+            startAnimation();
+
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    stopAnimation();
+                } else {
+                    startAnimation();
+                }
+            });
+
+            // Set current year
+            const yearEl = document.getElementById('currentYear');
+            if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+            // Mobile menu toggle
+            const menuBtn = document.getElementById('menuBtn');
             const mobileMenu = document.getElementById('mobileMenu');
 
-            function openMenu() { menuToggle.setAttribute('aria-expanded', 'true');
-                mobileMenu.classList.add('open');
-                menuOverlay.classList.add('open');
-                document.body.style.overflow = 'hidden';
+            if (menuBtn && mobileMenu) {
+                menuBtn.addEventListener('click', () => {
+                    const isOpen = mobileMenu.classList.contains('open');
+                    mobileMenu.classList.toggle('open');
+                    menuBtn.classList.toggle('active');
+                    menuBtn.setAttribute('aria-expanded', !isOpen);
+                    document.body.style.overflow = isOpen ? '' : 'hidden';
+                });
+
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.remove('open');
+                        menuBtn.classList.remove('active');
+                        menuBtn.setAttribute('aria-expanded', 'false');
+                        document.body.style.overflow = '';
+                    });
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+                        mobileMenu.classList.remove('open');
+                        menuBtn.classList.remove('active');
+                        menuBtn.setAttribute('aria-expanded', 'false');
+                        document.body.style.overflow = '';
+                    }
+                });
             }
 
-            function closeMenu() { menuToggle.setAttribute('aria-expanded', 'false');
-                mobileMenu.classList.remove('open');
-                menuOverlay.classList.remove('open');
-                document.body.style.overflow = '';
-            }
+            // Hide on scroll down, show on scroll up
+            let lastScrollY = window.scrollY;
+            let ticking = false;
 
-            menuToggle.addEventListener('click', openMenu);
-            menuClose.addEventListener('click', closeMenu);
-            menuOverlay.addEventListener('click', closeMenu);
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const currentScrollY = window.scrollY;
 
-            // Close on escape key
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
-                    closeMenu();
+                        if (header.classList.contains('visible') && currentScrollY > 100) {
+                            if (currentScrollY > lastScrollY && currentScrollY > 150) {
+                                header.classList.add('hidden-scroll');
+                            } else {
+                                header.classList.remove('hidden-scroll');
+                            }
+                        } else if (currentScrollY <= 100) {
+                            header.classList.remove('hidden-scroll');
+                        }
+
+                        lastScrollY = currentScrollY;
+                        ticking = false;
+                    });
+                    ticking = true;
                 }
             });
         })();

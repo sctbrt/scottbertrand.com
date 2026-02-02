@@ -42,6 +42,18 @@
       "destination": "/api/$1"
     },
     {
+      "source": "/about",
+      "destination": "/about.html"
+    },
+    {
+      "source": "/approach",
+      "destination": "/approach.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact.html"
+    },
+    {
       "source": "/field-notes/:id",
       "destination": "/field-note.html"
     }

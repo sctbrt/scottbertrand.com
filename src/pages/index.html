@@ -493,7 +493,7 @@
             padding: 8px;
             margin-right: -8px;
             position: relative;
-            z-index: 101;
+            z-index: 201;
         }
         .header__menu-icon {
             display: block;
@@ -538,7 +538,7 @@
             background: color-mix(in srgb, var(--bg) 95%, transparent);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            z-index: 99;
+            z-index: 200;
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.3s ease, visibility 0s linear 0.3s;
@@ -556,6 +556,8 @@
             height: 100%;
             gap: 2rem;
             padding: 2rem;
+            position: relative;
+            z-index: 1;
         }
         .mobile-menu__link {
             font-family: var(--font-serif);

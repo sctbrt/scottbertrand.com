@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
     // Check if this is a preview/non-production environment
     const isPreview = process.env.VERCEL_ENV === 'preview' ||
                       process.env.NODE_ENV === 'development';
+    const isProduction = process.env.VERCEL_ENV === 'production';
+
+    // CSP: More restrictive in production, allow unsafe-eval in dev for Next.js hot reload
+    const scriptSrc = isProduction
+      ? "script-src 'self' 'unsafe-inline'"  // Production: no unsafe-eval
+      : "script-src 'self' 'unsafe-inline' 'unsafe-eval'";  // Dev/Preview: Next.js needs unsafe-eval
 
     return [
       {
@@ -43,7 +49,7 @@ const nextConfig: NextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval'", // Next.js needs unsafe-eval for dev
+              scriptSrc,
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https://*.public.blob.vercel-storage.com",
               "font-src 'self'",

@@ -1,7 +1,7 @@
-// BERTRANDBRANDS.COM — Host-Based Routing Middleware
+// BERTRANDBRANDS.COM — Host-Based Routing Proxy
 // Routes requests based on subdomain to appropriate sections
 //
-// This middleware handles routing for the system-build Next.js app:
+// This proxy handles routing for the system-build Next.js app:
 // - dashboard.bertrandbrands.com → /dashboard/* (admin only)
 // - clients.bertrandbrands.com → /portal/* (client portal)
 //
@@ -16,7 +16,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-// Simple in-memory rate limiter for auth endpoints (middleware can't use async Redis)
+// Simple in-memory rate limiter for auth endpoints (proxy can't use async Redis)
 // This is per-instance but provides basic brute-force protection
 const authRateLimits = new Map<string, { count: number; resetAt: number }>()
 const AUTH_RATE_LIMIT_WINDOW = 60 * 1000 // 1 minute
@@ -75,7 +75,7 @@ const PUBLIC_API_PATHS = ['/api/intake', '/api/webhooks']
 // and should not be rewritten by subdomain routing
 const DELIVERY_ROOM_PATHS = ['/p/']
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const hostname = request.headers.get('host') || ''
   const protocol = request.headers.get('x-forwarded-proto') || 'http'

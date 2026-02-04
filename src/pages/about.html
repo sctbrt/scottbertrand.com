@@ -272,20 +272,10 @@
         .header__logo {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
             text-decoration: none;
             color: inherit;
         }
-        .header__logo-mark {
-            width: 32px;
-            height: 32px;
-        }
-        .header__logo-divider {
-            color: var(--text-subtle);
-            font-weight: 200;
-            opacity: 0.4;
-        }
-        .header__logo-text {
+        .header__logo-wordmark {
             height: 18px;
             width: auto;
             object-fit: contain;
@@ -403,8 +393,7 @@
             .header { padding: 0.5rem var(--gutter); }
             .header__glass { padding: 0.625rem 1rem; }
             .header__logo { flex-shrink: 0; }
-            .header__logo-text { height: 12px; }
-            .header__logo-divider { display: none; }
+            .header__logo-wordmark { height: 16px; }
             .header__nav { display: none; }
             .header__menu-btn {
                 display: flex;
@@ -571,20 +560,10 @@
         .footer__brand {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
             text-decoration: none;
         }
-        .footer__mark {
-            width: 32px;
-            height: 20px;
-        }
-        .footer__divider {
-            color: var(--text-subtle);
-            font-weight: 200;
-            opacity: 0.4;
-        }
-        .footer__name {
-            height: 14px;
+        .footer__logo-wordmark {
+            height: 18px;
             width: auto;
             object-fit: contain;
         }
@@ -655,9 +634,7 @@
             <div class="header__glass">
                 <div class="header__inner">
                     <a href="/" class="header__logo">
-                        <img src="/assets/sb-dotted-logomark.png" alt="SB" class="header__logo-mark sb-monogram" width="50" height="32">
-                        <span class="header__logo-divider">|</span>
-                        <img src="/assets/scott-bertrand-wordmark-light.png?v=4" alt="Scott Bertrand" class="header__logo-text" height="18">
+                        <img src="/assets/scott-bertrand-logo-wordmark-light.png?v=6" alt="Scott Bertrand" class="header__logo-wordmark sb-monogram" height="18">
                     </a>
                     <nav class="header__nav">
                         <a href="/" class="header__link">Home</a>
@@ -721,9 +698,7 @@
 
         <footer class="footer">
             <a href="https://scottbertrand.com" class="footer__brand">
-                <img src="/assets/sb-dotted-logomark.png" alt="SB" class="footer__mark sb-monogram" width="32" height="20">
-                <span class="footer__divider">|</span>
-                <img src="/assets/scott-bertrand-wordmark-light.png?v=4" alt="Scott Bertrand" class="footer__name" height="14">
+                <img src="/assets/scott-bertrand-logo-wordmark-light.png?v=6" alt="Scott Bertrand" class="footer__logo-wordmark sb-monogram" height="18">
             </a>
             <p class="footer__text">&copy; <span id="currentYear"></span> &middot; Sudbury, Canada &middot; <a href="mailto:bertrandbrands@outlook.com">bertrandbrands@outlook.com</a></p>
         </footer>

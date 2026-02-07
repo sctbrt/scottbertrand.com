@@ -220,10 +220,10 @@ export default async function InvoiceDetailPage({ params, searchParams }: Invoic
               <table className="w-full">
                 <thead>
                   <tr className="text-xs text-[var(--text-subtle)] uppercase tracking-wider">
-                    <th className="text-left pb-3">Description</th>
-                    <th className="text-right pb-3 w-20">Qty</th>
-                    <th className="text-right pb-3 w-28">Rate</th>
-                    <th className="text-right pb-3 w-28">Amount</th>
+                    <th scope="col" className="text-left pb-3">Description</th>
+                    <th scope="col" className="text-right pb-3 w-20">Qty</th>
+                    <th scope="col" className="text-right pb-3 w-28">Rate</th>
+                    <th scope="col" className="text-right pb-3 w-28">Amount</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[var(--border)]">

@@ -1,27 +1,18 @@
 // DEV ONLY: Bypass email verification for local testing
-// This route should NEVER be deployed to production
+// This route is blocked in production at multiple levels
 
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { cookies } from 'next/headers'
 
-// Explicit flag to enable dev login - must be explicitly set to 'true'
-const DEV_LOGIN_ENABLED = process.env.DEV_LOGIN_ENABLED === 'true'
+// Fail-fast: block immediately in production or on Vercel (before any imports execute)
+const IS_BLOCKED = process.env.NODE_ENV === 'production' || !!process.env.VERCEL
+const DEV_LOGIN_ENABLED = !IS_BLOCKED && process.env.DEV_LOGIN_ENABLED === 'true'
 
 export async function GET(request: NextRequest) {
-  // Multiple checks to prevent accidental production exposure
-  const isProduction = process.env.NODE_ENV === 'production'
-  const isVercel = !!process.env.VERCEL
-  const isDevEnabled = DEV_LOGIN_ENABLED && !isProduction
-
-  // Block if: production mode, on Vercel (any env), or dev login not explicitly enabled
-  if (isProduction || isVercel || !isDevEnabled) {
-    console.warn('[Security] Dev login attempt blocked:', {
-      isProduction,
-      isVercel,
-      devLoginEnabled: DEV_LOGIN_ENABLED,
-    })
-    return NextResponse.json({ error: 'Not available' }, { status: 403 })
+  // Hard block: return 404 (not 403) in production to avoid revealing endpoint exists
+  if (IS_BLOCKED || !DEV_LOGIN_ENABLED) {
+    return new NextResponse(null, { status: 404 })
   }
 
   // Get email from query param, default to admin

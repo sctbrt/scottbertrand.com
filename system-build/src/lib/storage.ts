@@ -168,9 +168,14 @@ export function validateDownloadToken(
     return false
   }
 
-  // Validate token
+  // Validate token using constant-time comparison to prevent timing attacks
   const expectedToken = generateSignedToken(fileId, expiresNum)
-  return token === expectedToken
+  const tokenBuffer = Buffer.from(token)
+  const expectedBuffer = Buffer.from(expectedToken)
+  if (tokenBuffer.length !== expectedBuffer.length) {
+    return false
+  }
+  return crypto.timingSafeEqual(tokenBuffer, expectedBuffer)
 }
 
 // List files for a project

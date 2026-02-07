@@ -26,6 +26,9 @@ model accounts {
   @@unique([provider, providerAccountId])
 }
 
+// RETENTION: Consider periodic cleanup of activity_logs and audit_logs older than 90 days.
+// At scale, implement a scheduled task (Vercel Cron or external) to DELETE WHERE createdAt < NOW() - INTERVAL 90 DAY.
+// For compliance, archive to cold storage (e.g., Vercel Blob) before deleting.
 model activity_logs {
   id         String   @id @default(cuid())
   userId     String?
@@ -158,6 +161,9 @@ model invoices {
   projects      projects?     @relation(fields: [projectId], references: [id])
 }
 
+// FUTURE: Add emailHash String? @unique column for efficient encrypted email search.
+// SHA-256 hash of normalized (lowercased, trimmed) email enables lookups without decrypting all rows.
+// Migration: backfill from existing encrypted emails, then index on emailHash.
 model leads {
   id                  String             @id @default(cuid())
   email               String
@@ -403,6 +409,34 @@ model pricing_magic_links {
   createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
 
   @@index([email, createdAt])
+}
+
+// Booking access tokens (admin-generated links for gated Calendly scheduling)
+// Uses UUID to match existing bertrandbrands.com schema
+model booking_access_tokens {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId    String    @map("client_id")
+  bookingType String    @map("booking_type")
+  tokenHash   String    @unique @map("token_hash")
+  expiresAt   DateTime  @map("expires_at") @db.Timestamptz
+  usedAt      DateTime? @map("used_at") @db.Timestamptz
+  createdBy   String?   @map("created_by")
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([clientId])
+}
+
+// Booking sessions (active booking page access after token redemption)
+// Uses UUID to match existing bertrandbrands.com schema
+model booking_sessions {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clientId    String   @map("client_id")
+  bookingType String   @map("booking_type")
+  clientEmail String   @map("client_email")
+  expiresAt   DateTime @map("expires_at") @db.Timestamptz
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([expiresAt])
 }
 
 // Pricing access sessions (active pricing page access)

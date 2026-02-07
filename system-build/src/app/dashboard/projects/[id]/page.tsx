@@ -427,9 +427,9 @@ function getStatusColor(status: string) {
   const colors: Record<string, string> = {
     DRAFT: 'bg-zinc-500/20 text-zinc-400 border border-zinc-500/30',
     PENDING_APPROVAL: 'bg-amber-500/20 text-amber-400 border border-amber-500/30',
-    IN_PROGRESS: 'bg-sky-500/20 text-sky-400 border border-sky-500/30',
+    IN_PROGRESS: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30',
     ON_HOLD: 'bg-orange-500/20 text-orange-400 border border-orange-500/30',
-    COMPLETED: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30',
+    COMPLETED: 'bg-sky-500/20 text-sky-400 border border-sky-500/30',
     CANCELLED: 'bg-rose-500/20 text-rose-400 border border-rose-500/30',
   }
   return colors[status] || colors.DRAFT

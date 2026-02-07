@@ -14,6 +14,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { stripe, STRIPE_METADATA_KEYS, STRIPE_PURPOSES } from '@/lib/stripe'
+import { validateOrigin } from '@/lib/csrf'
 
 // Rate limiting (in-memory with automatic cleanup)
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>()
@@ -62,6 +63,13 @@ function checkRateLimit(key: string): boolean {
 
 export async function POST(request: NextRequest) {
   try {
+    // CSRF protection
+    const csrfError = validateOrigin(request)
+    if (csrfError) {
+      console.warn(`[Checkout Session] CSRF blocked: ${csrfError}`)
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    }
+
     // Auth check
     const session = await auth()
     if (!session?.user) {

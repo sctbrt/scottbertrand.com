@@ -39,6 +39,7 @@ export function LeadActions({ lead }: LeadActionsProps) {
         value={lead.status}
         onChange={(e) => handleStatusChange(e.target.value)}
         disabled={isUpdating}
+        aria-label="Lead status"
         className="px-3 py-2 border border-[var(--border)] rounded-lg bg-[var(--surface)] text-[var(--text)] text-sm"
       >
         <option value="NEW">New</option>

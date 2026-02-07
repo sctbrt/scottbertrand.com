@@ -3,6 +3,12 @@
 //
 // IMPORTANT: Store ENCRYPTION_KEY securely in environment variables
 // Generate with: openssl rand -base64 32
+//
+// KEY ROTATION: Currently single-key only. To support key rotation:
+// 1. Store keyVersion (int) alongside each encrypted value
+// 2. Support ENCRYPTION_KEYS env as JSON array [{version, key}]
+// 3. Decrypt with matching version, encrypt with latest version
+// 4. Add migration script to re-encrypt all records with new key
 
 import crypto from 'crypto'
 

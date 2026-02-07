@@ -168,6 +168,40 @@ export default async function DeliveryRoomPage({ params }: PageProps) {
         </div>
       </div>
 
+      {/* Block B2 — Live Preview */}
+      {project.previewUrl && (
+        <div className="glass glass--card">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-sm font-medium text-[var(--text)]">
+              Live Preview
+            </h2>
+            <a
+              href={project.previewUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+              Open in new tab
+            </a>
+          </div>
+          <div className="relative w-full rounded-lg overflow-hidden border border-[var(--border)] bg-white" style={{ aspectRatio: '16 / 10' }}>
+            <iframe
+              src={project.previewUrl}
+              title={`${project.name} — Live Preview`}
+              className="absolute inset-0 w-full h-full"
+              sandbox="allow-scripts allow-same-origin allow-popups"
+              loading="lazy"
+            />
+          </div>
+          <p className="text-xs text-[var(--text-muted)] mt-2">
+            Interactive preview — scroll and click to explore.
+          </p>
+        </div>
+      )}
+
       {/* Block C — Scope Summary */}
       <div className="glass glass--card">
         <h2 className="text-sm font-medium text-[var(--text)] mb-3">

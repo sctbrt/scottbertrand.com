@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ClientForm } from './client-form'
 import { GenerateLoginLink } from './generate-login-link'
+import { GenerateBookingLink } from './generate-booking-link'
 import { DeleteClientButton } from './delete-client-button'
 
 interface ClientDetailPageProps {
@@ -211,6 +212,20 @@ export default async function ClientDetailPage({ params }: ClientDetailPageProps
             {/* Generate Login Link - for clients who can't receive emails */}
             <GenerateLoginLink email={client.users.email} />
           </div>
+
+          {/* Booking Access - for routed clients */}
+          {client.assignedPath && client.assignedPath !== 'HOLD' && (
+            <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
+              <h2 className="text-sm font-medium text-[var(--text-muted)] uppercase tracking-wider mb-4">
+                Booking Access
+              </h2>
+              <GenerateBookingLink
+                clientId={client.id}
+                clientName={client.contactName}
+                assignedPath={client.assignedPath}
+              />
+            </div>
+          )}
 
           {/* Notes */}
           {client.notes && (

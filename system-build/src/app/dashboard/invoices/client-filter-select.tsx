@@ -34,6 +34,7 @@ export function ClientFilterSelect({
     <select
       defaultValue={currentClientId || ''}
       onChange={handleChange}
+      aria-label="Filter by client"
       className="px-3 py-1.5 text-sm border border-[var(--border)] rounded-lg bg-[var(--surface)] text-[var(--text)]"
     >
       <option value="">All Clients</option>

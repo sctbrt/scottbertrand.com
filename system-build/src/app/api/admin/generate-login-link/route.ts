@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { checkRateLimit, rateLimitHeaders, getClientIP } from '@/lib/rate-limit'
+import { validateOrigin } from '@/lib/csrf'
 import crypto from 'crypto'
 
 // Link expires in 15 minutes (same as normal magic links)
@@ -15,6 +16,13 @@ const MAX_BODY_SIZE = 10 * 1024
 
 export async function POST(request: NextRequest) {
   try {
+    // CSRF protection
+    const csrfError = validateOrigin(request)
+    if (csrfError) {
+      console.warn(`[Admin] CSRF blocked on generate-login-link: ${csrfError}`)
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+    }
+
     // Check content-length to prevent oversized requests
     const contentLength = parseInt(request.headers.get('content-length') || '0', 10)
     if (contentLength > MAX_BODY_SIZE) {

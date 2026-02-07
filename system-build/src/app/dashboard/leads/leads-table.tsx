@@ -122,7 +122,7 @@ export function LeadsTable({ leads, currentStatus }: LeadsTableProps) {
         <table className="min-w-full divide-y divide-[var(--border)]">
           <thead className="bg-[var(--surface-2)]">
             <tr>
-              <th className="px-4 py-3 text-left">
+              <th scope="col" className="px-4 py-3 text-left">
                 <input
                   type="checkbox"
                   checked={allSelectableSelected && selectableLeads.length > 0}
@@ -132,19 +132,19 @@ export function LeadsTable({ leads, currentStatus }: LeadsTableProps) {
                   title="Select all on this page"
                 />
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                 Contact
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                 Service
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                 Status
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
+              <th scope="col" className="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                 Notes
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                 Created
               </th>
             </tr>
@@ -198,6 +198,7 @@ export function LeadsTable({ leads, currentStatus }: LeadsTableProps) {
                           value={lead.status}
                           onChange={(e) => handleStatusChange(lead.id, e.target.value)}
                           disabled={isUpdating}
+                          aria-label={`Status for ${lead.name || lead.email}`}
                           className={`text-xs px-2 py-1 rounded-full border-0 cursor-pointer ${getStatusColor(lead.status)} ${
                             isUpdating ? 'opacity-50' : ''
                           }`}
@@ -243,9 +244,9 @@ export function LeadsTable({ leads, currentStatus }: LeadsTableProps) {
 
       {/* Archive Confirmation Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" role="dialog" aria-modal="true" aria-labelledby="archive-leads-title">
           <div className="bg-[var(--surface)] rounded-lg p-6 max-w-md w-full mx-4 shadow-xl">
-            <h3 className="text-lg font-semibold text-[var(--text)] mb-2">Archive Leads</h3>
+            <h3 id="archive-leads-title" className="text-lg font-semibold text-[var(--text)] mb-2">Archive Leads</h3>
             <p className="text-[var(--text-muted)] mb-6">
               You are about to archive <span className="font-semibold">{selectedIds.size}</span> lead
               {selectedIds.size === 1 ? '' : 's'}. This will move them to the Archived status. You can
@@ -273,11 +274,11 @@ export function LeadsTable({ leads, currentStatus }: LeadsTableProps) {
 
       {/* Notes Side Panel */}
       {notesPanel && (
-        <div className="fixed inset-0 z-50 flex justify-end">
+        <div className="fixed inset-0 z-50 flex justify-end" role="dialog" aria-modal="true" aria-labelledby="notes-panel-title">
           <div className="absolute inset-0 bg-black/30" onClick={() => setNotesPanel(null)} />
           <div className="relative w-full max-w-md bg-[var(--surface)] shadow-xl flex flex-col">
             <div className="flex items-center justify-between p-4 border-b border-[var(--border)]">
-              <h3 className="text-lg font-semibold text-[var(--text)]">Internal Notes</h3>
+              <h3 id="notes-panel-title" className="text-lg font-semibold text-[var(--text)]">Internal Notes</h3>
               <button
                 onClick={() => setNotesPanel(null)}
                 className="p-1 text-[var(--text-subtle)] hover:text-[var(--text)]"

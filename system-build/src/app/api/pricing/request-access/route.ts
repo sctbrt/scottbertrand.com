@@ -12,8 +12,8 @@ const MAGIC_LINK_TTL_MINUTES = parseInt(process.env.PRICING_MAGIC_LINK_TTL_MINUT
 const APP_URL = process.env.PRICING_APP_URL || 'https://bertrandbrands.com'
 const RATE_LIMIT_EMAIL_PER_HOUR = 3
 
-// Email validation regex
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+// Email validation regex (RFC 5321 compliant)
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/
 
 function generateToken() {
   const rawToken = crypto.randomBytes(32).toString('hex')
@@ -139,11 +139,15 @@ export async function POST(request: Request) {
     })
 
     console.log(`[Pricing] Magic link sent: ${normalizedEmail.substring(0, 3)}***`)
+
+    // Add jitter delay to prevent timing-based email enumeration (100-300ms)
+    await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 200))
     return NextResponse.json({ ok: true })
 
   } catch (error) {
     console.error('[Pricing] Request access error:', error)
-    // Still return success to prevent enumeration
+    // Add same jitter delay on error path to prevent enumeration
+    await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 200))
     return NextResponse.json({ ok: true })
   }
 }

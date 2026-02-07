@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light only">
+  <title>Palette Options — Warm &amp; Grounded</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Switzer';
+      src: url('https://cdn.fontshare.com/wf/JMWOLKLMHBEFDDQYBTKZFLLNSCXKHMII/AQMV3YLVPLTDPIDZ7DZ2IEV3BPJRWDNL/TRWRUWQUCWWNTQIXN5VTBVHLNJ6LQZ5P.woff2') format('woff2');
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Switzer';
+      src: url('https://cdn.fontshare.com/wf/JMWOLKLMHBEFDDQYBTKZFLLNSCXKHMII/VDKPLUCMWLVSJQAGR3NQO76QDD7OOWLE/TRWRUWQUCWWNTQIXN5VTBVHLNJ6LQZ5P.woff2') format('woff2');
+      font-weight: 500; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Switzer';
+      src: url('https://cdn.fontshare.com/wf/JMWOLKLMHBEFDDQYBTKZFLLNSCXKHMII/BO42XJWVHJGM2TNXW3UBZMXGVQHWT3RV/TRWRUWQUCWWNTQIXN5VTBVHLNJ6LQZ5P.woff2') format('woff2');
+      font-weight: 600; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Switzer';
+      src: url('https://cdn.fontshare.com/wf/JMWOLKLMHBEFDDQYBTKZFLLNSCXKHMII/RDLKNVYLFBEHJGXDTDQJ7RMRGA5OFXPQ/TRWRUWQUCWWNTQIXN5VTBVHLNJ6LQZ5P.woff2') format('woff2');
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { color-scheme: light only; }
+    body { min-height: 100vh; background: #FAF8F5; }
+
+    /* --- PALETTE SECTIONS --- */
+    .palette-section {
+      padding: 60px 40px 80px;
+    }
+    .palette-section .inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Palette A: Stone & Terracotta */
+    .palette-a {
+      background: #FAF8F5;
+      color: #1C1917;
+    }
+    .palette-a .muted { color: #78716C; }
+    .palette-a .subtle { color: #A8A29E; }
+    .palette-a .accent { color: #C2410C; }
+    .palette-a .border-c { border-color: rgba(28, 25, 23, 0.08); }
+    .palette-a .card-bg { background: #FFFFFF; border: 1px solid rgba(28, 25, 23, 0.06); }
+    .palette-a .btn-fill { background: #1C1917; color: #FAF8F5; }
+    .palette-a .btn-outline { background: transparent; color: #1C1917; border: 1px solid rgba(28, 25, 23, 0.15); }
+    .palette-a .swatch-row .s1 { background: #FAF8F5; }
+    .palette-a .swatch-row .s2 { background: #1C1917; }
+    .palette-a .swatch-row .s3 { background: #78716C; }
+    .palette-a .swatch-row .s4 { background: #C2410C; }
+    .palette-a .swatch-row .s5 { background: #FFFFFF; border: 1px solid rgba(28,25,23,0.1); }
+
+    /* Palette B: Sand & Olive */
+    .palette-b {
+      background: #F5F3EE;
+      color: #1A1D1A;
+    }
+    .palette-b .muted { color: #6B7164; }
+    .palette-b .subtle { color: #9CA396; }
+    .palette-b .accent { color: #5F6B3A; }
+    .palette-b .border-c { border-color: rgba(26, 29, 26, 0.08); }
+    .palette-b .card-bg { background: #FAFAF6; border: 1px solid rgba(26, 29, 26, 0.06); }
+    .palette-b .btn-fill { background: #1A1D1A; color: #F5F3EE; }
+    .palette-b .btn-outline { background: transparent; color: #1A1D1A; border: 1px solid rgba(26, 29, 26, 0.15); }
+    .palette-b .swatch-row .s1 { background: #F5F3EE; }
+    .palette-b .swatch-row .s2 { background: #1A1D1A; }
+    .palette-b .swatch-row .s3 { background: #6B7164; }
+    .palette-b .swatch-row .s4 { background: #5F6B3A; }
+    .palette-b .swatch-row .s5 { background: #FAFAF6; border: 1px solid rgba(26,29,26,0.1); }
+
+    /* Palette C: Cream & Espresso */
+    .palette-c {
+      background: #F7F4EF;
+      color: #2C2520;
+    }
+    .palette-c .muted { color: #8C7E73; }
+    .palette-c .subtle { color: #B5A99B; }
+    .palette-c .accent { color: #9A6340; }
+    .palette-c .border-c { border-color: rgba(44, 37, 32, 0.08); }
+    .palette-c .card-bg { background: #FDFBF8; border: 1px solid rgba(44, 37, 32, 0.06); }
+    .palette-c .btn-fill { background: #2C2520; color: #F7F4EF; }
+    .palette-c .btn-outline { background: transparent; color: #2C2520; border: 1px solid rgba(44, 37, 32, 0.15); }
+    .palette-c .swatch-row .s1 { background: #F7F4EF; }
+    .palette-c .swatch-row .s2 { background: #2C2520; }
+    .palette-c .swatch-row .s3 { background: #8C7E73; }
+    .palette-c .swatch-row .s4 { background: #9A6340; }
+    .palette-c .swatch-row .s5 { background: #FDFBF8; border: 1px solid rgba(44,37,32,0.1); }
+
+    /* --- SHARED COMPONENT STYLES --- */
+    .palette-label {
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.68rem;
+      font-weight: 500;
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .palette-label .palette-name { opacity: 0.4; }
+
+    .swatch-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 48px;
+    }
+    .swatch-row span {
+      width: 48px;
+      height: 48px;
+      border-radius: 6px;
+    }
+
+    .sim-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      margin-bottom: 56px;
+    }
+    .sim-header .border-c {
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+    }
+    .sim-logo {
+      font-family: 'Switzer', sans-serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      letter-spacing: -0.01em;
+    }
+    .sim-nav {
+      display: flex;
+      gap: 28px;
+    }
+    .sim-nav a {
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.68rem;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    h1 {
+      font-family: 'Switzer', sans-serif;
+      font-size: 3.25rem;
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin-bottom: 16px;
+    }
+    .subtitle {
+      font-family: 'Switzer', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      line-height: 1.4;
+      margin-bottom: 24px;
+    }
+    p.body {
+      font-family: 'Lora', serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 28px;
+      max-width: 560px;
+    }
+    p.body em { font-style: italic; }
+
+    .cta-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+    .cta-row button {
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 12px 28px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .card-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .card {
+      border-radius: 8px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card .card-label {
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.62rem;
+      font-weight: 500;
+    }
+    .card h3 {
+      font-family: 'Switzer', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .card p {
+      font-family: 'Lora', serif;
+      font-size: 0.85rem;
+      line-height: 1.65;
+    }
+
+    .section-divider {
+      height: 1px;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PALETTE A: Stone & Terracotta -->
+  <section class="palette-section palette-a">
+    <div class="inner">
+      <div class="palette-label">
+        <span>Palette A</span>
+        <span class="palette-name">Stone &amp; Terracotta</span>
+      </div>
+
+      <div class="swatch-row">
+        <span class="s1"></span>
+        <span class="s2"></span>
+        <span class="s3"></span>
+        <span class="s4"></span>
+        <span class="s5"></span>
+      </div>
+
+      <div class="sim-header">
+        <div class="sim-logo">Scott Bertrand</div>
+        <nav class="sim-nav">
+          <a href="#" style="color: #1C1917;">Work</a>
+          <a href="#" class="muted">About</a>
+          <a href="#" class="muted">Journal</a>
+          <a href="#" class="muted">Contact</a>
+        </nav>
+      </div>
+
+      <h1>Design that<br>earns attention.</h1>
+      <div class="subtitle muted">Strategy, identity, and digital experiences.</div>
+      <p class="body muted">Creating considered work at the intersection of design strategy and technology. Every project begins with clarity — understanding what matters before deciding what to build.</p>
+
+      <div class="cta-row">
+        <button class="btn-fill" style="border:none;">View Work</button>
+        <button class="btn-outline">Bertrand Brands</button>
+      </div>
+
+      <div class="card-row">
+        <div class="card card-bg">
+          <span class="card-label subtle">Brand Identity</span>
+          <h3>Meridian Studio</h3>
+          <p class="muted">Complete visual identity for an architectural photography studio.</p>
+        </div>
+        <div class="card card-bg">
+          <span class="card-label subtle">Web Design</span>
+          <h3>Northvale Capital</h3>
+          <p class="muted">Website and digital presence for a boutique investment firm.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" style="border: none; height: 1px; background: #E7E5E4;">
+
+  <!-- PALETTE B: Sand & Olive -->
+  <section class="palette-section palette-b">
+    <div class="inner">
+      <div class="palette-label">
+        <span>Palette B</span>
+        <span class="palette-name">Sand &amp; Olive</span>
+      </div>
+
+      <div class="swatch-row">
+        <span class="s1"></span>
+        <span class="s2"></span>
+        <span class="s3"></span>
+        <span class="s4"></span>
+        <span class="s5"></span>
+      </div>
+
+      <div class="sim-header">
+        <div class="sim-logo">Scott Bertrand</div>
+        <nav class="sim-nav">
+          <a href="#" style="color: #1A1D1A;">Work</a>
+          <a href="#" class="muted">About</a>
+          <a href="#" class="muted">Journal</a>
+          <a href="#" class="muted">Contact</a>
+        </nav>
+      </div>
+
+      <h1>Design that<br>earns attention.</h1>
+      <div class="subtitle muted">Strategy, identity, and digital experiences.</div>
+      <p class="body muted">Creating considered work at the intersection of design strategy and technology. Every project begins with clarity — understanding what matters before deciding what to build.</p>
+
+      <div class="cta-row">
+        <button class="btn-fill" style="border:none;">View Work</button>
+        <button class="btn-outline">Bertrand Brands</button>
+      </div>
+
+      <div class="card-row">
+        <div class="card card-bg">
+          <span class="card-label subtle">Brand Identity</span>
+          <h3>Meridian Studio</h3>
+          <p class="muted">Complete visual identity for an architectural photography studio.</p>
+        </div>
+        <div class="card card-bg">
+          <span class="card-label subtle">Web Design</span>
+          <h3>Northvale Capital</h3>
+          <p class="muted">Website and digital presence for a boutique investment firm.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider" style="border: none; height: 1px; background: #E0DED8;">
+
+  <!-- PALETTE C: Cream & Espresso -->
+  <section class="palette-section palette-c">
+    <div class="inner">
+      <div class="palette-label">
+        <span>Palette C</span>
+        <span class="palette-name">Cream &amp; Espresso</span>
+      </div>
+
+      <div class="swatch-row">
+        <span class="s1"></span>
+        <span class="s2"></span>
+        <span class="s3"></span>
+        <span class="s4"></span>
+        <span class="s5"></span>
+      </div>
+
+      <div class="sim-header">
+        <div class="sim-logo">Scott Bertrand</div>
+        <nav class="sim-nav">
+          <a href="#" style="color: #2C2520;">Work</a>
+          <a href="#" class="muted">About</a>
+          <a href="#" class="muted">Journal</a>
+          <a href="#" class="muted">Contact</a>
+        </nav>
+      </div>
+
+      <h1>Design that<br>earns attention.</h1>
+      <div class="subtitle muted">Strategy, identity, and digital experiences.</div>
+      <p class="body muted">Creating considered work at the intersection of design strategy and technology. Every project begins with clarity — understanding what matters before deciding what to build.</p>
+
+      <div class="cta-row">
+        <button class="btn-fill" style="border:none;">View Work</button>
+        <button class="btn-outline">Bertrand Brands</button>
+      </div>
+
+      <div class="card-row">
+        <div class="card card-bg">
+          <span class="card-label subtle">Brand Identity</span>
+          <h3>Meridian Studio</h3>
+          <p class="muted">Complete visual identity for an architectural photography studio.</p>
+        </div>
+        <div class="card card-bg">
+          <span class="card-label subtle">Web Design</span>
+          <h3>Northvale Capital</h3>
+          <p class="muted">Website and digital presence for a boutique investment firm.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

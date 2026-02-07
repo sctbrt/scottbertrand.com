@@ -127,7 +127,8 @@ export async function searchLeadsByEmail(
   }
 ): Promise<LeadListItem[]> {
   // For encrypted data, we need to fetch all and filter client-side
-  // This is inefficient for large datasets - consider adding an email hash column for searching
+  // TODO: For scale, add emailHash column (SHA-256 of normalized email) to leads table
+  // Then search via: WHERE email_hash = hash(query) instead of decrypting all rows
   const leads = await prisma.leads.findMany({
     where: options?.status ? { status: options.status } : undefined,
     orderBy: { createdAt: 'desc' },

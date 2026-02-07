@@ -69,9 +69,13 @@ function isValidWebhookOrigin(request: NextRequest): boolean {
     }
   }
 
-  // If no webhook secret is configured, be more permissive (log warning)
+  // If no webhook secret is configured, reject in production, warn in dev
   if (!FORMSPREE_WEBHOOK_SECRET) {
-    console.warn('[Webhook] No FORMSPREE_WEBHOOK_SECRET configured - origin validation relaxed')
+    if (process.env.NODE_ENV === 'production') {
+      console.error('[Webhook] FORMSPREE_WEBHOOK_SECRET not configured - rejecting request in production')
+      return false
+    }
+    console.warn('[Webhook] No FORMSPREE_WEBHOOK_SECRET configured - origin validation relaxed (dev only)')
     return true
   }
 

@@ -138,7 +138,7 @@ export function ClientsTable({ clients, showArchived }: ClientsTableProps) {
         <table className="min-w-full divide-y divide-[var(--border)]">
           <thead className="bg-[var(--surface-2)]">
             <tr>
-              <th className="px-4 py-3 text-left">
+              <th scope="col" className="px-4 py-3 text-left">
                 <input
                   type="checkbox"
                   checked={allDeletableSelected && deletableClients.length > 0}
@@ -148,19 +148,19 @@ export function ClientsTable({ clients, showArchived }: ClientsTableProps) {
                   title="Select all on this page"
                 />
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                 Client
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                 Contact
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                 Projects
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                 Latest Project
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                 Added
               </th>
             </tr>
@@ -251,9 +251,9 @@ export function ClientsTable({ clients, showArchived }: ClientsTableProps) {
 
       {/* Archive Confirmation Modal */}
       {showArchiveModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" role="dialog" aria-modal="true" aria-labelledby="archive-clients-title">
           <div className="bg-[var(--surface)] rounded-lg p-6 max-w-md w-full mx-4 shadow-xl">
-            <h3 className="text-lg font-semibold text-[var(--text)] mb-2">
+            <h3 id="archive-clients-title" className="text-lg font-semibold text-[var(--text)] mb-2">
               Archive Clients
             </h3>
             <p className="text-[var(--text-muted)] mb-6">
@@ -283,9 +283,9 @@ export function ClientsTable({ clients, showArchived }: ClientsTableProps) {
 
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" role="dialog" aria-modal="true" aria-labelledby="delete-clients-title">
           <div className="bg-[var(--surface)] rounded-lg p-6 max-w-md w-full mx-4 shadow-xl">
-            <h3 className="text-lg font-semibold text-[var(--text)] mb-2">
+            <h3 id="delete-clients-title" className="text-lg font-semibold text-[var(--text)] mb-2">
               Delete Clients
             </h3>
             <p className="text-[var(--text-muted)] mb-2">
@@ -323,9 +323,9 @@ function getStatusColor(status: string) {
   const colors: Record<string, string> = {
     DRAFT: 'bg-zinc-500/20 text-zinc-400 border border-zinc-500/30',
     PENDING_APPROVAL: 'bg-amber-500/20 text-amber-400 border border-amber-500/30',
-    IN_PROGRESS: 'bg-sky-500/20 text-sky-400 border border-sky-500/30',
+    IN_PROGRESS: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30',
     ON_HOLD: 'bg-orange-500/20 text-orange-400 border border-orange-500/30',
-    COMPLETED: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30',
+    COMPLETED: 'bg-sky-500/20 text-sky-400 border border-sky-500/30',
     CANCELLED: 'bg-rose-500/20 text-rose-400 border border-rose-500/30',
   }
   return colors[status] || colors.DRAFT

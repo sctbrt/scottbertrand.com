@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Type System — Switzer + Lora + Outfit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'Switzer';
+      src: url('https://cdn.fontshare.com/wf/JMWOLKLMHBEFDDQYBTKZFLLNSCXKHMII/AQMV3YLVPLTDPIDZ7DZ2IEV3BPJRWDNL/TRWRUWQUCWWNTQIXN5VTBVHLNJ6LQZ5P.woff2') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Switzer';
+      src: url('https://cdn.fontshare.com/wf/JMWOLKLMHBEFDDQYBTKZFLLNSCXKHMII/VDKPLUCMWLVSJQAGR3NQO76QDD7OOWLE/TRWRUWQUCWWNTQIXN5VTBVHLNJ6LQZ5P.woff2') format('woff2');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Switzer';
+      src: url('https://cdn.fontshare.com/wf/JMWOLKLMHBEFDDQYBTKZFLLNSCXKHMII/BO42XJWVHJGM2TNXW3UBZMXGVQHWT3RV/TRWRUWQUCWWNTQIXN5VTBVHLNJ6LQZ5P.woff2') format('woff2');
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Switzer';
+      src: url('https://cdn.fontshare.com/wf/JMWOLKLMHBEFDDQYBTKZFLLNSCXKHMII/RDLKNVYLFBEHJGXDTDQJ7RMRGA5OFXPQ/TRWRUWQUCWWNTQIXN5VTBVHLNJ6LQZ5P.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a0a;
+      color: #fafafa;
+      min-height: 100vh;
+      padding: 60px 40px 120px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* --- FONT ROLE CLASSES --- */
+    .f-display {
+      font-family: 'Switzer', sans-serif;
+      letter-spacing: -0.015em;
+    }
+    .f-body {
+      font-family: 'Lora', serif;
+    }
+    .f-ui {
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* --- SECTION: LEGEND --- */
+    .legend {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 64px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .legend-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .legend-item .font-name {
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 11px;
+      font-weight: 500;
+      color: #555;
+    }
+    .legend-item .font-role {
+      font-size: 14px;
+      color: #888;
+    }
+    .legend-item:nth-child(1) .font-role { font-family: 'Switzer', sans-serif; }
+    .legend-item:nth-child(2) .font-role { font-family: 'Lora', serif; }
+    .legend-item:nth-child(3) .font-role { font-family: 'Outfit', sans-serif; }
+
+    /* --- SECTION: SIMULATED PAGE --- */
+    .page-sim {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* Header */
+    .sim-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      margin-bottom: 80px;
+    }
+    .sim-logo {
+      font-family: 'Switzer', sans-serif;
+      font-weight: 600;
+      font-size: 1.1rem;
+      letter-spacing: -0.01em;
+    }
+    .sim-nav {
+      display: flex;
+      gap: 32px;
+    }
+    .sim-nav a {
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: #666;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .sim-nav a:first-child { color: #fafafa; }
+    .sim-nav a:hover { color: #fafafa; }
+
+    /* Hero */
+    .sim-hero {
+      margin-bottom: 80px;
+    }
+    .sim-hero h1 {
+      font-family: 'Switzer', sans-serif;
+      font-size: 4rem;
+      font-weight: 600;
+      line-height: 1.08;
+      letter-spacing: -0.025em;
+      margin-bottom: 20px;
+    }
+    .sim-hero .subtitle {
+      font-family: 'Switzer', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: #888;
+      line-height: 1.4;
+      margin-bottom: 32px;
+    }
+    .sim-hero .intro {
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: #999;
+      max-width: 600px;
+      margin-bottom: 40px;
+    }
+    .sim-hero .cta-row {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .btn-primary {
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 14px 32px;
+      background: #fafafa;
+      color: #0a0a0a;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .btn-secondary {
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 14px 32px;
+      background: transparent;
+      color: #fafafa;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    /* Divider */
+    .sim-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 0 0 80px;
+    }
+
+    /* Section */
+    .sim-section {
+      margin-bottom: 80px;
+    }
+    .sim-section .section-label {
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: #444;
+      margin-bottom: 24px;
+    }
+    .sim-section h2 {
+      font-family: 'Switzer', sans-serif;
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    .sim-section p {
+      font-family: 'Lora', serif;
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #999;
+      max-width: 600px;
+      margin-bottom: 16px;
+    }
+    .sim-section p em {
+      color: #bbb;
+    }
+
+    /* Card row */
+    .card-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      margin-top: 32px;
+    }
+    .card {
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 6px;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card .card-label {
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: #555;
+    }
+    .card h3 {
+      font-family: 'Switzer', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .card p {
+      font-family: 'Lora', serif;
+      font-size: 0.875rem;
+      line-height: 1.7;
+      color: #777;
+      margin-bottom: 0;
+    }
+    .card .card-link {
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.65rem;
+      font-weight: 500;
+      color: #888;
+      text-decoration: none;
+      margin-top: auto;
+    }
+
+    /* Footer */
+    .sim-footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding-top: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sim-footer .footer-text {
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.65rem;
+      font-weight: 400;
+      color: #444;
+    }
+    .sim-footer .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+    .sim-footer .footer-links a {
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.65rem;
+      font-weight: 400;
+      color: #444;
+      text-decoration: none;
+    }
+
+    /* --- TYPE SPECIMEN BELOW --- */
+    .specimen {
+      margin-top: 120px;
+      padding-top: 60px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .specimen-title {
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: #444;
+      margin-bottom: 48px;
+    }
+    .specimen-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 48px;
+    }
+    .spec-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .spec-col .spec-label {
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 0.6rem;
+      font-weight: 500;
+      color: #333;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .spec-col .s1 { font-size: 2.5rem; font-weight: 600; color: #fafafa; }
+    .spec-col .s2 { font-size: 1.75rem; font-weight: 500; color: #ccc; }
+    .spec-col .s3 { font-size: 1.25rem; font-weight: 400; color: #999; }
+    .spec-col .s4 { font-size: 0.95rem; font-weight: 400; color: #777; }
+    .spec-col .s5 { font-size: 0.75rem; font-weight: 400; color: #555; }
+
+    .spec-col:nth-child(1) span { font-family: 'Switzer', sans-serif; letter-spacing: -0.01em; }
+    .spec-col:nth-child(2) span { font-family: 'Lora', serif; }
+    .spec-col:nth-child(3) span {
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Legend -->
+    <div class="legend">
+      <div class="legend-item">
+        <span class="font-name">Switzer</span>
+        <span class="font-role">Display &amp; Headlines</span>
+      </div>
+      <div class="legend-item">
+        <span class="font-name">Lora</span>
+        <span class="font-role">Body &amp; Reading</span>
+      </div>
+      <div class="legend-item">
+        <span class="font-name">Outfit</span>
+        <span class="font-role">UI, Labels &amp; Buttons</span>
+      </div>
+    </div>
+
+    <!-- Simulated Page -->
+    <div class="page-sim">
+
+      <!-- Header -->
+      <div class="sim-header">
+        <div class="sim-logo">Scott Bertrand</div>
+        <nav class="sim-nav">
+          <a href="#">Work</a>
+          <a href="#">About</a>
+          <a href="#">Journal</a>
+          <a href="#">Contact</a>
+        </nav>
+      </div>
+
+      <!-- Hero -->
+      <div class="sim-hero">
+        <h1>Design that<br>earns attention.</h1>
+        <div class="subtitle">Strategy, identity, and digital experiences.</div>
+        <p class="intro">Creating considered work at the intersection of design strategy and technology. Every project begins with clarity — understanding what matters before deciding what to build.</p>
+        <div class="cta-row">
+          <button class="btn-primary">View Work</button>
+          <button class="btn-secondary">Bertrand Brands</button>
+        </div>
+      </div>
+
+      <div class="sim-divider"></div>
+
+      <!-- Selected Work Section -->
+      <div class="sim-section">
+        <div class="section-label">Selected Work</div>
+        <h2>Recent projects</h2>
+        <p>A selection of recent work spanning brand identity, digital product design, and creative direction. Each project represents a collaborative process built on <em>clarity and restraint</em>.</p>
+
+        <div class="card-row">
+          <div class="card">
+            <span class="card-label">Brand Identity</span>
+            <h3>Meridian Studio</h3>
+            <p>Complete visual identity for an architectural photography studio.</p>
+            <a href="#" class="card-link">View Project</a>
+          </div>
+          <div class="card">
+            <span class="card-label">Web Design</span>
+            <h3>Northvale Capital</h3>
+            <p>Website and digital presence for a boutique investment firm.</p>
+            <a href="#" class="card-link">View Project</a>
+          </div>
+          <div class="card">
+            <span class="card-label">Creative Direction</span>
+            <h3>Elm & Oak</h3>
+            <p>Art direction and brand strategy for a premium home goods company.</p>
+            <a href="#" class="card-link">View Project</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sim-divider"></div>
+
+      <!-- About snippet -->
+      <div class="sim-section">
+        <div class="section-label">About</div>
+        <h2>Based in Ontario, Canada</h2>
+        <p>I work with founders and small teams who care about how things look and how they work. My practice is built around <em>saying less and meaning more</em> — stripping away noise until only the essential remains.</p>
+        <p>For client work and studio services, visit <em>Bertrand Brands</em>.</p>
+      </div>
+
+      <!-- Footer -->
+      <div class="sim-footer">
+        <span class="footer-text">&copy; 2026 Scott Bertrand</span>
+        <div class="footer-links">
+          <a href="#">LinkedIn</a>
+          <a href="#">GitHub</a>
+          <a href="#">Email</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Type Specimen -->
+    <div class="specimen">
+      <div class="specimen-title">Type Specimen — All Three Faces</div>
+      <div class="specimen-grid">
+        <div class="spec-col">
+          <span class="spec-label">Switzer — Display</span>
+          <span class="s1">Heading One</span>
+          <span class="s2">Heading Two</span>
+          <span class="s3">Heading Three</span>
+          <span class="s4">Subheading</span>
+          <span class="s5">Small display</span>
+        </div>
+        <div class="spec-col">
+          <span class="spec-label">Lora — Body</span>
+          <span class="s1">Reading</span>
+          <span class="s2">Paragraph</span>
+          <span class="s3">Body text size</span>
+          <span class="s4">Secondary text</span>
+          <span class="s5">Fine print and notes</span>
+        </div>
+        <div class="spec-col">
+          <span class="spec-label">Outfit — UI (All Caps)</span>
+          <span class="s1">Button</span>
+          <span class="s2">Label</span>
+          <span class="s3">Navigation</span>
+          <span class="s4">Caption</span>
+          <span class="s5">Metadata</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

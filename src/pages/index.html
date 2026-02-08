@@ -357,6 +357,44 @@
       color: var(--text-muted);
     }
 
+    /* Signal Dots — Brand Mark */
+    .signal-dots {
+      position: fixed;
+      top: 40px;
+      left: 40px;
+      display: flex;
+      gap: 6px;
+      opacity: 0;
+      animation: softFade 1.0s ease 8.5s forwards;
+    }
+
+    .signal-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      animation: signalPulse 4s ease-in-out infinite;
+    }
+
+    .signal-dot--orange {
+      background: #D97B30;
+      animation-delay: 0s;
+    }
+
+    .signal-dot--purple {
+      background: #9B6BD9;
+      animation-delay: 0.15s;
+    }
+
+    .signal-dot--blue {
+      background: #4264D9;
+      animation-delay: 0.3s;
+    }
+
+    @keyframes signalPulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+
     @keyframes lineSweep {
       0% { width: 0; left: 0; }
       100% { width: 100%; left: 0; }
@@ -391,24 +429,92 @@
       .capability-wrapper { animation: softFade 0.3s ease 0.2s forwards; }
       .links { animation: softFade 0.3s ease 0.3s forwards; transform: none; }
       .footer-links { animation: softFade 0.3s ease 0.4s forwards; }
+      .signal-dots { animation: softFade 0.3s ease 0.5s forwards; }
+      .signal-dot { animation: none; opacity: 0.8; }
     }
 
     @media (max-width: 600px) {
-      body { padding: 32px 20px; }
-      .above { padding-bottom: 28px; }
-      .below { padding-top: 28px; }
-      .capability-line {
-        font-size: 0.48rem;
-        padding: 0 10px;
-        white-space: normal;
-        text-align: center;
-        max-width: calc(100vw - 40px);
+      body {
+        padding: 80px 20px 100px;
+        min-height: 100vh;
+        min-height: 100dvh;
       }
-      .capability-sep { margin: 0 0.4em; }
-      .capability-detail { max-width: calc(100vw - 40px); }
-      .capability-detail p { font-size: 0.85rem; padding: 0; }
-      .links { margin-top: 24px; }
-      .footer-links { gap: 20px; bottom: 28px; }
+      .stage {
+        min-height: auto;
+      }
+      .above { padding-bottom: 20px; }
+      .below { padding-top: 20px; }
+      .first-name span,
+      .last-name span {
+        font-size: clamp(2.5rem, 12vw, 4rem);
+      }
+      .capability-wrapper {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        margin: 16px 0;
+      }
+      .capability-line {
+        font-size: 0.42rem;
+        padding: 0 8px;
+        white-space: nowrap;
+        overflow-x: auto;
+        max-width: calc(100vw - 40px);
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      .capability-line::-webkit-scrollbar {
+        display: none;
+      }
+      .capability-sep { margin: 0 0.5em; }
+      .capability-detail {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        max-width: calc(100vw - 40px);
+        padding-top: 8px;
+      }
+      .capability-detail p {
+        font-size: 0.8rem;
+        padding: 0 10px;
+        transform: none;
+      }
+      .capability-detail.open p {
+        transform: none;
+      }
+      .stage-line {
+        display: none;
+      }
+      .tagline {
+        font-size: 0.95rem;
+        padding: 0 10px;
+      }
+      .links { margin-top: 20px; }
+      .footer-links {
+        gap: 20px;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .signal-dots { top: 28px; left: 20px; gap: 5px; }
+      .signal-dot { width: 6px; height: 6px; }
+    }
+
+    /* Very small screens */
+    @media (max-width: 380px) {
+      .first-name span,
+      .last-name span {
+        font-size: 2.2rem;
+      }
+      .capability-line {
+        font-size: 0.38rem;
+      }
+      .tagline {
+        font-size: 0.85rem;
+      }
     }
 
     :focus-visible {
@@ -446,6 +552,12 @@
         <a href="https://bertrandbrands.com">Bertrand Brands</a>
       </nav>
     </div>
+  </div>
+
+  <div class="signal-dots" aria-hidden="true">
+    <div class="signal-dot signal-dot--orange"></div>
+    <div class="signal-dot signal-dot--purple"></div>
+    <div class="signal-dot signal-dot--blue"></div>
   </div>
 
   <div class="footer-links">

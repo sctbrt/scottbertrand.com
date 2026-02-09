@@ -1,12 +1,11 @@
-// BERTRANDBRANDS.COM — Host-Based Routing Proxy
+// BERTRAND SYSTEM — Host-Based Routing Proxy
 // Routes requests based on subdomain to appropriate sections
 //
 // This proxy handles routing for the system-build Next.js app:
-// - dashboard.bertrandbrands.com → /dashboard/* (admin only)
-// - clients.bertrandbrands.com → /portal/* (client portal)
+// - dash.bertrandgroup.ca → /dashboard/* (admin only)
+// - clients.bertrandgroup.ca → /portal/* (client portal)
 //
-// NOTE: notes.* and goods.* subdomains are deployed separately
-// from the main Vite site and should NOT be handled by this app.
+// Legacy domains redirect to new bertrandgroup.ca structure.
 //
 // Security features:
 // - HTTPS enforcement (production)
@@ -44,15 +43,20 @@ function checkAuthRateLimit(ip: string): boolean {
 
 // Domain configuration - only domains handled by this Next.js app
 const DOMAINS: Record<string, string[]> = {
-  // Production domains (both scottbertrand.com and bertrandbrands.com)
-  PUBLIC: ['bertrandbrands.com', 'www.bertrandbrands.com'],
-  DASHBOARD: ['dashboard.bertrandbrands.com', 'dashboard.scottbertrand.com'],
-  PORTAL: ['clients.bertrandbrands.com', 'clients.scottbertrand.com'],
+  // Production domains — bertrandgroup.ca
+  PUBLIC: ['bertrandgroup.ca', 'www.bertrandgroup.ca'],
+  DASHBOARD: ['dash.bertrandgroup.ca', 'dashboard.bertrandgroup.ca'],
+  PORTAL: ['clients.bertrandgroup.ca'],
 
-  // Test/Staging domains (test.bertrandbrands.com)
-  TEST_PUBLIC: ['test.bertrandbrands.com'],
-  TEST_DASHBOARD: ['dashboard.test.bertrandbrands.com'],
-  TEST_PORTAL: ['clients.test.bertrandbrands.com'],
+  // Legacy domains (kept during transition, will redirect)
+  LEGACY_PUBLIC: ['bertrandbrands.com', 'www.bertrandbrands.com'],
+  LEGACY_DASHBOARD: ['dashboard.bertrandbrands.com', 'dashboard.scottbertrand.com'],
+  LEGACY_PORTAL: ['clients.bertrandbrands.com', 'clients.scottbertrand.com'],
+
+  // Test/Staging domains
+  TEST_PUBLIC: ['test.bertrandgroup.ca'],
+  TEST_DASHBOARD: ['dashboard.test.bertrandgroup.ca'],
+  TEST_PORTAL: ['clients.test.bertrandgroup.ca'],
 
   // Development patterns
   DEV_PUBLIC: ['localhost', '127.0.0.1'],
@@ -140,6 +144,23 @@ export async function proxy(request: NextRequest) {
     }
   }
 
+  // ============================================
+  // Legacy Domain Redirects (301)
+  // ============================================
+  if (DOMAINS.LEGACY_DASHBOARD.includes(host)) {
+    const url = new URL(request.url)
+    url.hostname = 'dash.bertrandgroup.ca'
+    url.port = ''
+    return NextResponse.redirect(url.toString(), 301)
+  }
+
+  if (DOMAINS.LEGACY_PORTAL.includes(host)) {
+    const url = new URL(request.url)
+    url.hostname = 'clients.bertrandgroup.ca'
+    url.port = ''
+    return NextResponse.redirect(url.toString(), 301)
+  }
+
   // Determine which site we're on
   const siteType = getSiteType(host)
 
@@ -182,7 +203,8 @@ function getSiteType(host: string): 'public' | 'dashboard' | 'portal' {
     DOMAINS.DASHBOARD.includes(host) ||
     DOMAINS.TEST_DASHBOARD.includes(host) ||
     DOMAINS.DEV_DASHBOARD.includes(host) ||
-    host.startsWith('dashboard.')
+    host.startsWith('dashboard.') ||
+    host.startsWith('dash.')
   ) {
     return 'dashboard'
   }

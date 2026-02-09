@@ -335,7 +335,7 @@ export async function sendInvoice(
             You can view your invoice and project details in your client portal:
           </p>
 
-          <a href="https://clients.bertrandbrands.com/portal" style="display: inline-block; background: #1a1a1a; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 500;">
+          <a href="https://clients.bertrandgroup.ca/portal" style="display: inline-block; background: #1a1a1a; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 500;">
             View Client Portal
           </a>
 
@@ -346,7 +346,7 @@ export async function sendInvoice(
           <hr style="border: none; border-top: 1px solid #e5e5e5; margin: 32px 0;" />
 
           <p style="color: #999; font-size: 12px;">
-            Bertrand Brands · bertrandbrands.com
+            Bertrand Brands · brands.bertrandgroup.ca
           </p>
         </div>
       `,

@@ -9,7 +9,7 @@ import { Resend } from 'resend'
 
 // Config
 const MAGIC_LINK_TTL_MINUTES = parseInt(process.env.PRICING_MAGIC_LINK_TTL_MINUTES || '15', 10)
-const APP_URL = process.env.PRICING_APP_URL || 'https://bertrandbrands.com'
+const APP_URL = process.env.PRICING_APP_URL || 'https://brands.bertrandgroup.ca'
 const RATE_LIMIT_EMAIL_PER_HOUR = 3
 
 // Email validation regex (RFC 5321 compliant)

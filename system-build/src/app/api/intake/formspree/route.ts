@@ -409,7 +409,7 @@ async function sendNotification({
         user: process.env.PUSHOVER_USER_KEY,
         message,
         title: 'New Lead Submitted',
-        url: `https://dashboard.bertrandbrands.com/leads/${lead.id}`,
+        url: `https://dash.bertrandgroup.ca/leads/${lead.id}`,
         url_title: 'View Lead',
         priority: 0,
       }),

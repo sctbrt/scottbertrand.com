@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
 
     // Build the callback URL
     // This mimics the NextAuth magic link format
-    const baseUrl = process.env.AUTH_URL || 'https://bertrandbrands.com'
+    const baseUrl = process.env.AUTH_URL || 'https://brands.bertrandgroup.ca'
     const callbackUrl = user.role === 'CLIENT'
       ? '/portal'
       : '/dashboard'

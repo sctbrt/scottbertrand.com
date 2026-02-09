@@ -56,7 +56,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@600&family=Space+Mono:wght@700&family=DM+Serif+Display&family=Bebas+Neue&family=Cormorant+Garamond:wght@600&family=Syne:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@600&family=Space+Mono:wght@700&family=DM+Serif+Display&family=Bebas+Neue&family=Cormorant+Garamond:wght@600&family=Syne:wght@700&family=Abril+Fatface&family=Bodoni+Moda:wght@700&family=Cinzel:wght@700&family=Italiana&family=Poiret+One&family=Tenor+Sans&family=Yeseva+One&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
   <style>
     @font-face {
       font-family: 'Switzer';
@@ -90,8 +90,103 @@
       --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
     }
 
+    /* Dark theme (night: 8pm - 5am) */
+    [data-theme="dark"] {
+      --bg: #0a0a0a;
+      --text: #fafafa;
+      --text-muted: #b0b0b0;
+      --text-subtle: #787878;
+      --accent: #D97706;
+    }
+
+    [data-theme="dark"] body {
+      background: linear-gradient(to bottom, #0a0a12 0%, #0d1117 40%, #151922 100%);
+    }
+
+    /* Stars layer */
+    [data-theme="dark"] body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        /* Bright stars */
+        radial-gradient(1.5px 1.5px at 20px 30px, rgba(255,255,255,1), transparent),
+        radial-gradient(1.5px 1.5px at 130px 80px, rgba(255,255,255,1), transparent),
+        radial-gradient(2px 2px at 320px 100px, rgba(255,255,255,1), transparent),
+        radial-gradient(1.5px 1.5px at 560px 40px, rgba(255,255,255,1), transparent),
+        radial-gradient(2px 2px at 720px 120px, rgba(255,255,255,1), transparent),
+        /* Medium stars */
+        radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 50px 160px, rgba(255,255,255,0.85), transparent),
+        radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1.5px 1.5px at 160px 120px, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 200px 50px, rgba(255,255,255,0.85), transparent),
+        radial-gradient(1px 1px at 220px 90px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 250px 150px, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 280px 20px, rgba(255,255,255,0.85), transparent),
+        radial-gradient(1px 1px at 350px 60px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 380px 140px, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 420px 30px, rgba(255,255,255,0.85), transparent),
+        radial-gradient(1px 1px at 450px 110px, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 480px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1.5px 1.5px at 520px 160px, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 600px 90px, rgba(255,255,255,0.85), transparent),
+        radial-gradient(1px 1px at 640px 130px, rgba(255,255,255,0.8), transparent),
+        /* Additional stars for density */
+        radial-gradient(1px 1px at 680px 50px, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 750px 180px, rgba(255,255,255,0.85), transparent),
+        radial-gradient(1px 1px at 100px 140px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 180px 180px, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 400px 170px, rgba(255,255,255,0.85), transparent),
+        radial-gradient(1px 1px at 580px 150px, rgba(255,255,255,0.8), transparent);
+      background-size: 800px 200px;
+      animation: twinkle 6s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+
+    [data-theme="dark"] .stage,
+    [data-theme="dark"] .signal-dots,
+    [data-theme="dark"] .footer-links {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Dark theme: stage-line visibility */
+    [data-theme="dark"] .stage-line {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Dark theme: capability line background */
+    [data-theme="dark"] .capability-line {
+      background: transparent;
+    }
+
+    /* Dark theme: signal dots more visible */
+    [data-theme="dark"] .signal-dot {
+      opacity: 0.9;
+    }
+
+    [data-theme="dark"] .signal-dot--orange {
+      box-shadow: 0 0 6px rgba(217, 123, 48, 0.5);
+    }
+
+    [data-theme="dark"] .signal-dot--purple {
+      box-shadow: 0 0 6px rgba(155, 107, 217, 0.5);
+    }
+
+    [data-theme="dark"] .signal-dot--blue {
+      box-shadow: 0 0 6px rgba(66, 100, 217, 0.5);
+    }
+
+    html { color-scheme: light dark; }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { color-scheme: light only; }
 
     body {
       background: var(--bg);
@@ -155,6 +250,7 @@
     .last-name {
       overflow: hidden;
       line-height: 1.0;
+      padding-right: 0.05em;
     }
 
     .first-name span,
@@ -165,6 +261,17 @@
       transform: translateY(120%);
       letter-spacing: -0.04em;
       transition: none;
+    }
+
+    .first-name i,
+    .last-name i {
+      font-style: normal;
+      display: inline-block;
+      padding-right: 0.02em;
+    }
+
+    .last-name i:last-child {
+      padding-right: 0.1em;
     }
 
     .first-name span {
@@ -336,10 +443,13 @@
     .footer-links {
       position: fixed;
       bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
       gap: 28px;
       opacity: 0;
       animation: softFade 1.0s ease 8.0s forwards;
+      z-index: 10;
     }
 
     .footer-links a {
@@ -366,6 +476,7 @@
       gap: 6px;
       opacity: 0;
       animation: softFade 1.0s ease 8.5s forwards;
+      z-index: 10;
     }
 
     .signal-dot {
@@ -493,8 +604,6 @@
       .footer-links {
         gap: 20px;
         bottom: 28px;
-        left: 50%;
-        transform: translateX(-50%);
       }
       .signal-dots { top: 28px; left: 20px; gap: 5px; }
       .signal-dot { width: 6px; height: 6px; }
@@ -527,8 +636,8 @@
 
     <div class="above">
       <div class="name-block">
-        <div class="first-name"><span>Scott</span></div>
-        <div class="last-name"><span>Bertrand</span></div>
+        <div class="first-name"><span><i>S</i><i>C</i><i>O</i><i>T</i><i>T</i></span></div>
+        <div class="last-name"><span><i>B</i><i>E</i><i>R</i><i>T</i><i>R</i><i>A</i><i>N</i><i>D</i></span></div>
       </div>
     </div>
 
@@ -562,14 +671,10 @@
   </div>
 
   <script>
-    // Typeface roulette — cycles through contrasting fonts before landing on Switzer
+    // Typeface roulette — two modes: 'word' or 'letter'
     (function() {
-      // Skip roulette for reduced motion preference
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.querySelector('.first-name span').style.fontFamily = "'Switzer', sans-serif";
-        document.querySelector('.last-name span').style.fontFamily = "'Switzer', sans-serif";
-        return;
-      }
+      const MODE = 'letter'; // Change to 'word' for whole-word cycling
+
       const fonts = [
         "'Playfair Display', serif",
         "'Space Mono', monospace",
@@ -577,42 +682,47 @@
         "'Cormorant Garamond', serif",
         "'Syne', sans-serif",
         "'DM Serif Display', serif",
-        "'Space Mono', monospace",
-        "'Bebas Neue', sans-serif",
-        "'Playfair Display', serif",
-        "'Syne', sans-serif",
-        "'Cormorant Garamond', serif",
-        "'DM Serif Display', serif",
-        "'Bebas Neue', sans-serif",
-        "'Space Mono', monospace",
-        "'Playfair Display', serif",
-        "'Syne', sans-serif",
-        "'Cormorant Garamond', serif",
-        "'DM Serif Display', serif",
-        "'Bebas Neue', sans-serif",
-        "'Playfair Display', serif",
-        "'Space Mono', monospace",
-        "'Syne', sans-serif",
-        "'Cormorant Garamond', serif",
-        "'Switzer', sans-serif"
+        "'Switzer', sans-serif",
+        "'Abril Fatface', serif",
+        "'Bodoni Moda', serif",
+        "'Cinzel', serif",
+        "'Italiana', sans-serif",
+        "'Poiret One', sans-serif",
+        "'Tenor Sans', sans-serif",
+        "'Yeseva One', serif",
+        "'Libre Baskerville', serif"
       ];
+      const finalFont = fonts[Math.floor(Math.random() * fonts.length)];
 
       const firstName = document.querySelector('.first-name span');
       const lastName = document.querySelector('.last-name span');
 
-      function cycleFont(el, startDelay) {
+      // Skip roulette for reduced motion preference
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        firstName.style.fontFamily = finalFont;
+        lastName.style.fontFamily = finalFont;
+        return;
+      }
+
+      // WORD MODE: whole word cycles through fonts
+      function cycleWord(el, startDelay) {
         setTimeout(() => {
           let i = 0;
           const intervals = [
             160, 140, 120, 100, 90, 80, 70, 60, 55, 50, 50, 50,
-            55, 60, 70, 80, 100, 120, 150, 180, 220, 280, 350, 0
+            55, 60, 70, 80, 100, 120, 150, 180, 220, 280, 350
           ];
+          const shuffled = [];
+          for (let j = 0; j < intervals.length; j++) {
+            shuffled.push(fonts[Math.floor(Math.random() * fonts.length)]);
+          }
+          shuffled.push(finalFont);
 
           function next() {
-            el.style.fontFamily = fonts[i];
+            el.style.fontFamily = shuffled[i];
             i++;
-            if (i < fonts.length) {
-              setTimeout(next, intervals[i - 1]);
+            if (i < shuffled.length) {
+              setTimeout(next, intervals[i - 1] || 350);
             } else {
               el.style.fontWeight = '600';
             }
@@ -621,8 +731,43 @@
         }, startDelay);
       }
 
-      cycleFont(firstName, 2600);
-      cycleFont(lastName, 3000);
+      // LETTER MODE: each letter cycles independently
+      function cycleLetters(el, startDelay) {
+        setTimeout(() => {
+          const letters = el.querySelectorAll('i');
+          const duration = 3200;
+          const settleStagger = 100;
+
+          letters.forEach((letter, idx) => {
+            const letterDuration = duration + (Math.random() * 600) - 300;
+            const settleDelay = idx * settleStagger;
+            const interval = 180 + Math.random() * 80;
+            const startTime = Date.now();
+
+            function tick() {
+              const elapsed = Date.now() - startTime;
+              if (elapsed < letterDuration) {
+                letter.style.fontFamily = fonts[Math.floor(Math.random() * fonts.length)];
+                setTimeout(tick, interval);
+              } else {
+                setTimeout(() => {
+                  letter.style.fontFamily = finalFont;
+                  letter.style.fontWeight = '600';
+                }, settleDelay);
+              }
+            }
+            tick();
+          });
+        }, startDelay);
+      }
+
+      if (MODE === 'letter') {
+        cycleLetters(firstName, 2600);
+        cycleLetters(lastName, 3000);
+      } else {
+        cycleWord(firstName, 2600);
+        cycleWord(lastName, 3000);
+      }
     })();
 
     // Capability expand — click to reveal description
@@ -674,6 +819,23 @@
           activeCapability = null;
         }
       });
+    })();
+
+    // Time-based theme (Canada/Eastern timezone)
+    (function() {
+      function getTheme() {
+        const hour = parseInt(new Date().toLocaleString('en-US', {
+          timeZone: 'America/Toronto',
+          hour: 'numeric',
+          hour12: false
+        }));
+        // Night: 8pm (20) to 5am (4)
+        return (hour >= 20 || hour < 5) ? 'dark' : 'light';
+      }
+
+      const saved = localStorage.getItem('theme-preference');
+      const theme = saved || getTheme();
+      document.documentElement.setAttribute('data-theme', theme);
     })();
   </script>
 

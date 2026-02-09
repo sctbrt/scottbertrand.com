@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
     })
 
     // Build the booking access URL
-    const baseUrl = process.env.PUBLIC_SITE_URL || 'https://bertrandbrands.com'
+    const baseUrl = process.env.PUBLIC_SITE_URL || 'https://brands.bertrandgroup.ca'
     const bookingUrl = `${baseUrl}/booking/access?token=${rawToken}`
 
     // Log the activity

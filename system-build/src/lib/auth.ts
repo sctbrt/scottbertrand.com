@@ -268,6 +268,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
   },
 
+  // Cross-subdomain session sharing (clients.bertrandgroup.ca ↔ dash.bertrandgroup.ca)
+  cookies: {
+    sessionToken: {
+      name: process.env.NODE_ENV === 'production'
+        ? '__Secure-authjs.session-token'
+        : 'authjs.session-token',
+      options: {
+        httpOnly: true,
+        sameSite: 'lax' as const,
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+        domain: process.env.NODE_ENV === 'production' ? '.bertrandgroup.ca' : undefined,
+      },
+    },
+  },
+
   // Security settings
   trustHost: true,
   debug: process.env.NODE_ENV === 'development',

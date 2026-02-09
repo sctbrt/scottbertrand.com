@@ -54,7 +54,7 @@ export async function sendPaymentNotification(data: PaymentNotificationData): Pr
       title = '💰 Payment Received'
       message = `${formattedAmount} received for ${projectName}`
       if (projectId) {
-        url = `https://dashboard.bertrandbrands.com/projects/${projectId}`
+        url = `https://dash.bertrandgroup.ca/projects/${projectId}`
         urlTitle = 'View Project'
       }
       break
@@ -74,7 +74,7 @@ export async function sendPaymentNotification(data: PaymentNotificationData): Pr
         message += `\nCharge: ${chargeId}`
       }
       if (projectId) {
-        url = `https://dashboard.bertrandbrands.com/projects/${projectId}`
+        url = `https://dash.bertrandgroup.ca/projects/${projectId}`
         urlTitle = 'View Project'
       }
       break

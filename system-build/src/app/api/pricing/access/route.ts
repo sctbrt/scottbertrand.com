@@ -21,7 +21,7 @@ function buildSessionCookie(sessionId: string, expiresAt: Date) {
   if (IS_PRODUCTION) {
     parts.push('Secure')
     // Set on parent domain so cookie works across subdomains
-    parts.push('Domain=.bertrandbrands.com')
+    parts.push('Domain=.bertrandgroup.ca')
   }
 
   return parts.join('; ')

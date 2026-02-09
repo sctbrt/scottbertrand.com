@@ -6,7 +6,7 @@ import './globals.css'
 
 // Global metadata base
 export const metadata: Metadata = {
-  metadataBase: new URL('https://clients.bertrandbrands.com'),
+  metadataBase: new URL('https://clients.bertrandgroup.ca'),
 
   title: {
     default: 'Bertrand System',

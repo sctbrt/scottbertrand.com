@@ -198,7 +198,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Base URL for redirects
-    const baseUrl = process.env.NEXTAUTH_URL || 'https://dashboard.bertrandbrands.com'
+    const baseUrl = process.env.NEXTAUTH_URL || 'https://dash.bertrandgroup.ca'
 
     // Create Stripe Checkout Session
     const checkoutSession = await stripe.checkout.sessions.create({

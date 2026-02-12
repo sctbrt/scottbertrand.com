@@ -230,6 +230,12 @@ async function handleDashboardRouting(request: NextRequest, pathname: string) {
     return NextResponse.next()
   }
 
+  // Allow /unauthorized to render without rewriting (prevents redirect loop
+  // when dashboard/layout.tsx rejects non-INTERNAL_ADMIN users)
+  if (pathname === '/unauthorized') {
+    return NextResponse.next()
+  }
+
   // Allow public API routes (webhooks, intake, etc.) without authentication
   if (PUBLIC_API_PATHS.some(path => pathname.startsWith(path))) {
     // Don't rewrite - let them hit the API routes directly
@@ -279,6 +285,12 @@ async function handleDashboardRouting(request: NextRequest, pathname: string) {
 async function handlePortalRouting(request: NextRequest, pathname: string) {
   // Allow auth routes without authentication (don't rewrite - use root-level auth pages)
   if (AUTH_PATHS.some(path => pathname.startsWith(path))) {
+    return NextResponse.next()
+  }
+
+  // Allow /unauthorized to render without rewriting (prevents redirect loop
+  // when portal/layout.tsx rejects non-CLIENT users)
+  if (pathname === '/unauthorized') {
     return NextResponse.next()
   }
 

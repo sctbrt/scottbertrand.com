@@ -16,8 +16,8 @@ export default async function PortalLayout({
     redirect('/login')
   }
 
-  // Require CLIENT role (or allow INTERNAL_ADMIN for testing)
-  if (session.user.role !== 'CLIENT' && session.user.role !== 'INTERNAL_ADMIN') {
+  // Require CLIENT role
+  if (session.user.role !== 'CLIENT') {
     redirect('/unauthorized')
   }
 

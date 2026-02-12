@@ -8,6 +8,7 @@
 // - Input sanitization
 
 import { NextRequest, NextResponse } from 'next/server'
+import { Prisma } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 import { headers } from 'next/headers'
 import { checkRateLimit, rateLimitHeaders, getClientIP } from '@/lib/rate-limit'
@@ -343,6 +344,138 @@ export async function POST(request: NextRequest) {
         encrypted: shouldEncrypt,
       },
     }))
+
+    // Create intake_submission if this is an intake form (not just a contact form)
+    // Intake forms include a "source" hidden field that identifies the form type
+    const intakeSource = sanitizeString(formData.source || '', 100)
+    const INTAKE_SOURCES = [
+      'exploratory-guided-intake',
+      'website_conversion_snapshot',
+      'brand-clarity-diagnostic-intake',
+      'sudbury_focus_studio',
+    ]
+
+    if (!isSpam && INTAKE_SOURCES.includes(intakeSource)) {
+      try {
+        // Find or create user + client for this email
+        let user = await prisma.users.findUnique({ where: { email } })
+        if (!user) {
+          user = await prisma.users.create({
+            data: {
+              email,
+              name: name || null,
+              role: 'CLIENT',
+            },
+          })
+        }
+
+        let client = await prisma.clients.findUnique({ where: { userId: user.id } })
+        if (!client) {
+          client = await prisma.clients.create({
+            data: {
+              userId: user.id,
+              contactName: name || email,
+              contactEmail: email,
+              phone: phone || null,
+              website: website || null,
+              companyName: companyName || null,
+              newOrReturning: 'NEW',
+              intakeStatus: 'SUBMITTED',
+              locationCity: geo.city || null,
+              locationCountry: geo.country || null,
+            },
+          })
+        } else {
+          // Update existing client's intake status
+          await prisma.clients.update({
+            where: { id: client.id },
+            data: { intakeStatus: 'SUBMITTED' },
+          })
+        }
+
+        // Map form fields to intake_submissions schema based on source
+        const intakeData: Record<string, unknown> = {
+          clientId: client.id,
+          intakeType: 'SELF_GUIDED',
+          entrySource: 'WEB',
+          status: 'SUBMITTED',
+          submittedAt: new Date(),
+        }
+
+        switch (intakeSource) {
+          case 'exploratory-guided-intake': {
+            // Map situation → scopeType
+            const situation = String(formData.situation || '')
+            const scopeMap: Record<string, string> = {
+              brand_unclear: 'BRAND',
+              website_not_working: 'WEB',
+              both: 'BOTH',
+              not_sure: 'UNSURE',
+            }
+            if (scopeMap[situation]) intakeData.scopeType = scopeMap[situation]
+
+            // Map budget → budgetBand
+            const budget = String(formData.budget || '')
+            const budgetMap: Record<string, string> = {
+              under_250: 'UNDER_1K',
+              '250_750': 'UNDER_1K',
+              '750_2500': 'ONE_TO_3K',
+              '2500_10000': 'THREE_TO_5K',
+              '10000_plus': 'OVER_10K',
+              not_sure: 'NOT_SURE',
+            }
+            if (budgetMap[budget]) intakeData.budgetBand = budgetMap[budget]
+
+            // Map timeline → urgency
+            const timeline = String(formData.timeline || '')
+            const urgencyMap: Record<string, string> = {
+              asap: 'NOW',
+              '2_4_weeks': 'ONE_TO_THREE_MONTHS',
+              '1_3_months': 'ONE_TO_THREE_MONTHS',
+              exploring: 'LATER',
+            }
+            if (urgencyMap[timeline]) intakeData.urgency = urgencyMap[timeline]
+
+            // Narrative fields
+            if (formData.context) intakeData.whatsNotWorking = sanitizeString(formData.context, 500)
+            if (formData.outcome) intakeData.successLooksLike = sanitizeString(formData.outcome, 300)
+            break
+          }
+
+          case 'website_conversion_snapshot':
+            intakeData.scopeType = 'WEB'
+            if (formData.concerns) intakeData.whatsNotWorking = sanitizeString(formData.concerns, 500)
+            break
+
+          case 'brand-clarity-diagnostic-intake':
+            intakeData.scopeType = 'BRAND'
+            if (formData.challenge) intakeData.whatsNotWorking = sanitizeString(formData.challenge, 500)
+            if (formData.description) intakeData.successLooksLike = sanitizeString(formData.description, 300)
+            break
+
+          case 'sudbury_focus_studio':
+            intakeData.scopeType = 'WEB'
+            if (formData.details) intakeData.whatsNotWorking = sanitizeString(formData.details, 500)
+            break
+        }
+
+        await prisma.intake_submissions.create({
+          data: intakeData as Prisma.intake_submissionsUncheckedCreateInput,
+        })
+
+        console.log('[INTAKE]', JSON.stringify({
+          timestamp: new Date().toISOString(),
+          event: 'INTAKE_CREATED',
+          source: intakeSource,
+          clientId: client.id,
+          leadId: lead.id,
+        }))
+      } catch (intakeError) {
+        // Don't fail the lead creation if intake creation fails
+        // (table might not exist yet if migration hasn't run)
+        console.error('[INTAKE] Failed to create intake_submission:', intakeError)
+      }
+    }
 
     // Send notification (if configured)
     if (!isSpam && process.env.PUSHOVER_USER_KEY && process.env.PUSHOVER_API_TOKEN) {

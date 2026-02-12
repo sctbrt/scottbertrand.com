@@ -22,14 +22,16 @@ export default async function DashboardLayout({
   }
 
   // Fetch counts for nav badges
-  const [newLeadsCount, unpaidInvoicesCount] = await Promise.all([
+  const [newLeadsCount, unpaidInvoicesCount, submittedIntakesCount] = await Promise.all([
     prisma.leads.count({ where: { status: 'NEW' } }),
     prisma.invoices.count({ where: { status: { in: ['SENT', 'VIEWED', 'OVERDUE'] } } }),
+    prisma.intake_submissions.count({ where: { status: 'SUBMITTED' } }).catch(() => 0),
   ])
 
   const navCounts = {
     leads: newLeadsCount,
     invoices: unpaidInvoicesCount,
+    intakes: submittedIntakesCount,
   }
 
   return (

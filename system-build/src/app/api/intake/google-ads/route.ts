@@ -267,7 +267,7 @@ export async function POST(request: NextRequest) {
     const storedPhone = phone ? (shouldEncrypt ? encrypt(phone) : phone) : null
 
     // Build formData JSON with campaign metadata (no raw sensitive data if encrypted)
-    const formDataJson: Record<string, unknown> = {
+    const formDataFields: Record<string, string | boolean | null | Record<string, string>> = {
       source: 'google-ads',
       leadId,
       formId,
@@ -282,11 +282,14 @@ export async function POST(request: NextRequest) {
     }
 
     if (shouldEncrypt) {
-      formDataJson._encrypted = true
+      formDataFields._encrypted = true
     } else {
       // Include non-sensitive context in formData when not encrypting
-      formDataJson.website = website || null
+      formDataFields.website = website || null
     }
+
+    // Cast to Prisma JSON type
+    const formDataJson = formDataFields as unknown as Prisma.InputJsonValue
 
     // Create lead record
     const lead = await prisma.leads.create({

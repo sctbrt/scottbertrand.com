@@ -482,6 +482,12 @@ export async function POST(request: NextRequest) {
       await sendNotification({
         lead,
         geo,
+        extra: {
+          companyName: companyName || null,
+          website: website || null,
+          phone: phone || null,
+          intakeSource: intakeSource || null,
+        },
       })
     }
 
@@ -518,9 +524,16 @@ function checkForSpam(data: Record<string, unknown>): boolean {
 async function sendNotification({
   lead,
   geo,
+  extra,
 }: {
   lead: { id: string; email: string; name: string | null; service: string | null }
   geo: { city: string; region: string; country: string }
+  extra?: {
+    companyName: string | null
+    website: string | null
+    phone: string | null
+    intakeSource: string | null
+  }
 }) {
   try {
     // Build location string from Vercel geo headers
@@ -530,7 +543,22 @@ async function sendNotification({
       location = parts.join(', ')
     }
 
-    let message = `New lead: ${lead.name || lead.email}`
+    // Source labels for notification title
+    const sourceLabels: Record<string, string> = {
+      'exploratory-guided-intake': 'Exploratory Intake',
+      'website_conversion_snapshot': 'Website Snapshot',
+      'brand-clarity-diagnostic-intake': 'Brand Diagnostic',
+      'sudbury_focus_studio': 'Sudbury Lead',
+    }
+    const sourceLabel = extra?.intakeSource
+      ? sourceLabels[extra.intakeSource] || 'Formspree Lead'
+      : 'Formspree Lead'
+
+    let message = `${lead.name || lead.email}`
+    if (lead.name && lead.email) message += `\n${lead.email}`
+    if (extra?.companyName) message += `\nBusiness: ${extra.companyName}`
+    if (extra?.website) message += `\nWebsite: ${extra.website}`
+    if (extra?.phone) message += `\nPhone: ${extra.phone}`
     if (lead.service) message += `\nService: ${lead.service}`
     if (location) message += `\n📌 ${location}`
 
@@ -541,10 +569,11 @@ async function sendNotification({
         token: process.env.PUSHOVER_API_TOKEN,
         user: process.env.PUSHOVER_USER_KEY,
         message,
-        title: 'New Lead Submitted',
+        title: `New ${sourceLabel}`,
         url: `https://dash.bertrandgroup.ca/leads/${lead.id}`,
         url_title: 'View Lead',
-        priority: 0,
+        priority: 1,
+        sound: 'cashregister',
       }),
     })
   } catch (error) {

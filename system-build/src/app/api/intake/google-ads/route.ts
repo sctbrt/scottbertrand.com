@@ -428,7 +428,11 @@ export async function POST(request: NextRequest) {
           location = parts.join(', ')
         }
 
-        let message = `New Google Ads lead: ${name || email}`
+        let message = `${name || email}`
+        if (email && name) message += `\n${email}`
+        if (companyName) message += `\nBusiness: ${companyName}`
+        if (website) message += `\nWebsite: ${website}`
+        if (phone) message += `\nPhone: ${phone}`
         if (needCategory) message += `\nNeed: ${needCategory}`
         if (campaignId) message += `\nCampaign: ${campaignId}`
         if (location) message += `\n📌 ${location}`
@@ -441,9 +445,10 @@ export async function POST(request: NextRequest) {
             user: process.env.PUSHOVER_USER_KEY,
             message,
             title: 'Google Ads Lead',
-            url: `https://dashboard.bertrandgroup.ca/leads/${lead.id}`,
+            url: `https://dash.bertrandgroup.ca/leads/${lead.id}`,
             url_title: 'View Lead',
-            priority: 0,
+            priority: 1,
+            sound: 'cashregister',
           }),
         })
       } catch (notifyError) {

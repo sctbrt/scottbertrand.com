@@ -50,17 +50,17 @@ model activity_logs {
 // Separate from activity_logs for security isolation and retention policies
 model audit_logs {
   id           String   @id @default(cuid())
-  eventType    String   // AUTH_LOGIN_SUCCESS, RATE_LIMIT_EXCEEDED, etc.
-  severity     String   // INFO, WARNING, ERROR, CRITICAL
+  eventType    String // AUTH_LOGIN_SUCCESS, RATE_LIMIT_EXCEEDED, etc.
+  severity     String // INFO, WARNING, ERROR, CRITICAL
   userId       String?
   sessionId    String?
   ip           String
   userAgent    String?
   path         String?
   method       String?
-  resourceType String?  // LEAD, CLIENT, FILE, etc.
+  resourceType String? // LEAD, CLIENT, FILE, etc.
   resourceId   String?
-  details      String?  // JSON string for flexible data
+  details      String? // JSON string for flexible data
   success      Boolean
   createdAt    DateTime @default(now())
 
@@ -73,31 +73,32 @@ model audit_logs {
 }
 
 model clients {
-  id           String     @id @default(cuid())
-  userId       String     @unique
-  companyName  String?
-  contactName  String
-  contactEmail String
-  phone        String?
-  website      String?
-  notes        String?
-  isArchived   Boolean    @default(false)
+  id                String               @id @default(cuid())
+  userId            String               @unique
+  companyName       String?
+  contactName       String
+  contactEmail      String
+  phone             String?
+  website           String?
+  notes             String?
+  isArchived        Boolean              @default(false)
   // Intake system fields (Section 4.2)
-  locationCity    String?    @map("location_city")
-  locationCountry String?    @map("location_country")
-  newOrReturning  ClientType @default(NEW) @map("new_or_returning")
-  intakeStatus    IntakeStatus @default(NOT_STARTED) @map("intake_status")
-  fitScore        Int?         @map("fit_score")        // Internal 1-10 score
-  fitDecision     FitDecision? @map("fit_decision")     // Required before routing
-  assignedPath    RoutingPath? @map("assigned_path")    // Focus/Core/Hold
-  lastReviewedAt  DateTime?    @map("last_reviewed_at")
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  users        users      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  invoices     invoices[]
-  leads        leads[]
-  projects     projects[]
+  locationCity      String?              @map("location_city")
+  locationCountry   String?              @map("location_country")
+  newOrReturning    ClientType           @default(NEW) @map("new_or_returning")
+  intakeStatus      IntakeStatus         @default(NOT_STARTED) @map("intake_status")
+  fitScore          Int?                 @map("fit_score") // Internal 1-10 score
+  fitDecision       FitDecision?         @map("fit_decision") // Required before routing
+  assignedPath      RoutingPath?         @map("assigned_path") // Focus/Core/Hold
+  lastReviewedAt    DateTime?            @map("last_reviewed_at")
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  users             users                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  invoices          invoices[]
+  leads             leads[]
+  projects          projects[]
   intakeSubmissions intake_submissions[]
+  careSubscription  care_subscriptions?
 }
 
 model comments {
@@ -318,21 +319,25 @@ model tasks {
 }
 
 model users {
-  id            String          @id @default(cuid())
-  email         String          @unique
-  name          String?
-  emailVerified DateTime?
-  image         String?
-  role          Role            @default(CLIENT)
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  accounts      accounts[]
-  activity_logs activity_logs[]
-  clients       clients?
-  comments      comments[]
-  leads         leads[]
-  sessions      sessions[]
-  tasks         tasks[]
+  id                String                @id @default(cuid())
+  email             String                @unique
+  name              String?
+  emailVerified     DateTime?
+  image             String?
+  role              Role                  @default(CLIENT)
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+  accounts          accounts[]
+  activity_logs     activity_logs[]
+  clients           clients?
+  comments          comments[]
+  leads             leads[]
+  sessions          sessions[]
+  tasks             tasks[]
+  // Care system relations
+  careTickets       care_tickets[]        @relation("TicketRequester")
+  careTicketUpdates care_ticket_updates[]
+  careLedgerEntries care_credit_ledger[]  @relation("LedgerActor")
 }
 
 model verification_tokens {
@@ -350,33 +355,33 @@ model verification_tokens {
 // Intake Submissions - versioned, immutable records of intake responses
 // Each submission is locked on submit (Section 4.2.B)
 model intake_submissions {
-  id              String           @id @default(cuid())
-  clientId        String           @map("client_id")
+  id       String @id @default(cuid())
+  clientId String @map("client_id")
 
   // Metadata (Section 4.2.B)
-  intakeType      IntakeChannel    @map("intake_type")     // guided | self_guided | ai_phone
-  entrySource     EntrySource      @map("entry_source")    // web | phone_ai_beside | referral | other
-  submittedAt     DateTime?        @map("submitted_at")
-  timeToComplete  Int?             @map("time_to_complete") // seconds
-  clientConfidence Int?            @map("client_confidence") // 1-5 self-assessment
+  intakeType       IntakeChannel @map("intake_type") // guided | self_guided | ai_phone
+  entrySource      EntrySource   @map("entry_source") // web | phone_ai_beside | referral | other
+  submittedAt      DateTime?     @map("submitted_at")
+  timeToComplete   Int?          @map("time_to_complete") // seconds
+  clientConfidence Int?          @map("client_confidence") // 1-5 self-assessment
 
   // Status tracking (Section 5.1)
-  status          SubmissionStatus @default(DRAFT)
+  status SubmissionStatus @default(DRAFT)
 
   // Readiness Signals - structured (Section 4.2.C)
-  problemClarity   Int?            @map("problem_clarity")   // 1-5
-  urgency          UrgencyLevel?                             // now | 1-3 months | later
-  budgetBand       BudgetBand?     @map("budget_band")       // bands, not exact
+  problemClarity    Int?               @map("problem_clarity") // 1-5
+  urgency           UrgencyLevel? // now | 1-3 months | later
+  budgetBand        BudgetBand?        @map("budget_band") // bands, not exact
   decisionAuthority DecisionAuthority? @map("decision_authority") // yes | shared | no
-  scopeType        ScopeType?      @map("scope_type")        // web | brand | both | unsure
+  scopeType         ScopeType?         @map("scope_type") // web | brand | both | unsure
 
   // Narrative - constrained (Section 4.2.D)
-  whatsNotWorking  String?         @map("whats_not_working")  @db.VarChar(500)
-  successLooksLike String?         @map("success_looks_like") @db.VarChar(300)
+  whatsNotWorking  String? @map("whats_not_working") @db.VarChar(500)
+  successLooksLike String? @map("success_looks_like") @db.VarChar(300)
 
   // AI Phone Intake (Beside App) specific fields
-  besideSummary       String?      @map("beside_summary")        // Long text from Beside
-  besideTranscriptUrl String?      @map("beside_transcript_url") // File/link
+  besideSummary       String? @map("beside_summary") // Long text from Beside
+  besideTranscriptUrl String? @map("beside_transcript_url") // File/link
 
   // Routing outcome (Section 5.2)
   routingOutcome   RoutingOutcome? @map("routing_outcome")
@@ -384,13 +389,13 @@ model intake_submissions {
   routingNotes     String?         @map("routing_notes")
 
   // Internal review (Section 6.5)
-  reviewedAt       DateTime?       @map("reviewed_at")
-  reviewedById     String?         @map("reviewed_by_id")
+  reviewedAt   DateTime? @map("reviewed_at")
+  reviewedById String?   @map("reviewed_by_id")
 
-  createdAt        DateTime        @default(now()) @map("created_at")
-  updatedAt        DateTime        @updatedAt @map("updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-  client           clients         @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  client clients @relation(fields: [clientId], references: [id], onDelete: Cascade)
 
   @@index([clientId])
   @@index([status])
@@ -544,21 +549,21 @@ enum SignoffAction {
 
 // Deliverables - versioned files with watermarking support
 model deliverables {
-  id                  String           @id @default(cuid())
-  projectId           String           @map("project_id")
-  title               String
-  version             Int              @default(1)
-  state               DeliverableState @default(DRAFT)
+  id              String           @id @default(cuid())
+  projectId       String           @map("project_id")
+  title           String
+  version         Int              @default(1)
+  state           DeliverableState @default(DRAFT)
   // File URLs - preview is watermarked, download is gated
-  filePreviewUrl      String?          @map("file_preview_url")   // Watermarked version
-  fileDownloadUrl     String?          @map("file_download_url")  // Clean version (gated)
-  mimeType            String?          @map("mime_type")
-  fileSize            Int?             @map("file_size")
-  checksum            String?
-  createdAt           DateTime         @default(now()) @map("created_at")
-  updatedAt           DateTime         @updatedAt @map("updated_at")
-  project             projects         @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  feedbacks           feedbacks[]
+  filePreviewUrl  String?          @map("file_preview_url") // Watermarked version
+  fileDownloadUrl String?          @map("file_download_url") // Clean version (gated)
+  mimeType        String?          @map("mime_type")
+  fileSize        Int?             @map("file_size")
+  checksum        String?
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+  project         projects         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  feedbacks       feedbacks[]
 
   @@unique([projectId, version])
   @@index([projectId])
@@ -584,14 +589,14 @@ model feedbacks {
 
 // Sign-offs - approval event log
 model signoffs {
-  id             String        @id @default(cuid())
-  projectId      String        @map("project_id")
-  deliverableId  String        @map("deliverable_id")
-  signedByName   String        @map("signed_by_name")
-  signedByEmail  String?       @map("signed_by_email")
-  signedAt       DateTime      @default(now()) @map("signed_at")
-  action         SignoffAction
-  project        projects      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  id            String        @id @default(cuid())
+  projectId     String        @map("project_id")
+  deliverableId String        @map("deliverable_id")
+  signedByName  String        @map("signed_by_name")
+  signedByEmail String?       @map("signed_by_email")
+  signedAt      DateTime      @default(now()) @map("signed_at")
+  action        SignoffAction
+  project       projects      @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   @@index([projectId])
 }
@@ -601,18 +606,203 @@ model payment_events {
   id          String          @id @default(cuid())
   provider    PaymentProvider
   eventId     String          @unique @map("event_id") // Stripe event ID for idempotency
-  eventType   String          @map("event_type")       // checkout.session.completed, etc.
+  eventType   String          @map("event_type") // checkout.session.completed, etc.
   processedAt DateTime        @default(now()) @map("processed_at")
   projectId   String?         @map("project_id")
   project     projects?       @relation(fields: [projectId], references: [id])
-  payloadHash String?         @map("payload_hash")     // SHA256 for debugging
-  metadata    Json?                                    // Relevant extracted data
-  status      String          @default("SUCCESS")      // SUCCESS, FAILED, UNMATCHED
+  payloadHash String?         @map("payload_hash") // SHA256 for debugging
+  metadata    Json? // Relevant extracted data
+  status      String          @default("SUCCESS") // SUCCESS, FAILED, UNMATCHED
   errorMsg    String?         @map("error_msg")
 
   @@index([projectId])
   @@index([eventId])
   @@index([processedAt])
+}
+
+// ============================================
+// CARE SYSTEM MODELS (B Care — Ongoing Support)
+// ============================================
+
+// Care Subscriptions — links a client to a Care plan tier
+// One active subscription per client. Managed via Stripe recurring billing.
+model care_subscriptions {
+  id                   String               @id @default(cuid())
+  clientId             String               @unique @map("client_id")
+  plan                 CarePlan // ESSENTIALS, GROWTH, PARTNER
+  status               CareSubStatus        @default(ACTIVE) // ACTIVE, PAUSED, CANCELLED, PAST_DUE
+  creditsPerMonth      Int                  @map("credits_per_month") // 4, 10, or 24
+  // Stripe subscription binding
+  stripeSubscriptionId String?              @unique @map("stripe_subscription_id")
+  stripeCustomerId     String?              @map("stripe_customer_id")
+  stripePriceId        String?              @map("stripe_price_id")
+  // Billing cycle
+  currentPeriodStart   DateTime             @map("current_period_start")
+  currentPeriodEnd     DateTime             @map("current_period_end")
+  cancelledAt          DateTime?            @map("cancelled_at")
+  pausedAt             DateTime?            @map("paused_at")
+  // Metadata
+  createdAt            DateTime             @default(now()) @map("created_at")
+  updatedAt            DateTime             @updatedAt @map("updated_at")
+  // Relations
+  client               clients              @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  creditLots           care_credit_lots[]
+  ledgerEntries        care_credit_ledger[]
+  tickets              care_tickets[]
+
+  @@index([status])
+  @@index([currentPeriodEnd])
+}
+
+// Care Credit Lots — monthly credit allocations for FIFO tracking
+// A new lot is created each billing cycle. Credits expire when the lot expires.
+model care_credit_lots {
+  id             String               @id @default(cuid())
+  subscriptionId String               @map("subscription_id")
+  allocated      Int // Credits granted (e.g. 4, 10, 24)
+  remaining      Int // Credits not yet consumed
+  periodStart    DateTime             @map("period_start") // When this lot became active
+  expiresAt      DateTime             @map("expires_at") // When unused credits expire
+  isExpired      Boolean              @default(false) @map("is_expired") // Set by expiry sweep
+  createdAt      DateTime             @default(now()) @map("created_at")
+  // Relations
+  subscription   care_subscriptions   @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  ledgerEntries  care_credit_ledger[] @relation("LotLedger")
+
+  @@index([subscriptionId])
+  @@index([expiresAt])
+  @@index([subscriptionId, isExpired])
+}
+
+// Care Credit Ledger — append-only audit log of all credit movements
+// Every credit change (allocation, spend, expiry, adjustment) creates one entry.
+// Balance = SUM(delta) for a subscription. Never update or delete rows.
+model care_credit_ledger {
+  id             String             @id @default(cuid())
+  subscriptionId String             @map("subscription_id")
+  lotId          String?            @map("lot_id") // Which lot was affected (null for adjustments)
+  ticketId       String?            @map("ticket_id") // Which ticket consumed credits (null for alloc/expiry)
+  delta          Int // +N for allocation/adjustment, -N for spend/expiry
+  type           CareLedgerType // ALLOCATION, SPEND, EXPIRY, ADJUSTMENT
+  reason         String? // Human-readable note (e.g. "Monthly allocation", "Expired unused credits")
+  actorId        String?            @map("actor_id") // Who triggered this (null for system/cron)
+  createdAt      DateTime           @default(now()) @map("created_at")
+  // Relations
+  subscription   care_subscriptions @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  lot            care_credit_lots?  @relation("LotLedger", fields: [lotId], references: [id])
+  ticket         care_tickets?      @relation(fields: [ticketId], references: [id])
+  actor          users?             @relation("LedgerActor", fields: [actorId], references: [id])
+
+  @@index([subscriptionId])
+  @@index([lotId])
+  @@index([ticketId])
+  @@index([createdAt])
+  @@index([type])
+}
+
+// Care Tickets — work requests submitted by clients
+// Each ticket consumes credits from the subscription's oldest active lot (FIFO).
+model care_tickets {
+  id             String                @id @default(cuid())
+  subscriptionId String                @map("subscription_id")
+  requesterId    String                @map("requester_id") // The user who submitted
+  // Request details
+  title          String
+  description    String // What the client wants done
+  creditSize     CareCreditSize        @default(MICRO) @map("credit_size") // MICRO(1), STANDARD(2), ADVANCED(4)
+  creditsCharged Int                   @default(0) @map("credits_charged") // Actual credits consumed (set on triage)
+  // Lifecycle
+  status         CareTicketStatus      @default(SUBMITTED)
+  priority       CareTicketPriority    @default(NORMAL)
+  // Timestamps
+  submittedAt    DateTime              @default(now()) @map("submitted_at")
+  triagedAt      DateTime?             @map("triaged_at") // When admin sized + accepted
+  startedAt      DateTime?             @map("started_at")
+  completedAt    DateTime?             @map("completed_at")
+  cancelledAt    DateTime?             @map("cancelled_at")
+  // Admin fields
+  assigneeId     String?               @map("assignee_id") // Internal team member
+  internalNotes  String?               @map("internal_notes") // Admin-only notes
+  createdAt      DateTime              @default(now()) @map("created_at")
+  updatedAt      DateTime              @updatedAt @map("updated_at")
+  // Relations
+  subscription   care_subscriptions    @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  requester      users                 @relation("TicketRequester", fields: [requesterId], references: [id])
+  updates        care_ticket_updates[]
+  ledgerEntries  care_credit_ledger[]
+
+  @@index([subscriptionId])
+  @@index([requesterId])
+  @@index([status])
+  @@index([submittedAt])
+}
+
+// Care Ticket Updates — threaded updates on a ticket (client + admin messages)
+model care_ticket_updates {
+  id         String       @id @default(cuid())
+  ticketId   String       @map("ticket_id")
+  authorId   String       @map("author_id")
+  content    String // Update message
+  isInternal Boolean      @default(false) @map("is_internal") // Admin-only visibility
+  createdAt  DateTime     @default(now()) @map("created_at")
+  // Relations
+  ticket     care_tickets @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  author     users        @relation(fields: [authorId], references: [id])
+
+  @@index([ticketId])
+  @@index([authorId])
+}
+
+// ============================================
+// CARE SYSTEM ENUMS
+// ============================================
+
+// Care plan tiers — matches CLAUDE.md Section 1.4
+enum CarePlan {
+  ESSENTIALS // $249/mo, 4 credits
+  GROWTH // $649/mo, 10 credits
+  PARTNER // Private pricing, 24 credits
+}
+
+// Subscription lifecycle status
+enum CareSubStatus {
+  ACTIVE
+  PAUSED
+  CANCELLED
+  PAST_DUE
+}
+
+// Credit ledger entry types — append-only, never update
+enum CareLedgerType {
+  ALLOCATION // Monthly credit grant (+N)
+  SPEND // Ticket consumed credits (-N)
+  EXPIRY // Lot expired, unused credits forfeited (-N)
+  ADJUSTMENT // Manual admin correction (+/- N)
+}
+
+// Ticket credit sizing — maps to credit cost
+enum CareCreditSize {
+  MICRO // 1 credit: text swap, image swap, link fix, metadata tweak
+  STANDARD // 2 credits: new section, landing page iteration, form changes
+  ADVANCED // 4 credits: new page, layout work, performance sweep, CRO pass
+}
+
+// Ticket lifecycle status
+enum CareTicketStatus {
+  SUBMITTED // Client submitted, awaiting triage
+  TRIAGED // Admin sized + accepted, credits charged
+  IN_PROGRESS // Work started
+  IN_REVIEW // Work done, client reviewing
+  COMPLETED // Client confirmed, closed
+  CANCELLED // Cancelled (credits refunded if charged)
+}
+
+// Ticket priority (admin-assigned)
+enum CareTicketPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT // Partner Care SLA: same business day response
 }
 
 // ============================================
@@ -660,9 +850,9 @@ enum SubmissionStatus {
 
 // Intake channel types (Section 1.2)
 enum IntakeChannel {
-  GUIDED         // Human-led video
-  SELF_GUIDED    // Asynchronous web form
-  AI_PHONE       // Beside App phone intake
+  GUIDED // Human-led video
+  SELF_GUIDED // Asynchronous web form
+  AI_PHONE // Beside App phone intake
 }
 
 // Entry source tracking (Section 4.2.B)

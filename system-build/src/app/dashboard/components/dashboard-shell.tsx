@@ -18,6 +18,7 @@ interface DashboardShellProps {
     leads?: number
     invoices?: number
     intakes?: number
+    careTickets?: number
   }
   children: React.ReactNode
 }

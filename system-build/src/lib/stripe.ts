@@ -66,4 +66,15 @@ export const STRIPE_METADATA_KEYS = {
  */
 export const STRIPE_PURPOSES = {
   PROJECT_PAYMENT: 'project_payment',
+  CARE_SUBSCRIPTION: 'care_subscription',
+} as const
+
+/**
+ * Stripe metadata keys for Care subscriptions
+ */
+export const CARE_METADATA_KEYS = {
+  CLIENT_ID: 'client_id',
+  CARE_PLAN: 'care_plan',
+  ENVIRONMENT: 'environment',
+  PURPOSE: 'purpose',
 } as const

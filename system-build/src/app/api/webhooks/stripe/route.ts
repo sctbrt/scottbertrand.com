@@ -1,7 +1,7 @@
 /**
  * Stripe Webhook Endpoint
  *
- * Handles Stripe webhook events for payment processing.
+ * Handles Stripe webhook events for payment processing and Care subscriptions.
  * See docs/payments-v1.md for event handling rules.
  *
  * Events handled:
@@ -10,18 +10,25 @@
  * - payment_intent.payment_failed: Log only (no state change)
  * - charge.refunded: Mark project as refunded + send notification
  * - charge.dispute.created: Log security event + send alert
+ * - customer.subscription.created: Create Care subscription
+ * - customer.subscription.updated: Handle plan changes, pauses, cancellations
+ * - customer.subscription.deleted: Cancel Care subscription
+ * - invoice.paid: Allocate monthly credit lot on renewal
+ * - invoice.payment_failed: Mark subscription as past due
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
-import { verifyStripeWebhook, STRIPE_METADATA_KEYS } from '@/lib/stripe'
+import { verifyStripeWebhook, STRIPE_METADATA_KEYS, CARE_METADATA_KEYS, STRIPE_PURPOSES } from '@/lib/stripe'
 import {
   processStripeCheckoutCompleted,
   processStripeRefund,
   isEventProcessed,
 } from '@/lib/payment-status'
 import { prisma } from '@/lib/prisma'
-import { sendPaymentNotification } from '@/lib/notifications'
+import { sendPaymentNotification, sendCareNotification } from '@/lib/notifications'
+import { allocateLot, PLAN_CREDITS } from '@/lib/care-credits'
+import type { CarePlan } from '@prisma/client'
 
 // Disable body parsing - we need raw body for signature verification
 export const runtime = 'nodejs'
@@ -139,6 +146,22 @@ export async function POST(request: NextRequest) {
 
       case 'charge.dispute.created':
         return await handleChargeDisputeCreated(event)
+
+      // Care subscription events
+      case 'customer.subscription.created':
+        return await handleSubscriptionCreated(event)
+
+      case 'customer.subscription.updated':
+        return await handleSubscriptionUpdated(event)
+
+      case 'customer.subscription.deleted':
+        return await handleSubscriptionDeleted(event)
+
+      case 'invoice.paid':
+        return await handleInvoicePaid(event)
+
+      case 'invoice.payment_failed':
+        return await handleInvoicePaymentFailed(event)
 
       default:
         // Log unhandled events but return 200 (Stripe expects 200 for all events)
@@ -498,4 +521,363 @@ async function handleChargeDisputeCreated(event: Stripe.Event) {
   })
 
   return NextResponse.json({ received: true, status: 'logged' })
+}
+
+// ============================================
+// CARE SUBSCRIPTION HANDLERS
+// ============================================
+
+/**
+ * Map Stripe subscription metadata to Care plan.
+ * Plan is set in subscription metadata as care_plan: ESSENTIALS|GROWTH|PARTNER
+ */
+function resolveCarePlan(subscription: Stripe.Subscription): CarePlan | null {
+  const plan = subscription.metadata?.[CARE_METADATA_KEYS.CARE_PLAN]?.toUpperCase()
+
+  if (plan === 'ESSENTIALS' || plan === 'GROWTH' || plan === 'PARTNER') {
+    return plan as CarePlan
+  }
+
+  return null
+}
+
+/**
+ * Find the internal Care subscription by Stripe subscription ID.
+ */
+async function findCareSubscription(stripeSubscriptionId: string) {
+  return prisma.care_subscriptions.findUnique({
+    where: { stripeSubscriptionId },
+    include: { client: true },
+  })
+}
+
+/**
+ * Handle customer.subscription.created
+ * Creates a Care subscription when a new Stripe subscription starts.
+ */
+async function handleSubscriptionCreated(event: Stripe.Event) {
+  const subscription = event.data.object as Stripe.Subscription
+
+  // Only handle Care subscriptions (check metadata purpose)
+  const purpose = subscription.metadata?.[CARE_METADATA_KEYS.PURPOSE]
+  if (purpose !== STRIPE_PURPOSES.CARE_SUBSCRIPTION) {
+    console.log(`[Stripe Webhook] Subscription ${subscription.id} is not a Care subscription, skipping`)
+    return NextResponse.json({ received: true, status: 'not_care' })
+  }
+
+  // Validate environment
+  const environment = subscription.metadata?.[CARE_METADATA_KEYS.ENVIRONMENT]
+  const currentEnv = process.env.NODE_ENV === 'production' ? 'production' : 'development'
+  if (environment && environment !== currentEnv) {
+    console.log(`[Stripe Webhook] Skipping subscription for different environment: ${environment}`)
+    return NextResponse.json({ received: true, status: 'wrong_environment' })
+  }
+
+  const plan = resolveCarePlan(subscription)
+  if (!plan) {
+    console.error(`[Stripe Webhook] Unknown Care plan in subscription ${subscription.id} metadata`)
+    return NextResponse.json({ received: true, status: 'unknown_plan' })
+  }
+
+  const clientId = subscription.metadata?.[CARE_METADATA_KEYS.CLIENT_ID]
+  if (!clientId) {
+    console.error(`[Stripe Webhook] Missing client_id in subscription ${subscription.id} metadata`)
+    return NextResponse.json({ received: true, status: 'missing_client' })
+  }
+
+  // Check if already exists (idempotency)
+  const existing = await prisma.care_subscriptions.findUnique({
+    where: { stripeSubscriptionId: subscription.id },
+  })
+  if (existing) {
+    console.log(`[Stripe Webhook] Care subscription already exists for ${subscription.id}`)
+    return NextResponse.json({ received: true, status: 'already_exists' })
+  }
+
+  const credits = PLAN_CREDITS[plan]
+  const firstItem = subscription.items.data[0]
+  const periodStart = new Date(firstItem.current_period_start * 1000)
+  const periodEnd = new Date(firstItem.current_period_end * 1000)
+  const customerId = typeof subscription.customer === 'string'
+    ? subscription.customer
+    : subscription.customer.id
+
+  try {
+    // Create the subscription record
+    const careSub = await prisma.care_subscriptions.create({
+      data: {
+        clientId,
+        plan,
+        status: 'ACTIVE',
+        creditsPerMonth: credits,
+        stripeSubscriptionId: subscription.id,
+        stripeCustomerId: customerId,
+        stripePriceId: subscription.items.data[0]?.price?.id || null,
+        currentPeriodStart: periodStart,
+        currentPeriodEnd: periodEnd,
+      },
+    })
+
+    // Allocate first credit lot
+    await allocateLot({
+      subscriptionId: careSub.id,
+      credits,
+      periodStart,
+      periodEnd,
+    })
+
+    // Get client name for notification
+    const client = await prisma.clients.findUnique({
+      where: { id: clientId },
+      select: { companyName: true, contactName: true },
+    })
+
+    await sendCareNotification({
+      type: 'subscription_created',
+      clientName: client?.companyName || client?.contactName || clientId,
+      plan,
+      credits,
+      subscriptionId: careSub.id,
+    })
+
+    console.log(`[Stripe Webhook] Care subscription created: ${careSub.id} (${plan}, ${credits} credits)`)
+    return NextResponse.json({ received: true, status: 'success', subscriptionId: careSub.id })
+  } catch (error) {
+    console.error('[Stripe Webhook] Failed to create Care subscription:', error)
+    return NextResponse.json({ error: 'Failed to process' }, { status: 500 })
+  }
+}
+
+/**
+ * Handle customer.subscription.updated
+ * Handles plan changes, pauses, and status transitions.
+ */
+async function handleSubscriptionUpdated(event: Stripe.Event) {
+  const subscription = event.data.object as Stripe.Subscription
+
+  // Only handle Care subscriptions
+  const purpose = subscription.metadata?.[CARE_METADATA_KEYS.PURPOSE]
+  if (purpose !== STRIPE_PURPOSES.CARE_SUBSCRIPTION) {
+    return NextResponse.json({ received: true, status: 'not_care' })
+  }
+
+  const careSub = await findCareSubscription(subscription.id)
+  if (!careSub) {
+    console.log(`[Stripe Webhook] No Care subscription found for ${subscription.id}`)
+    return NextResponse.json({ received: true, status: 'not_found' })
+  }
+
+  try {
+    const firstItem = subscription.items.data[0]
+    const updateData: Record<string, unknown> = {
+      currentPeriodStart: new Date(firstItem.current_period_start * 1000),
+      currentPeriodEnd: new Date(firstItem.current_period_end * 1000),
+    }
+
+    // Handle status changes
+    if (subscription.status === 'active' && careSub.status !== 'ACTIVE') {
+      updateData.status = 'ACTIVE'
+      updateData.pausedAt = null
+    } else if (subscription.status === 'paused' && careSub.status !== 'PAUSED') {
+      updateData.status = 'PAUSED'
+      updateData.pausedAt = new Date()
+    } else if (subscription.status === 'past_due' && careSub.status !== 'PAST_DUE') {
+      updateData.status = 'PAST_DUE'
+
+      await sendCareNotification({
+        type: 'subscription_past_due',
+        clientName: careSub.client.companyName || careSub.client.contactName || careSub.clientId,
+        plan: careSub.plan,
+        subscriptionId: careSub.id,
+      })
+    } else if (subscription.status === 'canceled') {
+      // Handled by customer.subscription.deleted — skip here
+      return NextResponse.json({ received: true, status: 'handled_by_deleted' })
+    }
+
+    // Handle plan change via metadata
+    const newPlan = resolveCarePlan(subscription)
+    if (newPlan && newPlan !== careSub.plan) {
+      updateData.plan = newPlan
+      updateData.creditsPerMonth = PLAN_CREDITS[newPlan]
+      updateData.stripePriceId = subscription.items.data[0]?.price?.id || careSub.stripePriceId
+
+      console.log(`[Stripe Webhook] Care plan changed: ${careSub.plan} → ${newPlan}`)
+    }
+
+    await prisma.care_subscriptions.update({
+      where: { id: careSub.id },
+      data: updateData,
+    })
+
+    console.log(`[Stripe Webhook] Care subscription updated: ${careSub.id}`)
+    return NextResponse.json({ received: true, status: 'success' })
+  } catch (error) {
+    console.error('[Stripe Webhook] Failed to update Care subscription:', error)
+    return NextResponse.json({ error: 'Failed to process' }, { status: 500 })
+  }
+}
+
+/**
+ * Handle customer.subscription.deleted
+ * Cancels the Care subscription.
+ */
+async function handleSubscriptionDeleted(event: Stripe.Event) {
+  const subscription = event.data.object as Stripe.Subscription
+
+  // Only handle Care subscriptions
+  const purpose = subscription.metadata?.[CARE_METADATA_KEYS.PURPOSE]
+  if (purpose !== STRIPE_PURPOSES.CARE_SUBSCRIPTION) {
+    return NextResponse.json({ received: true, status: 'not_care' })
+  }
+
+  const careSub = await findCareSubscription(subscription.id)
+  if (!careSub) {
+    console.log(`[Stripe Webhook] No Care subscription found for ${subscription.id}`)
+    return NextResponse.json({ received: true, status: 'not_found' })
+  }
+
+  if (careSub.status === 'CANCELLED') {
+    return NextResponse.json({ received: true, status: 'already_cancelled' })
+  }
+
+  try {
+    await prisma.care_subscriptions.update({
+      where: { id: careSub.id },
+      data: {
+        status: 'CANCELLED',
+        cancelledAt: new Date(),
+      },
+    })
+
+    await sendCareNotification({
+      type: 'subscription_cancelled',
+      clientName: careSub.client.companyName || careSub.client.contactName || careSub.clientId,
+      plan: careSub.plan,
+      subscriptionId: careSub.id,
+    })
+
+    console.log(`[Stripe Webhook] Care subscription cancelled: ${careSub.id}`)
+    return NextResponse.json({ received: true, status: 'success' })
+  } catch (error) {
+    console.error('[Stripe Webhook] Failed to cancel Care subscription:', error)
+    return NextResponse.json({ error: 'Failed to process' }, { status: 500 })
+  }
+}
+
+/**
+ * Handle invoice.paid
+ * Allocates a new credit lot when a Care subscription renews.
+ * Only processes invoices linked to Care subscriptions.
+ */
+async function handleInvoicePaid(event: Stripe.Event) {
+  const invoice = event.data.object as Stripe.Invoice
+
+  // Only process subscription invoices (Clover API: subscription is under parent.subscription_details)
+  const subRef = invoice.parent?.subscription_details?.subscription
+  const stripeSubId = typeof subRef === 'string'
+    ? subRef
+    : subRef?.id
+
+  if (!stripeSubId) {
+    return NextResponse.json({ received: true, status: 'no_subscription' })
+  }
+
+  // Find our Care subscription
+  const careSub = await findCareSubscription(stripeSubId)
+  if (!careSub) {
+    // Not a Care subscription — this is a normal project invoice, ignore
+    return NextResponse.json({ received: true, status: 'not_care' })
+  }
+
+  // Skip the first invoice (handled by subscription.created)
+  if (invoice.billing_reason === 'subscription_create') {
+    console.log(`[Stripe Webhook] Skipping initial invoice for Care sub ${careSub.id}`)
+    return NextResponse.json({ received: true, status: 'initial_invoice' })
+  }
+
+  // Get the subscription from Stripe for current period dates (per-item in Clover API)
+  const { stripe: stripeClient } = await import('@/lib/stripe')
+  const stripeSubscription = await stripeClient.subscriptions.retrieve(stripeSubId)
+  const renewalItem = stripeSubscription.items.data[0]
+
+  const periodStart = new Date(renewalItem.current_period_start * 1000)
+  const periodEnd = new Date(renewalItem.current_period_end * 1000)
+  const credits = careSub.creditsPerMonth
+
+  try {
+    // Update subscription period dates
+    await prisma.care_subscriptions.update({
+      where: { id: careSub.id },
+      data: {
+        currentPeriodStart: periodStart,
+        currentPeriodEnd: periodEnd,
+        status: 'ACTIVE', // Payment succeeded, ensure active
+      },
+    })
+
+    // Allocate new credit lot for this period
+    await allocateLot({
+      subscriptionId: careSub.id,
+      credits,
+      periodStart,
+      periodEnd,
+    })
+
+    await sendCareNotification({
+      type: 'subscription_renewed',
+      clientName: careSub.client.companyName || careSub.client.contactName || careSub.clientId,
+      plan: careSub.plan,
+      credits,
+      subscriptionId: careSub.id,
+    })
+
+    console.log(`[Stripe Webhook] Care renewal: ${careSub.id} — ${credits} credits allocated`)
+    return NextResponse.json({ received: true, status: 'success' })
+  } catch (error) {
+    console.error('[Stripe Webhook] Failed to process Care renewal:', error)
+    return NextResponse.json({ error: 'Failed to process' }, { status: 500 })
+  }
+}
+
+/**
+ * Handle invoice.payment_failed
+ * Marks Care subscription as past due.
+ */
+async function handleInvoicePaymentFailed(event: Stripe.Event) {
+  const invoice = event.data.object as Stripe.Invoice
+
+  const subRef = invoice.parent?.subscription_details?.subscription
+  const stripeSubId = typeof subRef === 'string'
+    ? subRef
+    : subRef?.id
+
+  if (!stripeSubId) {
+    return NextResponse.json({ received: true, status: 'no_subscription' })
+  }
+
+  const careSub = await findCareSubscription(stripeSubId)
+  if (!careSub) {
+    return NextResponse.json({ received: true, status: 'not_care' })
+  }
+
+  try {
+    await prisma.care_subscriptions.update({
+      where: { id: careSub.id },
+      data: { status: 'PAST_DUE' },
+    })
+
+    await sendCareNotification({
+      type: 'subscription_past_due',
+      clientName: careSub.client.companyName || careSub.client.contactName || careSub.clientId,
+      plan: careSub.plan,
+      subscriptionId: careSub.id,
+    })
+
+    console.log(`[Stripe Webhook] Care subscription past due: ${careSub.id}`)
+    return NextResponse.json({ received: true, status: 'success' })
+  } catch (error) {
+    console.error('[Stripe Webhook] Failed to mark Care subscription past due:', error)
+    return NextResponse.json({ error: 'Failed to process' }, { status: 500 })
+  }
 }

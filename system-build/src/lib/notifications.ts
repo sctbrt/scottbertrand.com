@@ -122,6 +122,83 @@ export async function sendPaymentNotification(data: PaymentNotificationData): Pr
 }
 
 /**
+ * Send a Care subscription notification via Pushover.
+ * Fails silently — notifications should never break subscription processing.
+ */
+export async function sendCareNotification(data: {
+  type: 'subscription_created' | 'subscription_renewed' | 'subscription_cancelled' | 'subscription_past_due'
+  clientName: string
+  plan: string
+  credits?: number
+  subscriptionId?: string
+}): Promise<void> {
+  const token = process.env.PUSHOVER_API_TOKEN
+  const user = process.env.PUSHOVER_USER_KEY
+
+  if (!token || !user) {
+    console.warn('[Notifications] PUSHOVER credentials not configured, skipping notification')
+    return
+  }
+
+  let title: string
+  let message: string
+  let sound = 'cashregister'
+  let priority = 0
+
+  switch (data.type) {
+    case 'subscription_created':
+      title = '🛡️ New Care Subscription'
+      message = `${data.clientName} subscribed to Care ${data.plan}${data.credits ? ` (${data.credits} credits/mo)` : ''}`
+      break
+    case 'subscription_renewed':
+      title = '🔄 Care Renewal'
+      message = `${data.clientName} — ${data.plan} renewed${data.credits ? ` (+${data.credits} credits allocated)` : ''}`
+      break
+    case 'subscription_cancelled':
+      title = '❌ Care Cancelled'
+      message = `${data.clientName} — ${data.plan} subscription cancelled`
+      sound = 'pushover'
+      break
+    case 'subscription_past_due':
+      title = '⚠️ Care Past Due'
+      message = `${data.clientName} — ${data.plan} payment failed`
+      priority = 1
+      sound = 'siren'
+      break
+  }
+
+  try {
+    const url = data.subscriptionId
+      ? `https://dash.bertrandgroup.ca/dashboard/care/subscriptions/${data.subscriptionId}`
+      : 'https://dash.bertrandgroup.ca/dashboard/care'
+
+    const response = await fetch('https://api.pushover.net/1/messages.json', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        token,
+        user,
+        message,
+        title,
+        url,
+        url_title: 'View in Dashboard',
+        priority,
+        sound,
+      }),
+    })
+
+    if (!response.ok) {
+      const errorText = await response.text()
+      console.error('[Notifications] Pushover API error:', errorText)
+    } else {
+      console.log(`[Notifications] Sent ${data.type} notification for ${data.clientName}`)
+    }
+  } catch (error) {
+    console.error('[Notifications] Failed to send notification:', error)
+  }
+}
+
+/**
  * Send a generic notification via Pushover.
  */
 export async function sendNotification({

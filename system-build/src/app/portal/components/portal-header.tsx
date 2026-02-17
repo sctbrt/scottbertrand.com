@@ -20,13 +20,18 @@ interface PortalHeaderProps {
 const navItems = [
   { name: 'Projects', href: '/portal' },
   { name: 'Invoices', href: '/portal/invoices' },
+  { name: 'Care', href: '/portal/care' },
 ]
 
 export function PortalHeader({ user, clientName }: PortalHeaderProps) {
   const pathname = usePathname()
 
   // Determine current section for breadcrumb
-  const currentSection = pathname.startsWith('/portal/invoices') ? 'Invoices' : 'Projects'
+  const currentSection = pathname.startsWith('/portal/care')
+    ? 'Care'
+    : pathname.startsWith('/portal/invoices')
+      ? 'Invoices'
+      : 'Projects'
 
   return (
     <header className="glass glass--header sticky top-0 z-40">

@@ -57,29 +57,8 @@
   <link rel="stylesheet" href="https://use.typekit.net/dmk8daz.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@600&family=Space+Mono:wght@700&family=DM+Serif+Display&family=Bebas+Neue&family=Cormorant+Garamond:wght@600&family=Syne:wght@700&family=Abril+Fatface&family=Bodoni+Moda:wght@700&family=Cinzel:wght@700&family=Italiana&family=Poiret+One&family=Tenor+Sans&family=Yeseva+One&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Lora:ital,wght@1,400;1,500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    @font-face {
-      font-family: 'Switzer';
-      src: url('https://cdn.fontshare.com/wf/JMWOLKLMHBEFDDQYBTKZFLLNSCXKHMII/AQMV3YLVPLTDPIDZ7DZ2IEV3BPJRWDNL/TRWRUWQUCWWNTQIXN5VTBVHLNJ6LQZ5P.woff2') format('woff2');
-      font-weight: 400; font-style: normal; font-display: swap;
-    }
-    @font-face {
-      font-family: 'Switzer';
-      src: url('https://cdn.fontshare.com/wf/JMWOLKLMHBEFDDQYBTKZFLLNSCXKHMII/VDKPLUCMWLVSJQAGR3NQO76QDD7OOWLE/TRWRUWQUCWWNTQIXN5VTBVHLNJ6LQZ5P.woff2') format('woff2');
-      font-weight: 500; font-style: normal; font-display: swap;
-    }
-    @font-face {
-      font-family: 'Switzer';
-      src: url('https://cdn.fontshare.com/wf/JMWOLKLMHBEFDDQYBTKZFLLNSCXKHMII/BO42XJWVHJGM2TNXW3UBZMXGVQHWT3RV/TRWRUWQUCWWNTQIXN5VTBVHLNJ6LQZ5P.woff2') format('woff2');
-      font-weight: 600; font-style: normal; font-display: swap;
-    }
-    @font-face {
-      font-family: 'Switzer';
-      src: url('https://cdn.fontshare.com/wf/JMWOLKLMHBEFDDQYBTKZFLLNSCXKHMII/RDLKNVYLFBEHJGXDTDQJ7RMRGA5OFXPQ/TRWRUWQUCWWNTQIXN5VTBVHLNJ6LQZ5P.woff2') format('woff2');
-      font-weight: 700; font-style: normal; font-display: swap;
-    }
-
     :root {
       --bg: #F7F4EF;
       --text: #2C2520;
@@ -91,86 +70,7 @@
       --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
     }
 
-    /* Dark theme (night: 8pm - 5am) */
-    [data-theme="dark"] {
-      --bg: #0a0a0a;
-      --text: #fafafa;
-      --text-muted: #b0b0b0;
-      --text-subtle: #787878;
-      --accent: #D97706;
-    }
-
-    [data-theme="dark"] body {
-      background: linear-gradient(to bottom, #0a0a12 0%, #0d1117 40%, #151922 100%);
-    }
-
-    /* Stars layer */
-    [data-theme="dark"] body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        /* Bright stars */
-        radial-gradient(1.5px 1.5px at 20px 30px, rgba(255,255,255,1), transparent),
-        radial-gradient(1.5px 1.5px at 130px 80px, rgba(255,255,255,1), transparent),
-        radial-gradient(2px 2px at 320px 100px, rgba(255,255,255,1), transparent),
-        radial-gradient(1.5px 1.5px at 560px 40px, rgba(255,255,255,1), transparent),
-        radial-gradient(2px 2px at 720px 120px, rgba(255,255,255,1), transparent),
-        /* Medium stars */
-        radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.9), transparent),
-        radial-gradient(1px 1px at 50px 160px, rgba(255,255,255,0.85), transparent),
-        radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.8), transparent),
-        radial-gradient(1.5px 1.5px at 160px 120px, rgba(255,255,255,0.9), transparent),
-        radial-gradient(1px 1px at 200px 50px, rgba(255,255,255,0.85), transparent),
-        radial-gradient(1px 1px at 220px 90px, rgba(255,255,255,0.8), transparent),
-        radial-gradient(1px 1px at 250px 150px, rgba(255,255,255,0.9), transparent),
-        radial-gradient(1px 1px at 280px 20px, rgba(255,255,255,0.85), transparent),
-        radial-gradient(1px 1px at 350px 60px, rgba(255,255,255,0.8), transparent),
-        radial-gradient(1px 1px at 380px 140px, rgba(255,255,255,0.9), transparent),
-        radial-gradient(1px 1px at 420px 30px, rgba(255,255,255,0.85), transparent),
-        radial-gradient(1px 1px at 450px 110px, rgba(255,255,255,0.9), transparent),
-        radial-gradient(1px 1px at 480px 70px, rgba(255,255,255,0.8), transparent),
-        radial-gradient(1.5px 1.5px at 520px 160px, rgba(255,255,255,0.9), transparent),
-        radial-gradient(1px 1px at 600px 90px, rgba(255,255,255,0.85), transparent),
-        radial-gradient(1px 1px at 640px 130px, rgba(255,255,255,0.8), transparent),
-        /* Additional stars for density */
-        radial-gradient(1px 1px at 680px 50px, rgba(255,255,255,0.9), transparent),
-        radial-gradient(1px 1px at 750px 180px, rgba(255,255,255,0.85), transparent),
-        radial-gradient(1px 1px at 100px 140px, rgba(255,255,255,0.8), transparent),
-        radial-gradient(1px 1px at 180px 180px, rgba(255,255,255,0.9), transparent),
-        radial-gradient(1px 1px at 400px 170px, rgba(255,255,255,0.85), transparent),
-        radial-gradient(1px 1px at 580px 150px, rgba(255,255,255,0.8), transparent);
-      background-size: 800px 200px;
-      animation: twinkle 6s ease-in-out infinite alternate;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    @keyframes twinkle {
-      0% { opacity: 0.6; }
-      100% { opacity: 1; }
-    }
-
-    [data-theme="dark"] .stage {
-      position: relative;
-      z-index: 1;
-    }
-
-    [data-theme="dark"] .footer-links {
-      z-index: 10;
-    }
-
-    /* Dark theme: stage-line visibility */
-    [data-theme="dark"] .stage-line {
-      background: rgba(255, 255, 255, 0.25);
-    }
-
-    /* Dark theme: capability line background */
-    [data-theme="dark"] .capability-line {
-      background: transparent;
-    }
-
-    html { color-scheme: light dark; }
+    html { color-scheme: light; }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -189,18 +89,14 @@
 
     /* ========================================
        SEQUENCE:
-       0.0s  — blank cream. Silence.
-       1.2s  — horizontal line sweeps from left edge to right
-       2.4s  — "Scott" clips up (in roulette font)
-       2.6s  — Scott typeface roulette begins (~2.2s)
-       2.8s  — "Bertrand" clips up, staggered
-       3.0s  — Bertrand typeface roulette begins (~2.2s)
-       ~4.8s — Scott lands on Switzer
-       ~5.2s — Bertrand lands on Switzer
-       5.8s  — name contracts (scale settle)
-       6.6s  — tagline clips up below the line
-       7.4s  — studio link fades in
-       8.0s  — footer whispers in
+       0.0s  — blank. Silence.
+       0.8s  — horizontal line sweeps left to right
+       1.6s  — "SCOTT BERTRAND" clips up
+       2.8s  — name settles (scale)
+       3.2s  — capability line fades in
+       3.6s  — tagline clips up
+       4.0s  — studio link rises in
+       4.4s  — footer fades in
        ======================================== */
 
     .stage {
@@ -212,78 +108,97 @@
       max-width: 900px;
     }
 
-    .stage-line {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      width: 0;
-      height: 1px;
-      background: var(--text-subtle);
-      transform: translateY(-50%);
-      animation: lineSweep 1.4s var(--ease-in-out) 1.2s forwards;
-      z-index: 3;
-    }
-
-    .above {
+    .signal-dots {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-bottom: 48px;
-      width: 100%;
+      gap: 6px;
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: softFade 0.6s ease 0.2s forwards;
     }
 
-    .first-name,
-    .last-name {
-      overflow: hidden;
-      line-height: 1.0;
-      padding-right: 0.05em;
+    .signal-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      opacity: 0;
     }
 
-    .first-name span,
-    .last-name span {
-      font-family: 'Playfair Display', serif;
-      font-weight: 600;
-      display: block;
-      transform: translateY(120%);
-      letter-spacing: -0.04em;
-      transition: none;
+    .signal-dot--orange {
+      background: #C45A20;
+      animation: dotSweep 1.8s ease 0.3s forwards;
+    }
+    .signal-dot--purple {
+      background: #7C5CBA;
+      animation: dotSweep 1.8s ease 0.6s forwards;
+    }
+    .signal-dot--blue {
+      background: #3B82C4;
+      animation: dotSweep 1.8s ease 0.9s forwards;
     }
 
-    .first-name i,
-    .last-name i {
-      font-style: normal;
-      display: inline-block;
-      padding-right: 0.02em;
-    }
-
-    .last-name i:last-child {
-      padding-right: 0.1em;
-    }
-
-    .first-name span {
-      font-size: clamp(3rem, 10vw, 7rem);
-      animation: clipUp 1.1s var(--ease-expo) 2.4s forwards;
-    }
-
-    .last-name span {
-      font-size: clamp(3rem, 10vw, 7rem);
-      animation: clipUp 1.1s var(--ease-expo) 2.8s forwards;
+    @keyframes dotSweep {
+      0% { opacity: 0; }
+      30% { opacity: 1; }
+      60% { opacity: 0.25; }
+      100% { opacity: 0.85; }
     }
 
     .name-block {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0;
       transform: scale(1);
-      animation: nameSettle 1.6s var(--ease-expo) 5.8s forwards;
+      animation: nameSettle 1.6s var(--ease-expo) 2.8s forwards;
+    }
+
+    .full-name {
+      overflow: hidden;
+      line-height: 1.0;
+    }
+
+    .full-name span {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.4rem, 7vw, 5.2rem);
+      display: block;
+      transform: translateY(120%);
+      letter-spacing: 0.06em;
+      animation: clipUp 1.1s var(--ease-expo) 1.6s forwards;
+      white-space: nowrap;
+    }
+
+    .stage-line {
+      width: 0;
+      height: 1px;
+      background: var(--text-subtle);
+      align-self: stretch;
+      animation: lineSweep 1.4s var(--ease-in-out) 0.8s forwards;
+    }
+
+    .capability-line {
+      font-family: 'Outfit', sans-serif;
+      text-transform: uppercase;
+      font-size: 0.65rem;
+      line-height: 1.1;
+      color: var(--text-subtle);
+      letter-spacing: 0.08em;
+      padding-top: 14px;
+      white-space: nowrap;
+      opacity: 0;
+      animation: softFade 1.0s ease 3.2s forwards;
+    }
+
+    .capability-sep {
+      margin: 0 1em;
+      font-size: 0.5rem;
+      opacity: 0.6;
     }
 
     .below {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-top: 40px;
+      padding-top: 32px;
       width: 100%;
     }
 
@@ -300,96 +215,18 @@
       line-height: 1.6;
       color: var(--text-muted);
       transform: translateY(120%);
-      animation: clipUp 1.0s var(--ease-expo) 6.6s forwards;
-    }
-
-    .capability-wrapper {
-      position: absolute;
-      top: calc(50% + 8px);
-      left: 50%;
-      transform: translate(-50%, -50%);
-      opacity: 0;
-      animation: softFade 1.0s ease 5.8s forwards;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .capability-line {
-      font-family: 'Outfit', sans-serif;
-      text-transform: uppercase;
-      font-size: 0.58rem;
-      line-height: 1.1;
-      color: var(--text-subtle);
-      letter-spacing: 0.02em;
-      background: var(--bg);
-      padding: 0 16px;
-      white-space: nowrap;
-    }
-
-    .capability-item {
-      letter-spacing: inherit;
-      cursor: pointer;
-      transition: color 0.25s ease;
-    }
-
-    .capability-item:hover,
-    .capability-item.active {
-      color: var(--accent);
-    }
-
-    .capability-sep {
-      margin: 0 0.8em;
-      font-size: 0.5rem;
-      opacity: 0.6;
-    }
-
-    /* Editorial micro-signals (felt, not noticed) */
-    .capability-media { letter-spacing: -0.02em; }
-    .capability-image { letter-spacing: 0.08em; }
-
-    .capability-detail {
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: max-content;
-      max-width: 500px;
-      text-align: center;
-      opacity: 0;
-      pointer-events: none;
-      padding-top: 10px;
-      transition: opacity 0.35s var(--ease-out-quart);
-    }
-
-    .capability-detail.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .capability-detail p {
-      font-family: 'Lora', serif;
-      font-style: italic;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-      padding: 0 20px;
-      transform: translateY(-10px);
-      opacity: 0;
-      transition: transform 0.4s var(--ease-expo), opacity 0.35s ease;
-    }
-
-    .capability-detail.open p {
-      transform: translateY(0);
-      opacity: 1;
+      animation: clipUp 1.0s var(--ease-expo) 3.6s forwards;
     }
 
     .links {
       margin-top: 24px;
       opacity: 0;
       transform: translateY(14px);
-      animation: riseIn 0.9s var(--ease-out-quart) 7.0s forwards;
+      animation: riseIn 0.9s var(--ease-out-quart) 4.0s forwards;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
     }
 
     .links a {
@@ -400,7 +237,7 @@
       font-weight: 500;
       color: var(--accent);
       text-decoration: none;
-      padding: 10px 0;
+      padding: 10px 0 2px;
       position: relative;
       transition: color 0.3s ease, letter-spacing 0.5s var(--ease-expo);
     }
@@ -426,6 +263,15 @@
       width: 100%;
     }
 
+    .links-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-subtle);
+    }
+
     .footer-links {
       position: fixed;
       bottom: 40px;
@@ -434,7 +280,7 @@
       display: flex;
       gap: 28px;
       opacity: 0;
-      animation: softFade 1.0s ease 8.0s forwards;
+      animation: softFade 1.0s ease 4.4s forwards;
       z-index: 10;
     }
 
@@ -479,16 +325,13 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .first-name span,
-      .last-name span,
+      .full-name span,
       .tagline { transform: none; animation: none; opacity: 1; }
       .stage-line { animation: none; width: 100%; }
       .name-block { animation: none; transform: scale(0.82); }
-      .capability-wrapper { animation: softFade 0.3s ease 0.2s forwards; }
+      .capability-line { animation: none; opacity: 1; }
       .links { animation: softFade 0.3s ease 0.3s forwards; transform: none; }
       .footer-links { animation: softFade 0.3s ease 0.4s forwards; }
-      .signal-dots { animation: softFade 0.3s ease 0.5s forwards; }
-      .signal-dot { animation: none; opacity: 0.8; }
     }
 
     @media (max-width: 600px) {
@@ -500,49 +343,16 @@
       .stage {
         min-height: auto;
       }
-      .above { padding-bottom: 20px; }
-      .below { padding-top: 20px; }
-      .first-name span,
-      .last-name span {
-        font-size: clamp(2.5rem, 12vw, 4rem);
-      }
-      .capability-wrapper {
-        position: relative;
-        top: auto;
-        left: auto;
-        transform: none;
-        margin: 16px 0;
+      .below { padding-top: 24px; }
+      .full-name span {
+        font-size: clamp(1.6rem, 7.5vw, 2.6rem);
+        letter-spacing: 0.05em;
       }
       .capability-line {
-        font-size: 0.42rem;
-        padding: 0 8px;
-        white-space: nowrap;
-        overflow-x: auto;
-        max-width: calc(100vw - 40px);
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
+        font-size: 0.5rem;
+        padding-top: 10px;
       }
-      .capability-line::-webkit-scrollbar {
-        display: none;
-      }
-      .capability-sep { margin: 0 0.5em; }
-      .capability-detail {
-        position: relative;
-        top: auto;
-        left: auto;
-        transform: none;
-        max-width: calc(100vw - 40px);
-        padding-top: 8px;
-      }
-      .capability-detail p {
-        font-size: 0.8rem;
-        padding: 0 10px;
-        transform: none;
-      }
-      .capability-detail.open p {
-        transform: none;
-      }
+      .capability-sep { margin: 0 0.6em; }
       .tagline {
         font-size: 0.95rem;
         padding: 0 10px;
@@ -556,12 +366,12 @@
 
     /* Very small screens */
     @media (max-width: 380px) {
-      .first-name span,
-      .last-name span {
-        font-size: 2.2rem;
+      .full-name span {
+        font-size: 1.4rem;
+        letter-spacing: 0.04em;
       }
       .capability-line {
-        font-size: 0.38rem;
+        font-size: 0.42rem;
       }
       .tagline {
         font-size: 0.85rem;
@@ -577,22 +387,20 @@
 <body>
 
   <div class="stage">
-    <div class="stage-line"></div>
-
-    <div class="above">
-      <div class="name-block">
-        <div class="first-name"><span><i>S</i><i>C</i><i>O</i><i>T</i><i>T</i></span></div>
-        <div class="last-name"><span><i>B</i><i>E</i><i>R</i><i>T</i><i>R</i><i>A</i><i>N</i><i>D</i></span></div>
-      </div>
+    <div class="signal-dots" aria-hidden="true">
+      <div class="signal-dot signal-dot--orange"></div>
+      <div class="signal-dot signal-dot--purple"></div>
+      <div class="signal-dot signal-dot--blue"></div>
     </div>
 
-    <div class="capability-wrapper">
-      <div class="capability-line" aria-label="Capability domains">
-        <span class="capability-item" data-capability="brand">Brand</span><span class="capability-sep">•</span><span class="capability-item" data-capability="design">Design</span><span class="capability-sep">•</span><span class="capability-item" data-capability="web">Web</span><span class="capability-sep">•</span><span class="capability-item capability-media" data-capability="media">Media</span><span class="capability-sep">•</span><span class="capability-item capability-image" data-capability="image">Image</span><span class="capability-sep">•</span><span class="capability-item" data-capability="events">Events</span><span class="capability-sep">•</span><span class="capability-item" data-capability="marketing">Marketing</span><span class="capability-sep">•</span><span class="capability-item" data-capability="pr">PR</span>
-      </div>
-      <div class="capability-detail" id="capability-detail">
-        <p></p>
-      </div>
+    <div class="name-block">
+      <div class="full-name"><span>SCOTT BERTRAND</span></div>
+    </div>
+
+    <div class="stage-line"></div>
+
+    <div class="capability-line" aria-label="Capability domains">
+      <span>Brand</span><span class="capability-sep">&bull;</span><span>Design</span><span class="capability-sep">&bull;</span><span>Strategy</span>
     </div>
 
     <div class="below">
@@ -601,182 +409,15 @@
       </div>
       <nav class="links">
         <a href="https://bertrandbrands.com">Bertrand Brands</a>
+        <span class="links-label">Design Studio</span>
       </nav>
     </div>
   </div>
 
   <div class="footer-links">
-    <a href="mailto:scott.bertrand@outlook.com">Email</a>
+    <a href="mailto:scott@bertrandgroup.ca">Email</a>
   </div>
 
-  <script>
-    // Typeface roulette — two modes: 'word' or 'letter'
-    (function() {
-      const MODE = 'letter'; // Change to 'word' for whole-word cycling
-
-      const fonts = [
-        "'Playfair Display', serif",
-        "'Space Mono', monospace",
-        "'Bebas Neue', sans-serif",
-        "'Cormorant Garamond', serif",
-        "'Syne', sans-serif",
-        "'DM Serif Display', serif",
-        "'Switzer', sans-serif",
-        "'Abril Fatface', serif",
-        "'Bodoni Moda', serif",
-        "'Cinzel', serif",
-        "'Italiana', sans-serif",
-        "'Poiret One', sans-serif",
-        "'Tenor Sans', sans-serif",
-        "'Yeseva One', serif",
-        "'Libre Baskerville', serif"
-      ];
-      const finalFont = fonts[Math.floor(Math.random() * fonts.length)];
-
-      const firstName = document.querySelector('.first-name span');
-      const lastName = document.querySelector('.last-name span');
-
-      // Skip roulette for reduced motion preference
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        firstName.style.fontFamily = finalFont;
-        lastName.style.fontFamily = finalFont;
-        return;
-      }
-
-      // WORD MODE: whole word cycles through fonts
-      function cycleWord(el, startDelay) {
-        setTimeout(() => {
-          let i = 0;
-          const intervals = [
-            160, 140, 120, 100, 90, 80, 70, 60, 55, 50, 50, 50,
-            55, 60, 70, 80, 100, 120, 150, 180, 220, 280, 350
-          ];
-          const shuffled = [];
-          for (let j = 0; j < intervals.length; j++) {
-            shuffled.push(fonts[Math.floor(Math.random() * fonts.length)]);
-          }
-          shuffled.push(finalFont);
-
-          function next() {
-            el.style.fontFamily = shuffled[i];
-            i++;
-            if (i < shuffled.length) {
-              setTimeout(next, intervals[i - 1] || 350);
-            } else {
-              el.style.fontWeight = '600';
-            }
-          }
-          next();
-        }, startDelay);
-      }
-
-      // LETTER MODE: each letter cycles independently
-      function cycleLetters(el, startDelay) {
-        setTimeout(() => {
-          const letters = el.querySelectorAll('i');
-          const duration = 3200;
-          const settleStagger = 100;
-
-          letters.forEach((letter, idx) => {
-            const letterDuration = duration + (Math.random() * 600) - 300;
-            const settleDelay = idx * settleStagger;
-            const interval = 180 + Math.random() * 80;
-            const startTime = Date.now();
-
-            function tick() {
-              const elapsed = Date.now() - startTime;
-              if (elapsed < letterDuration) {
-                letter.style.fontFamily = fonts[Math.floor(Math.random() * fonts.length)];
-                setTimeout(tick, interval);
-              } else {
-                setTimeout(() => {
-                  letter.style.fontFamily = finalFont;
-                  letter.style.fontWeight = '600';
-                }, settleDelay);
-              }
-            }
-            tick();
-          });
-        }, startDelay);
-      }
-
-      if (MODE === 'letter') {
-        cycleLetters(firstName, 2600);
-        cycleLetters(lastName, 3000);
-      } else {
-        cycleWord(firstName, 2600);
-        cycleWord(lastName, 3000);
-      }
-    })();
-
-    // Capability expand — click to reveal description
-    (function() {
-      const descriptions = {
-        brand: 'Building identities that resonate — from strategy to visual systems.',
-        design: 'Crafting visuals with intention, clarity, and restraint.',
-        web: 'Websites that work beautifully and convert quietly.',
-        media: 'Content strategy and production across platforms.',
-        image: 'Photography direction, asset curation, visual storytelling.',
-        events: 'Experiential moments — from concept to execution.',
-        marketing: 'Campaigns that connect, measured by what matters.',
-        pr: 'Shaping perception through earned attention.'
-      };
-
-      const detail = document.getElementById('capability-detail');
-      const detailText = detail.querySelector('p');
-      const items = document.querySelectorAll('.capability-item');
-      let activeCapability = null;
-
-      items.forEach(item => {
-        item.addEventListener('click', () => {
-          const capability = item.dataset.capability;
-
-          // If clicking the same capability, close it
-          if (activeCapability === capability) {
-            detail.classList.remove('open');
-            item.classList.remove('active');
-            activeCapability = null;
-            return;
-          }
-
-          // Close previous
-          items.forEach(i => i.classList.remove('active'));
-
-          // Open new
-          detailText.textContent = descriptions[capability];
-          detail.classList.add('open');
-          item.classList.add('active');
-          activeCapability = capability;
-        });
-      });
-
-      // Close on click outside
-      document.addEventListener('click', (e) => {
-        if (!e.target.closest('.capability-wrapper') && activeCapability) {
-          detail.classList.remove('open');
-          items.forEach(i => i.classList.remove('active'));
-          activeCapability = null;
-        }
-      });
-    })();
-
-    // Time-based theme (Canada/Eastern timezone)
-    (function() {
-      function getTheme() {
-        const hour = parseInt(new Date().toLocaleString('en-US', {
-          timeZone: 'America/Toronto',
-          hour: 'numeric',
-          hour12: false
-        }));
-        // Night: 8pm (20) to 5am (4)
-        return (hour >= 20 || hour < 5) ? 'dark' : 'light';
-      }
-
-      const saved = localStorage.getItem('theme-preference');
-      const theme = saved || getTheme();
-      document.documentElement.setAttribute('data-theme', theme);
-    })();
-  </script>
 
 </body>
 </html>

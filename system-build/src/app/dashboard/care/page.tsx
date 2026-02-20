@@ -36,9 +36,9 @@ const priorityColors: Record<string, string> = {
 }
 
 const planLabels: Record<string, string> = {
-  ESSENTIALS: 'Essentials',
-  GROWTH: 'Growth',
-  PARTNER: 'Partner',
+  ESSENTIALS: 'Bronze',
+  GROWTH: 'Silver',
+  PARTNER: 'Gold',
 }
 
 const subStatusColors: Record<string, string> = {
@@ -130,7 +130,7 @@ export default async function CareOverviewPage() {
                       {ticket.subscription.client.companyName && ` · ${ticket.subscription.client.companyName}`}
                     </span>
                     <span className="text-xs text-[var(--text-subtle)]">
-                      {ticket.subscription.plan}
+                      {planLabels[ticket.subscription.plan] || ticket.subscription.plan}
                     </span>
                     <span className="text-xs text-[var(--text-subtle)]">
                       {ticket.submittedAt.toLocaleDateString('en-CA', { month: 'short', day: 'numeric' })}

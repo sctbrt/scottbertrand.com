@@ -3,102 +3,101 @@ import { PrismaClient, Prisma } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-// Service templates - 9-service structure matching bertrandbrands.com
-// Organized into 4 tiers: Start Here, Clarity Sessions, Deep Diagnostics, Builds
+// Service templates - V11 tier architecture matching bertrandbrands.ca
+// Organized into 3 tiers: B Build (Amber), B Transform (Violet), B Care (Blue)
 const serviceTemplates = [
-  // === Section 1: Start Here (Introductory) ===
+  // === B Build (Amber #D97706) — Quick Builds ===
   {
-    name: 'Founders Direction Check',
-    slug: 'founders-direction-check',
-    description: 'A fast orientation session for early-stage founders. Get clarity on what to focus on next—and what not to spend money on yet.',
-    price: 95,
-    estimatedDays: 1,
+    name: 'Starter Site — One-Page + Contact',
+    slug: 'starter-onepage',
+    description: 'Single-page marketing website with contact form. Mobile-first, fast-loading, built to convert.',
+    price: 750,
+    estimatedDays: 10,
     sortOrder: 1,
-    deliverables: ['20-minute live session', 'Priority focus areas', 'What to avoid spending on'],
-    scope: { tier: 'start-here', duration: 20, unit: 'minutes', format: 'live' },
+    deliverables: ['One-page marketing website', 'Mobile-first responsive design', 'Contact form', 'Basic SEO setup', 'Google Analytics'],
+    scope: { tier: 'build', color: 'amber', revisions: 1, meetings: 0 },
   },
   {
-    name: 'Brand & Website Starter Map',
-    slug: 'brand-website-starter-map',
-    description: 'A lightweight roadmap with brand direction, homepage structure, and prioritized next steps. For founders not ready for a full audit.',
-    price: 145,
-    estimatedDays: 4,
-    sortOrder: 2,
-    deliverables: ['Starter Map PDF', 'Brand direction notes', 'Homepage structure outline', 'Prioritized next steps'],
-    scope: { tier: 'start-here', format: 'pdf' },
-  },
-  // === Section 2: Clarity Sessions (Live Reviews) ===
-  {
-    name: 'Website Snapshot Review',
-    slug: 'website-snapshot-review',
-    description: 'Full site review with prioritized recommendations. Understand what\'s working and what needs attention.',
-    price: 195,
-    estimatedDays: 1,
-    sortOrder: 3,
-    deliverables: ['30-minute live review', 'Prioritized recommendations', 'Action items list'],
-    scope: { tier: 'clarity-sessions', duration: 30, unit: 'minutes', format: 'live' },
-  },
-  {
-    name: 'Brand Clarity Session',
-    slug: 'brand-clarity-session',
-    description: 'Brand positioning and identity assessment. A clear view of where you stand and where to go.',
-    price: 245,
-    estimatedDays: 1,
-    sortOrder: 4,
-    deliverables: ['45-minute live session', 'Brand positioning insights', 'Direction recommendations'],
-    scope: { tier: 'clarity-sessions', duration: 45, unit: 'minutes', format: 'live' },
-  },
-  // === Section 3: Deep Diagnostics (PDF Deliverables) ===
-  {
-    name: 'Comprehensive Website Audit',
-    slug: 'comprehensive-website-audit',
-    description: 'In-depth analysis with documented findings and actionable recommendations.',
-    price: 450,
-    estimatedDays: 7,
-    sortOrder: 5,
-    deliverables: ['Comprehensive Audit PDF (12-15 pages)', 'Documented findings', 'Actionable recommendations', 'Priority matrix'],
-    scope: { tier: 'deep-diagnostics', format: 'pdf' },
-  },
-  {
-    name: 'Strategic Brand Audit',
-    slug: 'strategic-brand-audit',
-    description: 'Comprehensive brand assessment with strategic direction and positioning insights.',
-    price: 550,
-    estimatedDays: 7,
-    sortOrder: 6,
-    deliverables: ['Strategic Brand Audit PDF', 'Positioning analysis', 'Competitive context', 'Strategic direction'],
-    scope: { tier: 'deep-diagnostics', format: 'pdf' },
-  },
-  // === Section 4: Builds (Full Projects) ===
-  {
-    name: 'Brand Reset',
-    slug: 'brand-reset',
-    description: 'Complete brand system and guidelines. Visual identity that works across every touchpoint.',
-    price: 3000,
+    name: 'Starter Site — Multi-Page + Contact',
+    slug: 'starter-multipage',
+    description: '3–5 page marketing website with contact form. For growing businesses that need multiple service pages.',
+    price: 0, // Scoped pricing
     estimatedDays: 21,
-    sortOrder: 7,
-    deliverables: ['Brand Reset Document (PDF)', 'Logo files (SVG, PNG, EPS)', 'Brand guidelines', 'Complete asset package'],
-    scope: { tier: 'builds' },
+    sortOrder: 2,
+    deliverables: ['3–5 page marketing website', 'Mobile-first responsive design', 'Contact form', 'SEO setup', 'Google Analytics'],
+    scope: { tier: 'build', color: 'amber', revisions: 2, meetings: 0, pricingType: 'scoped' },
   },
   {
-    name: 'Website Foundation',
-    slug: 'website-foundation',
-    description: 'Conversion-focused website build. Fast, accessible, built to perform.',
-    price: 4250,
+    name: 'Full Site — Multi-Page + Booking',
+    slug: 'fullsite-booking',
+    description: '5–10 page website with booking or scheduling integration. For service businesses ready to take appointments online.',
+    price: 0, // Scoped pricing
     estimatedDays: 28,
-    sortOrder: 8,
-    deliverables: ['Website Foundation Blueprint (PDF)', 'Live website', 'Source code', '30-day support'],
-    scope: { tier: 'builds', pages: 7 },
+    sortOrder: 3,
+    deliverables: ['5–10 page website', 'Booking/scheduling integration', 'Mobile-first responsive design', 'Contact form', 'SEO setup', 'Google Analytics'],
+    scope: { tier: 'build', color: 'amber', revisions: 2, meetings: 0, pricingType: 'scoped' },
+  },
+  // === B Transform (Violet #8B5CF6) — Bigger Commitments ===
+  {
+    name: 'Website Foundation + Growth System',
+    slug: 'foundation-growth',
+    description: 'For businesses that have outgrown their current site. Discovery-led website build with growth strategy.',
+    price: 0, // Scoped pricing
+    estimatedDays: 56,
+    sortOrder: 4,
+    deliverables: ['Discovery session', 'Foundation brief', 'Custom website build', 'Growth system setup', 'QA + launch support'],
+    scope: { tier: 'transform', color: 'violet', meetings: '2-4', pricingType: 'scoped' },
   },
   {
-    name: 'Full Brand + Website Reset',
-    slug: 'full-brand-website-reset',
-    description: 'Complete brand and web system. The full transformation, end to end.',
-    price: 6900,
-    estimatedDays: 42,
+    name: 'SMB Platform Development',
+    slug: 'smb-platform',
+    description: 'For established businesses with multiple systems. Full platform development with integrations.',
+    price: 0, // Scoped pricing
+    estimatedDays: 84,
+    sortOrder: 5,
+    deliverables: ['Discovery + systems audit', 'Platform architecture', 'Custom development', 'Integration setup', 'QA + launch support', 'Training session'],
+    scope: { tier: 'transform', color: 'violet', meetings: '2-4', pricingType: 'scoped' },
+  },
+  {
+    name: 'Brand Design + Platform Development',
+    slug: 'brand-platform',
+    description: 'Full rebrand and digital platform build. The complete transformation, end to end.',
+    price: 0, // Scoped pricing
+    estimatedDays: 112,
+    sortOrder: 6,
+    deliverables: ['Brand discovery', 'Visual identity system', 'Brand guidelines', 'Custom platform build', 'Integration setup', 'QA + launch support', 'Training session'],
+    scope: { tier: 'transform', color: 'violet', meetings: '2-4', pricingType: 'scoped' },
+  },
+  // === B Care (Blue #2563EB) — Ongoing Support ===
+  {
+    name: 'Care — Bronze',
+    slug: 'bronze',
+    description: 'Essential website maintenance. 4 credits per month, 3–5 day turnaround.',
+    price: 249,
+    estimatedDays: null,
+    sortOrder: 7,
+    deliverables: ['4 credits/month', 'Response within 1 business day', '3–5 day turnaround', 'Monthly summary'],
+    scope: { tier: 'care', color: 'blue', plan: 'ESSENTIALS', credits: 4, pricingType: 'monthly' },
+  },
+  {
+    name: 'Care — Silver',
+    slug: 'silver',
+    description: 'Active growth support. 10 credits per month, 1–3 day turnaround.',
+    price: 649,
+    estimatedDays: null,
+    sortOrder: 8,
+    deliverables: ['10 credits/month', 'Same or next business day response', '1–3 day turnaround', 'Monthly optional meeting', 'Monthly summary'],
+    scope: { tier: 'care', color: 'blue', plan: 'GROWTH', credits: 10, pricingType: 'monthly' },
+  },
+  {
+    name: 'Care — Gold',
+    slug: 'gold',
+    description: 'Premium partnership. 24 credits per month, same-day response. Limited seats.',
+    price: 0, // By application
+    estimatedDays: null,
     sortOrder: 9,
-    deliverables: ['Brand Reset Document', 'Website Foundation Blueprint', 'Live website', 'Complete asset package', '30-day support'],
-    scope: { tier: 'builds' },
+    deliverables: ['24 credits/month', 'Same business day response', '24–72 hour turnaround target', '1–2x monthly meetings', 'Monthly summary', 'Priority queue'],
+    scope: { tier: 'care', color: 'blue', plan: 'PARTNER', credits: 24, pricingType: 'application' },
   },
 ]
 

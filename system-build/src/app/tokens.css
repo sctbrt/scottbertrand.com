@@ -47,6 +47,14 @@
   --glass-blur: 12px;               /* Capped at 14px max */
   --glass-specular: rgba(255, 253, 248, 0.85);
 
+  /* === Tier Colors (V11 sub-brand system) === */
+  --tier-build: #D97706;
+  --tier-transform: #8B5CF6;
+  --tier-care: #2563EB;
+  --tier-build-muted: rgba(217, 119, 6, 0.12);
+  --tier-transform-muted: rgba(139, 92, 246, 0.12);
+  --tier-care-muted: rgba(37, 99, 235, 0.12);
+
   /* === Focus Ring === */
   --focus-ring: rgba(217, 119, 6, 0.5);
   --focus-ring-offset: 2px;
@@ -172,6 +180,14 @@
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-border-inner: rgba(255, 255, 255, 0.04);
   --glass-specular: rgba(255, 255, 255, 0.12);
+
+  /* === Tier Colors (V11 — same in dark mode) === */
+  --tier-build: #D97706;
+  --tier-transform: #8B5CF6;
+  --tier-care: #2563EB;
+  --tier-build-muted: rgba(217, 119, 6, 0.15);
+  --tier-transform-muted: rgba(139, 92, 246, 0.15);
+  --tier-care-muted: rgba(37, 99, 235, 0.15);
 
   /* === Focus Ring === */
   --focus-ring: rgba(245, 158, 11, 0.5);

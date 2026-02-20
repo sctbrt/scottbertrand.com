@@ -10,13 +10,13 @@ interface GenerateBookingLinkProps {
 }
 
 const PATH_LABELS: Record<string, string> = {
-  FOCUS_STUDIO: 'Focus Studio Kickoff',
-  CORE_SERVICES: 'Core Services Discovery',
+  FOCUS_STUDIO: 'Build Kickoff',
+  CORE_SERVICES: 'Transform Discovery',
 }
 
 const PATH_COLORS: Record<string, string> = {
-  FOCUS_STUDIO: 'bg-violet-500/20 text-violet-400 border-violet-500/30',
-  CORE_SERVICES: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+  FOCUS_STUDIO: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+  CORE_SERVICES: 'bg-violet-500/20 text-violet-400 border-violet-500/30',
 }
 
 export function GenerateBookingLink({ clientId, clientName, assignedPath }: GenerateBookingLinkProps) {

@@ -24,6 +24,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
       prisma.service_templates.findMany({
         where: { isActive: true },
         orderBy: { sortOrder: 'asc' },
+        select: { id: true, name: true, slug: true, scope: true },
       }),
     ])
 

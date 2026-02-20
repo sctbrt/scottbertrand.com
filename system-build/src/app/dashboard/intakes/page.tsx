@@ -249,7 +249,7 @@ export default async function IntakesPage({
               <span className="font-medium text-[var(--text)]">Route</span>
             </div>
             <p className="text-[var(--text-muted)] pl-8">
-              Focus Studio Kickoff, Core Discovery, or Hold
+              Build Kickoff, Transform Discovery, or Hold
             </p>
           </div>
           <div>

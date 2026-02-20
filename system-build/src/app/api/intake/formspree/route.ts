@@ -349,6 +349,22 @@ export async function POST(request: NextRequest) {
     // Intake forms include a "source" hidden field that identifies the form type
     const intakeSource = sanitizeString(formData.source || '', 100)
     const INTAKE_SOURCES = [
+      // V11 tier-based intake sources
+      'tier-intake',
+      'tier-intake-amber',
+      'tier-intake-violet',
+      'tier-intake-blue',
+      // V11 inline intake sources (from offer detail pages)
+      'inline-starter-onepage',
+      'inline-starter-multipage',
+      'inline-fullsite-booking',
+      'inline-foundation-growth',
+      'inline-smb-platform',
+      'inline-brand-platform',
+      'inline-bronze',
+      'inline-silver',
+      'inline-gold',
+      // Legacy V10 sources (still active for existing leads)
       'exploratory-guided-intake',
       'website_conversion_snapshot',
       'brand-clarity-diagnostic-intake',
@@ -457,6 +473,72 @@ export async function POST(request: NextRequest) {
             intakeData.scopeType = 'WEB'
             if (formData.details) intakeData.whatsNotWorking = sanitizeString(formData.details, 500)
             break
+
+          // V11 tier-based intake (from /intake?tier=amber|violet|blue)
+          case 'tier-intake':
+          case 'tier-intake-amber':
+          case 'tier-intake-violet':
+          case 'tier-intake-blue': {
+            // Map tier to scope type
+            const tier = sanitizeString(formData.tier || '', 20)
+            const tierScopeMap: Record<string, string> = {
+              amber: 'WEB',
+              violet: 'BOTH',
+              blue: 'WEB',
+            }
+            if (tier && tierScopeMap[tier]) intakeData.scopeType = tierScopeMap[tier]
+
+            // Map budget → budgetBand
+            const tierBudget = String(formData.budget || '')
+            const tierBudgetMap: Record<string, string> = {
+              under_1k: 'UNDER_1K',
+              '1k_3k': 'ONE_TO_3K',
+              '3k_5k': 'THREE_TO_5K',
+              '5k_10k': 'FIVE_TO_10K',
+              '10k_plus': 'OVER_10K',
+              not_sure: 'NOT_SURE',
+            }
+            if (tierBudgetMap[tierBudget]) intakeData.budgetBand = tierBudgetMap[tierBudget]
+
+            // Map timeline → urgency
+            const tierTimeline = String(formData.timeline || '')
+            const tierUrgencyMap: Record<string, string> = {
+              asap: 'NOW',
+              '2_4_weeks': 'ONE_TO_THREE_MONTHS',
+              '1_3_months': 'ONE_TO_THREE_MONTHS',
+              flexible: 'LATER',
+            }
+            if (tierUrgencyMap[tierTimeline]) intakeData.urgency = tierUrgencyMap[tierTimeline]
+
+            // Narrative fields (V11 intake form field names)
+            if (formData.situation) intakeData.whatsNotWorking = sanitizeString(formData.situation, 500)
+            if (formData.description) intakeData.successLooksLike = sanitizeString(formData.description, 300)
+            if (formData.brief) intakeData.whatsNotWorking = sanitizeString(formData.brief, 500)
+            if (formData.context) intakeData.successLooksLike = sanitizeString(formData.context, 300)
+            break
+          }
+
+          // V11 inline intake (from offer detail pages)
+          case 'inline-starter-onepage':
+          case 'inline-starter-multipage':
+          case 'inline-fullsite-booking':
+            intakeData.scopeType = 'WEB'
+            if (formData.situation) intakeData.whatsNotWorking = sanitizeString(formData.situation, 500)
+            break
+
+          case 'inline-foundation-growth':
+          case 'inline-smb-platform':
+          case 'inline-brand-platform':
+            intakeData.scopeType = 'BOTH'
+            if (formData.situation) intakeData.whatsNotWorking = sanitizeString(formData.situation, 500)
+            break
+
+          case 'inline-bronze':
+          case 'inline-silver':
+          case 'inline-gold':
+            intakeData.scopeType = 'WEB'
+            if (formData.situation) intakeData.whatsNotWorking = sanitizeString(formData.situation, 500)
+            break
         }
 
         await prisma.intake_submissions.create({
@@ -545,6 +627,22 @@ async function sendNotification({
 
     // Source labels for notification title
     const sourceLabels: Record<string, string> = {
+      // V11 tier-based sources
+      'tier-intake': 'General Intake',
+      'tier-intake-amber': 'Build Tier Inquiry',
+      'tier-intake-violet': 'Transform Tier Inquiry',
+      'tier-intake-blue': 'Care Tier Inquiry',
+      // V11 inline sources (offer detail pages)
+      'inline-starter-onepage': 'Starter One-Page Inquiry',
+      'inline-starter-multipage': 'Starter Multi-Page Inquiry',
+      'inline-fullsite-booking': 'Full Site + Booking Inquiry',
+      'inline-foundation-growth': 'Foundation + Growth Inquiry',
+      'inline-smb-platform': 'SMB Platform Inquiry',
+      'inline-brand-platform': 'Brand + Platform Inquiry',
+      'inline-bronze': 'Care Bronze Inquiry',
+      'inline-silver': 'Care Silver Inquiry',
+      'inline-gold': 'Care Gold Inquiry',
+      // Legacy V10 sources
       'exploratory-guided-intake': 'Exploratory Intake',
       'website_conversion_snapshot': 'Website Snapshot',
       'brand-clarity-diagnostic-intake': 'Brand Diagnostic',

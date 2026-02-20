@@ -101,9 +101,9 @@ export default async function CareHomePage() {
             Plan
           </p>
           <p className="text-lg font-medium text-[var(--text)]">
-            {subscription.plan === 'ESSENTIALS' && 'Care Essentials'}
-            {subscription.plan === 'GROWTH' && 'Growth Care'}
-            {subscription.plan === 'PARTNER' && 'Partner Care'}
+            {subscription.plan === 'ESSENTIALS' && 'Bronze'}
+            {subscription.plan === 'GROWTH' && 'Silver'}
+            {subscription.plan === 'PARTNER' && 'Gold'}
           </p>
           <p className="text-xs text-[var(--text-subtle)] mt-1">
             {balance.creditsPerMonth} credits / month

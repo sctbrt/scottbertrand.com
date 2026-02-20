@@ -13,9 +13,9 @@ import { SubscriptionActions } from './subscription-actions'
 import { CreditAdjustmentForm } from './credit-adjustment-form'
 
 const planLabels: Record<string, string> = {
-  ESSENTIALS: 'Care Essentials',
-  GROWTH: 'Growth Care',
-  PARTNER: 'Partner Care',
+  ESSENTIALS: 'Bronze',
+  GROWTH: 'Silver',
+  PARTNER: 'Gold',
 }
 
 const subStatusColors: Record<string, string> = {

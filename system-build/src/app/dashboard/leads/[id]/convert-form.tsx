@@ -5,6 +5,17 @@ import { useActionState } from 'react'
 import { convertToClient } from '@/lib/actions/leads'
 import { Spinner } from '@/components/ui/spinner'
 
+interface TemplateScope {
+  tier?: 'build' | 'transform' | 'care'
+  [key: string]: unknown
+}
+
+const TIER_GROUPS: { tier: string; label: string }[] = [
+  { tier: 'build', label: 'Build (Amber)' },
+  { tier: 'transform', label: 'Transform (Violet)' },
+  { tier: 'care', label: 'Care (Blue)' },
+]
+
 interface ConvertToClientFormProps {
   lead: {
     id: string
@@ -18,6 +29,7 @@ interface ConvertToClientFormProps {
     id: string
     name: string
     slug: string
+    scope: unknown
   }[]
 }
 
@@ -108,7 +120,27 @@ export function ConvertToClientForm({ lead, templates }: ConvertToClientFormProp
           className="w-full px-3 py-2 border border-[var(--border)] rounded-lg bg-[var(--surface)] text-[var(--text)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] text-sm"
         >
           <option value="">Custom Project</option>
-          {templates.map((template) => (
+          {TIER_GROUPS.map(({ tier, label }) => {
+            const grouped = templates.filter(t => {
+              const s = t.scope as TemplateScope | null
+              return s && typeof s === 'object' && !Array.isArray(s) && s.tier === tier
+            })
+            if (grouped.length === 0) return null
+            return (
+              <optgroup key={tier} label={label}>
+                {grouped.map((template) => (
+                  <option key={template.id} value={template.id}>
+                    {template.name}
+                  </option>
+                ))}
+              </optgroup>
+            )
+          })}
+          {/* Ungrouped templates */}
+          {templates.filter(t => {
+            const s = t.scope as TemplateScope | null
+            return !s || typeof s !== 'object' || Array.isArray(s) || !s.tier
+          }).map((template) => (
             <option key={template.id} value={template.id}>
               {template.name}
             </option>

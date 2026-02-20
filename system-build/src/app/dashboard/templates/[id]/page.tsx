@@ -62,9 +62,29 @@ export default async function TemplateDetailPage({ params }: TemplateDetailPageP
     notFound()
   }
 
-  const scope = (template.scope as string[]) || []
+  // Parse scope as structured V11 object
+  interface TemplateScope {
+    tier?: 'build' | 'transform' | 'care'
+    color?: 'amber' | 'violet' | 'blue'
+    revisions?: number | string
+    meetings?: number | string
+    pricingType?: 'fixed' | 'scoped' | 'monthly' | 'application'
+    plan?: string
+    credits?: number
+  }
+  const scope: TemplateScope = (template.scope && typeof template.scope === 'object' && !Array.isArray(template.scope))
+    ? (template.scope as TemplateScope)
+    : {}
   const deliverables = (template.deliverables as string[]) || []
   const checklistItems = (template.checklistItems as { title: string; description?: string }[]) || []
+
+  const TIER_BADGE: Record<string, string> = {
+    build: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+    transform: 'bg-violet-500/20 text-violet-400 border-violet-500/30',
+    care: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+  }
+  const TIER_LABELS: Record<string, string> = { build: 'Build', transform: 'Transform', care: 'Care' }
+  const pricingLabel = scope.pricingType === 'scoped' ? 'Scoped' : scope.pricingType === 'monthly' ? '/mo' : scope.pricingType === 'application' ? 'By application' : null
 
   return (
     <div className="space-y-8">
@@ -82,6 +102,11 @@ export default async function TemplateDetailPage({ params }: TemplateDetailPageP
               <h1 className="text-2xl font-semibold text-[var(--text)]">
                 {template.name}
               </h1>
+              {scope.tier && (
+                <span className={`text-xs px-2.5 py-1 rounded-full border ${TIER_BADGE[scope.tier]}`}>
+                  {TIER_LABELS[scope.tier]}
+                </span>
+              )}
               <span className={`text-sm px-3 py-1 rounded-full ${template.isActive ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-zinc-500/20 text-zinc-400'}`}>
                 {template.isActive ? 'Active' : 'Inactive'}
               </span>
@@ -91,12 +116,20 @@ export default async function TemplateDetailPage({ params }: TemplateDetailPageP
             </p>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-3xl font-semibold text-[var(--text)]">
-              {formatCurrency(Number(template.price))}
-            </span>
-            <span className="text-[var(--text-muted)]">
-              {template.currency}
-            </span>
+            {Number(template.price) > 0 ? (
+              <>
+                <span className="text-3xl font-semibold text-[var(--text)]">
+                  {formatCurrency(Number(template.price))}
+                </span>
+                {pricingLabel && (
+                  <span className="text-[var(--text-muted)]">{pricingLabel}</span>
+                )}
+              </>
+            ) : (
+              <span className="text-xl font-medium text-[var(--text-muted)]">
+                {pricingLabel || 'Custom pricing'}
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -117,21 +150,47 @@ export default async function TemplateDetailPage({ params }: TemplateDetailPageP
           )}
 
           {/* Scope */}
-          {scope.length > 0 && (
+          {scope.tier && (
             <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
               <h2 className="text-sm font-medium text-[var(--text-muted)] uppercase tracking-wider mb-4">
-                Scope ({scope.length} items)
+                Scope
               </h2>
-              <ul className="space-y-2">
-                {scope.map((item, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <svg className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span className="text-[var(--text)]">{item}</span>
-                  </li>
-                ))}
-              </ul>
+              <dl className="grid grid-cols-2 gap-x-6 gap-y-3">
+                <div>
+                  <dt className="text-xs text-[var(--text-subtle)]">Tier</dt>
+                  <dd className="text-sm text-[var(--text)] mt-0.5">{TIER_LABELS[scope.tier]}</dd>
+                </div>
+                {scope.pricingType && (
+                  <div>
+                    <dt className="text-xs text-[var(--text-subtle)]">Pricing Type</dt>
+                    <dd className="text-sm text-[var(--text)] mt-0.5 capitalize">{scope.pricingType}</dd>
+                  </div>
+                )}
+                {scope.revisions != null && (
+                  <div>
+                    <dt className="text-xs text-[var(--text-subtle)]">Revisions</dt>
+                    <dd className="text-sm text-[var(--text)] mt-0.5">{scope.revisions}</dd>
+                  </div>
+                )}
+                {scope.meetings != null && (
+                  <div>
+                    <dt className="text-xs text-[var(--text-subtle)]">Meetings</dt>
+                    <dd className="text-sm text-[var(--text)] mt-0.5">{scope.meetings}</dd>
+                  </div>
+                )}
+                {scope.credits != null && (
+                  <div>
+                    <dt className="text-xs text-[var(--text-subtle)]">Credits / Month</dt>
+                    <dd className="text-sm text-[var(--text)] mt-0.5">{scope.credits}</dd>
+                  </div>
+                )}
+                {scope.plan && (
+                  <div>
+                    <dt className="text-xs text-[var(--text-subtle)]">Care Plan</dt>
+                    <dd className="text-sm text-[var(--text)] mt-0.5">{scope.plan}</dd>
+                  </div>
+                )}
+              </dl>
             </div>
           )}
 

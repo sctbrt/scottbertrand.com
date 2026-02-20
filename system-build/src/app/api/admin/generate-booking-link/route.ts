@@ -15,8 +15,8 @@ const MAX_BODY_SIZE = 10 * 1024
 
 // Map routing paths to booking types
 const PATH_TO_BOOKING_TYPE: Record<string, string> = {
-  FOCUS_STUDIO: 'focus_studio_kickoff',
-  CORE_SERVICES: 'core_services_discovery',
+  FOCUS_STUDIO: 'build_kickoff',
+  CORE_SERVICES: 'transform_discovery',
 }
 
 export async function POST(request: NextRequest) {
@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
     // Validate client has been routed
     if (!client.assignedPath || client.assignedPath === 'HOLD') {
       return NextResponse.json(
-        { error: 'Client must be routed to Focus Studio or Core Services before generating a booking link' },
+        { error: 'Client must be routed to Build or Transform before generating a booking link' },
         { status: 400 }
       )
     }

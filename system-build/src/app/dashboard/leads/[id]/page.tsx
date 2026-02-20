@@ -21,6 +21,7 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
     prisma.service_templates.findMany({
       where: { isActive: true },
       orderBy: { sortOrder: 'asc' },
+      select: { id: true, name: true, slug: true, scope: true },
     }),
   ])
 
@@ -281,6 +282,22 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
                   {lead.source || 'Unknown'}
                 </span>
               </div>
+              {(() => {
+                // Check lead.source first, then formData.source for webhook leads
+                const tierSource = (lead.source && getTierFromSource(lead.source))
+                  ? lead.source
+                  : (typeof formData.source === 'string' && getTierFromSource(formData.source))
+                    ? formData.source as string
+                    : null
+                return tierSource ? (
+                  <div className="flex justify-between">
+                    <span className="text-[var(--text-muted)]">Tier</span>
+                    <span className={`px-2 py-0.5 rounded-full text-xs border ${getTierBadge(tierSource)}`}>
+                      {getTierLabel(tierSource)}
+                    </span>
+                  </div>
+                ) : null
+              })()}
               {lead.users && (
                 <div className="flex justify-between">
                   <span className="text-[var(--text-muted)]">Created By</span>
@@ -442,4 +459,28 @@ function TimelineItem({
       )}
     </div>
   )
+}
+
+// V11 tier detection from lead source
+function getTierFromSource(source: string): string | null {
+  if (source.includes('tier-intake-amber') || source.includes('inline-starter') || source.includes('inline-fullsite')) return 'build'
+  if (source.includes('tier-intake-violet') || source.includes('inline-foundation') || source.includes('inline-smb') || source.includes('inline-brand-platform')) return 'transform'
+  if (source.includes('tier-intake-blue') || source.includes('inline-bronze') || source.includes('inline-silver') || source.includes('inline-gold')) return 'care'
+  return null
+}
+
+function getTierLabel(source: string): string {
+  const tier = getTierFromSource(source)
+  if (tier === 'build') return 'Build'
+  if (tier === 'transform') return 'Transform'
+  if (tier === 'care') return 'Care'
+  return ''
+}
+
+function getTierBadge(source: string): string {
+  const tier = getTierFromSource(source)
+  if (tier === 'build') return 'bg-amber-500/20 text-amber-400 border-amber-500/30'
+  if (tier === 'transform') return 'bg-violet-500/20 text-violet-400 border-violet-500/30'
+  if (tier === 'care') return 'bg-blue-500/20 text-blue-400 border-blue-500/30'
+  return 'bg-zinc-500/20 text-zinc-400 border-zinc-500/30'
 }

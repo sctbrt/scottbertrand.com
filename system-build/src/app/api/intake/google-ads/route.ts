@@ -222,7 +222,7 @@ export async function POST(request: NextRequest) {
       // Create a test lead to verify integration works end-to-end
       const testLead = await prisma.leads.create({
         data: {
-          email: email || 'google-ads-test@bertrandbrands.com',
+          email: email || 'google-ads-test@bertrandgroup.ca',
           name: name || 'Google Ads Test',
           source: 'google-ads',
           status: 'NEW',

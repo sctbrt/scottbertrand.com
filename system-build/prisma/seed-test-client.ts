@@ -42,7 +42,7 @@ async function main() {
         contactEmail: testEmail,
         companyName: companyName,
         phone: '+1 705-413-3705',
-        website: 'https://bertrandbrands.com',
+        website: 'https://bertrandbrands.ca',
         notes: 'Test client account for portal development and testing',
       },
     })
@@ -51,13 +51,13 @@ async function main() {
     console.log('→ Test client already exists:', testClient.companyName)
   }
 
-  // Get the Direction Session template (or another suitable one)
+  // Get a service template (V11 slugs)
   const template = await prisma.service_templates.findFirst({
     where: {
       OR: [
-        { slug: 'direction-session' },
-        { slug: 'website-foundation' },
-        { slug: 'brand-reset' }
+        { slug: 'foundation-growth' },
+        { slug: 'starter-onepage' },
+        { slug: 'brand-platform' }
       ]
     },
   })
@@ -76,7 +76,7 @@ async function main() {
     console.log('═══════════════════════════════════════════')
     console.log('Test Client Portal Credentials:')
     console.log('  Email: sctbrt01@gmail.com')
-    console.log('  Portal: https://clients.bertrandbrands.com')
+    console.log('  Portal: https://clients.bertrandgroup.ca')
     console.log('  (Use magic link / email authentication)')
     console.log('═══════════════════════════════════════════')
     return
@@ -150,7 +150,7 @@ async function main() {
   console.log('═══════════════════════════════════════════')
   console.log('Test Client Portal Credentials:')
   console.log('  Email: sctbrt01@gmail.com')
-  console.log('  Portal: https://clients.bertrandbrands.com')
+  console.log('  Portal: https://clients.bertrandgroup.ca')
   console.log('  (Use magic link / email authentication)')
   console.log('═══════════════════════════════════════════')
 }

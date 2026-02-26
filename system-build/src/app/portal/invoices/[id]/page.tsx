@@ -276,8 +276,8 @@ export default async function PortalInvoiceDetailPage({ params }: InvoicePagePro
           <div className="p-6 bg-blue-50 dark:bg-blue-900/20 border-t border-blue-200 dark:border-blue-800">
             <p className="text-sm text-blue-700 dark:text-blue-300">
               Questions about this invoice? Reply to the invoice email or contact us at{' '}
-              <a href="mailto:hello@bertrandbrands.com" className="underline">
-                hello@bertrandbrands.com
+              <a href="mailto:hello@bertrandgroup.ca" className="underline">
+                hello@bertrandgroup.ca
               </a>
             </p>
           </div>

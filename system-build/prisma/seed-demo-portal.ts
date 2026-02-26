@@ -48,13 +48,18 @@ async function main() {
     console.log('Demo client already exists:', demoClient.companyName)
   }
 
-  // Get the Website Foundation template
-  const template = await prisma.service_templates.findUnique({
-    where: { slug: 'website-foundation' },
+  // Get a service template (V11 slug)
+  const template = await prisma.service_templates.findFirst({
+    where: {
+      OR: [
+        { slug: 'foundation-growth' },
+        { slug: 'starter-onepage' },
+      ]
+    },
   })
 
   if (!template) {
-    console.error('Website Foundation template not found. Run main seed first.')
+    console.error('No service template found. Run main seed first.')
     return
   }
 

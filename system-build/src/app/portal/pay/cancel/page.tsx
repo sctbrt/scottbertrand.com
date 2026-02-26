@@ -116,7 +116,7 @@ export default async function PaymentCancelPage({ searchParams }: CancelPageProp
         <p className="text-sm text-gray-500 dark:text-gray-400">
           Questions?{' '}
           <a
-            href="mailto:hello@bertrandbrands.com"
+            href="mailto:hello@bertrandgroup.ca"
             className="text-amber-600 dark:text-amber-400 hover:underline"
           >
             Contact us

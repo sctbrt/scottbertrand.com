@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
   // Get email from query param, default to admin
   const { searchParams } = new URL(request.url)
-  const email = searchParams.get('email') || 'hello@bertrandbrands.com'
+  const email = searchParams.get('email') || 'hello@bertrandgroup.ca'
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard'
 
   try {

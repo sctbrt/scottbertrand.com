@@ -92,7 +92,7 @@ export default async function DeliveryRoomLayout({
             </div>
 
             <Link
-              href={`mailto:hello@bertrandbrands.com?subject=Help with ${encodeURIComponent(project.name)}`}
+              href={`mailto:hello@bertrandgroup.ca?subject=Help with ${encodeURIComponent(project.name)}`}
               className="text-sm text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
             >
               Need help?

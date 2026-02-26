@@ -1,4 +1,4 @@
-// BERTRANDBRANDS.COM — Auth.js Configuration
+// Auth.js Configuration — Bertrand Group Internal System
 // Magic-link authentication with Resend email provider
 
 import NextAuth from 'next-auth'
@@ -162,7 +162,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Resend({
       apiKey: process.env.AUTH_RESEND_KEY || process.env.RESEND_API_KEY,
-      from: 'Bertrand Brands <hello@bertrandbrands.com>',
+      from: 'Bertrand Brands <hello@bertrandgroup.ca>',
       // Custom magic link email
       sendVerificationRequest: async ({ identifier, url, provider }) => {
         // Security: Only send magic links to emails that already have a user record.

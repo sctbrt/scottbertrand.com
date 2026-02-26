@@ -197,7 +197,7 @@ export async function POST(request: NextRequest) {
       // For test webhooks, create a test lead to verify integration
       const testLead = await prisma.leads.create({
         data: {
-          email: 'formspree-test@bertrandbrands.com',
+          email: 'formspree-test@bertrandgroup.ca',
           name: 'Formspree Test',
           source: 'formspree',
           status: 'NEW',

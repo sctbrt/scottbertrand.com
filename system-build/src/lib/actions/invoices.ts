@@ -285,7 +285,7 @@ export async function sendInvoice(
 
     // Send email via Resend
     const { error: emailError } = await resend.emails.send({
-      from: 'Bertrand Brands <invoices@bertrandbrands.com>',
+      from: 'Bertrand Brands <invoices@bertrandgroup.ca>',
       to: invoice.clients.contactEmail,
       subject: `Invoice ${invoice.invoiceNumber} from Bertrand Brands`,
       html: `

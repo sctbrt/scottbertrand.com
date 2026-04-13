@@ -8,7 +8,7 @@ import { revalidatePath } from 'next/cache'
 import { Resend } from 'resend'
 import type { InvoiceStatus } from '@prisma/client'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const resend = new Resend(process.env.AUTH_RESEND_KEY || process.env.RESEND_API_KEY)
 
 // HTML escape helper to prevent XSS in email templates
 function escapeHtml(text: string): string {
@@ -285,7 +285,7 @@ export async function sendInvoice(
 
     // Send email via Resend
     const { error: emailError } = await resend.emails.send({
-      from: 'Bertrand Brands <invoices@bertrandgroup.ca>',
+      from: 'Bertrand Brands <invoices@bertrandbrands.ca>',
       to: invoice.clients.contactEmail,
       subject: `Invoice ${invoice.invoiceNumber} from Bertrand Brands`,
       html: `

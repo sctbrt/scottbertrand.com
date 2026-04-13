@@ -162,7 +162,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Resend({
       apiKey: process.env.AUTH_RESEND_KEY || process.env.RESEND_API_KEY,
-      from: 'Bertrand Brands <hello@bertrandgroup.ca>',
+      from: 'Bertrand Brands <hello@bertrandbrands.ca>',
       // Custom magic link email
       sendVerificationRequest: async ({ identifier, url, provider }) => {
         // Security: Only send magic links to emails that already have a user record.
@@ -178,7 +178,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         }
 
         const { Resend: ResendClient } = await import('resend')
-        const resend = new ResendClient(process.env.RESEND_API_KEY)
+        const resend = new ResendClient(process.env.AUTH_RESEND_KEY || process.env.RESEND_API_KEY)
 
         const result = await resend.emails.send({
           from: provider.from!,

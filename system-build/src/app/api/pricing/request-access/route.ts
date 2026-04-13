@@ -120,10 +120,10 @@ export async function POST(request: Request) {
     const magicLink = `${APP_URL}/pricing/access?token=${rawToken}`
 
     // Send email via Resend
-    const resend = new Resend(process.env.RESEND_API_KEY)
+    const resend = new Resend(process.env.AUTH_RESEND_KEY || process.env.RESEND_API_KEY)
 
     await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL || 'Bertrand Brands <hello@bertrandgroup.ca>',
+      from: process.env.RESEND_FROM_EMAIL || 'Bertrand Brands <hello@bertrandbrands.ca>',
       to: normalizedEmail,
       subject: 'Your pricing access link',
       html: buildEmailHtml({

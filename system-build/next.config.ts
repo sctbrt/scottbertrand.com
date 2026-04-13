@@ -50,9 +50,9 @@ const nextConfig: NextConfig = {
             value: [
               "default-src 'self'",
               scriptSrc,
-              "style-src 'self' 'unsafe-inline'",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://use.typekit.net",
               "img-src 'self' data: blob: https://*.public.blob.vercel-storage.com",
-              "font-src 'self'",
+              "font-src 'self' https://fonts.gstatic.com https://use.typekit.net",
               "connect-src 'self' https://api.pushover.net https://*.upstash.io",
               "frame-ancestors 'self'",
               "form-action 'self'",

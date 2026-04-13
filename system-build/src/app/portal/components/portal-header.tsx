@@ -41,19 +41,19 @@ export function PortalHeader({ user, clientName }: PortalHeaderProps) {
           <div className="flex items-center gap-2 sm:gap-3">
             <Link href="/portal" className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity">
               <Image
-                src="/bertrand-brands-logomark.png"
+                src="/dot-logomark.svg"
                 alt=""
-                width={24}
-                height={24}
-                className="h-6 w-6 brightness-0 invert"
+                width={22}
+                height={22}
+                className="h-[22px] w-[22px] invert"
                 priority
               />
-              <span className="hidden sm:inline text-lg font-medium tracking-tight text-[var(--text)]">
+              <span className="hidden sm:inline text-lg font-medium tracking-tight text-[var(--text)] font-display">
                 BERTRAND BRANDS
               </span>
             </Link>
             <span className="text-[var(--text-muted)] hidden sm:inline">|</span>
-            <span className="text-sm sm:text-base font-medium tracking-tight text-amber-600 dark:text-amber-400">
+            <span className="text-sm sm:text-base font-medium tracking-tight text-[var(--accent)]">
               Client Portal
             </span>
             <span className="text-[var(--text-muted)] hidden sm:inline">|</span>

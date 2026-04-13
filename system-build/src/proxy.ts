@@ -2,10 +2,10 @@
 // Routes requests based on subdomain to appropriate sections
 //
 // This proxy handles routing for the system-build Next.js app:
-// - dash.bertrandgroup.ca → /dashboard/* (admin only)
-// - clients.bertrandgroup.ca → /portal/* (client portal)
+// - dash.bertrandbrands.ca → /dashboard/* (admin only)
+// - clients.bertrandbrands.ca → /portal/* (client portal)
 //
-// Legacy domains redirect to new bertrandgroup.ca structure.
+// Legacy domains (bertrandgroup.ca, bertrandbrands.com) redirect to bertrandbrands.ca.
 //
 // Security features:
 // - HTTPS enforcement (production)
@@ -43,20 +43,23 @@ function checkAuthRateLimit(ip: string): boolean {
 
 // Domain configuration - only domains handled by this Next.js app
 const DOMAINS: Record<string, string[]> = {
-  // Production domains — bertrandgroup.ca
-  PUBLIC: ['bertrandgroup.ca', 'www.bertrandgroup.ca'],
-  DASHBOARD: ['dash.bertrandgroup.ca', 'dashboard.bertrandgroup.ca'],
-  PORTAL: ['clients.bertrandgroup.ca'],
+  // Production domains — bertrandbrands.ca
+  PUBLIC: ['bertrandbrands.ca', 'www.bertrandbrands.ca'],
+  DASHBOARD: ['dash.bertrandbrands.ca', 'dashboard.bertrandbrands.ca'],
+  PORTAL: ['clients.bertrandbrands.ca'],
 
-  // Legacy domains (kept during transition, will redirect)
-  LEGACY_PUBLIC: ['bertrandbrands.com', 'www.bertrandbrands.com'],
-  LEGACY_DASHBOARD: ['dashboard.bertrandbrands.com', 'dashboard.scottbertrand.com'],
-  LEGACY_PORTAL: ['clients.bertrandbrands.com', 'clients.scottbertrand.com'],
+  // Legacy — bertrandgroup.ca (was primary, now redirects)
+  LEGACY_BG_DASHBOARD: ['dash.bertrandgroup.ca', 'dashboard.bertrandgroup.ca'],
+  LEGACY_BG_PORTAL: ['clients.bertrandgroup.ca'],
+
+  // Legacy — bertrandbrands.com / scottbertrand.com (redirect)
+  LEGACY_OLD_DASHBOARD: ['dashboard.bertrandbrands.com', 'dashboard.scottbertrand.com'],
+  LEGACY_OLD_PORTAL: ['clients.bertrandbrands.com', 'clients.scottbertrand.com'],
 
   // Test/Staging domains
-  TEST_PUBLIC: ['test.bertrandgroup.ca'],
-  TEST_DASHBOARD: ['dashboard.test.bertrandgroup.ca'],
-  TEST_PORTAL: ['clients.test.bertrandgroup.ca'],
+  TEST_PUBLIC: ['test.bertrandbrands.ca'],
+  TEST_DASHBOARD: ['dashboard.test.bertrandbrands.ca'],
+  TEST_PORTAL: ['clients.test.bertrandbrands.ca'],
 
   // Development patterns
   DEV_PUBLIC: ['localhost', '127.0.0.1'],
@@ -147,16 +150,16 @@ export async function proxy(request: NextRequest) {
   // ============================================
   // Legacy Domain Redirects (301)
   // ============================================
-  if (DOMAINS.LEGACY_DASHBOARD.includes(host)) {
+  if (DOMAINS.LEGACY_BG_DASHBOARD.includes(host) || DOMAINS.LEGACY_OLD_DASHBOARD.includes(host)) {
     const url = new URL(request.url)
-    url.hostname = 'dash.bertrandgroup.ca'
+    url.hostname = 'dash.bertrandbrands.ca'
     url.port = ''
     return NextResponse.redirect(url.toString(), 301)
   }
 
-  if (DOMAINS.LEGACY_PORTAL.includes(host)) {
+  if (DOMAINS.LEGACY_BG_PORTAL.includes(host) || DOMAINS.LEGACY_OLD_PORTAL.includes(host)) {
     const url = new URL(request.url)
-    url.hostname = 'clients.bertrandgroup.ca'
+    url.hostname = 'clients.bertrandbrands.ca'
     url.port = ''
     return NextResponse.redirect(url.toString(), 301)
   }

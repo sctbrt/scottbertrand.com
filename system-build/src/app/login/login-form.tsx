@@ -77,7 +77,7 @@ export function LoginForm({ callbackUrl, isDev }: LoginFormProps) {
       <div>
         <label
           htmlFor="email"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+          className="block text-sm font-medium text-[var(--text)] mb-2"
         >
           Email address
         </label>
@@ -90,7 +90,7 @@ export function LoginForm({ callbackUrl, isDev }: LoginFormProps) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={isPending}
-          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-[#1c1c1e] text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full px-4 py-3 border border-[var(--border)] rounded-lg bg-[var(--surface)] text-[var(--text)] placeholder-[var(--text-subtle)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
           placeholder="you@example.com"
         />
       </div>
@@ -102,25 +102,25 @@ export function LoginForm({ callbackUrl, isDev }: LoginFormProps) {
       <button
         type="submit"
         disabled={isPending || !email}
-        className="w-full py-3 px-4 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 dark:focus:ring-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+        className="w-full py-3 px-4 bg-[var(--accent)] text-white rounded-lg font-medium hover:bg-[var(--accent-hover)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--accent)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
       >
         {isPending && <Spinner size="sm" />}
         {isPending ? 'Sending...' : 'Send Sign-In Link'}
       </button>
 
-      <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+      <p className="text-xs text-[var(--text-muted)] text-center">
         You&apos;ll receive a secure link to sign in. No password required.
       </p>
 
       {isDev && (
-        <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="pt-4 border-t border-[var(--border)]">
           <Link
             href="/api/auth/dev-login"
-            className="block w-full py-3 px-4 bg-amber-500 text-white rounded-lg font-medium hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors text-center"
+            className="block w-full py-3 px-4 bg-[var(--accent)] text-white rounded-lg font-medium hover:bg-[var(--accent-hover)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--accent)] transition-colors text-center"
           >
             Dev Login (Bypass Email)
           </Link>
-          <p className="text-xs text-amber-600 dark:text-amber-400 text-center mt-2">
+          <p className="text-xs text-[var(--accent)] text-center mt-2">
             Development only — bypasses email verification
           </p>
         </div>

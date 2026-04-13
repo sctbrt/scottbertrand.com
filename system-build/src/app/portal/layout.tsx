@@ -20,7 +20,7 @@ export default async function PortalLayout({
   if (session.user.role !== 'CLIENT') {
     const isProduction = process.env.NODE_ENV === 'production' || !!process.env.VERCEL
     if (isProduction && session.user.role === 'INTERNAL_ADMIN') {
-      redirect('https://dash.bertrandgroup.ca')
+      redirect('https://dash.bertrandbrands.ca')
     }
     redirect('/unauthorized')
   }

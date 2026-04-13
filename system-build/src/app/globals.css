@@ -2,7 +2,7 @@
 @import "./tokens.css";
 @import "./glass.css";
 
-/* Map V3 tokens to Tailwind theme */
+/* Map design tokens to Tailwind theme (V13 alignment) */
 @theme inline {
   --color-background: var(--bg);
   --color-foreground: var(--text);
@@ -10,9 +10,15 @@
   --color-surface-2: var(--surface-2);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
+  --color-accent-muted: var(--accent-muted);
   --color-muted: var(--text-muted);
+  --color-subtle: var(--text-subtle);
   --color-border: var(--border);
+  --color-tier-build: var(--tier-build);
+  --color-tier-transform: var(--tier-transform);
+  --color-tier-care: var(--tier-care);
   --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
   --font-serif: var(--font-serif);
 }
 
@@ -41,11 +47,25 @@ body {
 .glass--card {
   border-radius: var(--radius-lg);
   padding: 1.5rem;
+  transition: transform var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out);
+}
+
+.glass--card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .glass--stat {
   border-radius: var(--radius-md);
   padding: 1.25rem 1.5rem;
+  transition: transform var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out);
+}
+
+.glass--stat:hover {
+  transform: translateY(-2px);
 }
 
 /* Status badge refinements using V3 accent system */
@@ -78,4 +98,47 @@ button {
   transition: background-color var(--duration-fast) var(--ease-out),
               border-color var(--duration-fast) var(--ease-out),
               color var(--duration-fast) var(--ease-out);
+}
+
+/* Font display utility for brand text */
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* V13 Ambient breathing glow — barely perceptible */
+@keyframes ambient-breathe {
+  0%, 100% { opacity: 0.03; transform: scale(1); }
+  50% { opacity: 0.06; transform: scale(1.02); }
+}
+
+.ambient-glow {
+  position: fixed;
+  pointer-events: none;
+  width: 40vw;
+  height: 40vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+  filter: blur(120px);
+  animation: ambient-breathe 8s ease-in-out infinite;
+  z-index: 0;
+}
+
+.ambient-glow--top-right {
+  top: -10vw;
+  right: -10vw;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-glow {
+    animation: none;
+    opacity: 0.03;
+  }
+}
+
+/* Touch device: disable hover lift */
+@media (hover: none) {
+  .glass--card:hover,
+  .glass--stat:hover {
+    transform: none;
+  }
 }

@@ -1,6 +1,6 @@
 /* ============================================================
-   Design Tokens — scottbertrand.com
-   v1.0.0
+   Design Tokens — Bertrand System
+   v2.0.0 (V13 alignment)
    ------------------------------------------------------------
    Normalized, semantic token system for architectural design.
    Single source of truth for colors, spacing, typography, and effects.
@@ -96,7 +96,8 @@
   --grid-gap: 24px;
 
   /* === Typography Scale === */
-  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'halyard-display', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-serif: 'Source Serif 4', Georgia, serif;
 
   /* Font sizes - using clamp for fluid typography */
@@ -133,12 +134,13 @@
   --opacity-low: 0.55;      /* Subtle text, placeholders */
   --opacity-muted: 0.40;    /* Disabled, very subtle */
 
-  /* === Motion === */
+  /* === Motion (V13 alignment) === */
   --duration-fast: 120ms;
   --duration-normal: 200ms;
   --duration-slow: 300ms;
-  --ease-out: cubic-bezier(0, 0, 0.2, 1);
-  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* ------------------------------------------------------------
@@ -146,26 +148,26 @@
    ------------------------------------------------------------ */
 
 [data-theme="dark"] {
-  /* === Surface Colors === */
-  --bg: #1C1C1E;
-  --surface: #2C2C2E;
-  --surface-2: #232325;
+  /* === Surface Colors (V13 "Quiet Authority" — deeper near-black) === */
+  --bg: #0a0a0a;
+  --surface: #161618;
+  --surface-2: #1c1c1e;
 
   /* === Text Colors === */
-  --text: #F7F6F3;
-  --text-muted: #a0a0a0;
-  --text-subtle: #666666;
+  --text: #fafafa;
+  --text-muted: #a3a3a3;
+  --text-subtle: #737373;
 
   /* === Border Colors === */
-  --border: rgba(255, 255, 255, 0.08);
-  --border-subtle: rgba(255, 255, 255, 0.05);
-  --border-hover: rgba(255, 255, 255, 0.15);
+  --border: rgba(255, 255, 255, 0.10);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(255, 255, 255, 0.18);
 
-  /* === Accent Colors (slightly brighter for dark mode) === */
-  --accent: #F59E0B;
-  --accent-hover: #D97706;
-  --accent-muted: rgba(245, 158, 11, 0.15);
-  --accent-subtle: rgba(245, 158, 11, 0.08);
+  /* === Accent Colors (V13 — deeper amber) === */
+  --accent: #D97706;
+  --accent-hover: #B45309;
+  --accent-muted: rgba(217, 119, 6, 0.12);
+  --accent-subtle: rgba(217, 119, 6, 0.06);
 
   /* === Feedback Colors === */
   --success-bg: #0d1f0d;
@@ -175,30 +177,31 @@
   --error-border: rgba(239, 68, 68, 0.25);
   --error-text: #f87171;
 
-  /* === Glass System === */
+  /* === Glass System (V13 — barely perceptible) === */
   --glass-bg: rgba(255, 255, 255, 0.04);
   --glass-border: rgba(255, 255, 255, 0.08);
   --glass-border-inner: rgba(255, 255, 255, 0.04);
-  --glass-specular: rgba(255, 255, 255, 0.12);
+  --glass-specular: rgba(255, 255, 255, 0.06);
+  --glass-edge-highlight: rgba(255, 255, 255, 0.06);
 
-  /* === Tier Colors (V11 — same in dark mode) === */
+  /* === Tier Colors (V11 sub-brand system) === */
   --tier-build: #D97706;
   --tier-transform: #8B5CF6;
   --tier-care: #2563EB;
-  --tier-build-muted: rgba(217, 119, 6, 0.15);
-  --tier-transform-muted: rgba(139, 92, 246, 0.15);
-  --tier-care-muted: rgba(37, 99, 235, 0.15);
+  --tier-build-muted: rgba(217, 119, 6, 0.12);
+  --tier-transform-muted: rgba(139, 92, 246, 0.12);
+  --tier-care-muted: rgba(37, 99, 235, 0.12);
 
   /* === Focus Ring === */
-  --focus-ring: rgba(245, 158, 11, 0.5);
+  --focus-ring: rgba(217, 119, 6, 0.5);
 
-  /* === Shadows === */
+  /* === Shadows (V13 — deeper for near-black bg) === */
   --shadow-sm:
-    0 1px 2px rgba(0, 0, 0, 0.15),
-    0 2px 4px rgba(0, 0, 0, 0.1);
+    0 1px 2px rgba(0, 0, 0, 0.25),
+    0 2px 4px rgba(0, 0, 0, 0.15);
   --shadow-md:
-    0 2px 4px rgba(0, 0, 0, 0.15),
-    0 4px 12px rgba(0, 0, 0, 0.15);
+    0 2px 4px rgba(0, 0, 0, 0.25),
+    0 4px 12px rgba(0, 0, 0, 0.20);
 }
 
 /* ------------------------------------------------------------

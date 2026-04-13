@@ -7,8 +7,8 @@ import { LoginForm } from './login-form'
 
 // Subdomain mapping by role (production only)
 const ROLE_SUBDOMAINS: Record<string, string> = {
-  INTERNAL_ADMIN: 'https://dash.bertrandgroup.ca',
-  CLIENT: 'https://clients.bertrandgroup.ca',
+  INTERNAL_ADMIN: 'https://dash.bertrandbrands.ca',
+  CLIENT: 'https://clients.bertrandbrands.ca',
 }
 
 export default async function LoginPage({
@@ -47,36 +47,30 @@ export default async function LoginPage({
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f7f6f3] dark:bg-[#1c1c1e] px-4">
-      {/* Header with Logo */}
-      <header className="w-full py-6 px-4 sm:px-6">
-        <div className="flex items-center gap-3">
-          <Image
-            src="/bertrand-brands-logomark.png"
-            alt=""
-            width={32}
-            height={32}
-            className="w-8 h-8"
-          />
-          <Image
-            src="/bertrand-brands-wordmark-light-2026.png"
-            alt="Bertrand Brands"
-            width={140}
-            height={20}
-            className="h-4 w-auto"
-          />
-        </div>
-      </header>
-
+    <div className="min-h-screen flex flex-col bg-[var(--bg)] px-4">
       {/* Centered Login Form */}
       <div className="flex-1 flex items-center justify-center">
         <div className="w-full max-w-md">
-          <div className="bg-white dark:bg-[#2c2c2e] rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8">
+          {/* Centered Logo */}
+          <div className="flex flex-col items-center gap-3 mb-8">
+            <Image
+              src="/dot-logomark.svg"
+              alt=""
+              width={32}
+              height={32}
+              className="w-8 h-8 invert"
+            />
+            <span className="text-xs font-medium tracking-[0.15em] uppercase text-[var(--text-subtle)] font-display">
+              Bertrand Brands
+            </span>
+          </div>
+
+          <div className="bg-[var(--surface)] rounded-lg shadow-sm border border-[var(--border)] p-8">
             <div className="text-center mb-8">
-              <h1 className="text-xl font-medium text-gray-900 dark:text-gray-100 mb-2">
+              <h1 className="text-xl font-medium text-[var(--text)] mb-2">
                 Sign in to continue
               </h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-sm text-[var(--text-muted)]">
                 Enter your email to receive a secure sign-in link
               </p>
             </div>
@@ -94,8 +88,8 @@ export default async function LoginPage({
           <LoginForm callbackUrl={params.callbackUrl} isDev={process.env.NODE_ENV === 'development'} />
         </div>
 
-          <p className="text-center text-xs text-gray-400 dark:text-gray-500 mt-6">
-            Scott Bertrand — Brand & Web Systems
+          <p className="text-center text-xs text-[var(--text-subtle)] mt-6">
+            Bertrand Brands
           </p>
         </div>
       </div>

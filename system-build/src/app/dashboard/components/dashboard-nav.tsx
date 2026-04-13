@@ -113,7 +113,7 @@ export function DashboardNav({ counts, mobileOpen, onCloseMobile }: DashboardNav
                     <item.icon className="w-5 h-5" />
                     <span className="flex-1">{item.name}</span>
                     {item.countKey && counts?.[item.countKey] ? (
-                      <span className="ml-auto px-2 py-0.5 text-xs font-medium rounded-full bg-amber-500/20 text-amber-400">
+                      <span className="ml-auto px-2 py-0.5 text-xs font-medium rounded-full bg-[var(--accent-muted)] text-[var(--accent)]">
                         {counts[item.countKey]}
                       </span>
                     ) : null}

@@ -36,24 +36,24 @@ export default async function PortalInvoicesPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+        <h1 className="text-2xl font-semibold text-[var(--text)]">
           Your Invoices
         </h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+        <p className="text-sm text-[var(--text-muted)] mt-1">
           View and track your invoices
         </p>
       </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-white dark:bg-[#2c2c2e] rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-          <p className="text-sm text-gray-500 dark:text-gray-400">Outstanding Balance</p>
+        <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
+          <p className="text-sm text-[var(--text-muted)]">Outstanding Balance</p>
           <p className="text-3xl font-semibold text-orange-600 dark:text-orange-400 mt-2">
             {formatCurrency(totalOutstanding)}
           </p>
         </div>
-        <div className="bg-white dark:bg-[#2c2c2e] rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-          <p className="text-sm text-gray-500 dark:text-gray-400">Total Paid</p>
+        <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
+          <p className="text-sm text-[var(--text-muted)]">Total Paid</p>
           <p className="text-3xl font-semibold text-green-600 dark:text-green-400 mt-2">
             {formatCurrency(totalPaid)}
           </p>
@@ -61,16 +61,16 @@ export default async function PortalInvoicesPage() {
       </div>
 
       {invoices.length === 0 ? (
-        <div className="bg-white dark:bg-[#2c2c2e] rounded-lg border border-gray-200 dark:border-gray-700 p-12 text-center">
-          <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-12 text-center">
+          <div className="w-16 h-16 bg-[var(--surface-2)] rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-[var(--text-subtle)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
           </div>
-          <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+          <h2 className="text-lg font-medium text-[var(--text)] mb-2">
             No invoices yet
           </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <p className="text-sm text-[var(--text-muted)]">
             Your invoices will appear here when issued.
           </p>
         </div>
@@ -80,12 +80,12 @@ export default async function PortalInvoicesPage() {
             <Link
               key={invoice.id}
               href={`/portal/invoices/${invoice.id}`}
-              className="block bg-white dark:bg-[#2c2c2e] rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:border-gray-300 dark:hover:border-gray-600 transition-colors"
+              className="block bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6 hover:border-[var(--accent)] transition-colors"
             >
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-3">
-                    <p className="font-medium text-gray-900 dark:text-gray-100">
+                    <p className="font-medium text-[var(--text)]">
                       {invoice.invoiceNumber}
                     </p>
                     <span className={`text-xs px-2 py-1 rounded-full ${getStatusColor(invoice.status)}`}>
@@ -93,11 +93,11 @@ export default async function PortalInvoicesPage() {
                     </span>
                   </div>
                   {invoice.projects && (
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    <p className="text-sm text-[var(--text-muted)] mt-1">
                       {invoice.projects.name}
                     </p>
                   )}
-                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+                  <p className="text-xs text-[var(--text-subtle)] mt-2">
                     Issued {formatDate(invoice.createdAt)}
                     {invoice.dueDate && (
                       <>
@@ -110,7 +110,7 @@ export default async function PortalInvoicesPage() {
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                  <p className="text-lg font-semibold text-[var(--text)]">
                     {formatCurrency(Number(invoice.total))}
                   </p>
                   {invoice.status === 'PAID' && invoice.paidAt && (

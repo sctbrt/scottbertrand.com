@@ -1,12 +1,12 @@
 // Root Layout with Global Metadata
-// V3 Aesthetic System
+// V13 Aesthetic Alignment
 
 import type { Metadata } from 'next'
 import './globals.css'
 
 // Global metadata base
 export const metadata: Metadata = {
-  metadataBase: new URL('https://clients.bertrandgroup.ca'),
+  metadataBase: new URL('https://clients.bertrandbrands.ca'),
 
   title: {
     default: 'Bertrand System',
@@ -34,9 +34,18 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Inter font (V13 body typography) */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+        {/* Halyard Display (V13 display typography — Adobe Fonts / Typekit) */}
+        <link rel="preconnect" href="https://use.typekit.net" crossOrigin="anonymous" />
+        <link rel="stylesheet" href="https://use.typekit.net/dmk8daz.css" />
+
         {/* Theme color for mobile browsers */}
         <meta name="theme-color" content="#F7F6F3" media="(prefers-color-scheme: light)" />
-        <meta name="theme-color" content="#1C1C1E" media="(prefers-color-scheme: dark)" />
+        <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
         <meta name="color-scheme" content="light dark" />
 
         {/* Theme detection and application */}

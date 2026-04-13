@@ -75,27 +75,27 @@ export default async function PortalInvoiceDetailPage({ params }: InvoicePagePro
       {/* Back Link */}
       <Link
         href="/portal/invoices"
-        className="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+        className="inline-flex items-center text-sm text-[var(--text-muted)] hover:text-[var(--text)]"
       >
         ← Back to Invoices
       </Link>
 
       {/* Invoice Card */}
-      <div className="bg-white dark:bg-[#2c2c2e] rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden max-w-3xl">
+      <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] overflow-hidden max-w-3xl">
         {/* Header */}
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+        <div className="p-6 border-b border-[var(--border)]">
           <div className="flex justify-between items-start">
             <div>
-              <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+              <h1 className="text-xl font-semibold text-[var(--text)]">
                 Bertrand Brands
               </h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                brands.bertrandgroup.ca
+              <p className="text-sm text-[var(--text-muted)] mt-1">
+                bertrandbrands.ca
               </p>
             </div>
             <div className="text-right">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Invoice</p>
-              <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              <p className="text-sm text-[var(--text-muted)]">Invoice</p>
+              <p className="text-lg font-semibold text-[var(--text)]">
                 {invoice.invoiceNumber}
               </p>
               <span className={`inline-block mt-2 text-xs px-3 py-1 rounded-full ${getStatusColor(invoice.status)}`}>
@@ -106,38 +106,38 @@ export default async function PortalInvoiceDetailPage({ params }: InvoicePagePro
         </div>
 
         {/* Bill To & Dates */}
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700 grid grid-cols-2 gap-6">
+        <div className="p-6 border-b border-[var(--border)] grid grid-cols-2 gap-6">
           <div>
-            <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
+            <p className="text-xs text-[var(--text-subtle)] uppercase tracking-wider mb-2">
               Bill To
             </p>
-            <p className="font-medium text-gray-900 dark:text-gray-100">
+            <p className="font-medium text-[var(--text)]">
               {invoice.clients.companyName || invoice.clients.contactName}
             </p>
             {invoice.clients.companyName && (
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-[var(--text-muted)]">
                 {invoice.clients.contactName}
               </p>
             )}
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-[var(--text-muted)]">
               {invoice.clients.contactEmail}
             </p>
           </div>
           <div className="text-right">
             <div className="mb-4">
-              <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">
+              <p className="text-xs text-[var(--text-subtle)] uppercase tracking-wider mb-1">
                 Invoice Date
               </p>
-              <p className="text-gray-900 dark:text-gray-100">
+              <p className="text-[var(--text)]">
                 {formatDate(invoice.createdAt)}
               </p>
             </div>
             {invoice.dueDate && (
               <div>
-                <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">
+                <p className="text-xs text-[var(--text-subtle)] uppercase tracking-wider mb-1">
                   Due Date
                 </p>
-                <p className={`${isOverdue(invoice.dueDate, invoice.status) ? 'text-red-600 dark:text-red-400 font-medium' : 'text-gray-900 dark:text-gray-100'}`}>
+                <p className={`${isOverdue(invoice.dueDate, invoice.status) ? 'text-red-600 dark:text-red-400 font-medium' : 'text-[var(--text)]'}`}>
                   {formatDate(invoice.dueDate)}
                 </p>
               </div>
@@ -147,13 +147,13 @@ export default async function PortalInvoiceDetailPage({ params }: InvoicePagePro
 
         {/* Project Reference */}
         {invoice.projects && (
-          <div className="px-6 py-4 bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
-            <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">
+          <div className="px-6 py-4 bg-[var(--surface-2)] border-b border-[var(--border)]">
+            <p className="text-xs text-[var(--text-subtle)] uppercase tracking-wider mb-1">
               Project
             </p>
             <Link
               href={`/portal/projects/${invoice.projects.id}`}
-              className="text-gray-900 dark:text-gray-100 hover:underline"
+              className="text-[var(--text)] hover:underline"
             >
               {invoice.projects.name}
             </Link>
@@ -164,29 +164,29 @@ export default async function PortalInvoiceDetailPage({ params }: InvoicePagePro
         <div className="p-6">
           <table className="w-full">
             <thead>
-              <tr className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+              <tr className="text-xs text-[var(--text-subtle)] uppercase tracking-wider">
                 <th className="text-left pb-3">Description</th>
                 <th className="text-right pb-3 w-20">Qty</th>
                 <th className="text-right pb-3 w-28">Rate</th>
                 <th className="text-right pb-3 w-28">Amount</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+            <tbody className="divide-y divide-[var(--border)]">
               {lineItems.map((item: InvoiceLineItem, index: number) => (
                 <tr key={index}>
                   <td className="py-3">
-                    <p className="text-gray-900 dark:text-gray-100">{item.description}</p>
+                    <p className="text-[var(--text)]">{item.description}</p>
                     {item.details && (
-                      <p className="text-sm text-gray-500 dark:text-gray-400">{item.details}</p>
+                      <p className="text-sm text-[var(--text-muted)]">{item.details}</p>
                     )}
                   </td>
-                  <td className="py-3 text-right text-gray-700 dark:text-gray-300">
+                  <td className="py-3 text-right text-[var(--text)]">
                     {item.quantity}
                   </td>
-                  <td className="py-3 text-right text-gray-700 dark:text-gray-300">
+                  <td className="py-3 text-right text-[var(--text)]">
                     {formatCurrency(item.rate)}
                   </td>
-                  <td className="py-3 text-right text-gray-900 dark:text-gray-100 font-medium">
+                  <td className="py-3 text-right text-[var(--text)] font-medium">
                     {formatCurrency(item.quantity * item.rate)}
                   </td>
                 </tr>
@@ -196,22 +196,22 @@ export default async function PortalInvoiceDetailPage({ params }: InvoicePagePro
         </div>
 
         {/* Totals */}
-        <div className="p-6 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700">
+        <div className="p-6 bg-[var(--surface-2)] border-t border-[var(--border)]">
           <div className="flex justify-end">
             <div className="w-64 space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500 dark:text-gray-400">Subtotal</span>
-                <span className="text-gray-900 dark:text-gray-100">{formatCurrency(Number(invoice.subtotal))}</span>
+                <span className="text-[var(--text-muted)]">Subtotal</span>
+                <span className="text-[var(--text)]">{formatCurrency(Number(invoice.subtotal))}</span>
               </div>
               {Number(invoice.tax) > 0 && (
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-500 dark:text-gray-400">Tax</span>
-                  <span className="text-gray-900 dark:text-gray-100">{formatCurrency(Number(invoice.tax))}</span>
+                  <span className="text-[var(--text-muted)]">Tax</span>
+                  <span className="text-[var(--text)]">{formatCurrency(Number(invoice.tax))}</span>
                 </div>
               )}
-              <div className="flex justify-between text-xl font-semibold pt-2 border-t border-gray-200 dark:border-gray-600">
-                <span className="text-gray-900 dark:text-gray-100">Total</span>
-                <span className="text-gray-900 dark:text-gray-100">{formatCurrency(Number(invoice.total))}</span>
+              <div className="flex justify-between text-xl font-semibold pt-2 border-t border-[var(--border)]">
+                <span className="text-[var(--text)]">Total</span>
+                <span className="text-[var(--text)]">{formatCurrency(Number(invoice.total))}</span>
               </div>
             </div>
           </div>
@@ -238,11 +238,11 @@ export default async function PortalInvoiceDetailPage({ params }: InvoicePagePro
 
         {/* Notes */}
         {invoice.notes && (
-          <div className="p-6 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
+          <div className="p-6 border-t border-[var(--border)]">
+            <p className="text-xs text-[var(--text-subtle)] uppercase tracking-wider mb-2">
               Notes
             </p>
-            <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+            <p className="text-sm text-[var(--text)] whitespace-pre-wrap">
               {invoice.notes}
             </p>
           </div>
@@ -276,8 +276,8 @@ export default async function PortalInvoiceDetailPage({ params }: InvoicePagePro
           <div className="p-6 bg-blue-50 dark:bg-blue-900/20 border-t border-blue-200 dark:border-blue-800">
             <p className="text-sm text-blue-700 dark:text-blue-300">
               Questions about this invoice? Reply to the invoice email or contact us at{' '}
-              <a href="mailto:hello@bertrandgroup.ca" className="underline">
-                hello@bertrandgroup.ca
+              <a href="mailto:hello@bertrandbrands.ca" className="underline">
+                hello@bertrandbrands.ca
               </a>
             </p>
           </div>

@@ -71,39 +71,31 @@
    ------------------------------------------------------------ */
 
 [data-theme="dark"] {
-  /* Fill: Nav-style dark mode glass - visible but translucent */
-  --glass-bg:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.06) 0%,
-      rgba(255, 255, 255, 0.01) 50%,
-      rgba(0, 0, 0, 0.03) 100%
-    ),
-    rgba(10, 10, 10, 0.3);
-  --glass-bg-solid: rgba(20, 20, 20, 0.4);
+  /* Fill: V13 "barely perceptible" glass */
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-bg-solid: rgba(22, 22, 24, 0.6);
   /* Firefox fallback */
-  --glass-bg-fallback: rgba(30, 30, 30, 0.6);
+  --glass-bg-fallback: rgba(22, 22, 24, 0.8);
 
   /* Borders: subtle luminous edge */
   --glass-border-outer: rgba(255, 255, 255, 0.08);
-  --glass-border-inner: rgba(255, 255, 255, 0.1);
+  --glass-border-inner: rgba(255, 255, 255, 0.04);
 
-  /* Specular — top edge glow */
-  --glass-specular: rgba(255, 255, 255, 0.1);
+  /* Specular — top edge glow (subdued for V13) */
+  --glass-specular: rgba(255, 255, 255, 0.06);
 
   /* Edge lighting */
-  --glass-edge-highlight: rgba(255, 255, 255, 0.1);
-  --glass-edge-shadow: rgba(0, 0, 0, 0.15);
+  --glass-edge-highlight: rgba(255, 255, 255, 0.06);
+  --glass-edge-shadow: rgba(0, 0, 0, 0.2);
 
-  /* Shadow stack — Nav-style dark mode shadows */
+  /* Shadow stack — V13 restrained shadows */
   --glass-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.35),
-    0 2px 8px rgba(0, 0, 0, 0.15),
-    inset 0 1px 1px rgba(255, 255, 255, 0.1),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    0 1px 4px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 
-  /* Grain slightly more visible on dark */
-  --glass-grain-opacity: 0.04;
+  /* Grain nearly invisible */
+  --glass-grain-opacity: 0.02;
 }
 
 /* ------------------------------------------------------------

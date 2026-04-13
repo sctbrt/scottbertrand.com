@@ -56,7 +56,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       {/* Back Link */}
       <Link
         href="/portal"
-        className="inline-flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+        className="inline-flex items-center text-sm text-[var(--text-muted)] hover:text-[var(--text)]"
       >
         ← Back to Projects
       </Link>
@@ -64,11 +64,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       {/* Project Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+          <h1 className="text-2xl font-semibold text-[var(--text)]">
             {project.name}
           </h1>
           {project.service_templates && (
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            <p className="text-sm text-[var(--text-muted)] mt-1">
               {project.service_templates.name}
             </p>
           )}
@@ -81,10 +81,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       {/* Project Description */}
       {project.description && (
         <div className="glass glass--card p-6">
-          <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
+          <h2 className="text-sm font-medium text-[var(--text-muted)] uppercase tracking-wider mb-3">
             Overview
           </h2>
-          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+          <p className="text-[var(--text)] leading-relaxed">
             {project.description}
           </p>
         </div>
@@ -92,25 +92,25 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
       {/* Timeline */}
       <div className="glass glass--card p-6">
-        <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
+        <h2 className="text-sm font-medium text-[var(--text-muted)] uppercase tracking-wider mb-4">
           Timeline
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">Start Date</p>
-            <p className="text-gray-900 dark:text-gray-100">
+            <p className="text-xs text-[var(--text-subtle)] mb-1">Start Date</p>
+            <p className="text-[var(--text)]">
               {project.startDate ? formatDate(project.startDate) : 'Not set'}
             </p>
           </div>
           <div>
-            <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">Target Completion</p>
-            <p className="text-gray-900 dark:text-gray-100">
+            <p className="text-xs text-[var(--text-subtle)] mb-1">Target Completion</p>
+            <p className="text-[var(--text)]">
               {project.targetEndDate ? formatDate(project.targetEndDate) : 'Not set'}
             </p>
           </div>
           <div>
-            <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">Last Updated</p>
-            <p className="text-gray-900 dark:text-gray-100">
+            <p className="text-xs text-[var(--text-subtle)] mb-1">Last Updated</p>
+            <p className="text-[var(--text)]">
               {formatDate(project.updatedAt)}
             </p>
           </div>
@@ -143,21 +143,21 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       {/* Milestones */}
       {project.milestones.length > 0 && (
         <div className="glass glass--card p-6">
-          <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
+          <h2 className="text-sm font-medium text-[var(--text-muted)] uppercase tracking-wider mb-4">
             Milestones
           </h2>
           <div className="space-y-4">
             {project.milestones.map((milestone, index) => (
               <div
                 key={milestone.id}
-                className="flex items-start gap-4 pb-4 border-b border-gray-100 dark:border-gray-700 last:border-0 last:pb-0"
+                className="flex items-start gap-4 pb-4 border-b border-[var(--border)] last:border-0 last:pb-0"
               >
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${getMilestoneStatusBg(milestone.status)}`}>
                   {getMilestoneIcon(milestone.status)}
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-medium text-gray-900 dark:text-gray-100">
+                    <h3 className="font-medium text-[var(--text)]">
                       {index + 1}. {milestone.name}
                     </h3>
                     <span className={`text-xs px-2 py-1 rounded ${getMilestoneStatusColor(milestone.status)}`}>
@@ -165,12 +165,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     </span>
                   </div>
                   {milestone.description && (
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    <p className="text-sm text-[var(--text-muted)] mt-1">
                       {milestone.description}
                     </p>
                   )}
                   {milestone.dueDate && (
-                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+                    <p className="text-xs text-[var(--text-subtle)] mt-2">
                       Due: {formatDate(milestone.dueDate)}
                     </p>
                   )}
@@ -184,7 +184,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       {/* Deliverables / Tasks */}
       {project.tasks.length > 0 && (
         <div className="glass glass--card p-6">
-          <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
+          <h2 className="text-sm font-medium text-[var(--text-muted)] uppercase tracking-wider mb-4">
             Deliverables Checklist
           </h2>
           <div className="space-y-3">
@@ -193,7 +193,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 <div className={`w-5 h-5 rounded border flex items-center justify-center ${
                   task.status === 'COMPLETED'
                     ? 'bg-green-100 border-green-500 text-green-600 dark:bg-green-900/30 dark:border-green-600 dark:text-green-400'
-                    : 'border-gray-300 dark:border-gray-600'
+                    : 'border-[var(--border)]'
                 }`}>
                   {task.status === 'COMPLETED' && (
                     <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
@@ -203,8 +203,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 </div>
                 <span className={`text-sm ${
                   task.status === 'COMPLETED'
-                    ? 'text-gray-500 dark:text-gray-400 line-through'
-                    : 'text-gray-700 dark:text-gray-300'
+                    ? 'text-[var(--text-muted)] line-through'
+                    : 'text-[var(--text)]'
                 }`}>
                   {task.title}
                 </span>
@@ -217,7 +217,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       {/* Shared Files */}
       {project.file_assets.length > 0 && (
         <div className="glass glass--card p-6">
-          <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
+          <h2 className="text-sm font-medium text-[var(--text-muted)] uppercase tracking-wider mb-4">
             Shared Files
           </h2>
           <div className="space-y-3">
@@ -225,22 +225,22 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <a
                 key={file.id}
                 href={`/api/files/${file.id}/download`}
-                className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                className="flex items-center gap-3 p-3 bg-[var(--surface-2)] rounded-lg hover:bg-[var(--surface-2)] transition-colors"
               >
-                <div className="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded flex items-center justify-center">
-                  <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-10 h-10 bg-[var(--surface-2)] rounded flex items-center justify-center">
+                  <svg className="w-5 h-5 text-[var(--text-muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
+                  <p className="text-sm font-medium text-[var(--text)] truncate">
                     {file.originalName}
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-[var(--text-muted)]">
                     {formatFileSize(file.size)} · {formatDate(file.createdAt)}
                   </p>
                 </div>
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-[var(--text-subtle)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
               </a>

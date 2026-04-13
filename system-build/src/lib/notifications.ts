@@ -54,7 +54,7 @@ export async function sendPaymentNotification(data: PaymentNotificationData): Pr
       title = '💰 Payment Received'
       message = `${formattedAmount} received for ${projectName}`
       if (projectId) {
-        url = `https://dash.bertrandgroup.ca/projects/${projectId}`
+        url = `https://dash.bertrandbrands.ca/projects/${projectId}`
         urlTitle = 'View Project'
       }
       break
@@ -74,7 +74,7 @@ export async function sendPaymentNotification(data: PaymentNotificationData): Pr
         message += `\nCharge: ${chargeId}`
       }
       if (projectId) {
-        url = `https://dash.bertrandgroup.ca/projects/${projectId}`
+        url = `https://dash.bertrandbrands.ca/projects/${projectId}`
         urlTitle = 'View Project'
       }
       break
@@ -169,8 +169,8 @@ export async function sendCareNotification(data: {
 
   try {
     const url = data.subscriptionId
-      ? `https://dash.bertrandgroup.ca/dashboard/care/subscriptions/${data.subscriptionId}`
-      : 'https://dash.bertrandgroup.ca/dashboard/care'
+      ? `https://dash.bertrandbrands.ca/dashboard/care/subscriptions/${data.subscriptionId}`
+      : 'https://dash.bertrandbrands.ca/dashboard/care'
 
     const response = await fetch('https://api.pushover.net/1/messages.json', {
       method: 'POST',

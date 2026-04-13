@@ -18,7 +18,7 @@ function buildClearCookie() {
 
   if (IS_PRODUCTION) {
     parts.push('Secure')
-    parts.push('Domain=.bertrandgroup.ca')
+    parts.push('Domain=.bertrandbrands.ca')
   }
 
   return parts.join('; ')

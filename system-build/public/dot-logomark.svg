@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Dot-matrix B logomark — black dots, inverted to white via CSS filter -->
+  <g fill="#000">
+    <circle cx="144" cy="88" r="22"/><circle cx="200" cy="88" r="22"/><circle cx="256" cy="88" r="22"/><circle cx="312" cy="88" r="22"/>
+    <circle cx="144" cy="144" r="22"/><circle cx="200" cy="144" r="22"/><circle cx="312" cy="144" r="22"/><circle cx="368" cy="144" r="22"/>
+    <circle cx="144" cy="200" r="22"/><circle cx="200" cy="200" r="22"/><circle cx="312" cy="200" r="22"/><circle cx="368" cy="200" r="22"/>
+    <circle cx="144" cy="256" r="22"/><circle cx="200" cy="256" r="22"/><circle cx="256" cy="256" r="22"/><circle cx="312" cy="256" r="22"/>
+    <circle cx="144" cy="312" r="22"/><circle cx="200" cy="312" r="22"/><circle cx="312" cy="312" r="22"/><circle cx="368" cy="312" r="22"/>
+    <circle cx="144" cy="368" r="22"/><circle cx="200" cy="368" r="22"/><circle cx="312" cy="368" r="22"/><circle cx="368" cy="368" r="22"/>
+    <circle cx="144" cy="424" r="22"/><circle cx="200" cy="424" r="22"/><circle cx="256" cy="424" r="22"/><circle cx="312" cy="424" r="22"/>
+  </g>
+</svg>

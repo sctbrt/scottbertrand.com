@@ -58,7 +58,7 @@ export function PayInvoiceButton({ invoiceId, total, currency = 'CAD' }: PayInvo
       <button
         onClick={handlePay}
         disabled={loading}
-        className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-amber-600 text-white font-medium rounded-lg hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm whitespace-nowrap w-full sm:w-auto"
+        className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[var(--accent)] text-white font-medium rounded-lg hover:bg-[var(--accent-hover)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm whitespace-nowrap w-full sm:w-auto"
       >
         {loading ? (
           <>

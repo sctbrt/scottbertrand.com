@@ -76,7 +76,7 @@ async function main() {
     console.log('═══════════════════════════════════════════')
     console.log('Test Client Portal Credentials:')
     console.log('  Email: sctbrt01@gmail.com')
-    console.log('  Portal: https://clients.bertrandgroup.ca')
+    console.log('  Portal: https://clients.bertrandbrands.ca')
     console.log('  (Use magic link / email authentication)')
     console.log('═══════════════════════════════════════════')
     return
@@ -150,7 +150,7 @@ async function main() {
   console.log('═══════════════════════════════════════════')
   console.log('Test Client Portal Credentials:')
   console.log('  Email: sctbrt01@gmail.com')
-  console.log('  Portal: https://clients.bertrandgroup.ca')
+  console.log('  Portal: https://clients.bertrandbrands.ca')
   console.log('  (Use magic link / email authentication)')
   console.log('═══════════════════════════════════════════')
 }

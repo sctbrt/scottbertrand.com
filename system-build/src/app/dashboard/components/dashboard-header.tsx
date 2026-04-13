@@ -46,21 +46,21 @@ export function DashboardHeader({ user, onToggleMobileNav }: DashboardHeaderProp
 
             <Link href="/dashboard" className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity shrink-0">
               <Image
-                src="/bertrand-brands-logomark.png"
+                src="/dot-logomark.svg"
                 alt=""
-                width={24}
-                height={24}
-                className="h-6 w-6 brightness-0 invert"
+                width={22}
+                height={22}
+                className="h-[22px] w-[22px] invert"
                 priority
               />
               {/* Full brand name - hidden on mobile */}
-              <span className="hidden sm:block text-lg font-medium tracking-tight text-[var(--text)]">
+              <span className="hidden sm:block text-lg font-medium tracking-tight text-[var(--text)] font-display">
                 BERTRAND BRANDS
               </span>
             </Link>
             {/* Full breadcrumb - desktop only */}
             <span className="hidden md:block text-[var(--text-muted)]">|</span>
-            <span className="hidden md:block text-base font-medium tracking-tight text-amber-500">
+            <span className="hidden md:block text-base font-medium tracking-tight text-[var(--accent)]">
               CRM
             </span>
             <span className="hidden lg:block text-[var(--text-muted)]">|</span>
@@ -68,7 +68,7 @@ export function DashboardHeader({ user, onToggleMobileNav }: DashboardHeaderProp
               {currentSection}
             </span>
             {/* Mobile: Just show current section */}
-            <span className="lg:hidden text-sm font-medium tracking-tight text-amber-500 truncate">
+            <span className="lg:hidden text-sm font-medium tracking-tight text-[var(--accent)] truncate">
               {currentSection}
             </span>
           </div>

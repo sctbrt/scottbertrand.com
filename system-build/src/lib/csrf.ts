@@ -2,12 +2,16 @@
 // Validates that state-changing requests originate from trusted domains
 
 const TRUSTED_ORIGINS = [
-  // Primary — bertrandgroup.ca
+  // Primary — bertrandbrands.ca
+  'https://dash.bertrandbrands.ca',
+  'https://clients.bertrandbrands.ca',
+  'https://bertrandbrands.ca',
+  // Legacy — bertrandgroup.ca (kept during transition)
   'https://dash.bertrandgroup.ca',
   'https://clients.bertrandgroup.ca',
   'https://brands.bertrandgroup.ca',
   'https://bertrandgroup.ca',
-  // Legacy (kept during transition)
+  // Legacy — bertrandbrands.com (kept during transition)
   'https://dashboard.bertrandbrands.com',
   'https://clients.bertrandbrands.com',
   'https://bertrandbrands.com',

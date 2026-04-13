@@ -42,7 +42,9 @@ export function DashboardShell({ user, counts, children }: DashboardShellProps) 
   }, [])
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      {/* V13 ambient breathing glow */}
+      <div className="ambient-glow ambient-glow--top-right" aria-hidden="true" />
       <DashboardHeader
         user={user}
         onToggleMobileNav={() => setMobileNavOpen(!mobileNavOpen)}

@@ -222,7 +222,7 @@ export async function POST(request: NextRequest) {
       // Create a test lead to verify integration works end-to-end
       const testLead = await prisma.leads.create({
         data: {
-          email: email || 'google-ads-test@bertrandgroup.ca',
+          email: email || 'google-ads-test@bertrandbrands.ca',
           name: name || 'Google Ads Test',
           source: 'google-ads',
           status: 'NEW',
@@ -445,7 +445,7 @@ export async function POST(request: NextRequest) {
             user: process.env.PUSHOVER_USER_KEY,
             message,
             title: 'Google Ads Lead',
-            url: `https://dash.bertrandgroup.ca/leads/${lead.id}`,
+            url: `https://dash.bertrandbrands.ca/leads/${lead.id}`,
             url_title: 'View Lead',
             priority: 1,
             sound: 'cashregister',

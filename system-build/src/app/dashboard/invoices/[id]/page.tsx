@@ -163,7 +163,7 @@ export default async function InvoiceDetailPage({ params, searchParams }: Invoic
                     Bertrand Brands
                   </h2>
                   <p className="text-sm text-[var(--text-muted)] mt-1">
-                    brands.bertrandgroup.ca
+                    bertrandbrands.ca
                   </p>
                 </div>
                 <div className="text-right">

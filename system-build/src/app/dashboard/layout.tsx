@@ -20,7 +20,7 @@ export default async function DashboardLayout({
   if (session.user.role !== 'INTERNAL_ADMIN') {
     const isProduction = process.env.NODE_ENV === 'production' || !!process.env.VERCEL
     if (isProduction && session.user.role === 'CLIENT') {
-      redirect('https://clients.bertrandgroup.ca')
+      redirect('https://clients.bertrandbrands.ca')
     }
     redirect('/unauthorized')
   }

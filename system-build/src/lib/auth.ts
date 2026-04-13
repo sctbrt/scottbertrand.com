@@ -268,7 +268,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
   },
 
-  // Cross-subdomain session sharing (clients.bertrandgroup.ca ↔ dash.bertrandgroup.ca)
+  // Cross-subdomain session sharing (clients.bertrandbrands.ca ↔ dash.bertrandbrands.ca)
   cookies: {
     sessionToken: {
       name: process.env.NODE_ENV === 'production'
@@ -279,7 +279,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         sameSite: 'lax' as const,
         path: '/',
         secure: process.env.NODE_ENV === 'production',
-        domain: process.env.NODE_ENV === 'production' ? '.bertrandgroup.ca' : undefined,
+        domain: process.env.NODE_ENV === 'production' ? '.bertrandbrands.ca' : undefined,
       },
     },
   },
@@ -297,7 +297,7 @@ function magicLinkEmailHtml(url: string): string {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign in to Scott Bertrand</title>
+  <title>Sign in to Bertrand Brands</title>
 </head>
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f7f6f3; margin: 0; padding: 40px 20px;">
   <table role="presentation" style="max-width: 480px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">

@@ -553,6 +553,7 @@ These rules override all other instincts:
 | 4.0.3 | Jan 2026 | Client Portal v1 + Admin CRM v1 locked specs (Feb 3 launch target) |
 | 4.0.4 | Jan 2026 | Payment Integration v1 (Stripe Payment Links) |
 | 4.0.5 | Jan 2026 | Bertrand Brands service architecture (B Core Services + B Focus Studio sub-brands) |
+| 1.2.0 (platform) | Apr 2026 | Bertrand Brands Platform Workstream C Phase 1: single-page Delivery Room at `/p/[publicId]`, legacy route redirects, portal list rewrite using StatusPill, label translation module established, light-mode hotfix (dark-only enforced). |
 
 ---
 

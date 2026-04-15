@@ -4,23 +4,13 @@ import { auth } from '@/lib/auth'
 import { redirect, notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import { isProjectPaid } from '@/lib/payment-status'
+import { StatusPill } from '@/components/portal/status-pill'
+import { labelFor } from '@/lib/portal/labels'
 import { DeliverableViewer } from './components/deliverable-viewer'
 import { FeedbackForm } from './components/feedback-form'
-import { StatusPill } from './components/status-pill'
-import type { PortalStage, DeliverableState } from '@prisma/client'
 
 interface PageProps {
   params: Promise<{ publicId: string }>
-}
-
-// Map portal stage to display labels
-const stageLabels: Record<PortalStage, string> = {
-  SCHEDULED: 'Scheduled',
-  IN_DELIVERY: 'In Delivery',
-  IN_REVIEW: 'In Review',
-  APPROVED: 'Approved',
-  RELEASED: 'Released',
-  COMPLETE: 'Complete',
 }
 
 function formatDate(date: Date | null): string {
@@ -130,7 +120,7 @@ export default async function DeliveryRoomPage({ params }: PageProps) {
             {clientName}
           </p>
         </div>
-        <StatusPill stage={project.portalStage} />
+        <StatusPill domain="PortalStage" value={project.portalStage} />
       </div>
 
       {/* Block B — Status Card */}
@@ -138,10 +128,10 @@ export default async function DeliveryRoomPage({ params }: PageProps) {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <p className="text-xs text-[var(--text-muted)] uppercase tracking-wide mb-1">
-              Current Stage
+              Current stage
             </p>
             <p className="text-sm font-medium text-[var(--text)]">
-              {stageLabels[project.portalStage]}
+              {labelFor('PortalStage', project.portalStage).text}
             </p>
           </div>
           <div>
@@ -159,7 +149,7 @@ export default async function DeliveryRoomPage({ params }: PageProps) {
           </div>
           <div>
             <p className="text-xs text-[var(--text-muted)] uppercase tracking-wide mb-1">
-              Last Update
+              Last update
             </p>
             <p className="text-sm text-[var(--text-muted)]">
               {formatTimestamp(project.lastUpdateAt)}
@@ -314,27 +304,26 @@ export default async function DeliveryRoomPage({ params }: PageProps) {
                 Previous Feedback
               </p>
               <div className="space-y-2">
-                {project.feedbacks.slice(0, 3).map((fb) => (
-                  <div key={fb.id} className="text-sm">
-                    <span className="text-[var(--text-muted)]">
-                      v{fb.deliverable.version} —{' '}
-                    </span>
-                    <span className={
-                      fb.type === 'APPROVE' ? 'text-[var(--success-text)]' :
-                      fb.type === 'APPROVE_MINOR' ? 'text-[var(--accent)]' :
-                      'text-[var(--text-muted)]'
-                    }>
-                      {fb.type === 'APPROVE' ? 'Approved' :
-                       fb.type === 'APPROVE_MINOR' ? 'Approved with notes' :
-                       'Revision requested'}
-                    </span>
-                    {fb.notes && (
-                      <p className="text-xs text-[var(--text-muted)] mt-1 pl-4 border-l-2 border-[var(--border)]">
-                        {fb.notes}
-                      </p>
-                    )}
-                  </div>
-                ))}
+                {project.feedbacks.slice(0, 3).map((fb) => {
+                  const { text: typeLabel, tone } = labelFor('FeedbackType', fb.type)
+                  const toneText =
+                    tone === 'positive' ? 'text-[var(--success-text)]' :
+                    tone === 'action' ? 'text-[var(--accent)]' :
+                    'text-[var(--text-muted)]'
+                  return (
+                    <div key={fb.id} className="text-sm">
+                      <span className="text-[var(--text-muted)]">
+                        v{fb.deliverable.version} —{' '}
+                      </span>
+                      <span className={toneText}>{typeLabel}</span>
+                      {fb.notes && (
+                        <p className="text-xs text-[var(--text-muted)] mt-1 pl-4 border-l-2 border-[var(--border)]">
+                          {fb.notes}
+                        </p>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
             </div>
           )}

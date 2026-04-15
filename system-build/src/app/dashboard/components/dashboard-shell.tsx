@@ -26,19 +26,10 @@ interface DashboardShellProps {
 export function DashboardShell({ user, counts, children }: DashboardShellProps) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
-  // Force dark theme for dashboard — glass aesthetic requires it
+  // Force dark theme — BB is dark-only across the ecosystem (root layout already
+  // hardcodes this; the redundancy here is defense-in-depth for any client-only render path).
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', 'dark')
-    return () => {
-      // Restore user preference when leaving dashboard
-      const stored = localStorage.getItem('theme')
-      if (stored === 'dark' || stored === 'light') {
-        document.documentElement.setAttribute('data-theme', stored)
-      } else {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-        document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light')
-      }
-    }
   }, [])
 
   return (

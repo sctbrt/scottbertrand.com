@@ -43,24 +43,15 @@ export default function RootLayout({
         <link rel="preconnect" href="https://use.typekit.net" crossOrigin="anonymous" />
         <link rel="stylesheet" href="https://use.typekit.net/dmk8daz.css" />
 
-        {/* Theme color for mobile browsers */}
-        <meta name="theme-color" content="#F7F6F3" media="(prefers-color-scheme: light)" />
-        <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
-        <meta name="color-scheme" content="light dark" />
+        {/* Theme color for mobile browsers — dark only (BB is dark-only across the ecosystem) */}
+        <meta name="theme-color" content="#0a0a0a" />
+        <meta name="color-scheme" content="dark" />
 
-        {/* Theme detection and application */}
+        {/* Force dark theme before paint — BB has no light mode right now.
+            Inline + synchronous so it lands before the body renders (no FOUC). */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                function getTheme() {
-                  const stored = localStorage.getItem('theme');
-                  if (stored === 'dark' || stored === 'light') return stored;
-                  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                }
-                document.documentElement.setAttribute('data-theme', getTheme());
-              })();
-            `,
+            __html: `document.documentElement.setAttribute('data-theme','dark');`,
           }}
         />
       </head>

@@ -11,9 +11,10 @@ const TOKEN_EXPIRY_DAYS = 14
 const MAX_BODY_SIZE = 10 * 1024
 
 function intakeBaseUrl(): string {
-  // Client-facing URL. Defaults to the client portal host so the URL Brian
-  // (or any client) clicks reads as clients.*, not the internal dash.*.
-  return process.env.INTAKE_BASE_URL || 'https://clients.bertrandbrands.ca'
+  // Client-facing URL. Defaults to the branded intake subdomain, which is
+  // wired in vercel.json to redirect to clients.bertrandbrands.ca/intake/:token.
+  // This keeps the URL clients see short and purposeful.
+  return process.env.INTAKE_BASE_URL || 'https://intake.bertrandbrands.ca'
 }
 
 export async function POST(request: NextRequest) {
@@ -129,7 +130,10 @@ export async function POST(request: NextRequest) {
       update: {}, // do not reset existing draft state
     })
 
-    const url = `${intakeBaseUrl()}/intake/${rawToken}`
+    // On the branded intake.* subdomain the token lives at the root (short URL);
+    // on other hosts we keep the /intake/ prefix matching the page route.
+    const base = intakeBaseUrl()
+    const url = /\/\/intake\./.test(base) ? `${base}/${rawToken}` : `${base}/intake/${rawToken}`
 
     await prisma.activity_logs.create({
       data: {

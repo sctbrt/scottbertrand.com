@@ -9,5 +9,13 @@
       "path": "/api/care/cron",
       "schedule": "0 6 * * *"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/:token*",
+      "has": [{ "type": "host", "value": "intake.bertrandbrands.ca" }],
+      "destination": "https://clients.bertrandbrands.ca/intake/:token*",
+      "permanent": false
+    }
   ]
 }

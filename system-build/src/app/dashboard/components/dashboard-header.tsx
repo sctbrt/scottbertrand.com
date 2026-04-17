@@ -44,7 +44,13 @@ export function DashboardHeader({ user, onToggleMobileNav }: DashboardHeaderProp
               </svg>
             </button>
 
-            <Link href="/dashboard" className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity shrink-0">
+            <a
+              href="https://bertrandbrands.ca"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity shrink-0"
+              aria-label="Bertrand Brands"
+            >
               <Image
                 src="/dot-logomark.svg"
                 alt=""
@@ -57,7 +63,7 @@ export function DashboardHeader({ user, onToggleMobileNav }: DashboardHeaderProp
               <span className="hidden sm:block text-lg font-medium tracking-tight text-[var(--text)] font-display">
                 BERTRAND BRANDS
               </span>
-            </Link>
+            </a>
             {/* Full breadcrumb - desktop only */}
             <span className="hidden md:block text-[var(--text-muted)]">|</span>
             <span className="hidden md:block text-base font-medium tracking-tight text-[var(--accent)]">

@@ -11,7 +11,13 @@ export function IntakeShell({ children }: { children: ReactNode }) {
 
       <header className="relative z-10 border-b border-[var(--border)]">
         <div className="mx-auto max-w-[720px] px-6 py-5 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
+          <a
+            href="https://bertrandbrands.ca"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2.5 hover:opacity-80 transition-opacity"
+            aria-label="Bertrand Brands"
+          >
             <Image
               src="/dot-logomark.svg"
               alt=""
@@ -23,7 +29,7 @@ export function IntakeShell({ children }: { children: ReactNode }) {
             <span className="font-display text-base tracking-wide text-[var(--text)]">
               BERTRAND BRANDS
             </span>
-          </div>
+          </a>
           <div className="text-xs text-[var(--text-subtle)]">Project Intake</div>
         </div>
       </header>

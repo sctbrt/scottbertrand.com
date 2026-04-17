@@ -34,7 +34,13 @@ export default async function AuthErrorPage({
     <div className="min-h-screen flex flex-col bg-[var(--bg)] px-4">
       {/* Header with Logo */}
       <header className="w-full py-6 px-4 sm:px-6">
-        <div className="flex items-center gap-3">
+        <a
+          href="https://bertrandbrands.ca"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-3 hover:opacity-80 transition-opacity"
+          aria-label="Bertrand Brands"
+        >
           <Image
             src="/dot-logomark.svg"
             alt=""
@@ -45,7 +51,7 @@ export default async function AuthErrorPage({
           <span className="text-sm font-medium tracking-[0.15em] uppercase text-[var(--text-subtle)] font-display">
             Bertrand Brands
           </span>
-        </div>
+        </a>
       </header>
 
       {/* Centered Content */}

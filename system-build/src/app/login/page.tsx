@@ -52,7 +52,13 @@ export default async function LoginPage({
       <div className="flex-1 flex items-center justify-center">
         <div className="w-full max-w-md">
           {/* Centered Logo */}
-          <div className="flex flex-col items-center gap-3 mb-8">
+          <a
+            href="https://bertrandbrands.ca"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-center gap-3 mb-8 hover:opacity-80 transition-opacity"
+            aria-label="Bertrand Brands"
+          >
             <Image
               src="/dot-logomark.svg"
               alt=""
@@ -63,7 +69,7 @@ export default async function LoginPage({
             <span className="text-xs font-medium tracking-[0.15em] uppercase text-[var(--text-subtle)] font-display">
               Bertrand Brands
             </span>
-          </div>
+          </a>
 
           <div className="bg-[var(--surface)] rounded-lg shadow-sm border border-[var(--border)] p-8">
             <div className="text-center mb-8">

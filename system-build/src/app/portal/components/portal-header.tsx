@@ -39,7 +39,13 @@ export function PortalHeader({ user, clientName }: PortalHeaderProps) {
         <div className="flex h-16 items-center justify-between">
           {/* Logo / Brand */}
           <div className="flex items-center gap-2 sm:gap-3">
-            <Link href="/portal" className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity">
+            <a
+              href="https://bertrandbrands.ca"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity"
+              aria-label="Bertrand Brands"
+            >
               <Image
                 src="/dot-logomark.svg"
                 alt=""
@@ -51,7 +57,7 @@ export function PortalHeader({ user, clientName }: PortalHeaderProps) {
               <span className="hidden sm:inline text-lg font-medium tracking-tight text-[var(--text)] font-display">
                 BERTRAND BRANDS
               </span>
-            </Link>
+            </a>
             <span className="text-[var(--text-muted)] hidden sm:inline">|</span>
             <span className="text-sm sm:text-base font-medium tracking-tight text-[var(--accent)]">
               Client Portal

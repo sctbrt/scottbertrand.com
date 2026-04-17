@@ -32,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
         {/* Inter font (V13 body typography) */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -46,14 +46,6 @@ export default function RootLayout({
         {/* Theme color for mobile browsers — dark only (BB is dark-only across the ecosystem) */}
         <meta name="theme-color" content="#0a0a0a" />
         <meta name="color-scheme" content="dark" />
-
-        {/* Force dark theme before paint — BB has no light mode right now.
-            Inline + synchronous so it lands before the body renders (no FOUC). */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `document.documentElement.setAttribute('data-theme','dark');`,
-          }}
-        />
       </head>
       <body className="antialiased min-h-screen">
         {children}

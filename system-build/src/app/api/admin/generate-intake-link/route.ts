@@ -11,12 +11,9 @@ const TOKEN_EXPIRY_DAYS = 14
 const MAX_BODY_SIZE = 10 * 1024
 
 function intakeBaseUrl(): string {
-  return (
-    process.env.INTAKE_BASE_URL ||
-    process.env.AUTH_URL ||
-    process.env.NEXTAUTH_URL ||
-    'https://dash.bertrandbrands.ca'
-  )
+  // Client-facing URL. Defaults to the client portal host so the URL Brian
+  // (or any client) clicks reads as clients.*, not the internal dash.*.
+  return process.env.INTAKE_BASE_URL || 'https://clients.bertrandbrands.ca'
 }
 
 export async function POST(request: NextRequest) {

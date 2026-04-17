@@ -78,6 +78,10 @@ const AUTH_PATHS = ['/login', '/auth', '/api/auth']
 // NOTE: Only add routes here that genuinely need to be unauthenticated (e.g., external webhooks)
 const PUBLIC_API_PATHS = ['/api/intake', '/api/webhooks']
 
+// Public page routes that have their own token-based auth and must bypass the
+// host-based dashboard/portal gating. The page itself validates the token.
+const PUBLIC_PAGE_PATHS = ['/intake/']
+
 // Delivery Room paths - these have their own auth check in the layout
 // and should not be rewritten by subdomain routing
 const DELIVERY_ROOM_PATHS = ['/p/']
@@ -245,6 +249,12 @@ async function handleDashboardRouting(request: NextRequest, pathname: string) {
     return NextResponse.next()
   }
 
+  // Allow public token-gated pages (e.g. /intake/[token]). The page itself
+  // validates the token and renders an error state if invalid/expired.
+  if (PUBLIC_PAGE_PATHS.some(path => pathname.startsWith(path))) {
+    return NextResponse.next()
+  }
+
   // If path already starts with /dashboard, don't double-rewrite
   if (pathname.startsWith('/dashboard')) {
     return NextResponse.next()
@@ -294,6 +304,14 @@ async function handlePortalRouting(request: NextRequest, pathname: string) {
   // Allow /unauthorized to render without rewriting (prevents redirect loop
   // when portal/layout.tsx rejects non-CLIENT users)
   if (pathname === '/unauthorized') {
+    return NextResponse.next()
+  }
+
+  // Allow public API + token-gated pages without authentication
+  if (PUBLIC_API_PATHS.some(path => pathname.startsWith(path))) {
+    return NextResponse.next()
+  }
+  if (PUBLIC_PAGE_PATHS.some(path => pathname.startsWith(path))) {
     return NextResponse.next()
   }
 

@@ -31,10 +31,23 @@ export default async function IntakePage({ params }: PageProps) {
     )
   }
 
-  const intake = await prisma.project_intakes.findUnique({
-    where: { projectId: result.ctx.projectId },
-    select: { responses: true, currentSection: true, status: true },
-  })
+  const [intake, project] = await Promise.all([
+    prisma.project_intakes.findUnique({
+      where: { projectId: result.ctx.projectId },
+      select: { responses: true, currentSection: true, status: true },
+    }),
+    prisma.projects.findUnique({
+      where: { id: result.ctx.projectId },
+      select: { clients: { select: { companyName: true, contactName: true } } },
+    }),
+  ])
+
+  // Prefill 1.1 (business name) from the client record, but only if not already answered
+  const responses = { ...((intake?.responses as Record<string, unknown>) ?? {}) }
+  if (!responses['1.1']) {
+    const businessName = project?.clients?.companyName ?? project?.clients?.contactName ?? ''
+    if (businessName) responses['1.1'] = businessName
+  }
 
   return (
     <IntakeShell>
@@ -44,7 +57,7 @@ export default async function IntakePage({ params }: PageProps) {
         projectName={result.ctx.projectName}
         sections={SECTIONS}
         estimatedMinutes={ESTIMATED_MINUTES}
-        initialResponses={(intake?.responses as Record<string, unknown>) ?? {}}
+        initialResponses={responses}
         initialSection={intake?.currentSection ?? 1}
       />
     </IntakeShell>

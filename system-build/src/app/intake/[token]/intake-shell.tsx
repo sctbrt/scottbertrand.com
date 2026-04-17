@@ -1,5 +1,6 @@
 // Page chrome for the public intake — dark V13 aesthetic, ambient glow, narrow reading column.
 
+import Image from 'next/image'
 import { ReactNode } from 'react'
 
 export function IntakeShell({ children }: { children: ReactNode }) {
@@ -10,8 +11,18 @@ export function IntakeShell({ children }: { children: ReactNode }) {
 
       <header className="relative z-10 border-b border-[var(--border)]">
         <div className="mx-auto max-w-[720px] px-6 py-5 flex items-center justify-between">
-          <div className="font-display text-base tracking-wide text-[var(--text)]">
-            BERTRAND BRANDS
+          <div className="flex items-center gap-2.5">
+            <Image
+              src="/dot-logomark.svg"
+              alt=""
+              width={22}
+              height={22}
+              className="h-[22px] w-[22px] invert"
+              priority
+            />
+            <span className="font-display text-base tracking-wide text-[var(--text)]">
+              BERTRAND BRANDS
+            </span>
           </div>
           <div className="text-xs text-[var(--text-subtle)]">Project Intake</div>
         </div>

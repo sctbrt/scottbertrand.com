@@ -49,6 +49,17 @@ export function IntakeForm(props: Props) {
     setResponses((prev) => ({ ...prev, [qid]: value }))
   }, [])
 
+  // Atomic toggle for multi-select questions. Operates on the *latest* state,
+  // so rapid sequential clicks (or programmatic clicks) all land correctly.
+  const onToggle = useCallback((qid: string, v: string, max?: number) => {
+    setResponses((prev) => {
+      const cur = (prev[qid] as string[] | undefined) ?? []
+      if (cur.includes(v)) return { ...prev, [qid]: cur.filter((x) => x !== v) }
+      if (max && cur.length >= max) return prev
+      return { ...prev, [qid]: [...cur, v] }
+    })
+  }, [])
+
   // Debounced autosave
   useEffect(() => {
     if (showWelcome || submitted) return
@@ -178,6 +189,7 @@ export function IntakeForm(props: Props) {
                 question={q}
                 value={responses[q.id]}
                 onChange={(v) => onChange(q.id, v)}
+                onToggle={(v) => onToggle(q.id, v, q.maxSelect)}
               />
               {issues.includes(q.id) && (
                 <div className="mt-2 text-xs text-[var(--accent)]">This one&apos;s required.</div>

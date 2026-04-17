@@ -5,14 +5,17 @@
 
 import type { Question } from '@/lib/intake/question-set'
 import type { ResponseValue } from '@/lib/intake/validation'
+import { ARCHETYPE_ICONS, MOOD_ICONS } from '@/lib/intake/icons'
+import type { LucideIcon } from 'lucide-react'
 
 interface Props {
   question: Question
   value: ResponseValue | undefined
   onChange: (value: ResponseValue) => void
+  onToggle: (v: string) => void
 }
 
-export function QuestionRenderer({ question, value, onChange }: Props) {
+export function QuestionRenderer({ question, value, onChange, onToggle }: Props) {
   return (
     <div className="space-y-3">
       <div>
@@ -28,12 +31,12 @@ export function QuestionRenderer({ question, value, onChange }: Props) {
           <p className="mt-1.5 text-sm text-[var(--text-muted)] italic">{question.microcopy}</p>
         )}
       </div>
-      <Field question={question} value={value} onChange={onChange} />
+      <Field question={question} value={value} onChange={onChange} onToggle={onToggle} />
     </div>
   )
 }
 
-function Field({ question, value, onChange }: Props) {
+function Field({ question, value, onChange, onToggle }: Props) {
   switch (question.type) {
     case 'text-short':
       return <TextShort question={question} value={typeof value === 'string' ? value : ''} onChange={(v) => onChange(v)} />
@@ -52,7 +55,7 @@ function Field({ question, value, onChange }: Props) {
         <MultiSelectChips
           question={question}
           value={Array.isArray(value) ? (value as string[]) : []}
-          onChange={(v) => onChange(v)}
+          onToggle={onToggle}
         />
       )
     case 'multi-select-tiles':
@@ -60,7 +63,7 @@ function Field({ question, value, onChange }: Props) {
         <MoodTiles
           question={question}
           value={Array.isArray(value) ? (value as string[]) : []}
-          onChange={(v) => onChange(v)}
+          onToggle={onToggle}
         />
       )
     case 'archetype-tiles':
@@ -68,7 +71,7 @@ function Field({ question, value, onChange }: Props) {
         <ArchetypeTiles
           question={question}
           value={Array.isArray(value) ? (value as string[]) : []}
-          onChange={(v) => onChange(v)}
+          onToggle={onToggle}
         />
       )
     case 'paired-inputs':
@@ -178,17 +181,13 @@ function SelectOne({
 function MultiSelectChips({
   question,
   value,
-  onChange,
+  onToggle,
 }: {
   question: Question
   value: string[]
-  onChange: (v: string[]) => void
+  onToggle: (v: string) => void
 }) {
   const max = question.maxSelect
-  function toggle(v: string) {
-    if (value.includes(v)) onChange(value.filter((x) => x !== v))
-    else if (!max || value.length < max) onChange([...value, v])
-  }
   return (
     <div>
       <div className="flex flex-wrap gap-2">
@@ -198,7 +197,7 @@ function MultiSelectChips({
             <button
               type="button"
               key={opt.value}
-              onClick={() => toggle(opt.value)}
+              onClick={() => onToggle(opt.value)}
               className={`px-3.5 py-2 rounded-full text-sm border transition ${
                 selected
                   ? 'bg-[var(--accent-subtle)] text-[var(--text)] border-[var(--accent)]'
@@ -222,33 +221,39 @@ function MultiSelectChips({
 function MoodTiles({
   question,
   value,
-  onChange,
+  onToggle,
 }: {
   question: Question
   value: string[]
-  onChange: (v: string[]) => void
+  onToggle: (v: string) => void
 }) {
   const max = question.maxSelect ?? 3
-  function toggle(v: string) {
-    if (value.includes(v)) onChange(value.filter((x) => x !== v))
-    else if (value.length < max) onChange([...value, v])
-  }
   return (
     <div>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         {question.options?.map((opt) => {
           const selected = value.includes(opt.value)
+          const Icon: LucideIcon | undefined = MOOD_ICONS[opt.value]
           return (
             <button
               type="button"
               key={opt.value}
-              onClick={() => toggle(opt.value)}
+              onClick={() => onToggle(opt.value)}
               className={`text-left p-4 rounded-lg border transition relative overflow-hidden ${
                 selected
                   ? 'border-[var(--accent)] bg-[var(--accent-subtle)]'
                   : 'border-[var(--border)] bg-[var(--surface-2)]/40 hover:border-[var(--border-hover)]'
               }`}
             >
+              {Icon && (
+                <Icon
+                  className={`w-5 h-5 mb-2.5 ${
+                    selected ? 'text-[var(--accent)]' : 'text-[var(--text-muted)] opacity-70'
+                  }`}
+                  strokeWidth={1.5}
+                  aria-hidden
+                />
+              )}
               <div className="font-display text-sm text-[var(--text)] mb-1">{opt.label}</div>
               <div className="text-[11px] leading-snug text-[var(--text-muted)]">{opt.description}</div>
               {selected && (
@@ -268,42 +273,52 @@ function MoodTiles({
 function ArchetypeTiles({
   question,
   value,
-  onChange,
+  onToggle,
 }: {
   question: Question
   value: string[]
-  onChange: (v: string[]) => void
+  onToggle: (v: string) => void
 }) {
   const max = question.maxSelect ?? 3
-  function toggle(v: string) {
-    if (value.includes(v)) onChange(value.filter((x) => x !== v))
-    else if (value.length < max) onChange([...value, v])
-  }
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {question.options?.map((opt) => {
           const selected = value.includes(opt.value)
+          const Icon: LucideIcon | undefined = ARCHETYPE_ICONS[opt.value]
           return (
             <button
               type="button"
               key={opt.value}
-              onClick={() => toggle(opt.value)}
+              onClick={() => onToggle(opt.value)}
               className={`text-left p-4 rounded-lg border transition relative ${
                 selected
                   ? 'border-[var(--accent)] bg-[var(--accent-subtle)]'
                   : 'border-[var(--border)] bg-[var(--surface-2)]/40 hover:border-[var(--border-hover)]'
               }`}
             >
-              <div className="flex items-baseline justify-between gap-3">
-                <div className="font-display text-base text-[var(--text)]">{opt.label}</div>
-                {opt.example && (
-                  <div className="text-[11px] text-[var(--text-subtle)] tracking-wide italic">
-                    e.g. {opt.example}
-                  </div>
+              <div className="flex items-start gap-3">
+                {Icon && (
+                  <Icon
+                    className={`w-5 h-5 mt-0.5 flex-shrink-0 ${
+                      selected ? 'text-[var(--accent)]' : 'text-[var(--text-muted)] opacity-70'
+                    }`}
+                    strokeWidth={1.5}
+                    aria-hidden
+                  />
                 )}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <div className="font-display text-base text-[var(--text)]">{opt.label}</div>
+                    {opt.example && (
+                      <div className="text-[11px] text-[var(--text-subtle)] tracking-wide italic flex-shrink-0">
+                        e.g. {opt.example}
+                      </div>
+                    )}
+                  </div>
+                  <div className="mt-1 text-xs leading-snug text-[var(--text-muted)]">{opt.description}</div>
+                </div>
               </div>
-              <div className="mt-1 text-xs leading-snug text-[var(--text-muted)]">{opt.description}</div>
               {selected && (
                 <span className="absolute top-3 right-3 w-2 h-2 rounded-full bg-[var(--accent)]" aria-hidden />
               )}

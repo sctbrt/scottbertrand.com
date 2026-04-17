@@ -48,6 +48,7 @@ export default async function ClientDetailPage({ params }: ClientDetailPageProps
         include: {
           service_templates: { select: { name: true } },
           _count: { select: { tasks: true, milestones: true } },
+          projectIntake: { select: { status: true } },
         },
       },
       invoices: {
@@ -297,9 +298,14 @@ export default async function ClientDetailPage({ params }: ClientDetailPageProps
                           {project.service_templates?.name || 'Custom Project'} · {project._count.tasks} tasks · {project._count.milestones} milestones
                         </p>
                       </div>
-                      <span className={`text-xs px-2 py-1 rounded-full ${getProjectStatusColor(project.status)}`}>
-                        {project.status.replace('_', ' ')}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className={`text-[11px] px-2 py-0.5 rounded-full border ${getIntakePillColor(project.projectIntake?.status)}`}>
+                          {intakeLabel(project.projectIntake?.status)}
+                        </span>
+                        <span className={`text-xs px-2 py-1 rounded-full ${getProjectStatusColor(project.status)}`}>
+                          {project.status.replace('_', ' ')}
+                        </span>
+                      </div>
                     </div>
                   </Link>
                 ))
@@ -434,6 +440,20 @@ function getInvoiceStatusColor(status: string) {
     CANCELLED: 'bg-zinc-500/20 text-zinc-400 border border-zinc-500/30',
   }
   return colors[status] || colors.DRAFT
+}
+
+function intakeLabel(status?: string | null) {
+  if (!status) return 'Intake: not sent'
+  if (status === 'DRAFT') return 'Intake: sent'
+  if (status === 'IN_PROGRESS') return 'Intake: in progress'
+  if (status === 'SUBMITTED') return 'Intake: submitted'
+  return 'Intake'
+}
+
+function getIntakePillColor(status?: string | null) {
+  if (!status) return 'bg-zinc-500/10 text-zinc-400 border-zinc-500/30'
+  if (status === 'SUBMITTED') return 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+  return 'bg-amber-500/15 text-amber-400 border-amber-500/30'
 }
 
 function getLeadStatusColor(status: string) {

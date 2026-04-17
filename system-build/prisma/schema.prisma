@@ -98,6 +98,7 @@ model clients {
   leads             leads[]
   projects          projects[]
   intakeSubmissions intake_submissions[]
+  projectIntakes    project_intakes[]
   careSubscription  care_subscriptions?
 }
 
@@ -268,6 +269,8 @@ model projects {
   feedbacks                 feedbacks[]
   signoffs                  signoffs[]
   paymentEvents             payment_events[]
+  projectIntake             project_intakes?
+  intakeAccessTokens        intake_access_tokens[]
 
   @@index([publicId])
 }
@@ -899,4 +902,56 @@ enum RoutingOutcome {
   NEEDS_CLARIFICATION
   NOT_A_FIT
   DEFERRED
+}
+
+// ============================================
+// PROJECT INTAKE (self-guided deep questionnaire)
+// ============================================
+
+enum ProjectIntakeStatus {
+  DRAFT
+  IN_PROGRESS
+  SUBMITTED
+}
+
+// Project intake responses — deep self-guided questionnaire for a brand/web project.
+// One per project. Responses stored as JSON keyed by section/question for schema flexibility.
+model project_intakes {
+  id             String              @id @default(cuid())
+  projectId      String              @unique @map("project_id")
+  clientId       String              @map("client_id")
+  status         ProjectIntakeStatus @default(DRAFT)
+  responses      Json                @default("{}") // { "1.1": "...", "5.1": ["Caregiver","Sage"], ... }
+  currentSection Int                 @default(1) @map("current_section")
+  timeToComplete Int?                @map("time_to_complete") // seconds (set on submit)
+  startedAt      DateTime?           @map("started_at")
+  submittedAt    DateTime?           @map("submitted_at")
+  createdAt      DateTime            @default(now()) @map("created_at")
+  updatedAt      DateTime            @updatedAt @map("updated_at")
+
+  project projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  client  clients  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([clientId])
+  @@index([status])
+}
+
+// One-time access tokens that let a client reach the self-guided intake form.
+// Admin generates → shares with client. Token persists across sessions (save-and-resume)
+// until final submit or expiry.
+model intake_access_tokens {
+  id          String    @id @default(cuid())
+  projectId   String    @map("project_id")
+  tokenHash   String    @unique @map("token_hash")
+  expiresAt   DateTime  @map("expires_at")
+  firstUsedAt DateTime? @map("first_used_at")
+  consumedAt  DateTime? @map("consumed_at") // set when intake is submitted
+  createdBy   String?   @map("created_by")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  project projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@index([expiresAt])
 }

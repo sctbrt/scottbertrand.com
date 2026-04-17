@@ -55,7 +55,12 @@ export default async function ClientsPage({
         projects: {
           take: 1,
           orderBy: { updatedAt: 'desc' },
-          select: { status: true, name: true },
+          select: {
+            id: true,
+            status: true,
+            name: true,
+            projectIntake: { select: { status: true } },
+          },
         },
       },
     }),

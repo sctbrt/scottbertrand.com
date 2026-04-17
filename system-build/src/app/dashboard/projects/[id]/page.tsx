@@ -6,6 +6,7 @@ import { ProjectForm } from './project-form'
 import { TaskList } from './task-list'
 import { MilestoneList } from './milestone-list'
 import { PaymentSection } from './payment-section'
+import { GenerateIntakeLink } from './generate-intake-link'
 
 interface ProjectDetailPageProps {
   params: Promise<{ id: string }>
@@ -82,6 +83,9 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         paymentEvents: {
           orderBy: { processedAt: 'desc' },
           take: 5,
+        },
+        projectIntake: {
+          select: { status: true, submittedAt: true, currentSection: true },
         },
       },
     }),
@@ -312,6 +316,30 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               clients={clients}
               templates={templates}
               compact
+            />
+          </div>
+
+          {/* Project Intake */}
+          <div className="bg-[var(--surface)] rounded-lg border border-[var(--border)] p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-sm font-medium text-[var(--text-muted)] uppercase tracking-wider">
+                Project Intake
+              </h2>
+              {project.projectIntake?.status === 'SUBMITTED' && (
+                <Link
+                  href={`/dashboard/projects/${project.id}/intake`}
+                  className="text-xs text-[var(--accent)] hover:text-[var(--accent-hover)]"
+                >
+                  View responses →
+                </Link>
+              )}
+            </div>
+            <GenerateIntakeLink
+              projectId={project.id}
+              clientName={project.clients.contactName}
+              intakeStatus={
+                (project.projectIntake?.status as 'DRAFT' | 'IN_PROGRESS' | 'SUBMITTED' | undefined) ?? 'NONE'
+              }
             />
           </div>
 

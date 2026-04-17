@@ -18,8 +18,10 @@ interface Client {
     invoices: number
   }
   projects: {
+    id: string
     status: string
     name: string
+    projectIntake: { status: string } | null
   }[]
 }
 
@@ -161,6 +163,9 @@ export function ClientsTable({ clients, showArchived }: ClientsTableProps) {
                 Latest Project
               </th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
+                Intake
+              </th>
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                 Added
               </th>
             </tr>
@@ -168,7 +173,7 @@ export function ClientsTable({ clients, showArchived }: ClientsTableProps) {
           <tbody className="divide-y divide-[var(--border)]">
             {clients.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-6 py-12 text-center text-[var(--text-muted)]">
+                <td colSpan={7} className="px-6 py-12 text-center text-[var(--text-muted)]">
                   {showArchived ? 'No archived clients' : 'No clients found'}
                 </td>
               </tr>
@@ -224,7 +229,10 @@ export function ClientsTable({ clients, showArchived }: ClientsTableProps) {
                     </td>
                     <td className="px-6 py-4">
                       {client.projects[0] ? (
-                        <div>
+                        <Link
+                          href={`/dashboard/projects/${client.projects[0].id}`}
+                          className="block"
+                        >
                           <p className="text-sm text-[var(--text)] truncate max-w-[200px]">
                             {client.projects[0].name}
                           </p>
@@ -233,10 +241,16 @@ export function ClientsTable({ clients, showArchived }: ClientsTableProps) {
                           >
                             {client.projects[0].status.replace('_', ' ')}
                           </span>
-                        </div>
+                        </Link>
                       ) : (
                         <span className="text-sm text-[var(--text-subtle)]">—</span>
                       )}
+                    </td>
+                    <td className="px-6 py-4">
+                      <IntakeCell
+                        projectId={client.projects[0]?.id}
+                        intakeStatus={client.projects[0]?.projectIntake?.status ?? null}
+                      />
                     </td>
                     <td className="px-6 py-4 text-sm text-[var(--text-muted)]">
                       {formatDate(client.createdAt)}
@@ -316,6 +330,49 @@ export function ClientsTable({ clients, showArchived }: ClientsTableProps) {
         </div>
       )}
     </>
+  )
+}
+
+function IntakeCell({
+  projectId,
+  intakeStatus,
+}: {
+  projectId: string | undefined
+  intakeStatus: string | null
+}) {
+  if (!projectId) {
+    return <span className="text-xs text-[var(--text-subtle)]">No project</span>
+  }
+
+  if (intakeStatus === 'SUBMITTED') {
+    return (
+      <span className="text-xs px-2 py-0.5 rounded-full border bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+        Submitted
+      </span>
+    )
+  }
+  if (intakeStatus === 'IN_PROGRESS') {
+    return (
+      <span className="text-xs px-2 py-0.5 rounded-full border bg-amber-500/15 text-amber-400 border-amber-500/30">
+        In progress
+      </span>
+    )
+  }
+  if (intakeStatus === 'DRAFT') {
+    return (
+      <span className="text-xs px-2 py-0.5 rounded-full border bg-amber-500/10 text-amber-400 border-amber-500/30">
+        Sent
+      </span>
+    )
+  }
+  // Not started — surface a quick-action link to the project page
+  return (
+    <Link
+      href={`/dashboard/projects/${projectId}`}
+      className="text-xs underline text-[var(--accent)] hover:text-[var(--accent-hover)]"
+    >
+      Send link
+    </Link>
   )
 }
 

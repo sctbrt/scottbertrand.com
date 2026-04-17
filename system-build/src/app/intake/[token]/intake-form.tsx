@@ -13,6 +13,7 @@ interface Props {
   estimatedMinutes: number
   initialResponses: Record<string, unknown>
   initialSection: number
+  hasStarted: boolean
 }
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'error'
@@ -31,10 +32,9 @@ export function IntakeForm(props: Props) {
   const [submitted, setSubmitted] = useState(false)
   const [issues, setIssues] = useState<string[]>([])
 
-  // Welcome screen shown only if intake hasn't been started
-  const [showWelcome, setShowWelcome] = useState(
-    () => Object.keys(props.initialResponses).length === 0 && props.initialSection === 1,
-  )
+  // Welcome screen shown on every first visit. Prefills don't count as "started";
+  // startedAt flips on first autosave.
+  const [showWelcome, setShowWelcome] = useState(() => !props.hasStarted && props.initialSection === 1)
 
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const sectionRef = useRef<HTMLDivElement>(null)

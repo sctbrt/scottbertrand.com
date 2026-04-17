@@ -34,7 +34,7 @@ export default async function IntakePage({ params }: PageProps) {
   const [intake, project] = await Promise.all([
     prisma.project_intakes.findUnique({
       where: { projectId: result.ctx.projectId },
-      select: { responses: true, currentSection: true, status: true },
+      select: { responses: true, currentSection: true, status: true, startedAt: true },
     }),
     prisma.projects.findUnique({
       where: { id: result.ctx.projectId },
@@ -59,6 +59,7 @@ export default async function IntakePage({ params }: PageProps) {
         estimatedMinutes={ESTIMATED_MINUTES}
         initialResponses={responses}
         initialSection={intake?.currentSection ?? 1}
+        hasStarted={intake?.startedAt != null}
       />
     </IntakeShell>
   )

@@ -42,18 +42,13 @@ export async function GET(request: NextRequest, ctx: RouteContext) {
     select: { responses: true, currentSection: true, status: true, startedAt: true },
   })
 
-  // Mark first-open: set startedAt + token.firstUsedAt + status IN_PROGRESS
-  if (intake && !intake.startedAt) {
-    await prisma.$transaction([
-      prisma.project_intakes.update({
-        where: { projectId: result.ctx.projectId },
-        data: { startedAt: new Date(), status: intake.status === 'DRAFT' ? 'IN_PROGRESS' : intake.status },
-      }),
-      prisma.intake_access_tokens.update({
-        where: { id: result.ctx.tokenId },
-        data: { firstUsedAt: new Date() },
-      }),
-    ])
+  // Mark token as opened (for admin visibility), but DO NOT set startedAt here —
+  // that fires on first autosave so the welcome screen survives first render.
+  if (intake) {
+    await prisma.intake_access_tokens.update({
+      where: { id: result.ctx.tokenId },
+      data: { firstUsedAt: new Date() },
+    }).catch(() => null)
   }
 
   return NextResponse.json({
@@ -63,6 +58,7 @@ export async function GET(request: NextRequest, ctx: RouteContext) {
       responses: (intake?.responses as Record<string, unknown>) ?? {},
       currentSection: intake?.currentSection ?? 1,
       status: intake?.status ?? 'DRAFT',
+      hasStarted: intake?.startedAt != null,
     },
     sections: SECTIONS,
     totalSections: TOTAL_SECTIONS,
@@ -103,12 +99,17 @@ export async function POST(request: NextRequest, ctx: RouteContext) {
       ? Math.floor(currentSection)
       : undefined
 
+  const existing = await prisma.project_intakes.findUnique({
+    where: { projectId: result.ctx.projectId },
+    select: { startedAt: true },
+  })
   await prisma.project_intakes.update({
     where: { projectId: result.ctx.projectId },
     data: {
       responses: normalized,
       ...(section ? { currentSection: section } : {}),
       status: 'IN_PROGRESS',
+      ...(existing?.startedAt ? {} : { startedAt: new Date() }),
     },
   })
 

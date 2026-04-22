@@ -12,6 +12,8 @@ const DEV_LOGIN_ENABLED = !IS_BLOCKED && process.env.DEV_LOGIN_ENABLED === 'true
 export async function GET(request: NextRequest) {
   // Hard block: return 404 (not 403) in production to avoid revealing endpoint exists
   if (IS_BLOCKED || !DEV_LOGIN_ENABLED) {
+    // Audit log: someone probed the dev-login endpoint in a blocked environment
+    console.warn(`[Security] dev-login endpoint accessed while blocked — IP: ${request.headers.get('x-forwarded-for') || 'unknown'}, UA: ${request.headers.get('user-agent')?.substring(0, 80) || 'unknown'}`)
     return new NextResponse(null, { status: 404 })
   }
 

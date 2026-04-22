@@ -163,6 +163,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     Resend({
       apiKey: process.env.AUTH_RESEND_KEY || process.env.RESEND_API_KEY,
       from: 'Bertrand Brands <hello@bertrandbrands.ca>',
+      maxAge: 900, // 15 minutes — must match the copy in the email template
       // Custom magic link email
       sendVerificationRequest: async ({ identifier, url, provider }) => {
         // Security: Only send magic links to emails that already have a user record.
@@ -235,14 +236,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         return false
       }
 
-      // Log sign-in activity
+      // Log sign-in activity (with IP + user agent for audit trail)
       try {
+        const { headers } = await import('next/headers')
+        const hdrs = await headers()
         await prisma.activity_logs.create({
           data: {
             userId: user.id,
             action: 'SIGN_IN',
             entityType: 'User',
             entityId: user.id,
+            ipAddress: hdrs.get('x-forwarded-for')?.split(',')[0]?.trim() || null,
+            userAgent: hdrs.get('user-agent')?.substring(0, 255) || null,
             details: {
               method: 'magic-link',
               timestamp: new Date().toISOString(),
